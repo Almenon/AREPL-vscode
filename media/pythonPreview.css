@@ -1,0 +1,61 @@
+/* note that I've designed the CSS to match VSCode CSS */
+#results,#error{
+    white-space: pre-wrap; /*https://stackoverflow.com/questions/11423300/new-lines-in-text-within-a-div*/
+    font-family: Consolas, "Courier New", monospace;
+    font-size:14px;
+    line-height:19px;
+    letter-spacing:0px;
+}
+#print{
+    white-space: pre-wrap; /*https://stackoverflow.com/questions/11423300/new-lines-in-text-within-a-div*/
+}
+#error{
+    color: #f48771;
+    margin-bottom: 8px;
+}
+
+.vscode-light #error{
+    color: #e51400;
+}
+
+/*--------------------------------------------------------------------------------- */
+/* from http://caldwell.github.io/renderjson/ with modifications by yours truly     */
+/*--------------------------------------------------------------------------------- */
+
+.renderjson{
+    font-family: Consolas, "Courier New", monospace;
+}
+
+.renderjson a              { text-decoration: none; color:#9cdcfe }
+.renderjson .disclosure    { color: #9cdcfe;}
+.renderjson .syntax        { color: #9cdcfe; }
+.renderjson .keyword       { color: #569cd6; } /* example keyword: null */
+.renderjson .object.syntax { color: #9cdcfe; }
+.renderjson .array.syntax  { color: #9cdcfe; }
+.renderjson .string        { color: #ce9178; }
+.renderjson .number        { color: #b5cea8; }
+.renderjson .boolean       { color: #569cd6; }
+.renderjson .key           { color: #9cdcfe; }
+
+.string.syntax+a{ /* for trimmed string... */
+    color:#ce9178;
+}
+
+/*--------------------------------------------------------------------------------- */
+/*                        above, but for light mode                                 */
+/*--------------------------------------------------------------------------------- */
+
+.vscode-light .renderjson a              { text-decoration: none; color:#0451a5 }
+.vscode-light .renderjson .disclosure    { color: #0451a5; }
+.vscode-light .renderjson .syntax        { color: #0451a5; }
+.vscode-light .renderjson .keyword       { color: #0000ff; } /* example keyword: null */
+.vscode-light .renderjson .object.syntax { color: #0451a5; }
+.vscode-light .renderjson .array.syntax  { color: #0451a5; }
+.vscode-light .renderjson .string        { color: #a31515; }
+.vscode-light .renderjson .number        { color: #09885a; }
+.vscode-light .renderjson .boolean       { color: #0000ff; }
+.vscode-light .renderjson .key           { color: #0451a5; }
+
+.vscode-light .string.syntax+a{ /* for trimmed string... */
+    color:#a31515;
+}
