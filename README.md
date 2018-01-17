@@ -1,4 +1,4 @@
-## AREPL: now a vscode edition
+## AREPL: vscode edition
 
 AREPL automatically evaluates python code in real-time as you type
 
@@ -14,3 +14,5 @@ Contact me to get the beta release!
 4. start debugging
 
 see [AREPL-backend](https://github.com/Almenon/AREPL-backend) for the npm package that executes the python code
+
+AREPL is also availible as a standalone [app](https://github.com/Almenon/AREPL)
