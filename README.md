@@ -2,9 +2,13 @@
 
 AREPL automatically evaluates python code in real-time as you type
 
-Contact me to get the beta release!
-
 ![Alt Text](https://raw.githubusercontent.com/Almenon/AREPL-vscode/master/example.gif)
+
+Not availible on appstore yet but you can download alpha version manually from [releases](https://github.com/Almenon/AREPL-vscode/releases).  I would love to hear any feedback, good or bad.
+
+Once you download it the command to activate is "eval python in real time"
+
+In windows you can access the command search by using control-shift-p
 
 #### Deveveloper Setup:
 
