@@ -3,7 +3,7 @@
   "displayName": "AREPL-vscode",
   "description": "evalutes python code in real-time",
   "version": "0.0.1",
-  "publisher": "Almenon",
+  "publisher": "almenon",
   "engines": {
     "vscode": "^1.14.0"
   },
