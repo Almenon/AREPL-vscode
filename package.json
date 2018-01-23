@@ -8,7 +8,8 @@
     "vscode": "^1.14.0"
   },
   "categories": [
-    "Other","Debuggers"
+    "Other",
+    "Debuggers"
   ],
   "activationEvents": [
     "onCommand:extension.evalPythonInRealTime"
@@ -37,26 +38,29 @@
     "test": "node ./node_modules/vscode/bin/test"
   },
   "devDependencies": {
-    "typescript": "^2.0.3",
-    "vscode": "^1.0.0",
+    "@types/mocha": "^2.2.46",
+    "@types/node": "^6.0.96",
     "mocha": "^2.3.3",
-    "@types/node": "^6.0.40",
-    "@types/mocha": "^2.2.32"
+    "typescript": "^2.0.3",
+    "vscode": "^1.0.0"
   },
   "dependencies": {
-    "arepl-backend": "^1.0.0-alpha.4",
+    "arepl-backend": "^1.0.0-alpha.5",
     "opn": "^4.0.2",
     "path": "^0.12.7",
     "python-shell": "^0.4.0"
   },
   "bugs": {
-      "url": "https://github.com/almenon/arepl-vscode-wordcount/issues",
-      "email": "almenon214@gmail.com"
+    "url": "https://github.com/almenon/arepl-vscode-wordcount/issues",
+    "email": "almenon214@gmail.com"
   },
   "repository": {
-        "type": "git",
-        "url": "https://github.com/almenon/arepl-vscode.git"
+    "type": "git",
+    "url": "https://github.com/almenon/arepl-vscode.git"
   },
   "license": "SEE LICENSE IN <filename>",
-  "keywords":["python", "real-time"]
+  "keywords": [
+    "python",
+    "real-time"
+  ]
 }

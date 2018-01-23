@@ -28,6 +28,7 @@ export default class PreviewManager {
         /////////////////////////////////////////////////////////
         let self:PreviewManager = this;
 
+        this.pythonEvaluator.startPython()
         this.pythonEvaluator.pyshell.childProcess.on('error', err => {
             this.pythonPreviewContentProvider.handleSpawnError(err.path, err.spawnargs[0], err.stack);
         })
