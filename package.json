@@ -19,18 +19,18 @@
     "commands": [
       {
         "command": "extension.evalPythonInRealTime",
-        "title": "eval python in real time"
+        "title": "eval python in real time",
+        "category": "AREPL"
       }
-    ]
-  },
-  "keybindings": [
+    ],
+    "keybindings": [
     {
       "command": "extension.evalPythonInRealTime",
-      "key": "ctrl+q s",
-      "mac": "ctrl+q s",
-      "when": "editorTextFocus"
-    }
-  ],
+      "key": "ctrl+shift+a",
+      "mac": "cmd+shift+a",
+      "when": "!terminalFocus"
+    }]
+  },
   "scripts": {
     "vscode:prepublish": "tsc -p ./",
     "compile": "tsc -watch -p ./",
