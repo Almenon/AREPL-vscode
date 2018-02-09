@@ -63,7 +63,7 @@ export default class HtmlDocumentContentProvider implements vscode.TextDocumentC
         this.update();  
     }
 
-    public handleResult(pythonResults){
+    public handleResult(pythonResults: {ERROR:string, userVariables:Object, execTime:number, totalPyTime:number, totalTime:number}){
         console.log(pythonResults.execTime)
         console.log(pythonResults.totalPyTime)
         console.log(pythonResults.totalTime)
@@ -74,9 +74,7 @@ export default class HtmlDocumentContentProvider implements vscode.TextDocumentC
             this.updateVars(pythonResults.userVariables)
         }
 
-        this.updateError(pythonResults.ERROR)
-
-        this.updateContent();
+        this.updateError(pythonResults.ERROR, true)
         
         //clear print so empty for next program run
         this.printResults = [];
@@ -96,10 +94,15 @@ export default class HtmlDocumentContentProvider implements vscode.TextDocumentC
         this.userVarContainer = `<div id="results">${jsonRendererCode}</div>`
     }
 
-    private updateError(err: string){
+    /**
+     * @param refresh if true updates page immediately.  otherwise error will show up whenever updateContent is called
+     */
+    public updateError(err: string, refresh=false){
         // escape the <module>
         err = Utilities.escapeHtml(err)
         this.errorContainer = `<div id="error">${err}</div>`
+
+        if(refresh) this.updateContent()
     }
 
     public handlePrint(pythonResults:string){

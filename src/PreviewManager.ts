@@ -3,22 +3,20 @@ import * as vscode from 'vscode'
 import HtmlDocumentContentProvider from './HtmlDocumentContentProvider'
 import {debounce} from './decorators'
 import pyGuiLibraryIsPresent from './pyGuiLibraryIsPresent'
-let evals = require('arepl-backend')
+import {PythonEvaluator} from 'arepl-backend'
 
 // This class initializes the previewmanager based on extension type and manages all the subscriptions
 export default class PreviewManager {
 
     pythonPreviewContentProvider: HtmlDocumentContentProvider;
     disposable: vscode.Disposable;
-    pyshell: any;
-    identifier: string;
     pythonEditor: vscode.TextDocument;
-    pythonEvaluator: any;
+    pythonEvaluator: PythonEvaluator;
     restartedLastTime = false;
 
     constructor(context: vscode.ExtensionContext) {
         this.pythonPreviewContentProvider = new HtmlDocumentContentProvider(context);
-        this.pythonEvaluator = new evals.PythonEvaluator()
+        this.pythonEvaluator = new PythonEvaluator()
         this.pythonEditor = vscode.window.activeTextEditor.document;
 
         vscode.workspace.registerTextDocumentContentProvider(HtmlDocumentContentProvider.scheme, this.pythonPreviewContentProvider);
@@ -30,7 +28,8 @@ export default class PreviewManager {
 
         this.pythonEvaluator.startPython()
         this.pythonEvaluator.pyshell.childProcess.on('error', err => {
-            this.pythonPreviewContentProvider.handleSpawnError(err.path, err.spawnargs[0], err.stack);
+            let error:any = err; //typescript complains about type for some reason so defining to any
+            this.pythonPreviewContentProvider.handleSpawnError(error.path, error.spawnargs[0], error.stack);
         })
 
         // binding this to the class so it doesn't get overwritten by PythonEvaluator
@@ -67,7 +66,7 @@ export default class PreviewManager {
     }
 
     dispose() {
-        if(this.pyshell != null && this.pyshell.childProcess != null){
+        if(this.pythonEvaluator.pyshell != null && this.pythonEvaluator.pyshell.childProcess != null){
             this.pythonEvaluator.stop()
         }
         this.disposable.dispose();
@@ -93,15 +92,17 @@ export default class PreviewManager {
             }
 
             if(pyGuiLibraryIsPresent(text)){
-                this.pythonEvaluator.restart(
-                    this.pythonEvaluator.execCode.bind(this.pythonEvaluator, data)
-                );
-                this.restartedLastTime = true;
+                this.pythonEvaluator.checkSyntax(data.savedCode + data.evalCode)
+                .then(()=>{
+                    this.restartPython(data)
+                    this.restartedLastTime = true
+                })
+                .catch((error)=>{
+                    this.pythonPreviewContentProvider.handleResult({'userVariables':{},'ERROR':error, execTime: 0, totalPyTime: 0, totalTime: 0})
+                })
             }
             else if(this.restartedLastTime){ //if GUI code is gone need one last restart to get rid of GUI
-                this.pythonEvaluator.restart(
-                    this.pythonEvaluator.execCode.bind(this.pythonEvaluator, data)
-                );
+                this.restartPython(data)
                 this.restartedLastTime = false;
             }
             else{                
@@ -109,5 +110,13 @@ export default class PreviewManager {
             }
 
         }
+    }
+
+    public restartPython(data){
+        this.pythonPreviewContentProvider.printResults = []
+        this.pythonPreviewContentProvider.updateError("", true)
+        this.pythonEvaluator.restart(
+            this.pythonEvaluator.execCode.bind(this.pythonEvaluator, data)
+        );     
     }
 }
