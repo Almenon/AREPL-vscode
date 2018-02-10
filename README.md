@@ -1,4 +1,4 @@
-## AREPL: vscode edition
+## AREPL: vscode edition [![Build Status](https://travis-ci.org/Almenon/AREPL-vscode.svg?branch=master)](https://travis-ci.org/Almenon/AREPL-vscode)
 
 AREPL automatically evaluates python code in real-time as you type
 
