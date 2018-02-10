@@ -23,7 +23,7 @@ see [AREPL-backend](https://github.com/Almenon/AREPL-backend) for the npm packag
 
 AREPL is also availible as a standalone [app](https://github.com/Almenon/AREPL)
 
-### Settings:
+#### Settings:
 
 AREPL offers the following customizable settings:
 
