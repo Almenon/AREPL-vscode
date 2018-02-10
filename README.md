@@ -1,5 +1,7 @@
 ## AREPL: vscode edition [![Build Status](https://travis-ci.org/Almenon/AREPL-vscode.svg?branch=master)](https://travis-ci.org/Almenon/AREPL-vscode)
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/Almenon/AREPL-vscode.svg)](https://greenkeeper.io/)
+
 AREPL automatically evaluates python code in real-time as you type
 
 ![Alt Text](https://raw.githubusercontent.com/Almenon/AREPL-vscode/master/example.gif)
