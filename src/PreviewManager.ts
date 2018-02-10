@@ -1,6 +1,6 @@
 'use strict'
 import * as vscode from 'vscode'
-import HtmlDocumentContentProvider from './HtmlDocumentContentProvider'
+import HtmlDocumentContentProvider from './HTMLDocumentContentProvider'
 import pyGuiLibraryIsPresent from './pyGuiLibraryIsPresent'
 import {PythonEvaluator} from 'arepl-backend'
 

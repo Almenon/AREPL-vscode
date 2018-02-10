@@ -1,8 +1,8 @@
 'use strict';
 import * as vscode from 'vscode';
-import Utilities from './Utilities';
+import Utilities from './utilities';
 import PreviewManager from './PreviewManager'
-import pythonPreviewContentProvider from './htmlDocumentContentProvider';
+import pythonPreviewContentProvider from './HTMLDocumentContentProvider';
 
 export function activate(context: vscode.ExtensionContext) {
     // Register the commands that are provided to the user
