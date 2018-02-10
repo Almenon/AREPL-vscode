@@ -19,14 +19,16 @@ export default class PreviewManager {
         this.pythonEvaluator = new PythonEvaluator()
         this.pythonEditor = vscode.window.activeTextEditor.document;
 
+        const settings = vscode.workspace.getConfiguration('AREPL');
+
         vscode.workspace.registerTextDocumentContentProvider(HtmlDocumentContentProvider.scheme, this.pythonPreviewContentProvider);
 
         /////////////////////////////////////////////////////////
         //		python
         /////////////////////////////////////////////////////////
         let self:PreviewManager = this;
-        let debounce = 300;
-        let restartExtraDebounce = 300;
+        let debounce = settings.get<number>('delay');
+        let restartExtraDebounce = settings.get<number>('restartDelay');
 
         this.pythonEvaluator.startPython()
         this.pythonEvaluator.pyshell.childProcess.on('error', err => {

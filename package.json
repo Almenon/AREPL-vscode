@@ -16,6 +16,32 @@
   ],
   "main": "./out/src/extension",
   "contributes": {
+    "configuration": {
+      "type": "object",
+      "title": "AREPL configuration",
+      "properties": {
+        "AREPL.delay": {
+          "type": "number",
+          "default": 300,
+          "description": "delay in ms before executing code after typing"
+        },
+        "AREPL.restartDelay": {
+          "type": "number",
+          "default": 300,
+          "description": "when restart mode is active we add this to delay to delay longer"
+        },
+        "AREPL.show_to_level": {
+          "type": "number",
+          "default": 2,
+          "description": "2 shows x=1 and x=[1,2], provides option to expand deeply nested data like x=[[1]]"
+        },
+        "AREPL.max_string_length": {
+          "type": "number",
+          "default": 70,
+          "description": "70 fits in 1280 screen"
+        }
+      }
+    },
     "commands": [
       {
         "command": "extension.evalPythonInRealTime",

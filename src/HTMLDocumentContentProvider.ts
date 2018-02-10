@@ -22,11 +22,13 @@ export default class HtmlDocumentContentProvider implements vscode.TextDocumentC
     errorContainer = ''
     userVarContainer = `<div id="results"></div>`;
     printContainer = `<br><b>Print Output:</b><div id="print"></div>`;
+    settings:vscode.WorkspaceConfiguration;
 
     constructor(private context: vscode.ExtensionContext) {
         this._onDidChange = new vscode.EventEmitter<vscode.Uri>();
         this.css = `<link rel="stylesheet" type="text/css" href="${this.getMediaPath("pythonPreview.css")}">`
         this.jsonRendererScript = `<script src="${this.getMediaPath('jsonRenderer.js')}"></script>`
+        this.settings = vscode.workspace.getConfiguration('AREPL');
     }
 
     provideTextDocumentContent(uri: vscode.Uri): string {
@@ -90,8 +92,8 @@ export default class HtmlDocumentContentProvider implements vscode.TextDocumentC
         let jsonRendererCode = `<script>
                                     ${userVarsCode}
                                     let jsonRenderer = renderjson.set_icons('+', '-') // default icons look a bit wierd, overriding
-                                        .set_show_to_level(2) 
-                                        .set_max_string_length(150);
+                                        .set_show_to_level(${this.settings.get('show_to_level')}) 
+                                        .set_max_string_length(${this.settings.get('max_string_length')});
                                     document.getElementById("results").appendChild(jsonRenderer(userVars));
                                 </script>`
 
