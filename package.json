@@ -46,7 +46,7 @@
     "vscode": "^1.1.10"
   },
   "dependencies": {
-    "arepl-backend": "^1.0.0-alpha.6",
+    "arepl-backend": "^1.0.0-alpha.7",
     "opn": "^4.0.2",
     "path": "^0.12.7",
     "python-shell": "^0.4.0"

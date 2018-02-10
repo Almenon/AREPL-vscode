@@ -8,6 +8,7 @@ import {PythonEvaluator} from 'arepl-backend'
 // This class initializes the previewmanager based on extension type and manages all the subscriptions
 export default class PreviewManager {
 
+    restartMode: boolean;
     pythonPreviewContentProvider: HtmlDocumentContentProvider;
     disposable: vscode.Disposable;
     pythonEditor: vscode.TextDocument;
@@ -25,6 +26,8 @@ export default class PreviewManager {
         //		python
         /////////////////////////////////////////////////////////
         let self:PreviewManager = this;
+        let debounce = 300;
+        let restartExtraDebounce = 300;
 
         this.pythonEvaluator.startPython()
         this.pythonEvaluator.pyshell.childProcess.on('error', err => {
@@ -42,7 +45,10 @@ export default class PreviewManager {
 
         let subscriptions: vscode.Disposable[] = [];
         this.disposable = vscode.Disposable.from(...subscriptions);
-        vscode.workspace.onDidChangeTextDocument(this.onUserInput, this, subscriptions);
+        vscode.workspace.onDidChangeTextDocument((e)=>{
+            let delay = this.restartMode ? debounce + restartExtraDebounce : debounce
+            this.pythonEvaluator.debounce(this.onUserInput.bind(this,e), delay)
+        }, this, subscriptions);
 
         vscode.workspace.onDidCloseTextDocument((e)=>{
             if(e == this.pythonEditor || e.uri.scheme == HtmlDocumentContentProvider.scheme) this.dispose()
@@ -72,7 +78,6 @@ export default class PreviewManager {
         this.disposable.dispose();
     }
 
-    @debounce(300)
     private onUserInput(event: vscode.TextDocumentChangeEvent) {
         if(event.document == this.pythonEditor){
             let text = event.document.getText();
@@ -91,8 +96,10 @@ export default class PreviewManager {
                 evalCode: codeLines.join('\n')
             }
 
-            if(pyGuiLibraryIsPresent(text)){
-                
+            this.restartMode = pyGuiLibraryIsPresent(text)
+            
+            if(this.restartMode){
+
                 let fileName = event.document.fileName
                 let syntaxPromise: Promise<{}>
 
