@@ -3,3 +3,4 @@ node_modules
 personal
 npm-debug.log
 *.vsix
+.vscode-test

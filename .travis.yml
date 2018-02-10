@@ -1,8 +1,9 @@
+language: node_js
+
 sudo: false
 
-os:
-  - osx
-  - linux
+node_js:
+  - "node"
 
 before_install:
   - if [ $TRAVIS_OS_NAME == "linux" ]; then
@@ -11,9 +12,12 @@ before_install:
       sleep 3;
     fi
 
-install:
+install: 
   - npm install
   - npm run vscode:prepublish
 
 script:
   - npm test --silent
+
+after_success:
+  - bash <(curl -s https://codecov.io/bash)
