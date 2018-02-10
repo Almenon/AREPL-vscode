@@ -92,8 +92,18 @@ export default class PreviewManager {
             }
 
             if(pyGuiLibraryIsPresent(text)){
-                this.pythonEvaluator.checkSyntax(data.savedCode + data.evalCode)
-                .then(()=>{
+                
+                let fileName = event.document.fileName
+                let syntaxPromise: Promise<{}>
+
+                if(fileName.startsWith("Untitled")){ //hasnt been saved yet so has no path
+                    syntaxPromise = this.pythonEvaluator.checkSyntax(data.savedCode + data.evalCode)
+                }
+                else{
+                    syntaxPromise = this.pythonEvaluator.checkSyntaxFile(fileName)
+                }
+
+                syntaxPromise.then(()=>{
                     this.restartPython(data)
                     this.restartedLastTime = true
                 })
