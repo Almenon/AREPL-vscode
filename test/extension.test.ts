@@ -29,6 +29,36 @@ suite("Extension Tests", () => {
         doc.handlePrint("hello world")
     });
 
+    test("spawn error", (done) => {
+        let doc = new HTMLDocumentContentProvider(mockContext);
+        doc.onDidChange((x)=>{
+            let html = doc.provideTextDocumentContent(null);
+            assert.equal(html.includes("Error in the AREPL extension"), true, html);
+            done()
+        })
+        doc.handleSpawnError("python3","C:\\dev\\python","error")
+    });
+
+    test("error", (done) => {
+        let doc = new HTMLDocumentContentProvider(mockContext);
+        doc.onDidChange((x)=>{
+            let html = doc.provideTextDocumentContent(null);
+            assert.equal(html.includes("yo"), true, html);
+            done()
+        })
+        doc.handleResult({ERROR:"yo",userVariables:{},execTime:0,totalPyTime:0,totalTime:0})
+    });
+
+    test("userVariables", (done) => {
+        let doc = new HTMLDocumentContentProvider(mockContext);
+        doc.onDidChange((x)=>{
+            let html = doc.provideTextDocumentContent(null);
+            assert.equal(html.includes("5"), true, html);
+            done()
+        })
+        doc.handleResult({ERROR:"",userVariables:{'x':5},execTime:0,totalPyTime:0,totalTime:0})
+    });
+
     test("print escapes html", (done) => {
         let doc = new HTMLDocumentContentProvider(mockContext);
         doc.onDidChange((x)=>{
