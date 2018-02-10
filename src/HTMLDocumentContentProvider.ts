@@ -83,6 +83,10 @@ export default class HtmlDocumentContentProvider implements vscode.TextDocumentC
 
     private updateVars(vars: Object){
         let userVarsCode = `userVars = ${JSON.stringify(vars)};`
+
+        // escape end script tag or else the content will escape its container and WREAK HAVOC
+        userVarsCode = userVarsCode.replace(/<\/script>/g,'<\\/script>')
+
         let jsonRendererCode = `<script>
                                     ${userVarsCode}
                                     let jsonRenderer = renderjson.set_icons('+', '-') // default icons look a bit wierd, overriding
