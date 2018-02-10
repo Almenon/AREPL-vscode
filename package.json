@@ -1,6 +1,6 @@
 {
-  "name": "arepl-vscode",
-  "displayName": "AREPL-vscode",
+  "name": "arepl",
+  "displayName": "AREPL",
   "description": "evalutes python code in real-time",
   "version": "0.0.1",
   "publisher": "almenon",
