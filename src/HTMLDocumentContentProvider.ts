@@ -1,7 +1,7 @@
 "use strict"
 import * as vscode from 'vscode'
 import * as path from "path";
-import Utilities from './Utilities'
+import Utilities from './utilities'
 
 /**
  * very simple read-only html content
