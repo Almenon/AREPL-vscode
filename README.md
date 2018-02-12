@@ -18,17 +18,21 @@ AREPL is also availible as a standalone [app](https://github.com/Almenon/AREPL)
 
 AREPL offers the following customizable settings:
 
-// delay in ms before executing code after typing
 > "AREPL.delay": 300,
 
-// 70 fits in 1280 screen
+delay in ms before executing code after typing
+
 > "AREPL.max_string_length": 70,
 
-// when restart mode is active we add this to delay to delay longer
+70 fits in 1280 screen
+
 > "AREPL.restartDelay": 300,
 
-// 2 shows x=1 and x=[1,2], provides option to expand deeply nested data like x=[[1]]
+when restart mode is active we add this to delay to delay longer
+
 > "AREPL.show_to_level": 2
+
+2 shows x=1 and x=[1,2], provides option to expand deeply nested data like x=[[1]]
 
 #### Deveveloper Setup:
 
