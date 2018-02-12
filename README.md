@@ -20,7 +20,7 @@ AREPL offers the following customizable settings:
 
 > "AREPL.delay": 300,
 
-delay in millaseconds before executing code after typing
+delay in milliseconds before executing code after typing
 
 > "AREPL.max_string_length": 70,
 
