@@ -12,15 +12,6 @@ In windows you can access the command search by using control-shift-p
 
 You can activate AREPL directly by using control-shift-a or command-shift-a if on Mac
 
-#### Deveveloper Setup:
-
-1. Install VSCode, python 3 and npm (if not already installed)
-2. clone this repository
-3. npm install
-4. start debugging
-
-see [AREPL-backend](https://github.com/Almenon/AREPL-backend) for the npm package that executes the python code
-
 AREPL is also availible as a standalone [app](https://github.com/Almenon/AREPL)
 
 #### Settings:
@@ -38,3 +29,12 @@ AREPL offers the following customizable settings:
 
 // 2 shows x=1 and x=[1,2], provides option to expand deeply nested data like x=[[1]]
 > "AREPL.show_to_level": 2
+
+#### Deveveloper Setup:
+
+1. Install VSCode, python 3 and npm (if not already installed)
+2. clone this repository
+3. npm install
+4. start debugging
+
+see [AREPL-backend](https://github.com/Almenon/AREPL-backend) for the npm package that executes the python code
