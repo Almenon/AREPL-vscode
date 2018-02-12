@@ -104,12 +104,8 @@ export default class PreviewManager {
                 let fileName = event.document.fileName
                 let syntaxPromise: Promise<{}>
 
-                if(fileName.startsWith("Untitled")){ //hasnt been saved yet so has no path
-                    syntaxPromise = this.pythonEvaluator.checkSyntax(data.savedCode + data.evalCode)
-                }
-                else{
-                    syntaxPromise = this.pythonEvaluator.checkSyntaxFile(fileName)
-                }
+                // #22 it might be faster to use checkSyntaxFile but this is simpler
+                syntaxPromise = this.pythonEvaluator.checkSyntax(data.savedCode + data.evalCode)
 
                 syntaxPromise.then(()=>{
                     this.restartPython(data)
