@@ -20,15 +20,15 @@ AREPL offers the following customizable settings:
 
 > "AREPL.delay": 300,
 
-delay in ms before executing code after typing
+delay in millaseconds before executing code after typing
 
 > "AREPL.max_string_length": 70,
 
-70 fits in 1280 screen
+70 should fit nicely into a 1280 screen
 
 > "AREPL.restartDelay": 300,
 
-when restart mode is active we add this to delay to delay longer
+extra delay when programming with a GUI (like turtle).  Added onto delay.
 
 > "AREPL.show_to_level": 2
 
