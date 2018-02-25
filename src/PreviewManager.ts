@@ -45,16 +45,15 @@ export default class PreviewManager {
         /////////////////////////////////////////////////////////
 
         let subscriptions: vscode.Disposable[] = [];
-        this.disposable = vscode.Disposable.from(...subscriptions);
         vscode.workspace.onDidChangeTextDocument((e)=>{
             let delay = this.restartMode ? debounce + restartExtraDebounce : debounce
             this.pythonEvaluator.debounce(this.onUserInput.bind(this,e), delay)
         }, this, subscriptions);
-
+        
         vscode.workspace.onDidCloseTextDocument((e)=>{
             if(e == this.pythonEditor || e.uri.scheme == HtmlDocumentContentProvider.scheme) this.dispose()
-        })
-
+        }, this, subscriptions)
+        
         vscode.window.onDidChangeActiveTextEditor((e) => {
             if(e == null) return;
             // might be better way to do this - look at other editors
@@ -69,7 +68,9 @@ export default class PreviewManager {
                 // todo: close preview
                 // but make sure that doesnt trigger dispose event for python process!
             }
-        })
+        }, this, subscriptions)
+        
+        this.disposable = vscode.Disposable.from(...subscriptions);
     }
 
     dispose() {
