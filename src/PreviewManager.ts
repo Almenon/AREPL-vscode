@@ -13,15 +13,21 @@ export default class PreviewManager {
     pythonEditor: vscode.TextDocument;
     pythonEvaluator: PythonEvaluator;
     restartedLastTime = false;
+    status: vscode.StatusBarItem;
 
     constructor(context: vscode.ExtensionContext) {
         this.pythonPreviewContentProvider = new HtmlDocumentContentProvider(context);
         this.pythonEvaluator = new PythonEvaluator()
         this.pythonEditor = vscode.window.activeTextEditor.document;
+        this.status = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left, 100);
+        this.status.text = "Running python..."
+        this.status.tooltip = "AREPL is currently running your python file.  Close the AREPL preview to stop"
+        let subscriptions: vscode.Disposable[] = [];
 
         const settings = vscode.workspace.getConfiguration('AREPL');
 
-        vscode.workspace.registerTextDocumentContentProvider(HtmlDocumentContentProvider.scheme, this.pythonPreviewContentProvider);
+        let previewDisposer = vscode.workspace.registerTextDocumentContentProvider(HtmlDocumentContentProvider.scheme, this.pythonPreviewContentProvider);
+        subscriptions.push(previewDisposer);
 
         /////////////////////////////////////////////////////////
         //		python
@@ -38,13 +44,12 @@ export default class PreviewManager {
 
         // binding this to the class so it doesn't get overwritten by PythonEvaluator
         this.pythonEvaluator.onPrint =  this.pythonPreviewContentProvider.handlePrint.bind(this.pythonPreviewContentProvider)
-        this.pythonEvaluator.onResult = this.pythonPreviewContentProvider.handleResult.bind(this.pythonPreviewContentProvider)
+        this.pythonEvaluator.onResult = this.handleResult.bind(this)
 
         /////////////////////////////////////////////////////////
         // doc stuff
         /////////////////////////////////////////////////////////
 
-        let subscriptions: vscode.Disposable[] = [];
         vscode.workspace.onDidChangeTextDocument((e)=>{
             let delay = this.restartMode ? debounce + restartExtraDebounce : debounce
             this.pythonEvaluator.debounce(this.onUserInput.bind(this,e), delay)
@@ -78,6 +83,7 @@ export default class PreviewManager {
             this.pythonEvaluator.stop()
         }
         this.disposable.dispose();
+        this.status.dispose();
     }
 
     private onUserInput(event: vscode.TextDocumentChangeEvent) {
@@ -85,6 +91,8 @@ export default class PreviewManager {
             let text = event.document.getText();
             let codeLines = text.split('\n')
             let savedLines:string[] = []
+
+            this.status.show();
 
             codeLines.forEach((line,i)=>{
                 if(line.trim().endsWith('#$save')){
@@ -127,7 +135,12 @@ export default class PreviewManager {
         }
     }
 
-    public restartPython(data){
+    private handleResult(pythonResults: {ERROR:string, userVariables:Object, execTime:number, totalPyTime:number, totalTime:number}){
+        this.status.hide()
+        this.pythonPreviewContentProvider.handleResult(pythonResults)
+    }
+
+    private restartPython(data){
         this.pythonPreviewContentProvider.printResults = []
         this.pythonPreviewContentProvider.updateError("", true)
         this.pythonEvaluator.restart(
