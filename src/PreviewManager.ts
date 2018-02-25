@@ -22,12 +22,10 @@ export default class PreviewManager {
         this.status = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left, 100);
         this.status.text = "Running python..."
         this.status.tooltip = "AREPL is currently running your python file.  Close the AREPL preview to stop"
-        let subscriptions: vscode.Disposable[] = [];
 
         const settings = vscode.workspace.getConfiguration('AREPL');
 
-        let previewDisposer = vscode.workspace.registerTextDocumentContentProvider(HtmlDocumentContentProvider.scheme, this.pythonPreviewContentProvider);
-        subscriptions.push(previewDisposer);
+        vscode.workspace.registerTextDocumentContentProvider(HtmlDocumentContentProvider.scheme, this.pythonPreviewContentProvider);
 
         /////////////////////////////////////////////////////////
         //		python
@@ -50,6 +48,7 @@ export default class PreviewManager {
         // doc stuff
         /////////////////////////////////////////////////////////
 
+        let subscriptions: vscode.Disposable[] = [];
         vscode.workspace.onDidChangeTextDocument((e)=>{
             let delay = this.restartMode ? debounce + restartExtraDebounce : debounce
             this.pythonEvaluator.debounce(this.onUserInput.bind(this,e), delay)
