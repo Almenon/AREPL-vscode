@@ -43,13 +43,6 @@ export default class HtmlDocumentContentProvider implements vscode.TextDocumentC
         return this._onDidChange.event;
     }
 
-    /**
-     * starts preview
-     */
-    public register(){
-        vscode.workspace.registerTextDocumentContentProvider(HtmlDocumentContentProvider.scheme, this);
-    }
-
     private getMediaPath(mediaFile: string): string {
         // stolen from https://github.com/Microsoft/vscode/tree/master/extensions/markdown
 		return vscode.Uri.file(this.context.asAbsolutePath(path.join('media', mediaFile))).toString();
