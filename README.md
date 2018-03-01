@@ -4,15 +4,17 @@ AREPL automatically evaluates python code in real-time as you type
 
 ![Alt Text](https://raw.githubusercontent.com/Almenon/AREPL-vscode/master/example.gif)
 
-Not availible on appstore yet but you can download alpha version manually from [releases](https://github.com/Almenon/AREPL-vscode/releases).  I would love to hear any feedback, good or bad.
+AREPL is availible from the vscode [marketplace](https://marketplace.visualstudio.com/items?itemName=almenon.arepl#overview) or as a [standalone app](https://github.com/Almenon/AREPL)
 
-Once you download it the command to activate is "AREPL: eval python in real time"
+### Useage
 
-In windows you can access the command search by using control-shift-p
+First, make sure you have [python 3](https://www.python.org/downloads/) installed.
 
-You can activate AREPL directly by using control-shift-a or command-shift-a if on Mac
+Open a python file and run AREPL through the command search
 
-AREPL is also availible as a standalone [app](https://github.com/Almenon/AREPL)
+>     control-shift-p
+
+or use a shortcut: control-shift-a / command-shift-a
 
 #### Settings:
 
@@ -24,7 +26,7 @@ delay in milliseconds before executing code after typing
 
 > "AREPL.max_string_length": 70,
 
-70 should fit nicely into a 1280 screen
+strings over X characters are truncated with an option to expand
 
 > "AREPL.restartDelay": 300,
 
