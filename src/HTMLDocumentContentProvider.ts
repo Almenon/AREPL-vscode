@@ -9,6 +9,7 @@ import Utilities from './utilities'
  */
 export default class HtmlDocumentContentProvider implements vscode.TextDocumentContentProvider {
     printResults: string[] = [];
+    lastTime:number = 999999999;
 
     private _onDidChange: vscode.EventEmitter<vscode.Uri>;
     public html = `<p>Start typing or make a change and your code will be evaluated.</p>
@@ -22,6 +23,7 @@ export default class HtmlDocumentContentProvider implements vscode.TextDocumentC
     errorContainer = ''
     userVarContainer = `<div id="results"></div>`;
     printContainer = `<br><b>Print Output:</b><div id="print"></div>`;
+    timeContainer = `<p style="position:absolute;left:96%;top:96%;"></p>`;
     settings:vscode.WorkspaceConfiguration;
 
     constructor(private context: vscode.ExtensionContext) {
@@ -50,7 +52,8 @@ export default class HtmlDocumentContentProvider implements vscode.TextDocumentC
 
     public updateContent(){
         // todo: handle different themes.  check body class: https://code.visualstudio.com/updates/June_2016
-        this.html = this.css + this.jsonRendererScript + this.errorContainer + this.userVarContainer + this.printContainer;
+        this.html = this.css + this.jsonRendererScript + this.errorContainer +
+        this.userVarContainer + this.printContainer + this.timeContainer;
 
         // issue #1: need to make sure html is new each time or wierd crap happens
         this.html += `<div id="${Math.random()}" style="display:none"></div>`
@@ -62,6 +65,9 @@ export default class HtmlDocumentContentProvider implements vscode.TextDocumentC
         console.log(pythonResults.execTime)
         console.log(pythonResults.totalPyTime)
         console.log(pythonResults.totalTime)
+
+        // exec time is the 'truest' time that user cares about
+        this.updateTime(pythonResults.execTime);
 
         // if no Vars & an error exists then it must be a syntax exception
         // in which case we skip updating because no need to clear out variables
@@ -91,6 +97,19 @@ export default class HtmlDocumentContentProvider implements vscode.TextDocumentC
                                 </script>`
 
         this.userVarContainer = `<div id="results">${jsonRendererCode}</div>`
+    }
+
+    private updateTime(time:number){
+        let color:"green"|"red";
+
+        time = Math.floor(time) // we dont care about anything smaller than ms
+        
+        if(time > this.lastTime) color = "red"
+        else color = "green"
+
+        this.lastTime = time;
+
+        this.timeContainer = `<p style="position:absolute;left:90%;top:94%;color:${color};">${time} ms</p>`;
     }
 
     /**
