@@ -2,7 +2,7 @@
   "name": "arepl",
   "displayName": "AREPL",
   "description": "evalutes python code in real-time",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "publisher": "almenon",
   "engines": {
     "vscode": "^1.14.0"
@@ -38,7 +38,7 @@
         "AREPL.max_string_length": {
           "type": "number",
           "default": 70,
-          "description": "70 fits in 1280 screen"
+          "description": "strings over X characters are truncated with an option to expand"
         }
       }
     },
