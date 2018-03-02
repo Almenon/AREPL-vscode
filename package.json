@@ -74,8 +74,7 @@
   "dependencies": {
     "arepl-backend": "^1.0.0-beta.1",
     "opn": "^5.2.0",
-    "path": "^0.12.7",
-    "python-shell": "^0.4.0"
+    "path": "^0.12.7"
   },
   "bugs": {
     "url": "https://github.com/almenon/arepl-vscode-wordcount/issues",
