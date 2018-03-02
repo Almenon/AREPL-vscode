@@ -109,7 +109,7 @@ export default class HtmlDocumentContentProvider implements vscode.TextDocumentC
 
         this.lastTime = time;
 
-        this.timeContainer = `<p style="position:absolute;left:90%;top:94%;color:${color};">${time} ms</p>`;
+        this.timeContainer = `<p style="position:sticky;left:90%;top:94%;color:${color};">${time} ms</p>`;
     }
 
     /**
