@@ -16,24 +16,29 @@ export default class PreviewManager {
     status: vscode.StatusBarItem;
 
     constructor(context: vscode.ExtensionContext) {
+
+        const settings = vscode.workspace.getConfiguration('AREPL');
+
         this.pythonPreviewContentProvider = new HtmlDocumentContentProvider(context);
-        this.pythonEvaluator = new PythonEvaluator()
         this.pythonEditor = vscode.window.activeTextEditor.document;
         this.status = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left, 100);
         this.status.text = "Running python..."
         this.status.tooltip = "AREPL is currently running your python file.  Close the AREPL preview to stop"
-
-        const settings = vscode.workspace.getConfiguration('AREPL');
-
+        
+        
         vscode.workspace.registerTextDocumentContentProvider(HtmlDocumentContentProvider.scheme, this.pythonPreviewContentProvider);
-
+        
         /////////////////////////////////////////////////////////
         //		python
         /////////////////////////////////////////////////////////
-        let self:PreviewManager = this;
+        let pythonPath = settings.get<string>('pythonPath')
+        let pythonOptions = settings.get<string[]>('pythonOptions')
+
+        this.pythonEvaluator = new PythonEvaluator(pythonPath, pythonOptions)
+
         let debounce = settings.get<number>('delay');
         let restartExtraDebounce = settings.get<number>('restartDelay');
-
+        
         this.pythonEvaluator.startPython()
         this.pythonEvaluator.pyshell.childProcess.on('error', err => {
             let error:any = err; //typescript complains about type for some reason so defining to any

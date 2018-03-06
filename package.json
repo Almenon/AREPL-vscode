@@ -46,6 +46,16 @@
           "type": "number",
           "default": 70,
           "description": "strings over X characters are truncated with an option to expand"
+        },
+        "AREPL.pythonPath": {
+          "type": "string",
+          "default": null,
+          "description": "By default python is used if windows or python3 otherwise. Changing this setting not reccomended"
+        },
+        "AREPL.pythonOptions": {
+          "type": "array",
+          "default": ["-u"],
+          "description": "default -u to see prints in real-time. See https://docs.python.org/3/using/cmdline.html#miscellaneous-options for other options. Changing this setting not reccomended"
         }
       }
     },
