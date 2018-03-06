@@ -23,7 +23,7 @@ export default class HtmlDocumentContentProvider implements vscode.TextDocumentC
     errorContainer = ''
     jsonRendererCode = `<div id="results"></div>`;
     printContainer = `<br><b>Print Output:</b><div id="print"></div>`;
-    timeContainer = `<p style="position:absolute;left:96%;top:96%;"></p>`;
+    timeContainer = ''
     settings:vscode.WorkspaceConfiguration;
 
     constructor(private context: vscode.ExtensionContext) {
