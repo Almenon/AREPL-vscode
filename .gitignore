@@ -4,3 +4,4 @@ personal
 npm-debug.log
 *.vsix
 .vscode-test
+desktop.ini
