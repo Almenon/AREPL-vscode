@@ -21,7 +21,7 @@ export default class HtmlDocumentContentProvider implements vscode.TextDocumentC
     css:string
     jsonRendererScript: string;
     errorContainer = ''
-    userVarContainer = `<div id="results"></div>`;
+    jsonRendererCode = `<div id="results"></div>`;
     printContainer = `<br><b>Print Output:</b><div id="print"></div>`;
     timeContainer = `<p style="position:absolute;left:96%;top:96%;"></p>`;
     settings:vscode.WorkspaceConfiguration;
@@ -51,9 +51,19 @@ export default class HtmlDocumentContentProvider implements vscode.TextDocumentC
 	}
 
     public updateContent(){
+
         // todo: handle different themes.  check body class: https://code.visualstudio.com/updates/June_2016
-        this.html = this.css + this.jsonRendererScript + this.errorContainer +
-        this.userVarContainer + this.printContainer + this.timeContainer;
+        this.html = `<head>
+            ${this.css}
+            ${this.jsonRendererScript}
+            ${this.jsonRendererCode}
+        </head>
+        <body>
+            ${this.errorContainer}
+            <div id="results"></div>
+            ${this.printContainer}
+            ${this.timeContainer}
+        </body>`
 
         // issue #1: need to make sure html is new each time or wierd crap happens
         this.html += `<div id="${Math.random()}" style="display:none"></div>`
@@ -88,15 +98,15 @@ export default class HtmlDocumentContentProvider implements vscode.TextDocumentC
         // escape end script tag or else the content will escape its container and WREAK HAVOC
         userVarsCode = userVarsCode.replace(/<\/script>/g,'<\\/script>')
 
-        let jsonRendererCode = `<script>
-                                    ${userVarsCode}
-                                    let jsonRenderer = renderjson.set_icons('+', '-') // default icons look a bit wierd, overriding
-                                        .set_show_to_level(${this.settings.get('show_to_level')}) 
-                                        .set_max_string_length(${this.settings.get('max_string_length')});
-                                    document.getElementById("results").appendChild(jsonRenderer(userVars));
-                                </script>`
-
-        this.userVarContainer = `<div id="results">${jsonRendererCode}</div>`
+        this.jsonRendererCode = `<script>
+            window.onload = function(){
+                ${userVarsCode}
+                let jsonRenderer = renderjson.set_icons('+', '-') // default icons look a bit wierd, overriding
+                    .set_show_to_level(${this.settings.get('show_to_level')}) 
+                    .set_max_string_length(${this.settings.get('max_string_length')});
+                document.getElementById("results").appendChild(jsonRenderer(userVars));
+            }
+            </script>`
     }
 
     private updateTime(time:number){
