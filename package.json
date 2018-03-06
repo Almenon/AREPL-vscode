@@ -30,6 +30,13 @@
           "default": 300,
           "description": "when restart mode is active we add this to delay to delay longer"
         },
+        "AREPL.whenToExecute": {
+          "type": "string",
+          "enum":["afterDelay","onSave"],
+          "enumDescriptions":["execute python after a delay", "execute python on save"],
+          "default": "afterDelay",
+          "description": "afterDelay: execute python after delay. onSave: execute python on save"
+        },
         "AREPL.show_to_level": {
           "type": "number",
           "default": 2,

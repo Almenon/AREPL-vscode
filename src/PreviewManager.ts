@@ -49,10 +49,18 @@ export default class PreviewManager {
         /////////////////////////////////////////////////////////
 
         let subscriptions: vscode.Disposable[] = [];
-        vscode.workspace.onDidChangeTextDocument((e)=>{
-            let delay = this.restartMode ? debounce + restartExtraDebounce : debounce
-            this.pythonEvaluator.debounce(this.onUserInput.bind(this,e), delay)
-        }, this, subscriptions);
+
+        if(settings.get<string>('whenToExecute').toLowerCase() == "onsave"){
+            vscode.workspace.onDidSaveTextDocument((e)=>{
+                this.onAnyDocChange(e)
+            }, this, subscriptions)
+        }
+        else{
+            vscode.workspace.onDidChangeTextDocument((e)=>{
+                let delay = this.restartMode ? debounce + restartExtraDebounce : debounce
+                this.pythonEvaluator.debounce(this.onAnyDocChange.bind(this,e.document), delay)
+            }, this, subscriptions)
+        }
         
         vscode.workspace.onDidCloseTextDocument((e)=>{
             if(e == this.pythonEditor || e.uri.scheme == HtmlDocumentContentProvider.scheme) this.dispose()
@@ -85,9 +93,14 @@ export default class PreviewManager {
         this.status.dispose();
     }
 
-    private onUserInput(event: vscode.TextDocumentChangeEvent) {
-        if(event.document == this.pythonEditor){
-            let text = event.document.getText();
+    private onAnyDocChange(event: vscode.TextDocument){
+        if(event == this.pythonEditor){
+            let text = event.getText()
+            this.onUserInput(text)
+        }        
+    }
+
+    private onUserInput(text: string) {
             let codeLines = text.split('\n')
             let savedLines:string[] = []
 
@@ -108,8 +121,6 @@ export default class PreviewManager {
             this.restartMode = pyGuiLibraryIsPresent(text)
             
             if(this.restartMode){
-
-                let fileName = event.document.fileName
                 let syntaxPromise: Promise<{}>
 
                 // #22 it might be faster to use checkSyntaxFile but this is simpler
@@ -130,8 +141,6 @@ export default class PreviewManager {
             else{                
                 this.pythonEvaluator.execCode(data)
             }
-
-        }
     }
 
     private handleResult(pythonResults: {ERROR:string, userVariables:Object, execTime:number, totalPyTime:number, totalTime:number}){
