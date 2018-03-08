@@ -5,23 +5,26 @@ import PreviewManager from './PreviewManager'
 import pythonPreviewContentProvider from './HTMLDocumentContentProvider';
 
 export function activate(context: vscode.ExtensionContext) {
+
     // Register the commands that are provided to the user
-    let disposableSidePreview = vscode.commands.registerCommand('extension.evalPythonInRealTime', () => {
+    let arepl = vscode.commands.registerCommand('extension.evalPythonInRealTime', () => {
         createPreviewDoc(context);
     });
 
-    let newAREPLSession = vscode.commands.registerCommand('extension.newAREPLSession', async () => {
-        const cssDocument = await vscode.workspace.openTextDocument({
-            content: '',
-            language: 'python'
-        });
-    
-        vscode.window.showTextDocument(cssDocument).then(createPreviewDoc.bind(this, context));
+    let newAreplSession = vscode.commands.registerCommand('extension.newAREPLSession', ()=>{
+        Utilities.newUnsavedPythonDoc(Utilities.getHighlightedText())
+            .then(createPreviewDoc.bind(this, context));
+    });
+
+    // exact same as above, just defining command so users are aware of the feature
+    let areplOnHighlightedCode = vscode.commands.registerCommand('extension.newAREPLSessionOnHighlightedCode', ()=>{
+        Utilities.newUnsavedPythonDoc(Utilities.getHighlightedText())
+            .then(createPreviewDoc.bind(this, context));
     });
 
     // push to subscriptions list so that they are disposed automatically
-    context.subscriptions.push(disposableSidePreview);
-    context.subscriptions.push(newAREPLSession);
+    context.subscriptions.push(arepl);
+    context.subscriptions.push(newAreplSession);
 }
 
 export function createPreviewDoc(context: vscode.ExtensionContext) {

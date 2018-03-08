@@ -13,7 +13,8 @@
   ],
   "activationEvents": [
     "onCommand:extension.evalPythonInRealTime",
-    "onCommand:extension.newAREPLSession"
+    "onCommand:extension.newAREPLSession",
+    "onCommand:extension.newAREPLSessionOnHighlightedCode"
   ],
   "main": "./out/src/extension",
   "contributes": {
@@ -69,6 +70,11 @@
       {
         "command": "extension.newAREPLSession",
         "title": "eval python in real time (new doc)",
+        "category": "AREPL"
+      },
+      {
+        "command": "extension.newAREPLSessionOnHighlightedCode",
+        "title": "open highlighted code in new AREPL session",
         "category": "AREPL"
       }
     ],

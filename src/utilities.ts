@@ -26,4 +26,22 @@ export default class Utilities {
             return Utilities.entityMap[s];
         });
     }
+
+    static async newUnsavedPythonDoc(content=""){
+        const pyDoc = await vscode.workspace.openTextDocument({
+            content: content,
+            language: 'python'
+        });
+    
+        return await vscode.window.showTextDocument(pyDoc);
+    }
+
+    /**
+     * gets first highlighted text of active doc
+     * if no highlight returns empty string
+    */
+   static getHighlightedText(){
+        let editor = vscode.window.activeTextEditor;
+        return editor.document.getText(editor.selection)
+    }
 }
