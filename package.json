@@ -12,7 +12,8 @@
     "Debuggers"
   ],
   "activationEvents": [
-    "onCommand:extension.evalPythonInRealTime"
+    "onCommand:extension.evalPythonInRealTime",
+    "onCommand:extension.newAREPLSession"
   ],
   "main": "./out/src/extension",
   "contributes": {
@@ -62,7 +63,12 @@
     "commands": [
       {
         "command": "extension.evalPythonInRealTime",
-        "title": "eval python in real time",
+        "title": "eval python in real time (current doc)",
+        "category": "AREPL"
+      },
+      {
+        "command": "extension.newAREPLSession",
+        "title": "eval python in real time (new doc)",
         "category": "AREPL"
       }
     ],
@@ -72,6 +78,12 @@
         "key": "ctrl+shift+a",
         "mac": "cmd+shift+a",
         "when": "!terminalFocus"
+      },
+      {
+        "command": "extension.newAREPLSession",
+        "key": "ctrl+shift+q",
+        "mac": "cmd+shift+q",
+        "when": "!inQuickOpen && !terminalFocus"
       }
     ]
   },
