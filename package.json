@@ -53,6 +53,12 @@
           "default": 70,
           "description": "strings over X characters are truncated with an option to expand"
         },
+        "AREPL.printResultPlacement": {
+          "type": "string",
+          "enum":["top","bottom"],
+          "enumDescriptions":["print results appear on top", "print results appear on bottom"],
+          "default": "bottom"
+        },
         "AREPL.pythonPath": {
           "type": "string",
           "default": null,

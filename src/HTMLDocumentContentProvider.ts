@@ -52,6 +52,8 @@ export default class HtmlDocumentContentProvider implements vscode.TextDocumentC
 
     public updateContent(){
 
+        let printPlacement = this.settings.get<string>("printResultPlacement")
+
         // todo: handle different themes.  check body class: https://code.visualstudio.com/updates/June_2016
         this.html = `<head>
             ${this.css}
@@ -60,8 +62,7 @@ export default class HtmlDocumentContentProvider implements vscode.TextDocumentC
         </head>
         <body>
             ${this.errorContainer}
-            <div id="results"></div>
-            ${this.printContainer}
+            ${printPlacement == "bottom" ? '<div id="results"></div>'+this.printContainer : this.printContainer+'<div id="results"></div>'}
             ${this.timeContainer}
         </body>`
 
