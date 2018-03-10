@@ -53,6 +53,10 @@ export default class PreviewManager {
         // doc stuff
         /////////////////////////////////////////////////////////
 
+        if(settings.get<boolean>("skipLandingPage")){
+            this.onUserInput(this.pythonEditor.getText())
+        }
+
         let subscriptions: vscode.Disposable[] = [];
 
         if(settings.get<string>('whenToExecute').toLowerCase() == "onsave"){

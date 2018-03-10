@@ -22,6 +22,10 @@
       "type": "object",
       "title": "AREPL configuration",
       "properties": {
+        "AREPL.skipLandingPage": {
+          "type": "boolean",
+          "default": false
+        },
         "AREPL.delay": {
           "type": "number",
           "default": 300,
