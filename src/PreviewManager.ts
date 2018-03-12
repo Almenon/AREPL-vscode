@@ -3,6 +3,7 @@ import * as vscode from 'vscode'
 import HtmlDocumentContentProvider from './HTMLDocumentContentProvider'
 import pyGuiLibraryIsPresent from './pyGuiLibraryIsPresent'
 import {PythonEvaluator} from 'arepl-backend'
+import {buffer} from './buffer'
 
 // This class initializes the previewmanager based on extension type and manages all the subscriptions
 export default class PreviewManager {
@@ -14,6 +15,7 @@ export default class PreviewManager {
     pythonEvaluator: PythonEvaluator;
     restartedLastTime = false;
     status: vscode.StatusBarItem;
+    bufferedPrint:buffer
 
     constructor(context: vscode.ExtensionContext) {
 
@@ -31,6 +33,8 @@ export default class PreviewManager {
         /////////////////////////////////////////////////////////
         //		python
         /////////////////////////////////////////////////////////
+        this.bufferedPrint = new buffer(this.pythonPreviewContentProvider.handlePrint, this.pythonPreviewContentProvider, 50, '\n')
+
         let pythonPath = settings.get<string>('pythonPath')
         let pythonOptions = settings.get<string[]>('pythonOptions')
 
@@ -46,7 +50,7 @@ export default class PreviewManager {
         })
 
         // binding this to the class so it doesn't get overwritten by PythonEvaluator
-        this.pythonEvaluator.onPrint =  this.pythonPreviewContentProvider.handlePrint.bind(this.pythonPreviewContentProvider)
+        this.pythonEvaluator.onPrint =  this.bufferedPrint.call.bind(this.bufferedPrint)
         this.pythonEvaluator.onResult = this.handleResult.bind(this)
 
         /////////////////////////////////////////////////////////
@@ -153,8 +157,10 @@ export default class PreviewManager {
     }
 
     private handleResult(pythonResults: {ERROR:string, userVariables:Object, execTime:number, totalPyTime:number, totalTime:number}){
-        this.status.hide()
+        this.status.text = "rendering results"
+        this.bufferedPrint.flushBuffer(false) //no need to refresh when we will handle result soon
         this.pythonPreviewContentProvider.handleResult(pythonResults)
+        this.status.hide()
     }
 
     private restartPython(data){

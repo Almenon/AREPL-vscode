@@ -134,7 +134,7 @@ export default class HtmlDocumentContentProvider implements vscode.TextDocumentC
         if(refresh) this.updateContent()
     }
 
-    public handlePrint(pythonResults:string){
+    public handlePrint(pythonResults:string, refresh=true){
 		this.printResults.push(pythonResults);
         let printResults = this.printResults.join('\n')
 
@@ -142,7 +142,7 @@ export default class HtmlDocumentContentProvider implements vscode.TextDocumentC
         printResults = Utilities.escapeHtml(printResults);
 
         this.printContainer = `<br><b>Print Output:</b><div id="print">${printResults}</div>`
-        this.updateContent();
+        if(refresh) this.updateContent();
     }
 
     public handleSpawnError(pythonCommand:string, pythonPath:string, err:string){
