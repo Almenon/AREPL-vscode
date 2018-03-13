@@ -38,10 +38,11 @@ export default class Utilities {
 
     /**
      * gets first highlighted text of active doc
-     * if no highlight returns empty string
+     * if no highlight or no active editor returns empty string
     */
    static getHighlightedText(){
         let editor = vscode.window.activeTextEditor;
+        if(!editor) return ""
         return editor.document.getText(editor.selection)
     }
 }
