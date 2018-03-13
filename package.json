@@ -2,7 +2,7 @@
   "name": "arepl",
   "displayName": "AREPL",
   "description": "evalutes python code in real-time",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "publisher": "almenon",
   "engines": {
     "vscode": "^1.14.0"
@@ -38,8 +38,14 @@
         },
         "AREPL.whenToExecute": {
           "type": "string",
-          "enum":["afterDelay","onSave"],
-          "enumDescriptions":["execute python after a delay", "execute python on save"],
+          "enum": [
+            "afterDelay",
+            "onSave"
+          ],
+          "enumDescriptions": [
+            "execute python after a delay",
+            "execute python on save"
+          ],
           "default": "afterDelay",
           "description": "afterDelay: execute python after delay. onSave: execute python on save"
         },
@@ -55,8 +61,14 @@
         },
         "AREPL.printResultPlacement": {
           "type": "string",
-          "enum":["top","bottom"],
-          "enumDescriptions":["print results appear on top", "print results appear on bottom"],
+          "enum": [
+            "top",
+            "bottom"
+          ],
+          "enumDescriptions": [
+            "print results appear on top",
+            "print results appear on bottom"
+          ],
           "default": "bottom"
         },
         "AREPL.pythonPath": {
@@ -66,7 +78,9 @@
         },
         "AREPL.pythonOptions": {
           "type": "array",
-          "default": ["-u"],
+          "default": [
+            "-u"
+          ],
           "description": "default -u to see prints in real-time. See https://docs.python.org/3/using/cmdline.html#miscellaneous-options for other options. Changing this setting not reccomended"
         }
       }
