@@ -26,6 +26,10 @@
           "type": "boolean",
           "default": false
         },
+        "AREPL.showFooter": {
+          "type": "boolean",
+          "default": true
+        },
         "AREPL.delay": {
           "type": "number",
           "default": 300,

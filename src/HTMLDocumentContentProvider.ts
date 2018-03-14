@@ -11,10 +11,22 @@ export default class HtmlDocumentContentProvider implements vscode.TextDocumentC
     printResults: string[] = [];
     lastTime:number = 999999999;
 
+    public html;
     private _onDidChange: vscode.EventEmitter<vscode.Uri>;
-    public html = `<p>Start typing or make a change and your code will be evaluated.</p>
-                   <br>
-                   <p>⚠ WARNING: code is evaluated WHILE YOU TYPE - don't mess around with your file system! ⚠</p>`;
+    private readonly landingPage = `
+        <p>Start typing or make a change and your code will be evaluated.</p>
+        <br>
+        <p>⚠ WARNING: code is evaluated WHILE YOU TYPE - don't mess around with your file system! ⚠</p>`;
+    private readonly footer = `<br><br>
+        <div id="footer">
+        <p style="margin:0px;">
+            report an <a href="https://github.com/almenon/arepl-vscode/issues">issue</a>  |
+            ⭐ <a href="https://marketplace.visualstudio.com/items?itemName=almenon.arepl#review-details">rate me</a> ⭐ |
+            talk on <a href="https://gitter.im/arepl/lobby">gitter</a> |
+                <a href="https://twitter.com/intent/tweet?button_hashtag=arepl" id="twitterButton">
+                    <i id="twitterIcon"></i>Tweet #arepl</a>
+        </p>
+        </div>`
     static readonly scheme = "pythonPreview"
     static readonly PREVIEW_URI = HtmlDocumentContentProvider.scheme + "://authority/preview"
 
@@ -31,6 +43,7 @@ export default class HtmlDocumentContentProvider implements vscode.TextDocumentC
         this.css = `<link rel="stylesheet" type="text/css" href="${this.getMediaPath("pythonPreview.css")}">`
         this.jsonRendererScript = `<script src="${this.getMediaPath('jsonRenderer.js')}"></script>`
         this.settings = vscode.workspace.getConfiguration('AREPL');
+        this.html = this.landingPage;
     }
 
     provideTextDocumentContent(uri: vscode.Uri): string {
@@ -53,6 +66,7 @@ export default class HtmlDocumentContentProvider implements vscode.TextDocumentC
     public updateContent(){
 
         let printPlacement = this.settings.get<string>("printResultPlacement")
+        let showFooter = this.settings.get<boolean>("showFooter")
 
         // todo: handle different themes.  check body class: https://code.visualstudio.com/updates/June_2016
         this.html = `<head>
@@ -64,6 +78,7 @@ export default class HtmlDocumentContentProvider implements vscode.TextDocumentC
             ${this.errorContainer}
             ${printPlacement == "bottom" ? '<div id="results"></div>'+this.printContainer : this.printContainer+'<div id="results"></div>'}
             ${this.timeContainer}
+            ${showFooter ? this.footer : ""}
         </body>`
 
         // issue #1: need to make sure html is new each time or wierd crap happens
@@ -120,7 +135,7 @@ export default class HtmlDocumentContentProvider implements vscode.TextDocumentC
 
         this.lastTime = time;
 
-        this.timeContainer = `<p style="position:fixed;left:90%;top:94%;color:${color};">${time} ms</p>`;
+        this.timeContainer = `<p style="position:fixed;left:90%;top:90%;color:${color};">${time} ms</p>`;
     }
 
     /**
