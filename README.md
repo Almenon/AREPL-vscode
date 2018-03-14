@@ -16,27 +16,23 @@ Open a python file and run AREPL through the command search
 
 or use a shortcut: control-shift-a / command-shift-a
 
-#### Settings:
+#### Features
 
-AREPL offers the following customizable settings:
+* Real-time evaluation: no need to run - AREPL evaluates your code automatically. You can control this (or even turn it off) in the settings
 
-> "AREPL.delay": 300,
+* Variable display: The final state of your local variables are displayed in a collapsible JSON format
 
-delay in milliseconds before executing code after typing
+* Error display: The instant you make a mistake an error with stack trace is shown
 
-> "AREPL.max_string_length": 70,
+* Settings: AREPL offers many settings to fit your user experience.  Customize the look and feel, debounce time, python options, and more!
 
-strings over X characters are truncated with an option to expand
+#### Misc
 
-> "AREPL.restartDelay": 300,
+Using AREPL with venv: set the AREPL.pythonPath setting to reference the location of your venv python
 
-extra delay when programming with a GUI (like turtle).  Added onto delay.
+Linux is not supported yet but support should be coming soon :)
 
-> "AREPL.show_to_level": 2
-
-2 shows x=1 and x=[1,2], provides option to expand deeply nested data like x=[[1]]
-
-#### Deveveloper Setup:
+#### Deveveloper Setup
 
 1. Install VSCode, python 3 and npm (if not already installed)
 2. clone this repository
