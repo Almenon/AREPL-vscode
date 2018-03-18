@@ -1,3 +1,7 @@
+# v7
+
+Fixing case issue causing error in linux systems
+
 # v6
 
 see https://github.com/Almenon/AREPL-vscode/milestone/6?closed=1
