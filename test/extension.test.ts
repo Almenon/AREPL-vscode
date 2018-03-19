@@ -19,6 +19,18 @@ suite("Extension Tests", () => {
     // very odd problem with my tests where if the assert fails done is never reached and it times out
     // todo: fix that crap
 
+    test("command activates", (done) => {
+        vscode.commands.executeCommand('extension.newAREPLSession').then(()=>{
+            // what we SHOULD be doing here is getting a promise from the command 
+            // and asserting once the promise is resolved
+            // but despite returning a promise it comes in as undefined... ugggg
+            // assert.equal(vscode.window.activeTextEditor, true, "command failed to create new file")
+            done()
+        }, (reason)=>{
+            assert.fail("failure executing command! reason: " + reason);
+        })
+    });
+
     test("print", (done) => {
         let doc = new HTMLDocumentContentProvider(mockContext);
         doc.onDidChange((x)=>{
