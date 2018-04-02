@@ -30,8 +30,6 @@ or use a shortcut: control-shift-a / command-shift-a
 
 Using AREPL with venv: set the AREPL.pythonPath setting to reference the location of your venv python
 
-Linux is not supported yet but support should be coming soon :)
-
 #### Deveveloper Setup
 
 1. Install VSCode, python 3 and npm (if not already installed)
