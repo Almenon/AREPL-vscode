@@ -2,17 +2,24 @@
 import * as vscode from 'vscode'
 import * as path from "path";
 import Utilities from './utilities'
+import {limit} from './throttle'
 
 /**
  * very simple read-only html content
  * https://code.visualstudio.com/docs/extensionAPI/vscode-api#_a-nametextdocumentcontentprovider
  */
 export default class HtmlDocumentContentProvider implements vscode.TextDocumentContentProvider {
-    printResults: string[] = [];
-    lastTime:number = 999999999;
+    
+    public throttledUpdate:()=>void
+    public printResults: string[] = [];
 
-    public html;
     private _onDidChange: vscode.EventEmitter<vscode.Uri>;
+    private settings:vscode.WorkspaceConfiguration;
+    static readonly scheme = "pythonPreview"
+    static readonly PREVIEW_URI = HtmlDocumentContentProvider.scheme + "://authority/preview"
+    private lastTime:number = 999999999;
+
+    private html;
     private readonly landingPage = `
         <p>Start typing or make a change and your code will be evaluated.</p>
         <br>
@@ -27,16 +34,14 @@ export default class HtmlDocumentContentProvider implements vscode.TextDocumentC
                     <i id="twitterIcon"></i>Tweet #arepl</a>
         </p>
         </div>`
-    static readonly scheme = "pythonPreview"
-    static readonly PREVIEW_URI = HtmlDocumentContentProvider.scheme + "://authority/preview"
 
-    css:string
-    jsonRendererScript: string;
-    errorContainer = ''
-    jsonRendererCode = `<div id="results"></div>`;
-    printContainer = `<br><b>Print Output:</b><div id="print"></div>`;
-    timeContainer = ''
-    settings:vscode.WorkspaceConfiguration;
+    private css:string
+    private jsonRendererScript: string;
+    private errorContainer = ''
+    private jsonRendererCode = `<div id="results"></div>`;
+    private emptyPrint = `<br><b>Print Output:</b><div id="print"></div>`
+    private printContainer = this.emptyPrint;
+    private timeContainer = ''
 
     constructor(private context: vscode.ExtensionContext) {
         this._onDidChange = new vscode.EventEmitter<vscode.Uri>();
@@ -44,13 +49,17 @@ export default class HtmlDocumentContentProvider implements vscode.TextDocumentC
         this.jsonRendererScript = `<script src="${this.getMediaPath('jsonRenderer.js')}"></script>`
         this.settings = vscode.workspace.getConfiguration('AREPL');
         this.html = this.landingPage;
+
+        // refreshing html too much can freeze vscode... lets avoid that
+        let l = new limit()
+        this.throttledUpdate = l.throttledUpdate(this.updateContent, 50)
     }
 
     provideTextDocumentContent(uri: vscode.Uri): string {
         return this.html;
     };
 
-    public update() {
+    private update() {
         this._onDidChange.fire(vscode.Uri.parse(HtmlDocumentContentProvider.PREVIEW_URI));
     }
 
@@ -63,7 +72,7 @@ export default class HtmlDocumentContentProvider implements vscode.TextDocumentC
 		return vscode.Uri.file(this.context.asAbsolutePath(path.join('media', mediaFile))).toString();
 	}
 
-    public updateContent(){
+    private updateContent(){
 
         let printPlacement = this.settings.get<string>("printResultPlacement")
         let showFooter = this.settings.get<boolean>("showFooter")
@@ -101,11 +110,12 @@ export default class HtmlDocumentContentProvider implements vscode.TextDocumentC
             this.updateVars(pythonResults.userVariables)
         }
 
+        if(this.printResults.length == 0){this.printContainer = this.emptyPrint}
+
         this.updateError(pythonResults.ERROR, true)
         
         //clear print so empty for next program run
         this.printResults = [];
-        this.printContainer = `<br><b>Print Output:</b><div></div>`
     }
 
     private updateVars(vars: Object){
@@ -146,7 +156,7 @@ export default class HtmlDocumentContentProvider implements vscode.TextDocumentC
         err = Utilities.escapeHtml(err)
         this.errorContainer = `<div id="error">${err}</div>`
 
-        if(refresh) this.updateContent()
+        if(refresh) this.throttledUpdate()
     }
 
     public handlePrint(pythonResults:string){
@@ -157,7 +167,7 @@ export default class HtmlDocumentContentProvider implements vscode.TextDocumentC
         printResults = Utilities.escapeHtml(printResults);
 
         this.printContainer = `<br><b>Print Output:</b><div id="print">${printResults}</div>`
-        this.updateContent();
+        this.throttledUpdate();
     }
 
     public handleSpawnError(pythonCommand:string, pythonPath:string, err:string){
@@ -165,6 +175,6 @@ export default class HtmlDocumentContentProvider implements vscode.TextDocumentC
         if (err.includes("ENOENT")) errMsg = errMsg + "\n\nAre you sure you have installed python 3 and it is in your PATH?"
 
         this.updateError(errMsg)
-        this.updateContent()
+        this.throttledUpdate()
     }
 }
