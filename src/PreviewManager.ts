@@ -3,10 +3,12 @@ import * as vscode from 'vscode'
 import HtmlDocumentContentProvider from './HTMLDocumentContentProvider'
 import pyGuiLibraryIsPresent from './pyGuiLibraryIsPresent'
 import {PythonEvaluator} from 'arepl-backend'
+import Reporter from './telemetry'
 
 // This class initializes the previewmanager based on extension type and manages all the subscriptions
 export default class PreviewManager {
 
+    reporter: Reporter;
     restartMode: boolean;
     pythonPreviewContentProvider: HtmlDocumentContentProvider;
     disposable: vscode.Disposable;
@@ -14,13 +16,14 @@ export default class PreviewManager {
     pythonEvaluator: PythonEvaluator;
     restartedLastTime = false;
     status: vscode.StatusBarItem;
+    settings:vscode.WorkspaceConfiguration;
 
     constructor(context: vscode.ExtensionContext) {
 
-        const settings = vscode.workspace.getConfiguration('AREPL');
-
+        this.settings = vscode.workspace.getConfiguration('AREPL');
         this.pythonPreviewContentProvider = new HtmlDocumentContentProvider(context);
         this.pythonEditor = vscode.window.activeTextEditor.document;
+        this.reporter = new Reporter(this.settings.get<boolean>('telemetry'))
         this.status = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left, 100);
         this.status.text = "Running python..."
         this.status.tooltip = "AREPL is currently running your python file.  Close the AREPL preview to stop"
@@ -31,18 +34,19 @@ export default class PreviewManager {
         /////////////////////////////////////////////////////////
         //		python
         /////////////////////////////////////////////////////////
-        let pythonPath = settings.get<string>('pythonPath')
-        let pythonOptions = settings.get<string[]>('pythonOptions')
+        let pythonPath = this.settings.get<string>('pythonPath')
+        let pythonOptions = this.settings.get<string[]>('pythonOptions')
 
         this.pythonEvaluator = new PythonEvaluator(pythonPath, pythonOptions)
 
-        let debounce = settings.get<number>('delay');
-        let restartExtraDebounce = settings.get<number>('restartDelay');
+        let debounce = this.settings.get<number>('delay');
+        let restartExtraDebounce = this.settings.get<number>('restartDelay');
         
         this.pythonEvaluator.startPython()
         this.pythonEvaluator.pyshell.childProcess.on('error', err => {
             let error:any = err; //typescript complains about type for some reason so defining to any
             this.pythonPreviewContentProvider.handleSpawnError(error.path, error.spawnargs[0], error.stack);
+            this.reporter.sendError("error starting python: " + error.path)
         })
 
         // binding this to the class so it doesn't get overwritten by PythonEvaluator
@@ -53,13 +57,13 @@ export default class PreviewManager {
         // doc stuff
         /////////////////////////////////////////////////////////
 
-        if(settings.get<boolean>("skipLandingPage")){
+        if(this.settings.get<boolean>("skipLandingPage")){
             this.onUserInput(this.pythonEditor.getText())
         }
 
         let subscriptions: vscode.Disposable[] = [];
 
-        if(settings.get<string>('whenToExecute').toLowerCase() == "onsave"){
+        if(this.settings.get<string>('whenToExecute').toLowerCase() == "onsave"){
             vscode.workspace.onDidSaveTextDocument((e)=>{
                 this.onAnyDocChange(e)
             }, this, subscriptions)
@@ -100,6 +104,8 @@ export default class PreviewManager {
         }
         this.disposable.dispose();
         this.status.dispose();
+        this.reporter.sendFinishedEvent(this.settings)
+        this.reporter.dispose();
     }
 
     private onAnyDocChange(event: vscode.TextDocument){
@@ -155,6 +161,9 @@ export default class PreviewManager {
     private handleResult(pythonResults: {ERROR:string, userVariables:Object, execTime:number, totalPyTime:number, totalTime:number}){
         this.status.hide()
         this.pythonPreviewContentProvider.handleResult(pythonResults)
+        if(pythonResults.ERROR.startsWith("Sorry, AREPL has ran into an error")){
+            this.reporter.sendError(pythonResults.ERROR)
+        }
     }
 
     private restartPython(data){

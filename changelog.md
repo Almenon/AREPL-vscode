@@ -1,3 +1,12 @@
+## v9
+
+Added telemetry (see #50).
+This is optional and can be turned off in the settings.
+
+Having this turned on helps me analyze how many users I have, what settings are useful to them, and how frequently they use AREPL.
+
+It also reports internal errors with AREPL backend to help diagnose bugs.
+
 ## v8
 
 Fixed too many prints slowing or freezing the preview.  See [#37](https://github.com/Almenon/AREPL-vscode/issues/37)

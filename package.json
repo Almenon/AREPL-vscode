@@ -86,6 +86,11 @@
             "-u"
           ],
           "description": "default -u to see prints in real-time. See https://docs.python.org/3/using/cmdline.html#miscellaneous-options for other options. Changing this setting not reccomended"
+        },
+        "AREPL.telemetry": {
+          "type": "boolean",
+          "default": true,
+          "description": "Whether to report useful anonymous data back to developer."
         }
       }
     },
@@ -137,7 +142,8 @@
   "dependencies": {
     "arepl-backend": "^1.0.0-beta.1",
     "opn": "^5.2.0",
-    "path": "^0.12.7"
+    "path": "^0.12.7",
+    "vscode-extension-telemetry": "0.0.15"
   },
   "bugs": {
     "url": "https://github.com/almenon/arepl-vscode-wordcount/issues",
