@@ -140,7 +140,7 @@
     "vscode": "^1.1.10"
   },
   "dependencies": {
-    "arepl-backend": "^1.0.0-beta.1",
+    "arepl-backend": "^1.0.0-beta.2",
     "opn": "^5.2.0",
     "path": "^0.12.7",
     "vscode-extension-telemetry": "0.0.15"
