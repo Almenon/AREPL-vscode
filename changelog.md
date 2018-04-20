@@ -1,11 +1,15 @@
-## v9
+## [v9](https://github.com/Almenon/AREPL-vscode/milestone/9?closed=1)
 
-Added telemetry (see #50).
+### Added:
+Added telemetry (see [#50](https://github.com/Almenon/AREPL-vscode/issues/51)).
 This is optional and can be turned off in the settings.
 
-Having this turned on helps me analyze how many users I have, what settings are useful to them, and how frequently they use AREPL.
+Having this turned on helps me analyze how many users I have, what settings are useful to them, and how frequently they use AREPL. It also reports internal errors with AREPL backend to help diagnose bugs.
 
-It also reports internal errors with AREPL backend to help diagnose bugs.
+### Fixed:
+Exception stacktrace used to include internal AREPL stacktrace - now the stacktrace only shows info relative to your code (see [#51](https://github.com/Almenon/AREPL-vscode/issues/51))
+
+---
 
 ## v8
 
