@@ -26,9 +26,60 @@ or use a shortcut: control-shift-a / command-shift-a
 
 * Settings: AREPL offers many settings to fit your user experience.  Customize the look and feel, debounce time, python options, and more!
 
+
 #### Misc
 
-Using AREPL with venv: set the AREPL.pythonPath setting to reference the location of your venv python
+**#$save**
+
+If you want to avoid a section of code being executed in real-time (due to it being slow or calling external resources) you can use \#\$save.  For example:
+
+```
+def largest_prime_factor(n):
+    i = 2
+    while i * i <= n:
+        if n % i:
+            i += 1
+        else:
+            n //= i
+    return n
+
+# this takes a looonnggg time to execute
+result = largest_prime_factor(8008514751439999)
+
+#$save
+print("but now that i saved i am back to real-time execution")
+```
+```
+import random
+x = random.random()
+#$save
+print(x) # this number will not change when editing below the #$save line
+```
+
+Please note that \#\$save [does not work](https://github.com/Almenon/AREPL-vscode/issues/53) with certain types, like generators.  If #$save fails in pickling the code state [file an issue](https://github.com/Almenon/AREPL-vscode/issues) so I can look into it.
+
+**GUIS**
+
+You can use arepl for working with gui's like turtle or many others.  Each time you edit the code the gui restarts, so to make it less annoying the typing debounce is automatically increased for a longer delay before execution. Or you can switch to execute on save.  I also suggest coding it so the gui appears on the side (not blocking your view of your code), like so:
+
+```
+import turtle
+
+turtle.setup(width=500, height=500, startx=-1, starty=0)
+
+turtle.forward(100)
+turtle.left(90)
+```
+
+**VENV**
+
+to use you arpel with VENV you can set the AREPL.pythonPath setting to reference the location of your venv python
+
+**Variable Representation**
+
+I have [overridden the display](https://github.com/Almenon/AREPL-backend/blob/master/python/customHandlers.py) of some types (like datetime) to be more readable to humans.
+
+If you want a type to be displayed in a particular manner just [file an issue](https://github.com/Almenon/AREPL-vscode/issues)
 
 #### Deveveloper Setup
 
