@@ -162,7 +162,7 @@ var module, window, define, renderjson=(function() {
             for (var i in keys) {
                 var k = keys[i];
                 if (!(k in json)) continue;
-                append(os, themetext(null, indent+"    ", "key", '"'+k+'"', "object syntax", ': '),
+                append(os, themetext(null, indent+"    ", "key", k, "object syntax", ': '),
                         _renderjson(options.replacer.call(json, k, json[k]), indent+"    ", true, show_level-1, options),
                         k != last ? themetext("syntax", ",") : [],
                         text("\n"));
