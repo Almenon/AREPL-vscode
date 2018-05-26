@@ -21,9 +21,52 @@ export default class HtmlDocumentContentProvider implements vscode.TextDocumentC
 
     private html;
     private readonly landingPage = `
-        <p>Start typing or make a change and your code will be evaluated.</p>
-        <br>
-        <p>⚠ WARNING: code is evaluated WHILE YOU TYPE - don't mess around with your file system! ⚠</p>`;
+    <br>
+    <p style="font-size:14px">Start typing or make a change and your code will be evaluated.</p>
+    
+    <p style="font-size:14px">⚠ <b style="color:red">WARNING:</b> code is evaluated WHILE YOU TYPE - don't mess around with your file system! ⚠</p>
+    <p>evaluation while you type can be turned off or adjusted in the settings</p>
+    <br>
+    <h3>New Features with version 1.0!</h3>
+    <li>Improved Landing Page</li>
+    <li>Better-looking variable display</li>
+    <br>
+    
+    <h3>Examples</h3>
+    
+    <h4>Simple List</h4>
+    <code style="white-space:pre-wrap">
+    x = [1,2,3]
+    y = [num*2 for num in x]
+    print(y)
+    </code>
+    
+    <h4>Turtle</h4>
+    <code style="white-space:pre-wrap">
+    import turtle
+    
+    # window in right hand side of screen
+    turtle.setup(500,500,-1,0)
+    
+    turtle.forward(100)
+    turtle.left(90)
+    </code>
+    
+    <h4>Web call</h4>
+    <code style="white-space:pre-wrap">
+    import requests
+    import datetime as dt
+    
+    r = requests.get("https://api.github.com")
+    
+    #$save
+    # #$save saves state so request is not re-executed when modifying below
+    
+    now = dt.datetime.now()
+    if r.status_code == 200:
+        print("API up at " + str(now))
+    
+    </code>`;
     private readonly footer = `<br><br>
         <div id="footer">
         <p style="margin:0px;">
