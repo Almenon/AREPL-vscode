@@ -6,3 +6,4 @@ npm-debug.log
 .vscode-test
 desktop.ini
 myenv
+.vscode/.ropeproject/config.py

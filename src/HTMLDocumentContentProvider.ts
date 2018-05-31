@@ -139,7 +139,7 @@ export default class HtmlDocumentContentProvider implements vscode.TextDocumentC
         this.update();  
     }
 
-    public handleResult(pythonResults: {ERROR:string, userVariables:Object, execTime:number, totalPyTime:number, totalTime:number}){
+    public handleResult(pythonResults: {userError:string, userVariables:Object, execTime:number, totalPyTime:number, totalTime:number, internalError:string, caller: string, linenno:number, done: boolean}){
         console.log(pythonResults.execTime)
         console.log(pythonResults.totalPyTime)
         console.log(pythonResults.totalTime)
@@ -149,13 +149,13 @@ export default class HtmlDocumentContentProvider implements vscode.TextDocumentC
 
         // if no Vars & an error exists then it must be a syntax exception
         // in which case we skip updating because no need to clear out variables
-        if(!Utilities.isEmpty(pythonResults.userVariables) || pythonResults.ERROR == ""){
+        if(!Utilities.isEmpty(pythonResults.userVariables) || pythonResults.userError == ""){
             this.updateVars(pythonResults.userVariables)
         }
 
         if(this.printResults.length == 0){this.printContainer = this.emptyPrint}
 
-        this.updateError(pythonResults.ERROR, true)
+        this.updateError(pythonResults.userError, true)
         
         //clear print so empty for next program run
         this.printResults = [];

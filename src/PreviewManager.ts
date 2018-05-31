@@ -58,7 +58,7 @@ export default class PreviewManager {
         /////////////////////////////////////////////////////////
 
         if(this.settings.get<boolean>("skipLandingPage")){
-            this.onUserInput(this.pythonEditor.getText())
+            this.onAnyDocChange(this.pythonEditor);
         }
 
         let subscriptions: vscode.Disposable[] = [];
@@ -111,11 +111,12 @@ export default class PreviewManager {
     private onAnyDocChange(event: vscode.TextDocument){
         if(event == this.pythonEditor){
             let text = event.getText()
-            this.onUserInput(text)
+            let filePath = this.pythonEditor.isUntitled ? "" : this.pythonEditor.fileName
+            this.onUserInput(text, filePath)
         }        
     }
 
-    private onUserInput(text: string) {
+    private onUserInput(text: string, filePath:string) {
             let codeLines = text.split('\n')
             let savedLines:string[] = []
 
@@ -130,7 +131,8 @@ export default class PreviewManager {
         
             let data = {
                 savedCode: savedLines.join('\n'),
-                evalCode: codeLines.join('\n')
+                evalCode: codeLines.join('\n'),
+                filePath: filePath
             }
 
             this.restartMode = pyGuiLibraryIsPresent(text)
@@ -146,7 +148,7 @@ export default class PreviewManager {
                     this.restartedLastTime = true
                 })
                 .catch((error)=>{
-                    this.pythonPreviewContentProvider.handleResult({'userVariables':{},'ERROR':error, execTime: 0, totalPyTime: 0, totalTime: 0})
+                    this.pythonPreviewContentProvider.handleResult({'userVariables':{},'userError':error, execTime: 0, totalPyTime: 0, totalTime: 0, internalError: "", caller: "", linenno: -1, done:true})
                 })
             }
             else if(this.restartedLastTime){ //if GUI code is gone need one last restart to get rid of GUI
@@ -158,11 +160,11 @@ export default class PreviewManager {
             }
     }
 
-    private handleResult(pythonResults: {ERROR:string, userVariables:Object, execTime:number, totalPyTime:number, totalTime:number}){
+    private handleResult(pythonResults: {userError:string, userVariables:Object, execTime:number, totalPyTime:number, totalTime:number, internalError:string, caller: string, linenno:number, done: boolean}){
         this.status.hide()
         this.pythonPreviewContentProvider.handleResult(pythonResults)
-        if(pythonResults.ERROR.startsWith("Sorry, AREPL has ran into an error")){
-            this.reporter.sendError(pythonResults.ERROR)
+        if(pythonResults.userError.startsWith("Sorry, AREPL has ran into an error")){
+            this.reporter.sendError(pythonResults.userError)
         }
     }
 
