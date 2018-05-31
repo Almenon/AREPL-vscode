@@ -30,6 +30,7 @@ export default class HtmlDocumentContentProvider implements vscode.TextDocumentC
     <h3>New Features with version 1.0!</h3>
     <li>Improved Landing Page</li>
     <li>Better-looking variable display</li>
+    <li>Bugfix: Relative imports now work!</li>
     <br>
     
     <h3>Examples</h3>

@@ -1,3 +1,17 @@
+## [v1.0](https://github.com/Almenon/AREPL-vscode/milestone/10?closed=1)
+
+### Added:
+Changelog in landing page (see [#58](https://github.com/Almenon/AREPL-vscode/issues/58))
+
+Better landing page with examples (see [#32](https://github.com/Almenon/AREPL-vscode/issues/32))
+
+Better display of variables (see [#63](https://github.com/Almenon/AREPL-vscode/issues/63))
+
+### Fixed:
+Relative imports not working (see [#69](https://github.com/Almenon/AREPL-vscode/issues/69))
+
+---
+
 ## [v9](https://github.com/Almenon/AREPL-vscode/milestone/9?closed=1)
 
 ### Added:
