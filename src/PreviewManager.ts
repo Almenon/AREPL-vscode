@@ -4,6 +4,7 @@ import HtmlDocumentContentProvider from './HTMLDocumentContentProvider'
 import pyGuiLibraryIsPresent from './pyGuiLibraryIsPresent'
 import {PythonEvaluator} from 'arepl-backend'
 import Reporter from './telemetry'
+import {EOL} from 'os'
 
 // This class initializes the previewmanager based on extension type and manages all the subscriptions
 export default class PreviewManager {
@@ -57,6 +58,10 @@ export default class PreviewManager {
         // doc stuff
         /////////////////////////////////////////////////////////
 
+        if(this.pythonEditor.isUntitled && this.pythonEditor.getText() == ""){
+            this.insertDefaultImports(vscode.window.activeTextEditor)
+        }
+
         if(this.settings.get<boolean>("skipLandingPage")){
             this.onAnyDocChange(this.pythonEditor);
         }
@@ -96,6 +101,26 @@ export default class PreviewManager {
         }, this, subscriptions)
         
         this.disposable = vscode.Disposable.from(...subscriptions);
+    }
+
+    private insertDefaultImports(editor: vscode.TextEditor){
+        editor.edit((editBuilder)=>{
+            let imports = this.settings.get<string[]>("defaultImports")
+
+            imports = imports.map((i)=>{
+                let words = i.split(' ')
+
+                // python import syntax: "import library" or "from library import method"
+                // so if user didnt specify import we will do that for them :)
+                if(words[0] != "import" && words[0] != "from" && words[0].length > 0){
+                    i = "import " + i
+                }
+
+                return i
+            })
+
+            editBuilder.insert(new vscode.Position(0,0), imports.join(EOL) + EOL)
+        })
     }
 
     dispose() {

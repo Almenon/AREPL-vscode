@@ -87,6 +87,13 @@
           ],
           "description": "default -u to see prints in real-time. See https://docs.python.org/3/using/cmdline.html#miscellaneous-options for other options. Changing this setting not reccomended"
         },
+        "AREPL.defaultImports": {
+          "type": "array",
+          "default": [
+            ""
+          ],
+          "description": "default imports for new AREPL sessions. ex: import json"
+        },
         "AREPL.telemetry": {
           "type": "boolean",
           "default": true,
