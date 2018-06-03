@@ -31,8 +31,15 @@ export default class PreviewManager {
         vscode.workspace.registerTextDocumentContentProvider(HtmlDocumentContentProvider.scheme, this.pythonPreviewContentProvider);
     }
 
-    startArepl(){
+    async startArepl(){
         this.startAndBindPython()
+
+        if(this.pythonEditor.isUntitled && this.pythonEditor.getText() == ""){
+            await this.insertDefaultImports(vscode.window.activeTextEditor)
+            // waiting for this to complete so i dont accidentily trigger
+            // the edit doc handler when i insert imports
+        }
+
         this.subscribeHandlersToDoc()
     }
 
@@ -64,10 +71,6 @@ export default class PreviewManager {
 
         let debounce = this.settings.get<number>('delay');
         let restartExtraDebounce = this.settings.get<number>('restartDelay');
-
-        if(this.pythonEditor.isUntitled && this.pythonEditor.getText() == ""){
-            this.insertDefaultImports(vscode.window.activeTextEditor)
-        }
 
         if(this.settings.get<boolean>("skipLandingPage")){
             this.onAnyDocChange(this.pythonEditor);
@@ -111,7 +114,7 @@ export default class PreviewManager {
     }
 
     private insertDefaultImports(editor: vscode.TextEditor){
-        editor.edit((editBuilder)=>{
+        return editor.edit((editBuilder)=>{
             let imports = this.settings.get<string[]>("defaultImports")
 
             imports = imports.map((i)=>{
