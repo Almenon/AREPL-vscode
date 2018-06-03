@@ -20,7 +20,6 @@ export default class PreviewManager {
     settings:vscode.WorkspaceConfiguration;
 
     constructor(context: vscode.ExtensionContext) {
-
         this.settings = vscode.workspace.getConfiguration('AREPL');
         this.pythonPreviewContentProvider = new HtmlDocumentContentProvider(context);
         this.pythonEditor = vscode.window.activeTextEditor.document;
@@ -28,20 +27,23 @@ export default class PreviewManager {
         this.status = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left, 100);
         this.status.text = "Running python..."
         this.status.tooltip = "AREPL is currently running your python file.  Close the AREPL preview to stop"
-        
-        
+
         vscode.workspace.registerTextDocumentContentProvider(HtmlDocumentContentProvider.scheme, this.pythonPreviewContentProvider);
-        
-        /////////////////////////////////////////////////////////
-        //		python
-        /////////////////////////////////////////////////////////
+    }
+
+    startArepl(){
+        this.startAndBindPython()
+        this.subscribeHandlersToDoc()
+    }
+
+    /**
+     * starts AREPL python backend and binds print&result output to the handlers
+     */
+    private startAndBindPython(){
         let pythonPath = this.settings.get<string>('pythonPath')
         let pythonOptions = this.settings.get<string[]>('pythonOptions')
 
         this.pythonEvaluator = new PythonEvaluator(pythonPath, pythonOptions)
-
-        let debounce = this.settings.get<number>('delay');
-        let restartExtraDebounce = this.settings.get<number>('restartDelay');
         
         this.pythonEvaluator.startPython()
         this.pythonEvaluator.pyshell.childProcess.on('error', err => {
@@ -53,10 +55,15 @@ export default class PreviewManager {
         // binding this to the class so it doesn't get overwritten by PythonEvaluator
         this.pythonEvaluator.onPrint =  this.pythonPreviewContentProvider.handlePrint.bind(this.pythonPreviewContentProvider)
         this.pythonEvaluator.onResult = this.handleResult.bind(this)
+    }
 
-        /////////////////////////////////////////////////////////
-        // doc stuff
-        /////////////////////////////////////////////////////////
+    /**
+     * binds various funcs to activate upon edit of document / switching of active doc / etc...
+     */
+    private subscribeHandlersToDoc(){
+
+        let debounce = this.settings.get<number>('delay');
+        let restartExtraDebounce = this.settings.get<number>('restartDelay');
 
         if(this.pythonEditor.isUntitled && this.pythonEditor.getText() == ""){
             this.insertDefaultImports(vscode.window.activeTextEditor)
@@ -99,7 +106,7 @@ export default class PreviewManager {
                 // but make sure that doesnt trigger dispose event for python process!
             }
         }, this, subscriptions)
-        
+
         this.disposable = vscode.Disposable.from(...subscriptions);
     }
 

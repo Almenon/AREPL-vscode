@@ -28,7 +28,10 @@ export function activate(context: vscode.ExtensionContext) {
 }
 
 export function createPreviewDoc(context: vscode.ExtensionContext) {
+
     let previewManager = new PreviewManager(context);
+    previewManager.startArepl()
+    
     return vscode.commands.executeCommand('vscode.previewHtml', pythonPreviewContentProvider.PREVIEW_URI, vscode.ViewColumn.Two); //show on right
     // https://code.visualstudio.com/docs/extensionAPI/vscode-api-commands
 }
