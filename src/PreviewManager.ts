@@ -117,7 +117,10 @@ export default class PreviewManager {
         return editor.edit((editBuilder)=>{
             let imports = this.settings.get<string[]>("defaultImports")
 
-            imports = imports.map((i)=>{
+            imports = imports.filter(i => i.trim() != "")
+            if(imports.length == 0) return
+
+            imports = imports.map(i => {
                 let words = i.split(' ')
 
                 // python import syntax: "import library" or "from library import method"
