@@ -1,23 +1,22 @@
 'use strict'
 import * as vscode from 'vscode'
 import HtmlDocumentContentProvider from './HTMLDocumentContentProvider'
-import pyGuiLibraryIsPresent from './pyGuiLibraryIsPresent'
 import {PythonEvaluator} from 'arepl-backend'
 import Reporter from './telemetry'
 import {EOL} from 'os'
+import {pythonInterface} from './pythonInterface'
 
 // This class initializes the previewmanager based on extension type and manages all the subscriptions
 export default class PreviewManager {
 
     reporter: Reporter;
-    restartMode: boolean;
     pythonPreviewContentProvider: HtmlDocumentContentProvider;
     disposable: vscode.Disposable;
     pythonEditor: vscode.TextDocument;
     pythonEvaluator: PythonEvaluator;
-    restartedLastTime = false;
     status: vscode.StatusBarItem;
     settings:vscode.WorkspaceConfiguration;
+    pythonInterface:pythonInterface
 
     constructor(context: vscode.ExtensionContext) {
         this.settings = vscode.workspace.getConfiguration('AREPL');
@@ -59,9 +58,14 @@ export default class PreviewManager {
             this.reporter.sendError("error starting python: " + error.path)
         })
 
+        this.pythonInterface = new pythonInterface(this.pythonEvaluator, this.pythonPreviewContentProvider, this.reporter)
+
         // binding this to the class so it doesn't get overwritten by PythonEvaluator
         this.pythonEvaluator.onPrint =  this.pythonPreviewContentProvider.handlePrint.bind(this.pythonPreviewContentProvider)
-        this.pythonEvaluator.onResult = this.handleResult.bind(this)
+        this.pythonEvaluator.onResult = result => {
+            this.status.hide()
+            this.pythonInterface.handleResult(result)
+        }
     }
 
     /**
@@ -85,7 +89,7 @@ export default class PreviewManager {
         }
         else{
             vscode.workspace.onDidChangeTextDocument((e)=>{
-                let delay = this.restartMode ? debounce + restartExtraDebounce : debounce
+                let delay = this.pythonInterface.restartMode ? debounce + restartExtraDebounce : debounce
                 this.pythonEvaluator.debounce(this.onAnyDocChange.bind(this,e.document), delay)
             }, this, subscriptions)
         }
@@ -148,69 +152,12 @@ export default class PreviewManager {
 
     private onAnyDocChange(event: vscode.TextDocument){
         if(event == this.pythonEditor){
-            let text = event.getText()
-            let filePath = this.pythonEditor.isUntitled ? "" : this.pythonEditor.fileName
-            this.onUserInput(text, filePath)
-        }        
-    }
-
-    private onUserInput(text: string, filePath:string) {
-            let codeLines = text.split('\n')
-            let savedLines:string[] = []
 
             this.status.show();
 
-            codeLines.forEach((line,i)=>{
-                if(line.trim().endsWith('#$save')){
-                    savedLines = codeLines.slice(0,i+1)
-                    codeLines = codeLines.slice(i+1,codeLines.length)
-                }
-            });
-        
-            let data = {
-                savedCode: savedLines.join('\n'),
-                evalCode: codeLines.join('\n'),
-                filePath: filePath
-            }
-
-            this.restartMode = pyGuiLibraryIsPresent(text)
-            
-            if(this.restartMode){
-                let syntaxPromise: Promise<{}>
-
-                // #22 it might be faster to use checkSyntaxFile but this is simpler
-                syntaxPromise = this.pythonEvaluator.checkSyntax(data.savedCode + data.evalCode)
-
-                syntaxPromise.then(()=>{
-                    this.restartPython(data)
-                    this.restartedLastTime = true
-                })
-                .catch((error)=>{
-                    this.pythonPreviewContentProvider.handleResult({'userVariables':{},'userError':error, execTime: 0, totalPyTime: 0, totalTime: 0, internalError: "", caller: "", linenno: -1, done:true})
-                })
-            }
-            else if(this.restartedLastTime){ //if GUI code is gone need one last restart to get rid of GUI
-                this.restartPython(data)
-                this.restartedLastTime = false;
-            }
-            else{                
-                this.pythonEvaluator.execCode(data)
-            }
-    }
-
-    private handleResult(pythonResults: {userError:string, userVariables:Object, execTime:number, totalPyTime:number, totalTime:number, internalError:string, caller: string, linenno:number, done: boolean}){
-        this.status.hide()
-        this.pythonPreviewContentProvider.handleResult(pythonResults)
-        if(pythonResults.userError.startsWith("Sorry, AREPL has ran into an error")){
-            this.reporter.sendError(pythonResults.userError)
-        }
-    }
-
-    private restartPython(data){
-        this.pythonPreviewContentProvider.printResults = []
-        this.pythonPreviewContentProvider.updateError("", true)
-        this.pythonEvaluator.restart(
-            this.pythonEvaluator.execCode.bind(this.pythonEvaluator, data)
-        );     
+            let text = event.getText()
+            let filePath = this.pythonEditor.isUntitled ? "" : this.pythonEditor.fileName
+            this.pythonInterface.onUserInput(text, filePath)
+        }        
     }
 }
