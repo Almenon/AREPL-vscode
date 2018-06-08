@@ -1,3 +1,9 @@
+// NOTICE
+// this file has been modified slightly from david's original version
+//  Changes:
+//   * string disclosure func no longer has JSON.stringify
+//   * keys are no longer quoted
+//
 // Copyright © 2013-2017 David Caldwell <david@porkrind.org>
 //
 // Permission to use, copy, modify, and/or distribute this software for any
@@ -128,7 +134,7 @@ var module, window, define, renderjson=(function() {
 
         if (typeof(json) == "string" && json.length > options.max_string_length)
             return disclosure('"', json.substr(0,options.max_string_length)+" ...", '"', "string", function () {
-                return append(span("string"), themetext(null, my_indent, "string", JSON.stringify(json)));
+                return append(span("string"), themetext(null, my_indent, "string", json));
             });
 
         if (typeof(json) != "object" || [Number, String, Boolean, Date].indexOf(json.constructor) >= 0) // Strings, numbers and bools
