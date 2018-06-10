@@ -5,8 +5,8 @@
 import * as assert from 'assert';
 import * as vscode from 'vscode';
 
-import * as myExtension from '../src/extension';
-import HTMLDocumentContentProvider from '../src/HTMLDocumentContentProvider'
+import {previewContainer} from '../src/previewContainer' 
+import Reporter from '../src/telemetry';
 
 suite("Extension Tests", () => {
     
@@ -32,7 +32,7 @@ suite("Extension Tests", () => {
     });
 
     test("print", (done) => {
-        let doc = new HTMLDocumentContentProvider(mockContext);
+        let doc = new previewContainer(new Reporter(false), mockContext);
         doc.onDidChange((x)=>{
             let html = doc.provideTextDocumentContent(null);
             assert.equal(html.includes("hello world"), true, html);
@@ -42,7 +42,7 @@ suite("Extension Tests", () => {
     });
 
     test("spawn error", (done) => {
-        let doc = new HTMLDocumentContentProvider(mockContext);
+        let doc = new previewContainer(new Reporter(false), mockContext);
         doc.onDidChange((x)=>{
             let html = doc.provideTextDocumentContent(null);
             assert.equal(html.includes("Error in the AREPL extension"), true, html);
@@ -52,7 +52,7 @@ suite("Extension Tests", () => {
     });
 
     test("error", (done) => {
-        let doc = new HTMLDocumentContentProvider(mockContext);
+        let doc = new previewContainer(new Reporter(false), mockContext);
         doc.onDidChange((x)=>{
             let html = doc.provideTextDocumentContent(null);
             assert.equal(html.includes("yo"), true, html);
@@ -62,7 +62,7 @@ suite("Extension Tests", () => {
     });
 
     test("userVariables", (done) => {
-        let doc = new HTMLDocumentContentProvider(mockContext);
+        let doc = new previewContainer(new Reporter(false), mockContext);
         doc.onDidChange((x)=>{
             let html = doc.provideTextDocumentContent(null);
             assert.equal(html.includes("5"), true, html);
@@ -72,7 +72,7 @@ suite("Extension Tests", () => {
     });
 
     test("print escapes html", (done) => {
-        let doc = new HTMLDocumentContentProvider(mockContext);
+        let doc = new previewContainer(new Reporter(false), mockContext);
         doc.onDidChange((x)=>{
             let html = doc.provideTextDocumentContent(null);
             assert.equal(html.includes("&lt;module&gt;"), true, html);

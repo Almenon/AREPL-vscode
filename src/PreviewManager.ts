@@ -1,33 +1,32 @@
 'use strict'
 import * as vscode from 'vscode'
-import HtmlDocumentContentProvider from './HTMLDocumentContentProvider'
 import {PythonEvaluator} from 'arepl-backend'
 import Reporter from './telemetry'
 import {EOL} from 'os'
-import {pythonInterface} from './pythonInterface'
+import {toAREPLLogic} from './toAREPLLogic'
+import { previewContainer } from './previewContainer';
 
 // This class initializes the previewmanager based on extension type and manages all the subscriptions
 export default class PreviewManager {
 
     reporter: Reporter;
-    pythonPreviewContentProvider: HtmlDocumentContentProvider;
     disposable: vscode.Disposable;
     pythonEditor: vscode.TextDocument;
     pythonEvaluator: PythonEvaluator;
     status: vscode.StatusBarItem;
     settings:vscode.WorkspaceConfiguration;
-    pythonInterface:pythonInterface
+    toAREPLLogic:toAREPLLogic
+    previewContainer:previewContainer
 
     constructor(context: vscode.ExtensionContext) {
         this.settings = vscode.workspace.getConfiguration('AREPL');
-        this.pythonPreviewContentProvider = new HtmlDocumentContentProvider(context);
         this.pythonEditor = vscode.window.activeTextEditor.document;
         this.reporter = new Reporter(this.settings.get<boolean>('telemetry'))
         this.status = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left, 100);
         this.status.text = "Running python..."
         this.status.tooltip = "AREPL is currently running your python file.  Close the AREPL preview to stop"
 
-        vscode.workspace.registerTextDocumentContentProvider(HtmlDocumentContentProvider.scheme, this.pythonPreviewContentProvider);
+        this.previewContainer = new previewContainer(this.reporter, context)
     }
 
     async startArepl(){
@@ -54,17 +53,17 @@ export default class PreviewManager {
         this.pythonEvaluator.startPython()
         this.pythonEvaluator.pyshell.childProcess.on('error', err => {
             let error:any = err; //typescript complains about type for some reason so defining to any
-            this.pythonPreviewContentProvider.handleSpawnError(error.path, error.spawnargs[0], error.stack);
+            this.previewContainer.handleSpawnError(error.path, error.spawnargs[0], error.stack);
             this.reporter.sendError("error starting python: " + error.path)
         })
 
-        this.pythonInterface = new pythonInterface(this.pythonEvaluator, this.pythonPreviewContentProvider, this.reporter)
+        this.toAREPLLogic = new toAREPLLogic(this.pythonEvaluator, this.previewContainer)
 
         // binding this to the class so it doesn't get overwritten by PythonEvaluator
-        this.pythonEvaluator.onPrint =  this.pythonPreviewContentProvider.handlePrint.bind(this.pythonPreviewContentProvider)
+        this.pythonEvaluator.onPrint = this.previewContainer.handlePrint.bind(this.previewContainer)
         this.pythonEvaluator.onResult = result => {
             this.status.hide()
-            this.pythonInterface.handleResult(result)
+            this.previewContainer.handleResult(result)
         }
     }
 
@@ -89,29 +88,13 @@ export default class PreviewManager {
         }
         else{
             vscode.workspace.onDidChangeTextDocument((e)=>{
-                let delay = this.pythonInterface.restartMode ? debounce + restartExtraDebounce : debounce
+                let delay = this.toAREPLLogic.restartMode ? debounce + restartExtraDebounce : debounce
                 this.pythonEvaluator.debounce(this.onAnyDocChange.bind(this,e.document), delay)
             }, this, subscriptions)
         }
         
         vscode.workspace.onDidCloseTextDocument((e)=>{
-            if(e == this.pythonEditor || e.uri.scheme == HtmlDocumentContentProvider.scheme) this.dispose()
-        }, this, subscriptions)
-        
-        vscode.window.onDidChangeActiveTextEditor((e) => {
-            if(e == null) return;
-            // might be better way to do this - look at other editors
-            // other extensions (like markdown preview enhanced) leave preview in place when switching
-            // but preview contents change if you go to different md doc
-            if(e.document == this.pythonEditor){
-                console.log("back to active editor")
-                //todo: reopen preview
-            }
-            else{
-                console.log("left active editor")
-                // todo: close preview
-                // but make sure that doesnt trigger dispose event for python process!
-            }
+            if(e == this.pythonEditor || e.uri.scheme == this.previewContainer.scheme) this.dispose()
         }, this, subscriptions)
 
         this.disposable = vscode.Disposable.from(...subscriptions);
@@ -157,7 +140,7 @@ export default class PreviewManager {
 
             let text = event.getText()
             let filePath = this.pythonEditor.isUntitled ? "" : this.pythonEditor.fileName
-            this.pythonInterface.onUserInput(text, filePath)
+            this.toAREPLLogic.onUserInput(text, filePath)
         }        
     }
 }

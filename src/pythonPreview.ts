@@ -8,15 +8,14 @@ import {limit} from './throttle'
  * very simple read-only html content
  * https://code.visualstudio.com/docs/extensionAPI/vscode-api#_a-nametextdocumentcontentprovider
  */
-export default class HtmlDocumentContentProvider implements vscode.TextDocumentContentProvider {
+export default class pythonPreview implements vscode.TextDocumentContentProvider {
     
     public throttledUpdate:()=>void
-    public printResults: string[] = [];
 
     private _onDidChange: vscode.EventEmitter<vscode.Uri>;
     private settings:vscode.WorkspaceConfiguration;
     static readonly scheme = "pythonPreview"
-    static readonly PREVIEW_URI = HtmlDocumentContentProvider.scheme + "://authority/preview"
+    static readonly PREVIEW_URI = pythonPreview.scheme + "://authority/preview"
     private lastTime:number = 999999999;
 
     private html;
@@ -104,7 +103,7 @@ export default class HtmlDocumentContentProvider implements vscode.TextDocumentC
     };
 
     private update() {
-        this._onDidChange.fire(vscode.Uri.parse(HtmlDocumentContentProvider.PREVIEW_URI));
+        this._onDidChange.fire(vscode.Uri.parse(pythonPreview.PREVIEW_URI));
     }
 
     get onDidChange(): vscode.Event<vscode.Uri> {
@@ -140,29 +139,7 @@ export default class HtmlDocumentContentProvider implements vscode.TextDocumentC
         this.update();  
     }
 
-    public handleResult(pythonResults: {userError:string, userVariables:Object, execTime:number, totalPyTime:number, totalTime:number, internalError:string, caller: string, linenno:number, done: boolean}){
-        console.log(pythonResults.execTime)
-        console.log(pythonResults.totalPyTime)
-        console.log(pythonResults.totalTime)
-
-        // exec time is the 'truest' time that user cares about
-        this.updateTime(pythonResults.execTime);
-
-        // if no Vars & an error exists then it must be a syntax exception
-        // in which case we skip updating because no need to clear out variables
-        if(!Utilities.isEmpty(pythonResults.userVariables) || pythonResults.userError == ""){
-            this.updateVars(pythonResults.userVariables)
-        }
-
-        if(this.printResults.length == 0){this.printContainer = this.emptyPrint}
-
-        this.updateError(pythonResults.userError, true)
-        
-        //clear print so empty for next program run
-        this.printResults = [];
-    }
-
-    private updateVars(vars: Object){
+    public updateVars(vars: Object){
         let userVarsCode = `userVars = ${JSON.stringify(vars)};`
 
         // escape end script tag or else the content will escape its container and WREAK HAVOC
@@ -179,7 +156,7 @@ export default class HtmlDocumentContentProvider implements vscode.TextDocumentC
             </script>`
     }
 
-    private updateTime(time:number){
+    public updateTime(time:number){
         let color:"green"|"red";
 
         time = Math.floor(time) // we dont care about anything smaller than ms
@@ -203,15 +180,16 @@ export default class HtmlDocumentContentProvider implements vscode.TextDocumentC
         if(refresh) this.throttledUpdate()
     }
 
-    public handlePrint(pythonResults:string){
-		this.printResults.push(pythonResults);
-        let printResults = this.printResults.join('\n')
-
+    public handlePrint(printResults:string){
         // escape any accidental html
         printResults = Utilities.escapeHtml(printResults);
 
         this.printContainer = `<br><b>Print Output:</b><div id="print">${printResults}</div>`
         this.throttledUpdate();
+    }
+
+    clearPrint(){
+        this.printContainer = this.emptyPrint
     }
 
     public handleSpawnError(pythonCommand:string, pythonPath:string, err:string){

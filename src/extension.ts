@@ -2,7 +2,7 @@
 import * as vscode from 'vscode';
 import Utilities from './utilities';
 import PreviewManager from './PreviewManager'
-import pythonPreviewContentProvider from './HTMLDocumentContentProvider';
+import pythonPreviewContentProvider from './pythonPreview';
 
 export function activate(context: vscode.ExtensionContext) {
 
