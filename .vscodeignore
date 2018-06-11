@@ -1,11 +1,14 @@
+# note: to ignore folders you need to have /** after foldername
+# just foldername wont work
+
 .vscode/**
 .vscode-test/**
 out/test/**
 test/**
 src/**
 **/*.map
-.gitignore
+.gitignore/**
 tsconfig.json
 .github
-personal
+personal/**
 .travis.yml
