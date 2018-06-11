@@ -6,7 +6,6 @@ src/**
 **/*.map
 .gitignore
 tsconfig.json
-vsc-extension-quickstart.md
 .github
 personal
 .travis.yml
