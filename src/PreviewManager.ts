@@ -17,6 +17,7 @@ export default class PreviewManager {
     settings:vscode.WorkspaceConfiguration;
     toAREPLLogic:toAREPLLogic
     previewContainer:previewContainer
+    subscriptions: vscode.Disposable[] = [];
 
     constructor(context: vscode.ExtensionContext) {
         this.settings = vscode.workspace.getConfiguration('AREPL');
@@ -30,6 +31,8 @@ export default class PreviewManager {
     }
 
     async startArepl(){
+        this.subscriptions.push(this.previewContainer.register())
+
         this.startAndBindPython()
 
         if(this.pythonEditor.isUntitled && this.pythonEditor.getText() == ""){
@@ -79,25 +82,21 @@ export default class PreviewManager {
             this.onAnyDocChange(this.pythonEditor);
         }
 
-        let subscriptions: vscode.Disposable[] = [];
-
         if(this.settings.get<string>('whenToExecute').toLowerCase() == "onsave"){
             vscode.workspace.onDidSaveTextDocument((e)=>{
                 this.onAnyDocChange(e)
-            }, this, subscriptions)
+            }, this, this.subscriptions)
         }
         else{
             vscode.workspace.onDidChangeTextDocument((e)=>{
                 let delay = this.toAREPLLogic.restartMode ? debounce + restartExtraDebounce : debounce
                 this.pythonEvaluator.debounce(this.onAnyDocChange.bind(this,e.document), delay)
-            }, this, subscriptions)
+            }, this, this.subscriptions)
         }
         
         vscode.workspace.onDidCloseTextDocument((e)=>{
             if(e == this.pythonEditor || e.uri.scheme == this.previewContainer.scheme) this.dispose()
-        }, this, subscriptions)
-
-        this.disposable = vscode.Disposable.from(...subscriptions);
+        }, this, this.subscriptions)
     }
 
     private insertDefaultImports(editor: vscode.TextEditor){
@@ -127,8 +126,12 @@ export default class PreviewManager {
         if(this.pythonEvaluator.pyshell != null && this.pythonEvaluator.pyshell.childProcess != null){
             this.pythonEvaluator.stop()
         }
+
+        this.disposable = vscode.Disposable.from(...this.subscriptions);
         this.disposable.dispose();
+
         this.status.dispose();
+        
         this.reporter.sendFinishedEvent(this.settings)
         this.reporter.dispose();
     }

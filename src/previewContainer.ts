@@ -14,8 +14,10 @@ export class previewContainer{
     constructor(private reporter:Reporter, context:vscode.ExtensionContext){
         this.pythonPreview = new pythonPreview(context);
         this.scheme = pythonPreview.scheme
+    }
 
-        vscode.workspace.registerTextDocumentContentProvider(pythonPreview.scheme, this.pythonPreview);
+    public register(){
+        return vscode.workspace.registerTextDocumentContentProvider(pythonPreview.scheme, this.pythonPreview);
     }
 
     public handleResult(pythonResults: {userError:string, userVariables:Object, execTime:number, totalPyTime:number, totalTime:number, internalError:string, caller: string, linenno:number, done: boolean}){
