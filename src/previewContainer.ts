@@ -10,6 +10,7 @@ export class previewContainer{
     public scheme:string
     printResults: string[] = [];
     pythonPreview:pythonPreview
+    vars:{}
 
     constructor(private reporter:Reporter, context:vscode.ExtensionContext){
         this.pythonPreview = new pythonPreview(context);
@@ -29,10 +30,24 @@ export class previewContainer{
         // exec time is the 'truest' time that user cares about
         this.pythonPreview.updateTime(pythonResults.execTime);
 
+        if(!pythonResults.done){
+            let lineKey = "line " + pythonResults.linenno
+            if(pythonResults.userVariables['dump output'] != undefined){
+                pythonResults.userVariables = {}[lineKey] = pythonResults.userVariables['dump output']
+            }
+            else pythonResults.userVariables = {}[pythonResults.caller+" "+lineKey] = pythonResults.userVariables
+        }
+
+        this.vars = {...this.vars, ...pythonResults.userVariables}
+        
         // if no Vars & an error exists then it must be a syntax exception
         // in which case we skip updating because no need to clear out variables
         if(!Utilities.isEmpty(pythonResults.userVariables) || pythonResults.userError == ""){
-            this.pythonPreview.updateVars(pythonResults.userVariables)
+            this.pythonPreview.updateVars(this.vars)
+        }
+        
+        if(pythonResults.done){
+            this.vars = {}
         }
 
         if(pythonResults.userError.startsWith("Sorry, AREPL has ran into an error")){
