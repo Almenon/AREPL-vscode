@@ -8,3 +8,4 @@ desktop.ini
 myenv
 .vscode/.ropeproject/config.py
 coverage
+.nyc_output
