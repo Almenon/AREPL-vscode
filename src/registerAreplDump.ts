@@ -25,5 +25,7 @@ export function unregisterAreplDump(pythonPath:string){
 }
 
 function getsitePackagePath(pythonPath:string){
-    return execSync(pythonPath + " -m site --user-site").toString()
+    // for some godforsaken reason it returns the path with a space at the end
+    // hence the trim
+    return execSync(pythonPath + " -m site --user-site").toString().trim()
 }
