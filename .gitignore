@@ -7,3 +7,4 @@ npm-debug.log
 desktop.ini
 myenv
 .vscode/.ropeproject/config.py
+coverage
