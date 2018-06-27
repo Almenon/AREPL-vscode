@@ -3,8 +3,13 @@ import * as vscode from 'vscode';
 import Utilities from './utilities';
 import PreviewManager from './PreviewManager'
 import pythonPreviewContentProvider from './pythonPreview';
+import { registerAreplDump, unregisterAreplDump } from './registerAreplDump';
 
 export function activate(context: vscode.ExtensionContext) {
+
+    let settings = vscode.workspace.getConfiguration('AREPL');
+    let pythonPath = settings.get<string>('pythonPath')
+    registerAreplDump(pythonPath == null ? "python": pythonPath, context.extensionPath)
 
     // Register the commands that are provided to the user
     let arepl = vscode.commands.registerCommand('extension.evalPythonInRealTime', () => {
@@ -38,4 +43,7 @@ export function createPreviewDoc(context: vscode.ExtensionContext) {
 
 
 // This method is called when extension is deactivated
-export function deactivate() {}
+export function deactivate() {
+    let settings = vscode.workspace.getConfiguration('AREPL');
+    unregisterAreplDump(settings.get('pythonPath'))
+}
