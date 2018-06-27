@@ -1,3 +1,13 @@
+## [v1.1](https://github.com/Almenon/AREPL-vscode/milestone/11?closed=1)
+
+### Added:
+GUI library setting - https://github.com/Almenon/AREPL-vscode/issues/68
+default imports - https://github.com/Almenon/AREPL-vscode/issues/67
+
+### Fixed:
+display of strings - see https://github.com/Almenon/AREPL-vscode/issues/71
+
+
 ## [v1.0](https://github.com/Almenon/AREPL-vscode/milestone/10?closed=1)
 
 ### Added:
