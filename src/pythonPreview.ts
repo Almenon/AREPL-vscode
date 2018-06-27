@@ -26,10 +26,10 @@ export default class pythonPreview implements vscode.TextDocumentContentProvider
     <p style="font-size:14px">⚠ <b style="color:red">WARNING:</b> code is evaluated WHILE YOU TYPE - don't mess around with your file system! ⚠</p>
     <p>evaluation while you type can be turned off or adjusted in the settings</p>
     <br>
-    <h3>New Features with version 1.0!</h3>
-    <li>Improved Landing Page</li>
-    <li>Better-looking variable display</li>
-    <li>Bugfix: Relative imports now work!</li>
+    <h3>New Features with version 1.1!</h3>
+    <li>Strings are shown in a better format - thanks Adam for the bug report!</li>
+    <li>setting to specify default imports</li>
+    <li>setting to specify what GUI libraries will invoke restart mode</li>
     <br>
     
     <h3>Examples</h3>
