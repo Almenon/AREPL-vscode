@@ -58,7 +58,7 @@ suite("Extension Tests", () => {
             assert.equal(html.includes("yo"), true, html);
             done()
         })
-        doc.handleResult({userError:"yo",userVariables:{},execTime:0,totalPyTime:0,totalTime:0, internalError: "", caller: "", linenno: -1, done: true})
+        doc.handleResult({userError:"yo",userVariables:{},execTime:0,totalPyTime:0,totalTime:0, internalError: "", caller: "", lineno: -1, done: true})
     });
 
     test("userVariables", (done) => {
@@ -68,7 +68,7 @@ suite("Extension Tests", () => {
             assert.equal(html.includes("5"), true, html);
             done()
         })
-        doc.handleResult({userError:"",userVariables:{'x':5},execTime:0,totalPyTime:0,totalTime:0, internalError: "", caller: "", linenno: -1, done: true})
+        doc.handleResult({userError:"",userVariables:{'x':5},execTime:0,totalPyTime:0,totalTime:0, internalError: "", caller: "", lineno: -1, done: true})
     });
 
     test("print escapes html", (done) => {

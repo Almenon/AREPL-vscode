@@ -66,6 +66,7 @@ export default class PreviewManager {
         this.pythonEvaluator.onPrint = this.previewContainer.handlePrint.bind(this.previewContainer)
         this.pythonEvaluator.onResult = result => {
             this.status.hide()
+            //@ts-ignore todo: fix typing in backend
             this.previewContainer.handleResult(result)
         }
     }

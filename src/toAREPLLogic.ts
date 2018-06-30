@@ -61,7 +61,7 @@ export class toAREPLLogic{
             this.restartedLastTime = true
         })
         .catch((error)=>{
-            this.previewContainer.handleResult({'userVariables':{},'userError':error, execTime: 0, totalPyTime: 0, totalTime: 0, internalError: "", caller: "", linenno: -1, done:true})
+            this.previewContainer.handleResult({'userVariables':{},'userError':error, execTime: 0, totalPyTime: 0, totalTime: 0, internalError: "", caller: "", lineno: -1, done:true})
         })
     }
     

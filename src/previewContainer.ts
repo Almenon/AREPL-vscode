@@ -21,7 +21,7 @@ export class previewContainer{
         return vscode.workspace.registerTextDocumentContentProvider(pythonPreview.scheme, this.pythonPreview);
     }
 
-    public handleResult(pythonResults: {userError:string, userVariables:Object, execTime:number, totalPyTime:number, totalTime:number, internalError:string, caller: string, linenno:number, done: boolean}){
+    public handleResult(pythonResults: {userError:string, userVariables:Object, execTime:number, totalPyTime:number, totalTime:number, internalError:string, caller: string, lineno:number, done: boolean}){
 
         console.log(pythonResults.execTime)
         console.log(pythonResults.totalPyTime)
@@ -31,7 +31,7 @@ export class previewContainer{
         this.pythonPreview.updateTime(pythonResults.execTime);
 
         if(!pythonResults.done){
-            let lineKey = "line " + pythonResults.linenno
+            let lineKey = "line " + pythonResults.lineno
             if(pythonResults.userVariables['dump output'] != undefined){
                 pythonResults.userVariables = {}[lineKey] = pythonResults.userVariables['dump output']
             }
