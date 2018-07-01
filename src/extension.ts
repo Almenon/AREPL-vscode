@@ -8,8 +8,7 @@ import { registerAreplDump, unregisterAreplDump } from './registerAreplDump';
 export function activate(context: vscode.ExtensionContext) {
 
     let settings = vscode.workspace.getConfiguration('AREPL');
-    let pythonPath = settings.get<string>('pythonPath')
-    registerAreplDump(pythonPath == null ? "python": pythonPath, context.extensionPath)
+    registerAreplDump(settings.get<string>('pythonPath'), context.extensionPath)
 
     // Register the commands that are provided to the user
     let arepl = vscode.commands.registerCommand('extension.evalPythonInRealTime', () => {
