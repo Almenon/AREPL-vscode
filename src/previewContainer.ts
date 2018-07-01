@@ -33,9 +33,15 @@ export class previewContainer{
         if(!pythonResults.done){
             let lineKey = "line " + pythonResults.lineno
             if(pythonResults.userVariables['dump output'] != undefined){
-                pythonResults.userVariables = {}[lineKey] = pythonResults.userVariables['dump output']
+                let dumpOutput = pythonResults.userVariables['dump output']
+                pythonResults.userVariables = {}
+                pythonResults.userVariables[lineKey] = dumpOutput
             }
-            else pythonResults.userVariables = {}[pythonResults.caller+" "+lineKey] = pythonResults.userVariables
+            else{
+                let v = pythonResults.userVariables
+                pythonResults.userVariables = {}
+                pythonResults.userVariables[pythonResults.caller+" vars "+lineKey] = v
+            }
         }
 
         this.vars = {...this.vars, ...pythonResults.userVariables}
