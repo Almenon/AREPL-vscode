@@ -106,6 +106,19 @@ I have [overridden the display](https://github.com/Almenon/AREPL-backend/blob/ma
 
 If you want a type to be displayed in a particular manner just [file an issue](https://github.com/Almenon/AREPL-vscode/issues)
 
+**Imports**
+
+Python caches imports, so even though AREPL runs with every code change the import will run only once at the start. This saves time when importing large libraries like numpy.
+
+But you can also use this feature as a caching mechanism by moving code you only want AREPL to execute once into a different file and importing it.
+
+If you don't want caching you can delete the library at the end of the file, like so:
+```python
+import library
+# bla bla bla code
+del sys.modules['library'] # arepl will reload import next execution
+```
+
 #### Deveveloper Setup
 
 1. Install VSCode, python 3 and npm (if not already installed)
