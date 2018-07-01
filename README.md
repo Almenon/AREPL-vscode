@@ -29,11 +29,36 @@ or use a shortcut: control-shift-a / command-shift-a
 
 #### Misc
 
+**dumping**
+
+If you want to dump local variables or dump variables at a specific point in your program you can use the dump function:
+
+```python
+from arepldump import dump 
+
+def milesToKilometers(miles):
+    kilometers = miles*1.60934
+    dump() # dumps all the vars in your function
+
+    # or dump when function is called for a second time
+    dump(None,1) 
+
+milesToKilometers(2*2)
+milesToKilometers(3*3)
+
+for char in ['a','b','c']:
+    dump(char,2) # dump a var at a specific iteration
+
+a=1
+dump(a) # dump specific vars at any point in your program
+a=2
+```
+
 **#$save**
 
 If you want to avoid a section of code being executed in real-time (due to it being slow or calling external resources) you can use \#\$save.  For example:
 
-```
+```python
 def largest_prime_factor(n):
     i = 2
     while i * i <= n:
@@ -49,7 +74,7 @@ result = largest_prime_factor(8008514751439999)
 #$save
 print("but now that i saved i am back to real-time execution")
 ```
-```
+```python
 import random
 x = random.random()
 #$save
@@ -62,7 +87,7 @@ Please note that \#\$save [does not work](https://github.com/Almenon/AREPL-vscod
 
 You can use arepl for working with gui's like turtle or many others.  Each time you edit the code the gui restarts, so to make it less annoying the typing debounce is automatically increased for a longer delay before execution. Or you can switch to execute on save.  I also suggest coding it so the gui appears on the side (not blocking your view of your code), like so:
 
-```
+```python
 import turtle
 
 turtle.setup(width=500, height=500, startx=-1, starty=0)
