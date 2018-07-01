@@ -108,9 +108,9 @@
         "AREPL.defaultImports": {
           "type": "array",
           "default": [
-            ""
+            "from arepldump import dump"
           ],
-          "description": "default imports for new AREPL sessions. ex: import json"
+          "description": "default imports for new AREPL sessions. dump is included by default so you can use it to inspect variables & local scopes"
         },
         "AREPL.telemetry": {
           "type": "boolean",
