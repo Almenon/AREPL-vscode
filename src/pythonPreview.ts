@@ -39,17 +39,6 @@ export default class pythonPreview implements vscode.TextDocumentContentProvider
     y = [num*2 for num in x]
     print(y)
     </code>
-    
-    <h4>Turtle</h4>
-    <code style="white-space:pre-wrap">
-    import turtle
-    
-    # window in right hand side of screen
-    turtle.setup(500,500,-1,0)
-    
-    turtle.forward(100)
-    turtle.left(90)
-    </code>
 
     <h4>Dumping</h4>
     <code style="white-space:pre-wrap">
@@ -71,6 +60,17 @@ export default class pythonPreview implements vscode.TextDocumentContentProvider
     a=1
     dump(a) # dump specific vars at any point in your program
     a=2
+    </code>
+    
+    <h4>Turtle</h4>
+    <code style="white-space:pre-wrap">
+    import turtle
+    
+    # window in right hand side of screen
+    turtle.setup(500,500,-1,0)
+    
+    turtle.forward(100)
+    turtle.left(90)
     </code>
     
     <h4>Web call</h4>
