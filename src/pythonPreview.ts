@@ -1,8 +1,8 @@
 "use strict"
 import * as path from "path";
+import * as vscode from "vscode"
 import {limit} from "./throttle"
 import Utilities from "./utilities"
-import * as vscode from "vscode"
 
 /**
  * very simple read-only html content

@@ -1,7 +1,7 @@
+import * as vscode from "vscode"
 import pythonPreview from "./pythonPreview"
 import Reporter from "./telemetry";
 import Utilities from "./utilities"
-import * as vscode from "vscode"
 
 /**
  * logic wrapper around html preview doc
