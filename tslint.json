@@ -5,7 +5,8 @@
     ],
     "jsRules": {},
     "rules": {
-        "ordered-imports":{"severity": "warning"}
+        "ordered-imports":{"severity": "warning"},
+        "semicolon":{"severity": "off"}
     },
     "rulesDirectory": []
 }
