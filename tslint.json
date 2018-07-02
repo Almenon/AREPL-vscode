@@ -1,12 +1,14 @@
 {
-    "defaultSeverity": "error",
+    "defaultSeverity": "warning",
     "extends": [
         "tslint:recommended"
     ],
     "jsRules": {},
     "rules": {
-        "ordered-imports":{"severity": "warning"},
-        "semicolon":{"severity": "off"}
+        "semicolon":false,
+        "no-trailing-whitespace":false,
+        "curly":false,
+        "no-console":false
     },
     "rulesDirectory": []
 }
