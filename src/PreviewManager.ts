@@ -1,10 +1,10 @@
 'use strict'
-import * as vscode from 'vscode'
-import {PythonEvaluator} from 'arepl-backend'
-import Reporter from './telemetry'
-import {EOL} from 'os'
-import {toAREPLLogic} from './toAREPLLogic'
-import { previewContainer } from './previewContainer';
+import {PythonEvaluator} from "arepl-backend"
+import {EOL} from "os"
+import { previewContainer } from "./previewContainer";
+import Reporter from "./telemetry"
+import {toAREPLLogic} from "./toAREPLLogic"
+import * as vscode from "vscode"
 
 // This class initializes the previewmanager based on extension type and manages all the subscriptions
 export default class PreviewManager {

@@ -1,5 +1,5 @@
 "use strict"
-import * as vscode from 'vscode';
+import * as vscode from "vscode";
 
 export default class Utilities {
     static isEmpty(obj:Object) {

@@ -1,9 +1,9 @@
 'use strict';
-import * as vscode from 'vscode';
-import Utilities from './utilities';
-import PreviewManager from './PreviewManager'
-import pythonPreviewContentProvider from './pythonPreview';
-import { registerAreplDump, unregisterAreplDump } from './registerAreplDump';
+import PreviewManager from "./PreviewManager"
+import pythonPreviewContentProvider from "./pythonPreview";
+import { registerAreplDump, unregisterAreplDump } from "./registerAreplDump";
+import Utilities from "./utilities";
+import * as vscode from "vscode";
 
 export function activate(context: vscode.ExtensionContext) {
 

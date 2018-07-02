@@ -1,6 +1,6 @@
+import { Buffer } from 'buffer';
 import { extensions, workspace, WorkspaceConfiguration } from 'vscode';
 import TelemetryReporter from 'vscode-extension-telemetry';
-import { Buffer } from 'buffer';
 
 export default class Reporter{
     private reporter:TelemetryReporter

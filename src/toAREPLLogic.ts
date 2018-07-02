@@ -1,6 +1,6 @@
-import pyGuiLibraryIsPresent from './pyGuiLibraryIsPresent'
-import {PythonEvaluator} from 'arepl-backend'
-import {previewContainer} from './previewContainer'
+import {PythonEvaluator} from "arepl-backend"
+import {previewContainer} from "./previewContainer"
+import pyGuiLibraryIsPresent from "./pyGuiLibraryIsPresent"
 
 /**
  * formats text for passing into AREPL backend
@@ -16,19 +16,19 @@ export class toAREPLLogic{
     }
 
     public onUserInput(text: string, filePath:string) {
-        let codeLines = text.split('\n')
+        let codeLines = text.split("\n")
     
         let savedLines:string[] = []
         codeLines.forEach((line,i)=>{
-            if(line.trim().endsWith('#$save')){
+            if(line.trim().endsWith("#$save")){
                 savedLines = codeLines.slice(0,i+1)
                 codeLines = codeLines.slice(i+1,codeLines.length)
             }
         });
     
         let data = {
-            savedCode: savedLines.join('\n'),
-            evalCode: codeLines.join('\n'),
+            savedCode: savedLines.join("\n"),
+            evalCode: codeLines.join("\n"),
             filePath: filePath
         }
     
@@ -61,7 +61,7 @@ export class toAREPLLogic{
             this.restartedLastTime = true
         })
         .catch((error)=>{
-            this.previewContainer.handleResult({'userVariables':{},'userError':error, execTime: 0, totalPyTime: 0, totalTime: 0, internalError: "", caller: "", lineno: -1, done:true})
+            this.previewContainer.handleResult({"userVariables":{},"userError":error, execTime: 0, totalPyTime: 0, totalTime: 0, internalError: "", caller: "", lineno: -1, done:true})
         })
     }
     
