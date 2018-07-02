@@ -13,10 +13,10 @@ export default class pythonPreview implements vscode.TextDocumentContentProvider
     public throttledUpdate:()=>void
 
     private _onDidChange: vscode.EventEmitter<vscode.Uri>;
-    private settings:vscode.WorkspaceConfiguration;
+    private settings: vscode.WorkspaceConfiguration;
     static readonly scheme = "pythonPreview"
     static readonly PREVIEW_URI = pythonPreview.scheme + "://authority/preview"
-    private lastTime:number = 999999999;
+    private lastTime: number = 999999999;
 
     private html;
     private readonly landingPage = `
@@ -99,7 +99,7 @@ export default class pythonPreview implements vscode.TextDocumentContentProvider
         </p>
         </div>`
 
-    private css:string
+    private css: string
     private jsonRendererScript: string;
     private errorContainer = ''
     private jsonRendererCode = `<div id="results"></div>`;

@@ -7,10 +7,10 @@ import * as vscode from "vscode"
  * logic wrapper around html preview doc
  */
 export class previewContainer{
-    public scheme:string
+    public scheme: string
     printResults: string[] = [];
-    pythonPreview:pythonPreview
-    vars:{}
+    pythonPreview: pythonPreview
+    vars: {}
 
     constructor(private reporter:Reporter, context:vscode.ExtensionContext){
         this.pythonPreview = new pythonPreview(context);

@@ -3,10 +3,10 @@ import { extensions, workspace, WorkspaceConfiguration } from 'vscode';
 import TelemetryReporter from 'vscode-extension-telemetry';
 
 export default class Reporter{
-    private reporter:TelemetryReporter
-    private timeSpent:number
-    private lastException:string
-    private lastErrorCode:number
+    private reporter: TelemetryReporter
+    private timeSpent: number
+    private lastException: string
+    private lastErrorCode: number
 
     constructor(private enabled:boolean){
         const extensionId = 'almenon.arepl';

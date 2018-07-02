@@ -14,9 +14,9 @@ export default class PreviewManager {
     pythonEditor: vscode.TextDocument;
     pythonEvaluator: PythonEvaluator;
     status: vscode.StatusBarItem;
-    settings:vscode.WorkspaceConfiguration;
-    toAREPLLogic:toAREPLLogic
-    previewContainer:previewContainer
+    settings: vscode.WorkspaceConfiguration;
+    toAREPLLogic: toAREPLLogic
+    previewContainer: previewContainer
     subscriptions: vscode.Disposable[] = [];
 
     constructor(context: vscode.ExtensionContext) {
