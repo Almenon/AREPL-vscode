@@ -9,7 +9,8 @@
         "no-trailing-whitespace":false,
         "curly":false,
         "no-console":false,
-        "one-line":false
+        "one-line":false,
+        "member-access": false
     },
     "rulesDirectory": []
 }
