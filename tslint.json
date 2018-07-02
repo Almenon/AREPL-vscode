@@ -8,7 +8,8 @@
         "semicolon":false,
         "no-trailing-whitespace":false,
         "curly":false,
-        "no-console":false
+        "no-console":false,
+        "one-line":false
     },
     "rulesDirectory": []
 }
