@@ -23,7 +23,7 @@ export default class Reporter{
     }
 
     sendError(exception: string, code: number = 0){
-        if(this.enabled){
+        if (this.enabled){
             // no point in sending same error twice (and we want to stay under free API limit)
             if(exception == this.lastException && code == this.lastErrorCode) return
 
@@ -42,7 +42,7 @@ export default class Reporter{
      * also pythonPath to see if they are using python2 / 3 / virtual env python
      */
     sendFinishedEvent(settings:WorkspaceConfiguration){
-        if(this.enabled){
+        if (this.enabled){
             const properties: {[key: string]: string} = {}
 
             this.timeSpent = Date.now()-this.timeSpent

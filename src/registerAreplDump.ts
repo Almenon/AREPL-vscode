@@ -9,7 +9,7 @@ import { isAbsolute, join, resolve, sep} from "path";
  */
 export function registerAreplDump(pythonPath: string = null, extensionDir: string){
 
-    if(pythonPath == null){
+    if (pythonPath == null){
         // for non-windows OS it is best to use python3 instead of python
         // Mac and Ubuntu both have python being v2 by default
         // archlinux and freebsd both use v3 as default, but also provide python3 command

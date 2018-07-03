@@ -98,24 +98,24 @@ export default class PreviewManager {
         }
 
         if(this.settings.get<string>("whenToExecute").toLowerCase() == "onsave"){
-            vscode.workspace.onDidSaveTextDocument((e)=>{
+            vscode.workspace.onDidSaveTextDocument((e) => {
                 this.onAnyDocChange(e)
             }, this, this.subscriptions)
         }
         else{
-            vscode.workspace.onDidChangeTextDocument((e)=>{
+            vscode.workspace.onDidChangeTextDocument((e) => {
                 const delay = this.toAREPLLogic.restartMode ? debounce + restartExtraDebounce : debounce
                 this.pythonEvaluator.debounce(this.onAnyDocChange.bind(this,e.document), delay)
             }, this, this.subscriptions)
         }
         
-        vscode.workspace.onDidCloseTextDocument((e)=>{
+        vscode.workspace.onDidCloseTextDocument((e) => {
             if(e == this.pythonEditor || e.uri.scheme == this.previewContainer.scheme) this.dispose()
         }, this, this.subscriptions)
     }
 
     private insertDefaultImports(editor: vscode.TextEditor){
-        return editor.edit((editBuilder)=>{
+        return editor.edit((editBuilder) => {
             let imports = this.settings.get<string[]>("defaultImports")
 
             imports = imports.filter(i => i.trim() != "")
