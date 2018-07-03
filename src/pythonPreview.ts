@@ -1,7 +1,7 @@
 "use strict"
 import * as path from "path";
 import * as vscode from "vscode"
-import {limit} from "./throttle"
+import {Limit} from "./throttle"
 import Utilities from "./utilities"
 
 /**
@@ -116,7 +116,7 @@ export default class PythonPreview implements vscode.TextDocumentContentProvider
         this.html = this.landingPage;
 
         // refreshing html too much can freeze vscode... lets avoid that
-        const l = new limit()
+        const l = new Limit()
         this.throttledUpdate = l.throttledUpdate(this.updateContent, 50)
     }
 

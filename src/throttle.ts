@@ -4,7 +4,7 @@
  * see https://medium.com/@pat_migliaccio/rate-limiting-throttling-consecutive-function-calls-with-queues-4c9de7106acc
  * @example let l = new limit(); let logMessageLimited = l.throttleAndQueue(msg => { console.log(msg); }, 500);
  */
-export class limit{
+export class Limit{
     public callQueue = []
     public lastCall
     public interval: NodeJS.Timer
