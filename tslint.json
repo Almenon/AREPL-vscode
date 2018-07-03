@@ -13,7 +13,8 @@
         "member-access": false,
         "triple-equals":false,
         "arrow-parens": false,
-        "no-consecutive-blank-lines": false
+        "no-consecutive-blank-lines": false,
+        "only-arrow-functions": false
     },
     "rulesDirectory": []
 }
