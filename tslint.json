@@ -12,7 +12,8 @@
         "one-line":false,
         "member-access": false,
         "triple-equals":false,
-        "arrow-parens": false
+        "arrow-parens": false,
+        "no-consecutive-blank-lines": false
     },
     "rulesDirectory": []
 }
