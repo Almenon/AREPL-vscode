@@ -12,7 +12,7 @@ export class PreviewContainer{
     pythonPreview: pythonPreview
     vars: {}
 
-    constructor(private reporter:Reporter, context:vscode.ExtensionContext){
+    constructor(private reporter: Reporter, context: vscode.ExtensionContext){
         this.pythonPreview = new pythonPreview(context);
         this.scheme = pythonPreview.scheme
     }
@@ -21,7 +21,17 @@ export class PreviewContainer{
         return vscode.workspace.registerTextDocumentContentProvider(pythonPreview.scheme, this.pythonPreview);
     }
 
-    public handleResult(pythonResults: {userError:string, userVariables:Object, execTime:number, totalPyTime:number, totalTime:number, internalError:string, caller: string, lineno:number, done: boolean}){
+    public handleResult(pythonResults: 
+        {userError: string,
+        userVariables: object,
+        execTime: number,
+        totalPyTime: number,
+        totalTime: number,
+        internalError: string,
+        caller: string,
+        lineno: number,
+        done: boolean}
+    ){
 
         console.log(pythonResults.execTime)
         console.log(pythonResults.totalPyTime)
@@ -31,16 +41,16 @@ export class PreviewContainer{
         this.pythonPreview.updateTime(pythonResults.execTime);
 
         if(!pythonResults.done){
-            let lineKey = "line " + pythonResults.lineno
-            if(pythonResults.userVariables['dump output'] != undefined){
-                let dumpOutput = pythonResults.userVariables['dump output']
+            const lineKey = "line " + pythonResults.lineno
+            if(pythonResults.userVariables["dump output"] != undefined){
+                const dumpOutput = pythonResults.userVariables["dump output"]
                 pythonResults.userVariables = {}
                 pythonResults.userVariables[lineKey] = dumpOutput
             }
             else{
-                let v = pythonResults.userVariables
+                const v = pythonResults.userVariables
                 pythonResults.userVariables = {}
-                pythonResults.userVariables[pythonResults.caller+" vars "+lineKey] = v
+                pythonResults.userVariables[pythonResults.caller + " vars " + lineKey] = v
             }
         }
 
@@ -64,7 +74,7 @@ export class PreviewContainer{
 
         this.updateError(pythonResults.userError, true)
 
-        //clear print so empty for next program run
+        // clear print so empty for next program run
         if(pythonResults.done) this.printResults = [];
     }
 
@@ -74,8 +84,8 @@ export class PreviewContainer{
     }
 
     /**
-    * @param refresh if true updates page immediately.  otherwise error will show up whenever updateContent is called
-    */
+     * @param refresh if true updates page immediately.  otherwise error will show up whenever updateContent is called
+     */
     public updateError(err: string, refresh=false){
         this.pythonPreview.updateError(err, refresh)
     }
