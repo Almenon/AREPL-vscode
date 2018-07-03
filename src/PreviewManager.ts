@@ -20,9 +20,9 @@ export default class PreviewManager {
     subscriptions: vscode.Disposable[] = [];
 
     constructor(context: vscode.ExtensionContext) {
-        this.settings = vscode.workspace.getConfiguration('AREPL');
+        this.settings = vscode.workspace.getConfiguration("AREPL");
         this.pythonEditor = vscode.window.activeTextEditor.document;
-        this.reporter = new Reporter(this.settings.get<boolean>('telemetry'))
+        this.reporter = new Reporter(this.settings.get<boolean>("telemetry"))
         this.status = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left, 100);
         this.status.text = "Running python..."
         this.status.tooltip = "AREPL is currently running your python file.  Close the AREPL preview to stop"
@@ -44,18 +44,32 @@ export default class PreviewManager {
         this.subscribeHandlersToDoc()
     }
 
+    dispose() {
+        if (this.pythonEvaluator.pyshell != null && this.pythonEvaluator.pyshell.childProcess != null){
+            this.pythonEvaluator.stop()
+        }
+
+        this.disposable = vscode.Disposable.from(...this.subscriptions);
+        this.disposable.dispose();
+
+        this.status.dispose();
+        
+        this.reporter.sendFinishedEvent(this.settings)
+        this.reporter.dispose();
+    }
+
     /**
      * starts AREPL python backend and binds print&result output to the handlers
      */
     private startAndBindPython(){
-        let pythonPath = this.settings.get<string>('pythonPath')
-        let pythonOptions = this.settings.get<string[]>('pythonOptions')
+        const pythonPath = this.settings.get<string>("pythonPath")
+        const pythonOptions = this.settings.get<string[]>("pythonOptions")
 
         this.pythonEvaluator = new PythonEvaluator(pythonPath, pythonOptions)
         
         this.pythonEvaluator.startPython()
-        this.pythonEvaluator.pyshell.childProcess.on('error', err => {
-            let error:any = err; //typescript complains about type for some reason so defining to any
+        this.pythonEvaluator.pyshell.childProcess.on("error", err => {
+            const error: any = err; // typescript complains about type for some reason so defining to any
             this.previewContainer.handleSpawnError(error.path, error.spawnargs[0], error.stack);
             this.reporter.sendError("error starting python: " + error.path)
         })
@@ -66,7 +80,7 @@ export default class PreviewManager {
         this.pythonEvaluator.onPrint = this.previewContainer.handlePrint.bind(this.previewContainer)
         this.pythonEvaluator.onResult = result => {
             this.status.hide()
-            //@ts-ignore todo: fix typing in backend
+            // @ts-ignore todo: fix typing in backend
             this.previewContainer.handleResult(result)
         }
     }
@@ -76,21 +90,21 @@ export default class PreviewManager {
      */
     private subscribeHandlersToDoc(){
 
-        let debounce = this.settings.get<number>('delay');
-        let restartExtraDebounce = this.settings.get<number>('restartDelay');
+        const debounce = this.settings.get<number>("delay");
+        const restartExtraDebounce = this.settings.get<number>("restartDelay");
 
         if(this.settings.get<boolean>("skipLandingPage")){
             this.onAnyDocChange(this.pythonEditor);
         }
 
-        if(this.settings.get<string>('whenToExecute').toLowerCase() == "onsave"){
+        if(this.settings.get<string>("whenToExecute").toLowerCase() == "onsave"){
             vscode.workspace.onDidSaveTextDocument((e)=>{
                 this.onAnyDocChange(e)
             }, this, this.subscriptions)
         }
         else{
             vscode.workspace.onDidChangeTextDocument((e)=>{
-                let delay = this.toAREPLLogic.restartMode ? debounce + restartExtraDebounce : debounce
+                const delay = this.toAREPLLogic.restartMode ? debounce + restartExtraDebounce : debounce
                 this.pythonEvaluator.debounce(this.onAnyDocChange.bind(this,e.document), delay)
             }, this, this.subscriptions)
         }
@@ -108,7 +122,7 @@ export default class PreviewManager {
             if(imports.length == 0) return
 
             imports = imports.map(i => {
-                let words = i.split(' ')
+                const words = i.split(" ")
 
                 // python import syntax: "import library" or "from library import method"
                 // so if user didnt specify import we will do that for them :)
@@ -123,27 +137,13 @@ export default class PreviewManager {
         })
     }
 
-    dispose() {
-        if(this.pythonEvaluator.pyshell != null && this.pythonEvaluator.pyshell.childProcess != null){
-            this.pythonEvaluator.stop()
-        }
-
-        this.disposable = vscode.Disposable.from(...this.subscriptions);
-        this.disposable.dispose();
-
-        this.status.dispose();
-        
-        this.reporter.sendFinishedEvent(this.settings)
-        this.reporter.dispose();
-    }
-
     private onAnyDocChange(event: vscode.TextDocument){
-        if(event == this.pythonEditor){
+        if (event == this .pythonEditor){
 
             this.status.show();
 
-            let text = event.getText()
-            let filePath = this.pythonEditor.isUntitled ? "" : this.pythonEditor.fileName
+            const text = event.getText()
+            const filePath = this.pythonEditor.isUntitled ? "" : this.pythonEditor.fileName
             this.toAREPLLogic.onUserInput(text, filePath)
         }        
     }
