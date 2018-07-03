@@ -11,15 +11,15 @@ export default class Utilities {
      * @param string
      */
     static escapeHtml(input: string) {
-        return input.replace(/[&<>"'`=\/]/g, function (s) {
+        return input.replace(/[&<>"'`=\/]/g, function(s) {
             return Utilities.entityMap[s];
         });
     }
 
-    static async newUnsavedPythonDoc(content=""){
+    static async newUnsavedPythonDoc(content = ""){
         const pyDoc = await vscode.workspace.openTextDocument({
-            content: content,
-            language: "python"
+            content,
+            language: "python",
         });
     
         return await vscode.window.showTextDocument(pyDoc);
