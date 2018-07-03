@@ -2,7 +2,7 @@
 import {PythonEvaluator} from "arepl-backend"
 import {EOL} from "os"
 import * as vscode from "vscode"
-import { previewContainer } from "./previewContainer";
+import { PreviewContainer } from "./previewContainer";
 import Reporter from "./telemetry"
 import {toAREPLLogic} from "./toAREPLLogic"
 
@@ -16,7 +16,7 @@ export default class PreviewManager {
     status: vscode.StatusBarItem;
     settings: vscode.WorkspaceConfiguration;
     toAREPLLogic: toAREPLLogic
-    previewContainer: previewContainer
+    previewContainer: PreviewContainer
     subscriptions: vscode.Disposable[] = [];
 
     constructor(context: vscode.ExtensionContext) {
@@ -27,7 +27,7 @@ export default class PreviewManager {
         this.status.text = "Running python..."
         this.status.tooltip = "AREPL is currently running your python file.  Close the AREPL preview to stop"
 
-        this.previewContainer = new previewContainer(this.reporter, context)
+        this.previewContainer = new PreviewContainer(this.reporter, context)
     }
 
     async startArepl(){

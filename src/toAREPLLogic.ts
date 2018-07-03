@@ -1,5 +1,5 @@
 import {PythonEvaluator} from "arepl-backend"
-import {previewContainer} from "./previewContainer"
+import {PreviewContainer} from "./previewContainer"
 import pyGuiLibraryIsPresent from "./pyGuiLibraryIsPresent"
 
 /**
@@ -11,7 +11,7 @@ export class toAREPLLogic{
     restartMode: boolean;
     restartedLastTime = false;
 
-    constructor(private pythonEvaluator: PythonEvaluator, private previewContainer: previewContainer){
+    constructor(private pythonEvaluator: PythonEvaluator, private previewContainer: PreviewContainer){
 
     }
 

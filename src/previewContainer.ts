@@ -6,7 +6,7 @@ import Utilities from "./utilities"
 /**
  * logic wrapper around html preview doc
  */
-export class previewContainer{
+export class PreviewContainer{
     public scheme: string
     printResults: string[] = [];
     pythonPreview: pythonPreview
