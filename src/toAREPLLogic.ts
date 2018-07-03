@@ -6,7 +6,7 @@ import pyGuiLibraryIsPresent from "./pyGuiLibraryIsPresent"
  * formats text for passing into AREPL backend
  * Along the way decides whether backend needs restarting
  */
-export class toAREPLLogic{
+export class ToAREPLLogic{
 
     restartMode: boolean;
     restartedLastTime = false;

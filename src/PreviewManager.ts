@@ -4,7 +4,7 @@ import {EOL} from "os"
 import * as vscode from "vscode"
 import { PreviewContainer } from "./previewContainer";
 import Reporter from "./telemetry"
-import {toAREPLLogic} from "./toAREPLLogic"
+import {ToAREPLLogic} from "./toAREPLLogic"
 
 // This class initializes the previewmanager based on extension type and manages all the subscriptions
 export default class PreviewManager {
@@ -15,7 +15,7 @@ export default class PreviewManager {
     pythonEvaluator: PythonEvaluator;
     status: vscode.StatusBarItem;
     settings: vscode.WorkspaceConfiguration;
-    toAREPLLogic: toAREPLLogic
+    toAREPLLogic: ToAREPLLogic
     previewContainer: PreviewContainer
     subscriptions: vscode.Disposable[] = [];
 
@@ -74,7 +74,7 @@ export default class PreviewManager {
             this.reporter.sendError("error starting python: " + error.path)
         })
 
-        this.toAREPLLogic = new toAREPLLogic(this.pythonEvaluator, this.previewContainer)
+        this.toAREPLLogic = new ToAREPLLogic(this.pythonEvaluator, this.previewContainer)
 
         // binding this to the class so it doesn't get overwritten by PythonEvaluator
         this.pythonEvaluator.onPrint = this.previewContainer.handlePrint.bind(this.previewContainer)
