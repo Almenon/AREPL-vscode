@@ -1,13 +1,13 @@
 import { execSync } from "child_process";
-import { writeFileSync, existsSync, mkdirSync, unlinkSync } from "fs";
-import { join, sep, resolve, isAbsolute} from "path";
+import { existsSync, mkdirSync, unlinkSync, writeFileSync } from "fs";
+import { isAbsolute, join, resolve, sep} from "path";
 
 
 /**
  * registers arepl dump python file w/ python so it can be imported
  * @param pythonPath if unspecified uses python if win, python3 if mac/linux
  */
-export function registerAreplDump(pythonPath:string=null, extensionDir:string){
+export function registerAreplDump(pythonPath: string = null, extensionDir: string){
 
     if(pythonPath == null){
         // for non-windows OS it is best to use python3 instead of python
@@ -16,7 +16,7 @@ export function registerAreplDump(pythonPath:string=null, extensionDir:string){
         pythonPath = process.platform != "win32" ? "python3" : "python"
     }
 
-    let sitePackagePath = getsitePackagePath(pythonPath)
+    const sitePackagePath = getsitePackagePath(pythonPath)
 
     // i don't know why the heck site-packages folder would not exist
     // but it never hurts to be a little paranoid
@@ -28,24 +28,25 @@ export function registerAreplDump(pythonPath:string=null, extensionDir:string){
 /**
  * unregisters arepl dump python file from python
  */
-export function unregisterAreplDump(pythonPath:string){
-    let sitePackagePath = getsitePackagePath(pythonPath)
+export function unregisterAreplDump(pythonPath: string){
+    const sitePackagePath = getsitePackagePath(pythonPath)
 
     unlinkSync(join(sitePackagePath, "areplDump.pth"))
 }
 
-function getsitePackagePath(pythonPath:string){
+function getsitePackagePath(pythonPath: string){
     // for some godforsaken reason it returns the path with a space at the end
     // hence the trim
     return execSync(pythonPath + " -m site --user-site").toString().trim()
 }
 
 /**
- * node's inbuilt mkdirSync can't create multiple folders (wtf!). So i got this func from stackoverflow: https://stackoverflow.com/questions/31645738/how-to-create-full-path-with-nodes-fs-mkdirsync
+ * node's inbuilt mkdirSync can't create multiple folders (wtf!).
+ * So i got this func from stackoverflow: https://stackoverflow.com/questions/31645738/how-to-create-full-path-with-nodes-fs-mkdirsync
  */
-function mkDirByPathSync(targetDir:string, { isRelativeToScript = false } = {}) {
-    const initDir = isAbsolute(targetDir) ? sep : '';
-    const baseDir = isRelativeToScript ? __dirname : '.';
+function mkDirByPathSync(targetDir: string, { isRelativeToScript = false } = {}) {
+    const initDir = isAbsolute(targetDir) ? sep : "";
+    const baseDir = isRelativeToScript ? __dirname : ".";
 
     targetDir.split(sep).reduce((parentDir, childDir) => {
         const curDir = resolve(baseDir, parentDir, childDir);
@@ -53,7 +54,7 @@ function mkDirByPathSync(targetDir:string, { isRelativeToScript = false } = {}) 
             mkdirSync(curDir);
             console.log(`Directory ${curDir} created!`);
         } catch (err) {
-            if (err.code !== 'EEXIST') {
+            if (err.code !== "EEXIST") {
                 throw err;
             }
 
