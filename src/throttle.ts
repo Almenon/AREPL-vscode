@@ -15,11 +15,11 @@ export class limit{
      * @param fn
      * @param wait
      */
-    throttleAndQueue(fn:Function, wait:number){
+    throttleAndQueue(fn: Function, wait: number){
         let isCalled = false;
-        let self = this;
+        const self = this;
     
-        let caller = function(){
+        const caller = function(){
             if (self.callQueue.length && !isCalled){
                 isCalled = true;
                 self.callQueue.shift().call();
@@ -43,8 +43,8 @@ export class limit{
      * @param fn 
      * @param wait 
      */
-    throttledUpdate(fn:Function, wait:number){
-        let self = this;
+    throttledUpdate(fn: Function, wait: number){
+        const self = this;
 
         function caller(){
             // if no timer is set then we can accept a call
@@ -53,7 +53,7 @@ export class limit{
 
                 // check every W ms for updates
                 self.interval = setInterval(()=>{
-                    if(self.lastCall){
+                    if (self.lastCall){
                         self.lastCall.call()
                         self.lastCall = null
                     }
@@ -83,7 +83,7 @@ export class limit{
  * @param wait
  * @example let throttledFunc = throttle(myFunc,500);
  */
-export function throttle(fn:Function, wait:number){
+export function throttle(fn: Function, wait: number){
     let isCalled = false;
 
     return function(...args){
