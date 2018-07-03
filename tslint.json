@@ -10,7 +10,8 @@
         "curly":false,
         "no-console":false,
         "one-line":false,
-        "member-access": false
+        "member-access": false,
+        "triple-equals":false
     },
     "rulesDirectory": []
 }
