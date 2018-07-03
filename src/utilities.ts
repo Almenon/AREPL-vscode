@@ -2,27 +2,16 @@
 import * as vscode from "vscode";
 
 export default class Utilities {
-    static isEmpty(obj:Object) {
+    static isEmpty(obj: {}) {
         return Object.keys(obj).length === 0;
     }
-
-    private static entityMap = {
-        '&': '&amp;',
-        '<': '&lt;',
-        '>': '&gt;',
-        '"': '&quot;',
-        "'": '&#39;',
-        '/': '&#x2F;',
-        '`': '&#x60;',
-        '=': '&#x3D;'
-    };
       
     /**
      * see https://stackoverflow.com/a/12034334/6629672
      * @param string
      */
-    static escapeHtml (string: string) {
-        return string.replace(/[&<>"'`=\/]/g, function (s) {
+    static escapeHtml(input: string) {
+        return input.replace(/[&<>"'`=\/]/g, function (s) {
             return Utilities.entityMap[s];
         });
     }
@@ -30,7 +19,7 @@ export default class Utilities {
     static async newUnsavedPythonDoc(content=""){
         const pyDoc = await vscode.workspace.openTextDocument({
             content: content,
-            language: 'python'
+            language: "python"
         });
     
         return await vscode.window.showTextDocument(pyDoc);
@@ -39,10 +28,22 @@ export default class Utilities {
     /**
      * gets first highlighted text of active doc
      * if no highlight or no active editor returns empty string
-    */
+     */
    static getHighlightedText(){
-        let editor = vscode.window.activeTextEditor;
-        if(!editor) return ""
+        const editor = vscode.window.activeTextEditor;
+        if (!editor) return ""
         return editor.document.getText(editor.selection)
     }
+
+    
+    private static entityMap = {
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;",
+        "'": "&#39;",
+        "/": "&#x2F;",
+        "`": "&#x60;",
+        "=": "&#x3D;",
+    };
 }
