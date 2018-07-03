@@ -16,7 +16,7 @@ export default class Reporter{
         // following key just allows you to send events to azure insights API
         // so it does not need to be protected
         // but obfuscating anyways - bots scan github for keys, but if you want my key you better work for it, damnit!
-        const innocentKitten = Buffer.from("NWYzMWNjNDgtNTA2OC00OGY4LWFjMWMtZDRkY2Y3ZWFhMTM1","base64").toString()
+        const innocentKitten = Buffer.from("NWYzMWNjNDgtNTA2OC00OGY4LWFjMWMtZDRkY2Y3ZWFhMTM1", "base64").toString()
     
         this.reporter = new TelemetryReporter(extensionId, extensionVersion, innocentKitten);
         this.timeSpent = Date.now()
@@ -41,11 +41,11 @@ export default class Reporter{
      * we want to collect data on how long the user uses the extension
      * also pythonPath to see if they are using python2 / 3 / virtual env python
      */
-    sendFinishedEvent(settings:WorkspaceConfiguration){
+    sendFinishedEvent(settings: WorkspaceConfiguration){
         if (this.enabled){
             const properties: {[key: string]: string} = {}
 
-            this.timeSpent = Date.now()-this.timeSpent
+            this.timeSpent = Date.now() - this.timeSpent
             properties.timeSpent = this.timeSpent.toString()
 
             const settingsDict = JSON.parse(JSON.stringify(settings))

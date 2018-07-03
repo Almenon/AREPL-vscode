@@ -22,7 +22,7 @@ export function registerAreplDump(pythonPath: string = null, extensionDir: strin
     // but it never hurts to be a little paranoid
     if(!existsSync(sitePackagePath)) mkDirByPathSync(sitePackagePath)
 
-    writeFileSync(join(sitePackagePath, "areplDump.pth"), join(extensionDir, 'node_modules', 'arepl-backend', 'python'))
+    writeFileSync(join(sitePackagePath, "areplDump.pth"), join(extensionDir, "node_modules", "arepl-backend", "python"))
 }
 
 /**

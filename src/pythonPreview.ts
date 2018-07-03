@@ -141,7 +141,7 @@ export default class PythonPreview implements vscode.TextDocumentContentProvider
             </script>`
     }
 
-    public updateTime(time:number){
+    public updateTime(time: number){
         let color: "green"|"red";
 
         time = Math.floor(time) // we dont care about anything smaller than ms
@@ -165,7 +165,7 @@ export default class PythonPreview implements vscode.TextDocumentContentProvider
         if(refresh) this.throttledUpdate()
     }
 
-    public handlePrint(printResults:string){
+    public handlePrint(printResults: string){
         // escape any accidental html
         printResults = Utilities.escapeHtml(printResults);
 
@@ -177,7 +177,7 @@ export default class PythonPreview implements vscode.TextDocumentContentProvider
         this.printContainer = this.emptyPrint
     }
 
-    public handleSpawnError(pythonCommand:string, pythonPath:string, err:string){
+    public handleSpawnError(pythonCommand: string, pythonPath: string, err: string){
         let errMsg = `Error in the AREPL extension!\nWhile running python ${pythonCommand} ${pythonPath} we got ${err}`
         if (err.includes("ENOENT")){
             errMsg = errMsg + "\n\nAre you sure you have installed python 3 and it is in your PATH?"

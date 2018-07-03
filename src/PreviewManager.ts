@@ -105,7 +105,7 @@ export default class PreviewManager {
         else{
             vscode.workspace.onDidChangeTextDocument((e) => {
                 const delay = this.toAREPLLogic.restartMode ? debounce + restartExtraDebounce : debounce
-                this.pythonEvaluator.debounce(this.onAnyDocChange.bind(this,e.document), delay)
+                this.pythonEvaluator.debounce(this.onAnyDocChange.bind(this, e.document), delay)
             }, this, this.subscriptions)
         }
         
@@ -126,7 +126,7 @@ export default class PreviewManager {
 
                 // python import syntax: "import library" or "from library import method"
                 // so if user didnt specify import we will do that for them :)
-                if(words[0] != "import" && words[0] != "from" && words[0].length > 0){
+                if (words[0] != "import" && words[0] != "from" && words[0].length > 0){
                     i = "import " + i
                 }
 

@@ -48,11 +48,11 @@ export class Limit{
 
         function caller(){
             // if no timer is set then we can accept a call
-            if(!self.interval){
+            if (!self.interval){
                 self.lastCall.call()
 
                 // check every W ms for updates
-                self.interval = setInterval(()=>{
+                self.interval = setInterval(() => {
                     if (self.lastCall){
                         self.lastCall.call()
                         self.lastCall = null

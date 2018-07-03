@@ -19,17 +19,17 @@ export class ToAREPLLogic{
         let codeLines = text.split("\n")
     
         let savedLines: string[] = []
-        codeLines.forEach((line,i)=>{
+        codeLines.forEach((line, i) => {
             if(line.trim().endsWith("#$save")){
-                savedLines = codeLines.slice(0,i+1)
-                codeLines = codeLines.slice(i+1,codeLines.length)
+                savedLines = codeLines.slice(0, i + 1)
+                codeLines = codeLines.slice(i + 1, codeLines.length)
             }
         });
     
-        let data = {
+        const data = {
             evalCode: codeLines.join("\n"),
             filePath,
-            savedCode: savedLines.join("\n")
+            savedCode: savedLines.join("\n"),
         }
     
         this.restartMode = pyGuiLibraryIsPresent(text)
@@ -37,7 +37,7 @@ export class ToAREPLLogic{
         if (this.restartMode) {
             this.checkSyntaxAndRestart(data)
         }
-        else if(this.restartedLastTime){ // if GUI code is gone need one last restart to get rid of GUI
+        else if (this.restartedLastTime){ // if GUI code is gone need one last restart to get rid of GUI
             this.restartPython(data)
             this.restartedLastTime = false;
         }
@@ -56,13 +56,13 @@ export class ToAREPLLogic{
         // #22 it might be faster to use checkSyntaxFile but this is simpler
         syntaxPromise = this.pythonEvaluator.checkSyntax(data.savedCode + data.evalCode)
 
-        syntaxPromise.then(()=>{
+        syntaxPromise.then(() => {
             this.restartPython(data)
             this.restartedLastTime = true
         })
-        .catch((error)=>{
+        .catch((error) => {
             this.previewContainer.handleResult(
-                {"userVariables":{},"userError":error, execTime: 0, totalPyTime: 0, totalTime: 0, internalError: "", caller: "", lineno: -1, done:true}
+                {"userVariables":{},"userError":error, execTime: 0, totalPyTime: 0, totalTime: 0, internalError: "", caller: "", lineno: -1, done: true,}
             )
         })
     }
