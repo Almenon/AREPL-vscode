@@ -10,15 +10,16 @@ import Utilities from "./utilities"
  */
 export default class PythonPreview implements vscode.TextDocumentContentProvider {
     
-    public throttledUpdate:()=>void
+    static readonly scheme = "pythonPreview"
+    static readonly PREVIEW_URI = PythonPreview.scheme + "://authority/preview"
+    public throttledUpdate: () => void
 
     private _onDidChange: vscode.EventEmitter<vscode.Uri>;
     private settings: vscode.WorkspaceConfiguration;
-    static readonly scheme = "pythonPreview"
-    static readonly PREVIEW_URI = PythonPreview.scheme + "://authority/preview"
     private lastTime: number = 999999999;
 
     private html;
+    
     private readonly landingPage = `
     <br>
     <p style="font-size:14px">Start typing or make a change and your code will be evaluated.</p>
@@ -101,21 +102,21 @@ export default class PythonPreview implements vscode.TextDocumentContentProvider
 
     private css: string
     private jsonRendererScript: string;
-    private errorContainer = ''
+    private errorContainer = ""
     private jsonRendererCode = `<div id="results"></div>`;
     private emptyPrint = `<br><b>Print Output:</b><div id="print"></div>`
     private printContainer = this.emptyPrint;
-    private timeContainer = ''
+    private timeContainer = ""
 
     constructor(private context: vscode.ExtensionContext) {
         this._onDidChange = new vscode.EventEmitter<vscode.Uri>();
         this.css = `<link rel="stylesheet" type="text/css" href="${this.getMediaPath("pythonPreview.css")}">`
-        this.jsonRendererScript = `<script src="${this.getMediaPath('jsonRenderer.js')}"></script>`
-        this.settings = vscode.workspace.getConfiguration('AREPL');
+        this.jsonRendererScript = `<script src="${this.getMediaPath("jsonRenderer.js")}"></script>`
+        this.settings = vscode.workspace.getConfiguration("AREPL");
         this.html = this.landingPage;
 
         // refreshing html too much can freeze vscode... lets avoid that
-        let l = new limit()
+        const l = new limit()
         this.throttledUpdate = l.throttledUpdate(this.updateContent, 50)
     }
 
@@ -123,62 +124,25 @@ export default class PythonPreview implements vscode.TextDocumentContentProvider
         return this.html;
     };
 
-    private update() {
-        this._onDidChange.fire(vscode.Uri.parse(PythonPreview.PREVIEW_URI));
-    }
-
-    get onDidChange(): vscode.Event<vscode.Uri> {
-        return this._onDidChange.event;
-    }
-
-    private getMediaPath(mediaFile: string): string {
-        // stolen from https://github.com/Microsoft/vscode/tree/master/extensions/markdown
-		return vscode.Uri.file(this.context.asAbsolutePath(path.join('media', mediaFile))).toString();
-	}
-
-    private updateContent(){
-
-        let printPlacement = this.settings.get<string>("printResultPlacement")
-        let showFooter = this.settings.get<boolean>("showFooter")
-
-        // todo: handle different themes.  check body class: https://code.visualstudio.com/updates/June_2016
-        this.html = `<head>
-            ${this.css}
-            ${this.jsonRendererScript}
-            ${this.jsonRendererCode}
-        </head>
-        <body>
-            ${this.errorContainer}
-            ${printPlacement == "bottom" ? '<div id="results"></div>'+this.printContainer : this.printContainer+'<div id="results"></div>'}
-            ${this.timeContainer}
-            ${showFooter ? this.footer : ""}
-        </body>`
-
-        // issue #1: need to make sure html is new each time or wierd crap happens
-        this.html += `<div id="${Math.random()}" style="display:none"></div>`
-
-        this.update();  
-    }
-
-    public updateVars(vars: Object){
+    public updateVars(vars: object){
         let userVarsCode = `userVars = ${JSON.stringify(vars)};`
 
         // escape end script tag or else the content will escape its container and WREAK HAVOC
-        userVarsCode = userVarsCode.replace(/<\/script>/g,'<\\/script>')
+        userVarsCode = userVarsCode.replace(/<\/script>/g, "<\\/script>")
 
         this.jsonRendererCode = `<script>
             window.onload = function(){
                 ${userVarsCode}
                 let jsonRenderer = renderjson.set_icons('+', '-') // default icons look a bit wierd, overriding
-                    .set_show_to_level(${this.settings.get('show_to_level')}) 
-                    .set_max_string_length(${this.settings.get('max_string_length')});
+                    .set_show_to_level(${this.settings.get("show_to_level")}) 
+                    .set_max_string_length(${this.settings.get("max_string_length")});
                 document.getElementById("results").appendChild(jsonRenderer(userVars));
             }
             </script>`
     }
 
     public updateTime(time:number){
-        let color:"green"|"red";
+        let color: "green"|"red";
 
         time = Math.floor(time) // we dont care about anything smaller than ms
         
@@ -215,9 +179,50 @@ export default class PythonPreview implements vscode.TextDocumentContentProvider
 
     public handleSpawnError(pythonCommand:string, pythonPath:string, err:string){
         let errMsg = `Error in the AREPL extension!\nWhile running python ${pythonCommand} ${pythonPath} we got ${err}`
-        if (err.includes("ENOENT")) errMsg = errMsg + "\n\nAre you sure you have installed python 3 and it is in your PATH?"
+        if (err.includes("ENOENT")){
+            errMsg = errMsg + "\n\nAre you sure you have installed python 3 and it is in your PATH?"
+        }
 
         this.updateError(errMsg)
         this.throttledUpdate()
+    }
+
+    private update() {
+        this._onDidChange.fire(vscode.Uri.parse(PythonPreview.PREVIEW_URI));
+    }
+
+    get onDidChange(): vscode.Event<vscode.Uri> {
+        return this._onDidChange.event;
+    }
+
+    private getMediaPath(mediaFile: string): string {
+        // stolen from https://github.com/Microsoft/vscode/tree/master/extensions/markdown
+        return vscode.Uri.file(this.context.asAbsolutePath(path.join('media', mediaFile))).toString();
+    }
+
+    private updateContent(){
+
+        const printPlacement = this.settings.get<string>("printResultPlacement")
+        const showFooter = this.settings.get<boolean>("showFooter")
+
+        // todo: handle different themes.  check body class: https://code.visualstudio.com/updates/June_2016
+        this.html = `<head>
+            ${this.css}
+            ${this.jsonRendererScript}
+            ${this.jsonRendererCode}
+        </head>
+        <body>
+            ${this.errorContainer}
+            ${printPlacement == "bottom" ? 
+                '<div id="results"></div>' + this.printContainer : 
+                this.printContainer + '<div id="results"></div>'}
+            ${this.timeContainer}
+            ${showFooter ? this.footer : ""}
+        </body>`
+
+        // issue #1: need to make sure html is new each time or wierd crap happens
+        this.html += `<div id="${Math.random()}" style="display:none"></div>`
+
+        this.update();  
     }
 }
