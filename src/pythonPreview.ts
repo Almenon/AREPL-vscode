@@ -8,14 +8,14 @@ import Utilities from "./utilities"
  * very simple read-only html content
  * https://code.visualstudio.com/docs/extensionAPI/vscode-api#_a-nametextdocumentcontentprovider
  */
-export default class pythonPreview implements vscode.TextDocumentContentProvider {
+export default class PythonPreview implements vscode.TextDocumentContentProvider {
     
     public throttledUpdate:()=>void
 
     private _onDidChange: vscode.EventEmitter<vscode.Uri>;
     private settings: vscode.WorkspaceConfiguration;
     static readonly scheme = "pythonPreview"
-    static readonly PREVIEW_URI = pythonPreview.scheme + "://authority/preview"
+    static readonly PREVIEW_URI = PythonPreview.scheme + "://authority/preview"
     private lastTime: number = 999999999;
 
     private html;
@@ -124,7 +124,7 @@ export default class pythonPreview implements vscode.TextDocumentContentProvider
     };
 
     private update() {
-        this._onDidChange.fire(vscode.Uri.parse(pythonPreview.PREVIEW_URI));
+        this._onDidChange.fire(vscode.Uri.parse(PythonPreview.PREVIEW_URI));
     }
 
     get onDidChange(): vscode.Event<vscode.Uri> {

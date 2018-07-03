@@ -1,5 +1,5 @@
 import * as vscode from "vscode"
-import pythonPreview from "./pythonPreview"
+import PythonPreview from "./pythonPreview"
 import Reporter from "./telemetry";
 import Utilities from "./utilities"
 
@@ -9,16 +9,16 @@ import Utilities from "./utilities"
 export class PreviewContainer{
     public scheme: string
     printResults: string[] = [];
-    pythonPreview: pythonPreview
+    pythonPreview: PythonPreview
     vars: {}
 
     constructor(private reporter: Reporter, context: vscode.ExtensionContext){
-        this.pythonPreview = new pythonPreview(context);
-        this.scheme = pythonPreview.scheme
+        this.pythonPreview = new PythonPreview(context);
+        this.scheme = PythonPreview.scheme
     }
 
     public register(){
-        return vscode.workspace.registerTextDocumentContentProvider(pythonPreview.scheme, this.pythonPreview);
+        return vscode.workspace.registerTextDocumentContentProvider(PythonPreview.scheme, this.pythonPreview);
     }
 
     public handleResult(pythonResults: 
