@@ -11,7 +11,8 @@
         "no-console":false,
         "one-line":false,
         "member-access": false,
-        "triple-equals":false
+        "triple-equals":false,
+        "arrow-parens": false
     },
     "rulesDirectory": []
 }
