@@ -37,13 +37,13 @@ export default class Utilities {
 
     
     private static entityMap = {
-        "&": "&amp;",
-        "<": "&lt;",
-        ">": "&gt;",
         '"': "&quot;",
+        "&": "&amp;",
         "'": "&#39;",
         "/": "&#x2F;",
-        "`": "&#x60;",
+        "<": "&lt;",
         "=": "&#x3D;",
+        ">": "&gt;",
+        "`": "&#x60;",
     };
 }
