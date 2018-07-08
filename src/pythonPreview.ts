@@ -161,6 +161,8 @@ export default class PythonPreview implements vscode.TextDocumentContentProvider
         // escape the <module>
         err = Utilities.escapeHtml(err)
 
+        err = this.makeErrorGoogleable(err)
+
         this.errorContainer = `<div id="error">${err}</div>`
 
         if(refresh) this.throttledUpdate()
@@ -186,6 +188,29 @@ export default class PythonPreview implements vscode.TextDocumentContentProvider
 
         this.updateError(errMsg)
         this.throttledUpdate()
+    }
+
+    private makeErrorGoogleable(err: string){
+        if(err && err.trim().length > 0){
+            let errLines = err.split("\n")
+
+            // exception usually on last line so start from bottom
+            for(let i=errLines.length-1; i>=0; i--){
+
+                // most exceptions follow format ERROR: explanation
+                // ex: json.decoder.JSONDecodeError: Expecting value: line 1 column 1 (char 0)
+                // so we can identify them by a single word at start followed by colon
+                const errRegex = /(^[\w\.]+): /
+
+                if(errLines[i].match(errRegex)){
+                    const googleLink = "https://www.google.com/search?q=python "
+                    errLines[i] = errLines[i].link(googleLink + errLines[i])
+                }
+            }
+
+            return errLines.join("\n")
+        }
+        else return err
     }
 
     private update() {
