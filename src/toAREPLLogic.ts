@@ -20,7 +20,7 @@ export class ToAREPLLogic{
     
         let savedLines: string[] = []
         codeLines.forEach((line, i) => {
-            if(line.trim().endsWith("#$save")){
+            if (line.trim().endsWith("#$save")){
                 savedLines = codeLines.slice(0, i + 1)
                 codeLines = codeLines.slice(i + 1, codeLines.length)
             }
@@ -62,7 +62,7 @@ export class ToAREPLLogic{
         })
         .catch((error) => {
             this.previewContainer.handleResult(
-                {"userVariables":{},"userError":error, execTime: 0, totalPyTime: 0, totalTime: 0, internalError: "", caller: "", lineno: -1, done: true,}
+                {userVariables:{},userError:error, execTime: 0, totalPyTime: 0, totalTime: 0, internalError: "", caller: "", lineno: -1, done: true,}
             )
         })
     }
