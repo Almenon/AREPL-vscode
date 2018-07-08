@@ -2,6 +2,7 @@
 
 ### Added:
 Ability to dump local variables and variables at specific points in your program - https://github.com/Almenon/AREPL-vscode/issues/74
+Click on errors to google them - https://github.com/Almenon/AREPL-vscode/issues/76
 
 ## [v1.1](https://github.com/Almenon/AREPL-vscode/milestone/11?closed=1)
 
