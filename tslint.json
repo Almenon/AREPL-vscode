@@ -14,7 +14,8 @@
         "triple-equals":false,
         "arrow-parens": false,
         "no-consecutive-blank-lines": false,
-        "only-arrow-functions": false
+        "only-arrow-functions": false,
+        "whitespace":false
     },
     "rulesDirectory": []
 }
