@@ -15,7 +15,8 @@
         "arrow-parens": false,
         "no-consecutive-blank-lines": false,
         "only-arrow-functions": false,
-        "whitespace":false
+        "whitespace":false,
+        "prefer-const":false
     },
     "rulesDirectory": []
 }
