@@ -1,6 +1,7 @@
+import {PythonResult} from "arepl-backend"
 import * as vscode from "vscode"
 import PythonPreview from "./pythonPreview"
-import Reporter from "./telemetry";
+import Reporter from "./telemetry"
 import Utilities from "./utilities"
 
 /**
@@ -21,17 +22,7 @@ export class PreviewContainer{
         return vscode.workspace.registerTextDocumentContentProvider(PythonPreview.scheme, this.pythonPreview);
     }
 
-    public handleResult(pythonResults: 
-        {userError: string,
-        userVariables: object,
-        execTime: number,
-        totalPyTime: number,
-        totalTime: number,
-        internalError: string,
-        caller: string,
-        lineno: number,
-        done: boolean}
-    ){
+    public handleResult(pythonResults: PythonResult){
 
         console.log(pythonResults.execTime)
         console.log(pythonResults.totalPyTime)
@@ -78,7 +69,7 @@ export class PreviewContainer{
         if (pythonResults.done) this.printResults = [];
     }
 
-    public handlePrint(pythonResults:string){
+    public handlePrint(pythonResults: string){
         this.printResults.push(pythonResults);
         this.pythonPreview.handlePrint(this.printResults.join('\n'))
     }
@@ -90,7 +81,7 @@ export class PreviewContainer{
         this.pythonPreview.updateError(err, refresh)
     }
 
-    public handleSpawnError(pythonCommand:string, pythonPath:string, err:string){
+    public handleSpawnError(pythonCommand: string, pythonPath: string, err: string){
         this.pythonPreview.handleSpawnError(pythonCommand, pythonPath, err)
     }
 
