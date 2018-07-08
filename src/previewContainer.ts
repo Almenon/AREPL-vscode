@@ -31,7 +31,7 @@ export class PreviewContainer{
         // exec time is the 'truest' time that user cares about
         this.pythonPreview.updateTime(pythonResults.execTime);
 
-        if (!pythonResults.done){
+        if(!pythonResults.done){
             const lineKey = "line " + pythonResults.lineno
             if(pythonResults.userVariables["dump output"] != undefined){
                 const dumpOutput = pythonResults.userVariables["dump output"]
@@ -53,20 +53,20 @@ export class PreviewContainer{
             this.pythonPreview.updateVars(this.vars)
         }
         
-        if (pythonResults.done){
+        if(pythonResults.done){
             this.vars = {}
         }
 
-        if (pythonResults.userError.startsWith("Sorry, AREPL has ran into an error")){
+        if(pythonResults.userError.startsWith("Sorry, AREPL has ran into an error")){
             this.reporter.sendError(pythonResults.userError)
         }
 
-        if (this.printResults.length == 0) this.pythonPreview.clearPrint()
+        if(this.printResults.length == 0) this.pythonPreview.clearPrint()
 
         this.updateError(pythonResults.userError, true)
 
         // clear print so empty for next program run
-        if (pythonResults.done) this.printResults = [];
+        if(pythonResults.done) this.printResults = [];
     }
 
     public handlePrint(pythonResults: string){

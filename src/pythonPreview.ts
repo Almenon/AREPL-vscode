@@ -160,6 +160,7 @@ export default class PythonPreview implements vscode.TextDocumentContentProvider
     public updateError(err: string, refresh=false){
         // escape the <module>
         err = Utilities.escapeHtml(err)
+
         this.errorContainer = `<div id="error">${err}</div>`
 
         if(refresh) this.throttledUpdate()
@@ -179,7 +180,7 @@ export default class PythonPreview implements vscode.TextDocumentContentProvider
 
     public handleSpawnError(pythonCommand: string, pythonPath: string, err: string){
         let errMsg = `Error in the AREPL extension!\nWhile running python ${pythonCommand} ${pythonPath} we got ${err}`
-        if (err.includes("ENOENT")){
+        if(err.includes("ENOENT")){
             errMsg = errMsg + "\n\nAre you sure you have installed python 3 and it is in your PATH?"
         }
 

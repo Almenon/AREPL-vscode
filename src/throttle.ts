@@ -20,7 +20,7 @@ export class Limit{
         const self = this;
     
         const caller = function(){
-            if (self.callQueue.length && !isCalled){
+            if(self.callQueue.length && !isCalled){
                 isCalled = true;
                 self.callQueue.shift().call();
                 setTimeout(function(){
@@ -48,12 +48,12 @@ export class Limit{
 
         function caller(){
             // if no timer is set then we can accept a call
-            if (!self.interval){
+            if(!self.interval){
                 self.lastCall.call()
 
                 // check every W ms for updates
                 self.interval = setInterval(() => {
-                    if (self.lastCall){
+                    if(self.lastCall){
                         self.lastCall.call()
                         self.lastCall = null
                     }
@@ -87,7 +87,7 @@ export function throttle(fn: Function, wait: number){
     let isCalled = false;
 
     return function(...args){
-        if (!isCalled){
+        if(!isCalled){
             fn(...args);
             isCalled = true;
             setTimeout(function(){

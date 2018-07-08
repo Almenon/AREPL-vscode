@@ -20,7 +20,7 @@ export class ToAREPLLogic{
     
         let savedLines: string[] = []
         codeLines.forEach((line, i) => {
-            if (line.trim().endsWith("#$save")){
+            if(line.trim().endsWith("#$save")){
                 savedLines = codeLines.slice(0, i + 1)
                 codeLines = codeLines.slice(i + 1, codeLines.length)
             }
@@ -34,10 +34,10 @@ export class ToAREPLLogic{
     
         this.restartMode = pyGuiLibraryIsPresent(text)
         
-        if (this.restartMode) {
+        if(this.restartMode) {
             this.checkSyntaxAndRestart(data)
         }
-        else if (this.restartedLastTime){ // if GUI code is gone need one last restart to get rid of GUI
+        else if(this.restartedLastTime){ // if GUI code is gone need one last restart to get rid of GUI
             this.restartPython(data)
             this.restartedLastTime = false;
         }

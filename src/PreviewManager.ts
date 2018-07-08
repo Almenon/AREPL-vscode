@@ -35,7 +35,7 @@ export default class PreviewManager {
 
         this.startAndBindPython()
 
-        if (this.pythonEditor.isUntitled && this.pythonEditor.getText() == "") {
+        if(this.pythonEditor.isUntitled && this.pythonEditor.getText() == "") {
             await this.insertDefaultImports(vscode.window.activeTextEditor)
             // waiting for this to complete so i dont accidentily trigger
             // the edit doc handler when i insert imports
@@ -45,7 +45,7 @@ export default class PreviewManager {
     }
 
     dispose() {
-        if (this.pythonEvaluator.pyshell != null && this.pythonEvaluator.pyshell.childProcess != null){
+        if(this.pythonEvaluator.pyshell != null && this.pythonEvaluator.pyshell.childProcess != null){
             this.pythonEvaluator.stop()
         }
 
@@ -93,11 +93,11 @@ export default class PreviewManager {
         const debounce = this.settings.get<number>("delay");
         const restartExtraDebounce = this.settings.get<number>("restartDelay");
 
-        if (this.settings.get<boolean>("skipLandingPage")){
+        if(this.settings.get<boolean>("skipLandingPage")){
             this.onAnyDocChange(this.pythonEditor);
         }
 
-        if (this.settings.get<string>("whenToExecute").toLowerCase() == "onsave"){
+        if(this.settings.get<string>("whenToExecute").toLowerCase() == "onsave"){
             vscode.workspace.onDidSaveTextDocument((e) => {
                 this.onAnyDocChange(e)
             }, this, this.subscriptions)
@@ -110,7 +110,7 @@ export default class PreviewManager {
         }
         
         vscode.workspace.onDidCloseTextDocument((e) => {
-            if (e == this.pythonEditor || e.uri.scheme == this.previewContainer.scheme) this.dispose()
+            if(e == this.pythonEditor || e.uri.scheme == this.previewContainer.scheme) this.dispose()
         }, this, this.subscriptions)
     }
 
@@ -119,14 +119,14 @@ export default class PreviewManager {
             let imports = this.settings.get<string[]>("defaultImports")
 
             imports = imports.filter(i => i.trim() != "")
-            if (imports.length == 0) return
+            if(imports.length == 0) return
 
             imports = imports.map(i => {
                 const words = i.split(" ")
 
                 // python import syntax: "import library" or "from library import method"
                 // so if user didnt specify import we will do that for them :)
-                if (words[0] != "import" && words[0] != "from" && words[0].length > 0){
+                if(words[0] != "import" && words[0] != "from" && words[0].length > 0){
                     i = "import " + i
                 }
 
@@ -138,7 +138,7 @@ export default class PreviewManager {
     }
 
     private onAnyDocChange(event: vscode.TextDocument){
-        if (event == this .pythonEditor){
+        if(event == this .pythonEditor){
 
             this.status.show();
 

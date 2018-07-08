@@ -31,7 +31,7 @@ export default class Utilities {
      */
    static getHighlightedText(){
         const editor = vscode.window.activeTextEditor;
-        if (!editor) return ""
+        if(!editor) return ""
         return editor.document.getText(editor.selection)
     }
 
