@@ -1,7 +1,7 @@
 {
   "name": "arepl",
   "displayName": "AREPL",
-  "description": "evalutes python code in real-time",
+  "description": "real-time python scratchpad",
   "version": "0.1.2",
   "publisher": "almenon",
   "engines": {
@@ -181,7 +181,8 @@
   "license": "SEE LICENSE IN <filename>",
   "keywords": [
     "python",
-    "real-time"
+    "real-time",
+    "scratchpad"
   ],
   "icon": "media/crappy8BitCat.png"
 }
