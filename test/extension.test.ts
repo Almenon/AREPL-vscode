@@ -98,7 +98,7 @@ suite("Extension Tests", () => {
         doc.onDidChange((x) => {
             doneWrapper(done, () => {
                 const html = doc.provideTextDocumentContent(null);
-                assert.equal(html.includes('5'), true, html);
+                assert.equal(html.includes('"x":5'), true, html);
             });
         })
         doc.handleResult(
