@@ -5,14 +5,30 @@
 import * as assert from "assert";
 import * as vscode from "vscode";
 
-import {PreviewContainer} from "../src/previewContainer" 
+import {PreviewContainer} from "../src/previewContainer"
 import Reporter from "../src/telemetry";
 
 suite("Extension Tests", () => {
-    
+
     const mockContext: any = {
         asAbsolutePath: (file: string)=>{
             return __dirname + "/" + file
+        }
+    }
+
+    // Usage: You need to do some assertions inside a callback, then call done().
+    // But if the asserts fail, they'll throw an exception, and done() won't be
+    // called. So you wrap them in a try/catch block. Then you realise that you're
+    // writing the same try/catch block over and over, so you write a wrapper like
+    // the one below. (Or you're more of an expert, which I'm not, and you find
+    // a better way to do it.)
+    // This is a very blunt implementation that doesn't handle args or "this".
+    const doneWrapper = (done, func) => {
+        try {
+            func();
+            done();
+        } catch(err) {
+            done(err);
         }
     }
 
@@ -20,33 +36,36 @@ suite("Extension Tests", () => {
     // todo: fix that crap
 
     test("command activates", (done) => {
-        vscode.commands.executeCommand("extension.newAREPLSession").then(() => {
-            // what we SHOULD be doing here is getting a promise from the command 
+        vscode.commands.executeCommand("extension.newAREPLSession").then((p) => {
+            // what we SHOULD be doing here is getting a promise from the command
             // and asserting once the promise is resolved
             // but despite returning a promise it comes in as undefined... ugggg
             // assert.equal(vscode.window.activeTextEditor, true, "command failed to create new file")
-            done()
+            assert.ok(true);
+            done();
         }, reason => {
-            assert.fail("failure executing command! reason: " + reason);
+            done(reason);
         })
     });
 
     test("print", (done) => {
         const doc = new PreviewContainer(new Reporter(false), mockContext);
         doc.onDidChange((x) =>{
-            const html = doc.provideTextDocumentContent(null);
-            assert.equal(html.includes("hello world"), true, html);
-            done()
-        })
-        doc.handlePrint("hello world")
+            doneWrapper(done, () => {
+                const html = doc.provideTextDocumentContent(null);
+                assert.equal(html.includes("hello world"), true, html);
+            });
+        });
+        doc.handlePrint("hello world");
     });
 
     test("spawn error", (done) => {
         const doc = new PreviewContainer(new Reporter(false), mockContext);
         doc.onDidChange((x)=>{
-            const html = doc.provideTextDocumentContent(null);
-            assert.equal(html.includes("Error in the AREPL extension"), true, html);
-            done()
+            doneWrapper(done, () => {
+                const html = doc.provideTextDocumentContent(null);
+                assert.equal(html.includes("Error in the AREPL extension"), true, html);
+            });
         })
         doc.handleSpawnError("python3", "C:\\dev\\python","error")
     });
@@ -54,9 +73,10 @@ suite("Extension Tests", () => {
     test("error", (done) => {
         const doc = new PreviewContainer(new Reporter(false), mockContext);
         doc.onDidChange((x) => {
-            const html = doc.provideTextDocumentContent(null);
-            assert.equal(html.includes("yo"), true, html);
-            done()
+            doneWrapper(done, () => {
+                const html = doc.provideTextDocumentContent(null);
+                assert.equal(html.includes("yo"), true, html);
+            });
         })
         doc.handleResult(
             {
@@ -76,9 +96,10 @@ suite("Extension Tests", () => {
     test("userVariables", (done) => {
         const doc = new PreviewContainer(new Reporter(false), mockContext);
         doc.onDidChange((x) => {
-            const html = doc.provideTextDocumentContent(null);
-            assert.equal(html.includes("5"), true, html);
-            done()
+            doneWrapper(done, () => {
+                const html = doc.provideTextDocumentContent(null);
+                assert.equal(html.includes('5'), true, html);
+            });
         })
         doc.handleResult(
             {
@@ -98,9 +119,10 @@ suite("Extension Tests", () => {
     test("print escapes html", (done) => {
         const doc = new PreviewContainer(new Reporter(false), mockContext);
         doc.onDidChange((x) => {
-            const html = doc.provideTextDocumentContent(null);
-            assert.equal(html.includes("&lt;module&gt;"), true, html);
-            done()
+            doneWrapper(done, () => {
+                const html = doc.provideTextDocumentContent(null);
+                assert.equal(html.includes("&lt;module&gt;"), true, html);
+            });
         })
         doc.handlePrint("<module>")
     });
