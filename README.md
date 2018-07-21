@@ -98,7 +98,7 @@ turtle.left(90)
 
 **VENV**
 
-to use you arpel with VENV you can set the AREPL.pythonPath setting to reference the location of your venv python
+to use you arepl with VENV you can set the AREPL.pythonPath setting to reference the location of your venv python
 
 **Variable Representation**
 
