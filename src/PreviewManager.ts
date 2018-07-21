@@ -44,6 +44,10 @@ export default class PreviewManager {
         this.subscribeHandlersToDoc()
     }
 
+    runArepl(){
+        this.onAnyDocChange(vscode.window.activeTextEditor.document)
+    }
+
     dispose() {
         if(this.pythonEvaluator.pyshell != null && this.pythonEvaluator.pyshell.childProcess != null){
             this.pythonEvaluator.stop()

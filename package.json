@@ -121,7 +121,7 @@
     },
     "commands": [
       {
-        "command": "extension.evalPythonInRealTime",
+        "command": "extension.currentAREPLSession",
         "title": "eval python in real time (current doc)",
         "category": "AREPL"
       },
@@ -134,19 +134,30 @@
         "command": "extension.newAREPLSessionOnHighlightedCode",
         "title": "open highlighted code in new AREPL session",
         "category": "AREPL"
+      },
+      {
+        "command": "extension.executeAREPL",
+        "title": "trigger a run in the current AREPL session",
+        "category": "AREPL"
       }
     ],
     "keybindings": [
       {
-        "command": "extension.evalPythonInRealTime",
+        "command": "extension.currentAREPLSession",
         "key": "ctrl+shift+a",
         "mac": "cmd+shift+a",
-        "when": "!terminalFocus"
+        "when": "!inQuickOpen && !terminalFocus"
       },
       {
         "command": "extension.newAREPLSession",
         "key": "ctrl+shift+q",
         "mac": "cmd+shift+q",
+        "when": "!inQuickOpen && !terminalFocus"
+      },
+      {
+        "command": "extension.executeAREPL",
+        "key": "ctrl+shift+;",
+        "mac": "cmd+shift+;",
         "when": "!inQuickOpen && !terminalFocus"
       }
     ]
