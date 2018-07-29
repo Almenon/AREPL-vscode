@@ -10,7 +10,6 @@ let previewManager: PreviewManager = null;
 export function activate(context: vscode.ExtensionContext) {
 
     const settings = vscode.workspace.getConfiguration("AREPL");
-    registerAreplDump(settings.get<string>("pythonPath"), context.extensionPath)
 
     // Register the commands that are provided to the user
     const arepl = vscode.commands.registerCommand("extension.currentAREPLSession", () => {
@@ -37,6 +36,11 @@ export function activate(context: vscode.ExtensionContext) {
     context.subscriptions.push(newAreplSession);
     context.subscriptions.push(areplOnHighlightedCode);
     context.subscriptions.push(executeAREPL)
+
+    // registering arepldump last in case it errors out
+    // (an error here will lead to the user not being to import arepldump)
+    // (but we can live with that, arepldump is just a optional extra feature)
+    registerAreplDump(settings.get<string>("pythonPath"), context.extensionPath)
 }
 
 export function createPreviewDoc(context: vscode.ExtensionContext) {
