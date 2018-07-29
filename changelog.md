@@ -1,3 +1,11 @@
+## [v1.3](https://github.com/Almenon/AREPL-vscode/milestone/12?closed=1)
+
+### Fixed:
+arepl would not start if user had no python user packages installed  https://github.com/Almenon/AREPL-vscode/issues/81
+
+### Added:
+ability to execute on keybinding  https://github.com/Almenon/AREPL-vscode/issues/85
+
 ## [v1.2](https://github.com/Almenon/AREPL-vscode/milestone/12?closed=1)
 
 ### Added:
