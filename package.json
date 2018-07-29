@@ -62,14 +62,15 @@
           "type": "string",
           "enum": [
             "afterDelay",
-            "onSave"
+            "onSave",
+            "onKeybinding"
           ],
           "enumDescriptions": [
             "execute python after a delay",
             "execute python on save"
           ],
           "default": "afterDelay",
-          "description": "afterDelay: execute python after delay. onSave: execute python on save"
+          "description": "afterDelay: execute python after delay. onSave: when saving the document. onKeybinding: on whatever keys you have bound to executeAREPL."
         },
         "AREPL.show_to_level": {
           "type": "number",
@@ -151,7 +152,7 @@
       {
         "command": "extension.newAREPLSession",
         "key": "ctrl+shift+q",
-        "mac": "cmd+shift+q",
+        "mac": "cmd+shift+r",
         "when": "!inQuickOpen && !terminalFocus"
       },
       {
