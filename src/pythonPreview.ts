@@ -27,9 +27,8 @@ export default class PythonPreview implements vscode.TextDocumentContentProvider
     <p style="font-size:14px">⚠ <b style="color:red">WARNING:</b> code is evaluated WHILE YOU TYPE - don't mess around with your file system! ⚠</p>
     <p>evaluation while you type can be turned off or adjusted in the settings</p>
     <br>
-    <h3>New Features with version 1.2!</h3>
-    <li>Dumping! call dump() to dump your variables at any point in the program.</li>
-    <li>You can even use this to look at local variables!</li>
+    <h3>New Features with version 1.3!</h3>
+    Don't like real-time execution? In the settings you can turn on execute on save or execute on keybinding.
     <br>
     
     <h3>Examples</h3>
