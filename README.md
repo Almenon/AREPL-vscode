@@ -2,7 +2,7 @@
 
 AREPL automatically evaluates python code in real-time as you type
 
-![Alt Text](https://puu.sh/B648I/d2f39f546c.gif)
+![Alt Text](https://raw.githubusercontent.com/Almenon/AREPL-vscode/master/areplDemoGif2.gif)
 
 AREPL is availible from the vscode [marketplace](https://marketplace.visualstudio.com/items?itemName=almenon.arepl#overview) or as a [standalone app](https://github.com/Almenon/AREPL)
 
