@@ -168,7 +168,7 @@
     "compile": "tsc -watch -p ./",
     "postinstall": "node ./node_modules/vscode/bin/install",
     "test": "tsc -p ./ && node ./node_modules/vscode/bin/test",
-    "visualize": "depcruise --exclude 'vscode|^[a-zA-Z0-9\_]+$' --output-type dot src | dot -T svg > dependencygraph.svg"
+    "visualize": "depcruise --exclude 'vscode|^[a-zA-Z0-9\\_]+$' --output-type dot src | dot -T svg > dependencygraph.svg"
   },
   "devDependencies": {
     "@types/mocha": "^2.2.48",
