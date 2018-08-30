@@ -2,7 +2,7 @@
   "name": "arepl",
   "displayName": "AREPL",
   "description": "real-time python scratchpad",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "publisher": "almenon",
   "engines": {
     "vscode": "^1.14.0"
@@ -178,7 +178,7 @@
     "vscode": "^1.1.10"
   },
   "dependencies": {
-    "arepl-backend": "^1.0.0-beta.6",
+    "arepl-backend": "^1.0.0-beta.8",
     "opn": "^5.3.0",
     "path": "^0.12.7",
     "vscode-extension-telemetry": "0.0.15"
