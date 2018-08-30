@@ -50,17 +50,20 @@ function mkDirByPathSync(targetDir: string, { isRelativeToScript = false } = {})
 
     targetDir.split(sep).reduce((parentDir, childDir) => {
         const curDir = resolve(baseDir, parentDir, childDir);
+        if(curDir == '/') return '/' // to avoid EISDIR error on mac
         try {
-            mkdirSync(curDir);
-            console.log(`Directory ${curDir} created!`);
+          mkdirSync(curDir);
         } catch (err) {
-            if(err.code !== "EEXIST") {
-                throw err;
-            }
-
-            console.log(`Directory ${curDir} already exists!`);
+          if (err.code === 'EEXIST') {
+            return curDir;
+          }
+    
+          const accOrPermErr = err.code ==='EACCES' || err.code === 'EPERM';
+          if (!accOrPermErr || accOrPermErr && targetDir === curDir) {
+            throw err;
+          }
         }
-
+    
         return curDir;
-    }, initDir);
+      }, initDir);
 }

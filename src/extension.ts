@@ -5,13 +5,14 @@ import pythonPreviewContentProvider from "./pythonPreview";
 import { registerAreplDump, unregisterAreplDump } from "./registerAreplDump";
 import Utilities from "./utilities";
 
+let previewManager: PreviewManager = null;
+
 export function activate(context: vscode.ExtensionContext) {
 
     const settings = vscode.workspace.getConfiguration("AREPL");
-    registerAreplDump(settings.get<string>("pythonPath"), context.extensionPath)
 
     // Register the commands that are provided to the user
-    const arepl = vscode.commands.registerCommand("extension.evalPythonInRealTime", () => {
+    const arepl = vscode.commands.registerCommand("extension.currentAREPLSession", () => {
         createPreviewDoc(context);
     });
 
@@ -26,14 +27,25 @@ export function activate(context: vscode.ExtensionContext) {
             .then(createPreviewDoc.bind(this, context));
     });
 
+    const executeAREPL = vscode.commands.registerCommand("extension.executeAREPL", () => {
+        previewManager.runArepl()
+    });
+
     // push to subscriptions list so that they are disposed automatically
     context.subscriptions.push(arepl);
     context.subscriptions.push(newAreplSession);
+    context.subscriptions.push(areplOnHighlightedCode);
+    context.subscriptions.push(executeAREPL)
+
+    // registering arepldump last in case it errors out
+    // (an error here will lead to the user not being to import arepldump)
+    // (but we can live with that, arepldump is just a optional extra feature)
+    registerAreplDump(settings.get<string>("pythonPath"), context.extensionPath)
 }
 
 export function createPreviewDoc(context: vscode.ExtensionContext) {
 
-    const previewManager = new PreviewManager(context);
+    previewManager = new PreviewManager(context);
     previewManager.startArepl()
     
     // viewcolum 2 to show on right

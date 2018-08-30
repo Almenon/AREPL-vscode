@@ -1,8 +1,8 @@
-## AREPL: vscode edition [![Build Status](https://travis-ci.org/Almenon/AREPL-vscode.svg?branch=master)](https://travis-ci.org/Almenon/AREPL-vscode) [![Downloads](https://vsmarketplacebadge.apphb.com/installs/almenon.arepl.svg)](https://marketplace.visualstudio.com/items?itemName=almenon.arepl) [![Gitter chat](https://badges.gitter.im/arepl/gitter.png)](https://gitter.im/arepl/lobby)
+## AREPL: vscode edition [![Build Status](https://travis-ci.org/Almenon/AREPL-vscode.svg?branch=master)](https://travis-ci.org/Almenon/AREPL-vscode) [![Downloads](https://vsmarketplacebadge.apphb.com/installs/almenon.arepl.svg)](https://marketplace.visualstudio.com/items?itemName=almenon.arepl) [![Downloads](https://vsmarketplacebadge.apphb.com/rating-star/almenon.arepl.svg)](https://marketplace.visualstudio.com/items?itemName=almenon.arepl) [![Gitter chat](https://badges.gitter.im/arepl/gitter.png)](https://gitter.im/arepl/lobby)
 
 AREPL automatically evaluates python code in real-time as you type
 
-![Alt Text](https://raw.githubusercontent.com/Almenon/AREPL-vscode/master/example.gif)
+![Alt Text](https://raw.githubusercontent.com/Almenon/AREPL-vscode/master/areplDemoGif2.gif)
 
 AREPL is availible from the vscode [marketplace](https://marketplace.visualstudio.com/items?itemName=almenon.arepl#overview) or as a [standalone app](https://github.com/Almenon/AREPL)
 
@@ -98,7 +98,7 @@ turtle.left(90)
 
 **VENV**
 
-to use you arpel with VENV you can set the AREPL.pythonPath setting to reference the location of your venv python
+to use you arepl with VENV you can set the AREPL.pythonPath setting to reference the location of your venv python
 
 **Variable Representation**
 

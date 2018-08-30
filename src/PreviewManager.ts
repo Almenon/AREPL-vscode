@@ -44,6 +44,10 @@ export default class PreviewManager {
         this.subscribeHandlersToDoc()
     }
 
+    runArepl(){
+        this.onAnyDocChange(vscode.window.activeTextEditor.document)
+    }
+
     dispose() {
         if(this.pythonEvaluator.pyshell != null && this.pythonEvaluator.pyshell.childProcess != null){
             this.pythonEvaluator.stop()
@@ -97,17 +101,18 @@ export default class PreviewManager {
             this.onAnyDocChange(this.pythonEditor);
         }
 
-        if(this.settings.get<string>("whenToExecute").toLowerCase() == "onsave"){
+        if(this.settings.get<string>("whenToExecute") == "onSave"){
             vscode.workspace.onDidSaveTextDocument((e) => {
                 this.onAnyDocChange(e)
             }, this, this.subscriptions)
         }
-        else{
+        else if(this.settings.get<string>("whenToExecute") == "afterDelay"){
             vscode.workspace.onDidChangeTextDocument((e) => {
                 const delay = this.toAREPLLogic.restartMode ? debounce + restartExtraDebounce : debounce
                 this.pythonEvaluator.debounce(this.onAnyDocChange.bind(this, e.document), delay)
             }, this, this.subscriptions)
         }
+        else {} //third option is onKeybinding in which case user manually invokes arepl
         
         vscode.workspace.onDidCloseTextDocument((e) => {
             if(e == this.pythonEditor || e.uri.scheme == this.previewContainer.scheme) this.dispose()

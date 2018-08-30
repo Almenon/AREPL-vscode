@@ -1,3 +1,18 @@
+## [v1.4](https://github.com/Almenon/AREPL-vscode/milestone/14?closed=1)
+
+### Fixed:
+dump output does not appear if exception [#91](https://github.com/Almenon/AREPL-vscode/issues/91)
+arepl does not update when user changes a imported file [#82](https://github.com/Almenon/AREPL-vscode/issues/82)
+Functions no longer appear in variable preview (not much point in showing them and they clutter screen)
+
+## [v1.3](https://github.com/Almenon/AREPL-vscode/milestone/13?closed=1)
+
+### Fixed:
+arepl would not start if user had no python user packages installed  https://github.com/Almenon/AREPL-vscode/issues/81
+
+### Added:
+ability to execute on keybinding  https://github.com/Almenon/AREPL-vscode/issues/85
+
 ## [v1.2](https://github.com/Almenon/AREPL-vscode/milestone/12?closed=1)
 
 ### Added:

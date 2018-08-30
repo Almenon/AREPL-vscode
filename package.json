@@ -2,7 +2,7 @@
   "name": "arepl",
   "displayName": "AREPL",
   "description": "real-time python scratchpad",
-  "version": "0.1.2",
+  "version": "0.1.4",
   "publisher": "almenon",
   "engines": {
     "vscode": "^1.14.0"
@@ -12,7 +12,7 @@
     "Debuggers"
   ],
   "activationEvents": [
-    "onCommand:extension.evalPythonInRealTime",
+    "onCommand:extension.currentAREPLSession",
     "onCommand:extension.newAREPLSession",
     "onCommand:extension.newAREPLSessionOnHighlightedCode"
   ],
@@ -62,14 +62,15 @@
           "type": "string",
           "enum": [
             "afterDelay",
-            "onSave"
+            "onSave",
+            "onKeybinding"
           ],
           "enumDescriptions": [
             "execute python after a delay",
             "execute python on save"
           ],
           "default": "afterDelay",
-          "description": "afterDelay: execute python after delay. onSave: execute python on save"
+          "description": "afterDelay: execute python after delay. onSave: when saving the document. onKeybinding: on whatever keys you have bound to executeAREPL."
         },
         "AREPL.show_to_level": {
           "type": "number",
@@ -121,7 +122,7 @@
     },
     "commands": [
       {
-        "command": "extension.evalPythonInRealTime",
+        "command": "extension.currentAREPLSession",
         "title": "eval python in real time (current doc)",
         "category": "AREPL"
       },
@@ -134,19 +135,30 @@
         "command": "extension.newAREPLSessionOnHighlightedCode",
         "title": "open highlighted code in new AREPL session",
         "category": "AREPL"
+      },
+      {
+        "command": "extension.executeAREPL",
+        "title": "trigger a run in the current AREPL session",
+        "category": "AREPL"
       }
     ],
     "keybindings": [
       {
-        "command": "extension.evalPythonInRealTime",
+        "command": "extension.currentAREPLSession",
         "key": "ctrl+shift+a",
         "mac": "cmd+shift+a",
-        "when": "!terminalFocus"
+        "when": "!inQuickOpen && !terminalFocus"
       },
       {
         "command": "extension.newAREPLSession",
         "key": "ctrl+shift+q",
-        "mac": "cmd+shift+q",
+        "mac": "cmd+shift+r",
+        "when": "!inQuickOpen && !terminalFocus"
+      },
+      {
+        "command": "extension.executeAREPL",
+        "key": "ctrl+shift+;",
+        "mac": "cmd+shift+;",
         "when": "!inQuickOpen && !terminalFocus"
       }
     ]
@@ -155,7 +167,8 @@
     "vscode:prepublish": "tsc -p ./",
     "compile": "tsc -watch -p ./",
     "postinstall": "node ./node_modules/vscode/bin/install",
-    "test": "tsc -p ./ && node ./node_modules/vscode/bin/test"
+    "test": "tsc -p ./ && node ./node_modules/vscode/bin/test",
+    "visualize": "depcruise --exclude 'vscode|^[a-zA-Z0-9\\_]+$' --output-type dot src | dot -T svg > dependencygraph.svg"
   },
   "devDependencies": {
     "@types/mocha": "^2.2.48",
@@ -165,7 +178,7 @@
     "vscode": "^1.1.10"
   },
   "dependencies": {
-    "arepl-backend": "^1.0.0-beta.6",
+    "arepl-backend": "^1.0.0-beta.8",
     "opn": "^5.3.0",
     "path": "^0.12.7",
     "vscode-extension-telemetry": "0.0.15"

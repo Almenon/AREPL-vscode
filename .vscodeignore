@@ -12,3 +12,4 @@ tsconfig.json
 .github
 personal/**
 .travis.yml
+dependencygraph.svg
