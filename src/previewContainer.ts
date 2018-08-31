@@ -24,9 +24,10 @@ export class PreviewContainer{
 
     public handleResult(pythonResults: PythonResult){
 
-        console.log(pythonResults.execTime)
-        console.log(pythonResults.totalPyTime)
-        console.log(pythonResults.totalTime)
+        // TODO: Hook these onto a config, turn it off by default
+        console.log(`Exec time: ${pythonResults.execTime}`)
+        console.log(`Python time: ${pythonResults.totalPyTime}`)
+        console.log(`Total time: ${pythonResults.totalTime}`)
 
         // exec time is the 'truest' time that user cares about
         this.pythonPreview.updateTime(pythonResults.execTime);
@@ -46,13 +47,13 @@ export class PreviewContainer{
         }
 
         this.vars = {...this.vars, ...pythonResults.userVariables}
-        
+
         // if no Vars & an error exists then it must be a syntax exception
         // in which case we skip updating because no need to clear out variables
         if(!Utilities.isEmpty(pythonResults.userVariables) || pythonResults.userError == ""){
             this.pythonPreview.updateVars(this.vars)
         }
-        
+
         if(pythonResults.done){
             this.vars = {}
         }

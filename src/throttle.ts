@@ -18,7 +18,7 @@ export class Limit{
     throttleAndQueue(fn: Function, wait: number){
         let isCalled = false;
         const self = this;
-    
+
         const caller = function(){
             if(self.callQueue.length && !isCalled){
                 isCalled = true;
@@ -29,10 +29,10 @@ export class Limit{
                 }, wait);
             }
         };
-    
+
         return function(...args){
             self.callQueue.push(fn.bind(this, ...args));
-    
+
             caller();
         };
     }
@@ -40,8 +40,8 @@ export class Limit{
     /**
      * Returns a version of your function that can be called at most every W milliseconds, where W is wait.
      * for calls that happen more often than W the last call will be the one called
-     * @param fn 
-     * @param wait 
+     * @param fn
+     * @param wait
      */
     throttledUpdate(fn: Function, wait: number){
         const self = this;
