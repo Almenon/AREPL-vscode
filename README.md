@@ -119,11 +119,8 @@ import library
 del sys.modules['library'] # arepl will reload import next execution
 ```
 
-#### Deveveloper Setup
+**More Stuff:** Check out the [wiki](https://github.com/Almenon/AREPL-vscode/wiki)!
 
-1. Install VSCode, python 3 and npm (if not already installed)
-2. clone this repository
-3. npm install
-4. start debugging
+#### Contributing to the project
 
-see [AREPL-backend](https://github.com/Almenon/AREPL-backend) for the npm package that executes the python code
+See the [wiki page](https://github.com/Almenon/AREPL-vscode/wiki/Getting-Started-developing-AREPL) on getting started. Contributions welcome!
