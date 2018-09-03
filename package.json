@@ -5,7 +5,7 @@
   "version": "0.1.4",
   "publisher": "almenon",
   "engines": {
-    "vscode": "^1.14.0"
+    "vscode": "^1.15.0"
   },
   "categories": [
     "Other",
@@ -172,10 +172,10 @@
   },
   "devDependencies": {
     "@types/mocha": "^2.2.48",
-    "@types/node": "^9.4.6",
+    "@types/node": "^8.9",
     "mocha": "^5.0.1",
     "typescript": "^2.7.2",
-    "vscode": "^1.1.10"
+    "vscode": "^1.1.21"
   },
   "dependencies": {
     "arepl-backend": "^1.0.0-beta.8",
