@@ -28,9 +28,11 @@ export default class PythonPreview implements vscode.TextDocumentContentProvider
     <p>evaluation while you type can be turned off or adjusted in the settings</p>
     <br>
     <h3>New Features with version 1.4! 🚀</h3>
+    <ul>
     <li><a href="https://github.com/Almenon/AREPL-vscode/issues/82">Fixed import caching</a>. Now if you change a imported file and save it, the next AREPL run will have that change. Pip modules like numpy will still be cached, so it wont have to load each time.</li>
     <li>Fixed <a href="https://github.com/Almenon/AREPL-vscode/issues/91">dump output not appearing if there is a exception</a></li>
     <li>Functions no longer appear in variable preview</li>
+    </ul>
     <br>
     
     <h3>Examples</h3>
@@ -104,7 +106,7 @@ export default class PythonPreview implements vscode.TextDocumentContentProvider
     private css: string
     private jsonRendererScript: string;
     private errorContainer = ""
-    private jsonRendererCode = `<div id="results"></div>`;
+    private jsonRendererCode = `<script></script>`;
     private emptyPrint = `<br><b>Print Output:</b><div id="print"></div>`
     private printContainer = this.emptyPrint;
     private timeContainer = ""
@@ -233,7 +235,10 @@ export default class PythonPreview implements vscode.TextDocumentContentProvider
         const showFooter = this.settings.get<boolean>("showFooter")
 
         // todo: handle different themes.  check body class: https://code.visualstudio.com/updates/June_2016
-        this.html = `<head>
+        this.html = `<!doctype html>
+        <html lang="en">
+        <head>
+            <title>AREPL</title>
             ${this.css}
             ${this.jsonRendererScript}
             ${this.jsonRendererCode}
@@ -245,10 +250,11 @@ export default class PythonPreview implements vscode.TextDocumentContentProvider
                 this.printContainer + '<div id="results"></div>'}
             ${this.timeContainer}
             ${showFooter ? this.footer : ""}
-        </body>`
-
-        // issue #1: need to make sure html is new each time or wierd crap happens
-        this.html += `<div id="${Math.random()}" style="display:none"></div>`
+            <div id="${Math.random()}" style="display:none"></div>
+        </body>
+        </html>`
+        // the weird div with a random id above is necessary
+        // if not there weird issues appear
 
         this.update();  
     }
