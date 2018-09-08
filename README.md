@@ -4,7 +4,7 @@ AREPL automatically evaluates python code in real-time as you type
 
 ![Alt Text](https://raw.githubusercontent.com/Almenon/AREPL-vscode/master/areplDemoGif2.gif)
 
-AREPL is availible from the vscode [marketplace](https://marketplace.visualstudio.com/items?itemName=almenon.arepl#overview) or as a [standalone app](https://github.com/Almenon/AREPL)
+AREPL is availible for free on the vscode [marketplace](https://marketplace.visualstudio.com/items?itemName=almenon.arepl#overview)
 
 ### Useage
 
@@ -106,18 +106,6 @@ I have [overridden the display](https://github.com/Almenon/AREPL-backend/blob/ma
 
 If you want a type to be displayed in a particular manner just [file an issue](https://github.com/Almenon/AREPL-vscode/issues)
 
-**Imports**
-
-Python caches imports, so even though AREPL runs with every code change the import will run only once at the start. This saves time when importing large libraries like numpy.
-
-But you can also use this feature as a caching mechanism by moving code you only want AREPL to execute once into a different file and importing it.
-
-If you don't want caching you can delete the library at the end of the file, like so:
-```python
-import library
-# bla bla bla code
-del sys.modules['library'] # arepl will reload import next execution
-```
 
 **More Stuff:** Check out the [wiki](https://github.com/Almenon/AREPL-vscode/wiki)!
 
