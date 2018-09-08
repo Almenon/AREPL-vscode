@@ -82,6 +82,9 @@ export default class PreviewManager {
 
         // binding this to the class so it doesn't get overwritten by PythonEvaluator
         this.pythonEvaluator.onPrint = this.previewContainer.handlePrint.bind(this.previewContainer)
+        // this is bad - stderr should be handled seperately so user is aware its different
+        // but better than not showing stderr at all, so for now printing it out and ill fix later
+        this.pythonEvaluator.onStderr = this.previewContainer.handlePrint.bind(this.previewContainer)
         this.pythonEvaluator.onResult = result => {
             this.status.hide()
             // @ts-ignore todo: fix typing in backend

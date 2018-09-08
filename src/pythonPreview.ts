@@ -27,11 +27,11 @@ export default class PythonPreview implements vscode.TextDocumentContentProvider
     <p style="font-size:14px">⚠ <b style="color:red">WARNING:</b> code is evaluated WHILE YOU TYPE - don't mess around with your file system! ⚠</p>
     <p>evaluation while you type can be turned off or adjusted in the settings</p>
     <br>
-    <h3>New Features with version 1.4! 🚀</h3>
+    <h3>New Features with version 0.1.5! 🔥</h3>
     <ul>
-    <li><a href="https://github.com/Almenon/AREPL-vscode/issues/82">Fixed import caching</a>. Now if you change a imported file and save it, the next AREPL run will have that change. Pip modules like numpy will still be cached, so it wont have to load each time.</li>
-    <li>Fixed <a href="https://github.com/Almenon/AREPL-vscode/issues/91">dump output not appearing if there is a exception</a></li>
-    <li>Functions no longer appear in variable preview</li>
+    <li>AREPL now works with python 3.7</li>
+    <li>AREPL now shows stderr (logs, for example) in print output</li>
+    <li>AREPL will no longer fail silently when help or input is called</li>
     </ul>
     <br>
     

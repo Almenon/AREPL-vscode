@@ -11,6 +11,16 @@
     white-space: pre-wrap; /*https://stackoverflow.com/questions/11423300/new-lines-in-text-within-a-div*/
 }
 
+/*below stderr css will be used in future when i have handle stderr properly*/
+#printStderr{
+    white-space: pre-wrap; /*https://stackoverflow.com/questions/11423300/new-lines-in-text-within-a-div*/
+    color: #f48771;
+}
+.vscode-light #printStderr{
+    white-space: pre-wrap; /*https://stackoverflow.com/questions/11423300/new-lines-in-text-within-a-div*/
+    color: #e51400;
+}
+
 #error{
     color: #f48771;
     margin-bottom: 8px;

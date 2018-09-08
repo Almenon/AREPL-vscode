@@ -1,8 +1,20 @@
+## [v1.5](https://github.com/Almenon/AREPL-vscode/milestone/15?closed=1)
+
+fixed #84 #87 #98
+
+AREPL now works with python 3.7
+
+AREPL now shows stderr (logs, for example) in print output
+
+AREPL will no longer fail silently when help or input is called
+
 ## [v1.4](https://github.com/Almenon/AREPL-vscode/milestone/14?closed=1)
 
 ### Fixed:
 dump output does not appear if exception [#91](https://github.com/Almenon/AREPL-vscode/issues/91)
+
 arepl does not update when user changes a imported file [#82](https://github.com/Almenon/AREPL-vscode/issues/82)
+
 Functions no longer appear in variable preview (not much point in showing them and they clutter screen)
 
 ## [v1.3](https://github.com/Almenon/AREPL-vscode/milestone/13?closed=1)
