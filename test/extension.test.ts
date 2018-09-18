@@ -70,6 +70,60 @@ suite("Extension Tests", () => {
         assert.equal(panel.webview.html.includes("yo"), true, panel.webview.html);
     });
 
+    test("error should be googleable", function(){
+        doc.handleResult(
+            {
+                caller: "",
+                done: true,
+                execTime: 0,
+                internalError: "",
+                lineno: -1,
+                totalPyTime: 0,
+                totalTime: 0,
+                userError: "json.decoder.JSONDecodeError: Expecting value: line 1 column 1 (char 0)",
+                userVariables: {},
+            }
+        )
+
+        assert.equal(panel.webview.html.includes(
+            "https://www.google.com/search?q=python json.decoder.JSONDecodeError"),true, panel.webview.html,
+        );
+    });
+
+    test("internal error", function(){
+        doc.handleResult(
+            {
+                caller: "",
+                done: true,
+                execTime: 0,
+                internalError: "internal error!",
+                lineno: -1,
+                totalPyTime: 0,
+                totalTime: 0,
+                userError: "",
+                userVariables: {},
+            }
+        )
+        assert.equal(panel.webview.html.includes("internal error!"), true, panel.webview.html);
+    });
+
+    test("time", function(){
+        doc.handleResult(
+            {
+                caller: "",
+                done: true,
+                execTime: 5513,
+                internalError: "",
+                lineno: -1,
+                totalPyTime: 0,
+                totalTime: 0,
+                userError: "",
+                userVariables: {},
+            }
+        )
+        assert.equal(panel.webview.html.includes("5513"), true, panel.webview.html);
+    });
+
     test("userVariables", function(){
         doc.handleResult(
             {
