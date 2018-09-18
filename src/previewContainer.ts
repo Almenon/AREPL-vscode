@@ -58,8 +58,9 @@ export class PreviewContainer{
             this.vars = {}
         }
 
-        if(pythonResults.userError.startsWith("Sorry, AREPL has ran into an error")){
-            this.reporter.sendError(pythonResults.userError)
+        if(pythonResults.internalError){
+            this.reporter.sendError(pythonResults.internalError)
+            pythonResults.userError = pythonResults.internalError
         }
 
         if(this.printResults.length == 0) this.pythonPreview.clearPrint()
