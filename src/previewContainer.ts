@@ -13,21 +13,21 @@ export class PreviewContainer{
     pythonPreview: PythonPreview
     vars: {}
 
-    constructor(private reporter: Reporter, context: vscode.ExtensionContext){
-        this.pythonPreview = new PythonPreview(context);
+    constructor(private reporter: Reporter, context: vscode.ExtensionContext, htmlUpdateFrequency=50){
+        this.pythonPreview = new PythonPreview(context, htmlUpdateFrequency);
         this.scheme = PythonPreview.scheme
     }
 
-    public register(){
-        return vscode.workspace.registerTextDocumentContentProvider(PythonPreview.scheme, this.pythonPreview);
+    public start(){
+        return this.pythonPreview.start()
     }
 
     public handleResult(pythonResults: PythonResult){
 
         // TODO: Hook these onto a config, turn it off by default
-        console.log(`Exec time: ${pythonResults.execTime}`)
-        console.log(`Python time: ${pythonResults.totalPyTime}`)
-        console.log(`Total time: ${pythonResults.totalTime}`)
+        // console.log(`Exec time: ${pythonResults.execTime}`)
+        // console.log(`Python time: ${pythonResults.totalPyTime}`)
+        // console.log(`Total time: ${pythonResults.totalTime}`)
 
         // exec time is the 'truest' time that user cares about
         this.pythonPreview.updateTime(pythonResults.execTime);
@@ -89,8 +89,4 @@ export class PreviewContainer{
     get onDidChange(): vscode.Event<vscode.Uri> {
         return this.pythonPreview.onDidChange
     }
-
-    provideTextDocumentContent(uri: vscode.Uri): string {
-        return this.pythonPreview.provideTextDocumentContent(uri);
-    };
 }

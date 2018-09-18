@@ -5,7 +5,7 @@
   "version": "0.1.5",
   "publisher": "almenon",
   "engines": {
-    "vscode": "^1.15.0"
+    "vscode": "^1.23.0"
   },
   "categories": [
     "Other",
@@ -181,7 +181,7 @@
     "arepl-backend": "^1.0.0",
     "opn": "^5.3.0",
     "path": "^0.12.7",
-    "vscode-extension-telemetry": "0.0.16"
+    "vscode-extension-telemetry": "0.0.18"
   },
   "bugs": {
     "url": "https://github.com/almenon/arepl-vscode-wordcount/issues",

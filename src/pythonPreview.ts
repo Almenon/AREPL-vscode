@@ -5,10 +5,10 @@ import {Limit} from "./throttle"
 import Utilities from "./utilities"
 
 /**
- * very simple read-only html content
- * https://code.visualstudio.com/docs/extensionAPI/vscode-api#_a-nametextdocumentcontentprovider
+ * shows AREPL output (variables, errors, timing, and stdout/stderr)
+ * https://code.visualstudio.com/docs/extensions/webview
  */
-export default class PythonPreview implements vscode.TextDocumentContentProvider {
+export default class PythonPreview{
     
     static readonly scheme = "pythonPreview"
     static readonly PREVIEW_URI = PythonPreview.scheme + "://authority/preview"
@@ -110,8 +110,9 @@ export default class PythonPreview implements vscode.TextDocumentContentProvider
     private emptyPrint = `<br><b>Print Output:</b><div id="print"></div>`
     private printContainer = this.emptyPrint;
     private timeContainer = ""
+    private panel: vscode.WebviewPanel
 
-    constructor(private context: vscode.ExtensionContext) {
+    constructor(private context: vscode.ExtensionContext, htmlUpdateFrequency=50) {
         this._onDidChange = new vscode.EventEmitter<vscode.Uri>();
         this.css = `<link rel="stylesheet" type="text/css" href="${this.getMediaPath("pythonPreview.css")}">`
         this.jsonRendererScript = `<script src="${this.getMediaPath("jsonRenderer.js")}"></script>`
@@ -120,12 +121,20 @@ export default class PythonPreview implements vscode.TextDocumentContentProvider
 
         // refreshing html too much can freeze vscode... lets avoid that
         const l = new Limit()
-        this.throttledUpdate = l.throttledUpdate(this.updateContent, 50)
+        this.throttledUpdate = l.throttledUpdate(this.updateContent, htmlUpdateFrequency)
     }
 
-    provideTextDocumentContent(uri: vscode.Uri): string {
-        return this.html;
-    };
+    start(){
+        this.panel = vscode.window.createWebviewPanel("arepl","AREPL", vscode.ViewColumn.Two,{
+            enableScripts:true,
+            // Only allow the webview to access resources in our extension's media directory
+            localResourceRoots: [
+                vscode.Uri.file(path.join(this.context.extensionPath, "media"))
+            ]
+        });
+        this.panel.webview.html = this.landingPage
+        return this.panel;
+    }
 
     public updateVars(vars: object){
         let userVarsCode = `userVars = ${JSON.stringify(vars)};`
@@ -216,17 +225,13 @@ export default class PythonPreview implements vscode.TextDocumentContentProvider
         else return err
     }
 
-    private update() {
-        this._onDidChange.fire(vscode.Uri.parse(PythonPreview.PREVIEW_URI));
-    }
-
     get onDidChange(): vscode.Event<vscode.Uri> {
         return this._onDidChange.event;
     }
 
-    private getMediaPath(mediaFile: string): string {
-        // stolen from https://github.com/Microsoft/vscode/tree/master/extensions/markdown
-        return vscode.Uri.file(this.context.asAbsolutePath(path.join('media', mediaFile))).toString();
+    private getMediaPath(mediaFile: string) {
+        const onDiskPath = vscode.Uri.file(path.join(this.context.extensionPath, "media", mediaFile));
+        return onDiskPath.with({ scheme: "vscode-resource" });
     }
 
     private updateContent(){
@@ -256,6 +261,8 @@ export default class PythonPreview implements vscode.TextDocumentContentProvider
         // the weird div with a random id above is necessary
         // if not there weird issues appear
 
-        this.update();  
+        this.panel.webview.html = this.html;
+
+        this._onDidChange.fire(vscode.Uri.parse(PythonPreview.PREVIEW_URI));
     }
 }

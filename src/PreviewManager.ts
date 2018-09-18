@@ -31,7 +31,9 @@ export default class PreviewManager {
     }
 
     async startArepl(){
-        this.subscriptions.push(this.previewContainer.register())
+        let panel = this.previewContainer.start();
+        this.subscriptions.push(panel)
+        panel.onDidDispose(()=>this.dispose(), this, this.subscriptions)
 
         this.startAndBindPython()
 
@@ -118,7 +120,7 @@ export default class PreviewManager {
         else {} //third option is onKeybinding in which case user manually invokes arepl
         
         vscode.workspace.onDidCloseTextDocument((e) => {
-            if(e == this.pythonEditor || e.uri.scheme == this.previewContainer.scheme) this.dispose()
+            if(e == this.pythonEditor) this.dispose()
         }, this, this.subscriptions)
     }
 
@@ -146,7 +148,7 @@ export default class PreviewManager {
     }
 
     private onAnyDocChange(event: vscode.TextDocument){
-        if(event == this .pythonEditor){
+        if(event == this.pythonEditor){
 
             this.status.show();
 
