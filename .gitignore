@@ -7,5 +7,6 @@ npm-debug.log
 desktop.ini
 myenv
 .vscode/.ropeproject/config.py
+.vscode/settings.json
 coverage
 .nyc_output
