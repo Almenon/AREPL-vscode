@@ -27,11 +27,9 @@ export default class PythonPreview{
     <p style="font-size:14px">⚠ <b style="color:red">WARNING:</b> code is evaluated WHILE YOU TYPE - don't mess around with your file system! ⚠</p>
     <p>evaluation while you type can be turned off or adjusted in the settings</p>
     <br>
-    <h3>New Features with version 0.1.5! 🔥</h3>
+    <h3>Bug Fixes with version 1.0.0! 🎉</h3>
     <ul>
-    <li>AREPL now works with python 3.7</li>
-    <li>AREPL now shows stderr (logs, for example) in print output</li>
-    <li>AREPL will no longer fail silently when help or input is called</li>
+    <li>AREPL no longer has rendering problems when displaying print output</li>
     </ul>
     <br>
     
