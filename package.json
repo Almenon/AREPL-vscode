@@ -1,6 +1,6 @@
 {
   "name": "arepl",
-  "displayName": "AREPL",
+  "displayName": "AREPL for python",
   "description": "real-time python scratchpad",
   "version": "1.0.0",
   "publisher": "almenon",
