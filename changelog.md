@@ -1,3 +1,15 @@
+## [v1.0.0](https://github.com/Almenon/AREPL-vscode/milestone/16?closed=1)
+
+Fixed:
+#86 unittest causes arepl to fail silently bug
+#101 styling becomes wierd when in certain scenarios bug 
+#102  internal error does not show bug
+#94  arepl frequently has problems rendering when there is a lot of prints bug
+
+Updated:
+#56  use new webview enhancement
+#52 Update vscode-extension-telemetry to the latest version 🚀  greenkeeper
+
 ## [v1.5](https://github.com/Almenon/AREPL-vscode/milestone/15?closed=1)
 
 fixed #84 #87 #98
