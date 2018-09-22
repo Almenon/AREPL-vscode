@@ -39,9 +39,6 @@ with open("C:\\dev\\t.html") as f:
     i: -[
        +[1 items]
     ],
-    k: -{
-        py/function: "__main__.k"
-    },
     l: -{
         py/type: "__main__.l"
     },
