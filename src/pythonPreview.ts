@@ -117,9 +117,12 @@ export default class PythonPreview{
         this.settings = vscode.workspace.getConfiguration("AREPL");
         this.html = this.landingPage;
 
-        // refreshing html too much can freeze vscode... lets avoid that
-        const l = new Limit()
-        this.throttledUpdate = l.throttledUpdate(this.updateContent, htmlUpdateFrequency)
+        if(htmlUpdateFrequency != 0){
+            // refreshing html too much can freeze vscode... lets avoid that
+            const l = new Limit()
+            this.throttledUpdate = l.throttledUpdate(this.updateContent, htmlUpdateFrequency)
+        }
+        else this.throttledUpdate = this.updateContent
     }
 
     start(){
