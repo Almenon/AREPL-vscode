@@ -1,3 +1,6 @@
+## v1.0.1
+Fixed error on mac due to a filename having the wrong case when packaging extension
+
 ## [v1.0.0](https://github.com/Almenon/AREPL-vscode/milestone/16?closed=1)
 
 Fixed:
