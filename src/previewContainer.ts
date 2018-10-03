@@ -29,46 +29,62 @@ export class PreviewContainer{
         // console.log(`Python time: ${pythonResults.totalPyTime}`)
         // console.log(`Total time: ${pythonResults.totalTime}`)
 
-        // exec time is the 'truest' time that user cares about
-        this.pythonPreview.updateTime(pythonResults.execTime);
+        try {            
+            // exec time is the 'truest' time that user cares about
+            this.pythonPreview.updateTime(pythonResults.execTime);
 
-        if(!pythonResults.done){
-            const lineKey = "line " + pythonResults.lineno
-            if(pythonResults.userVariables["dump output"] != undefined){
-                const dumpOutput = pythonResults.userVariables["dump output"]
-                pythonResults.userVariables = {}
-                pythonResults.userVariables[lineKey] = dumpOutput
+            if(!pythonResults.done){
+                pythonResults.userVariables = this.updateVarsWithDumpOutput(pythonResults)
             }
-            else{
-                const v = pythonResults.userVariables
-                pythonResults.userVariables = {}
-                pythonResults.userVariables[pythonResults.caller + " vars " + lineKey] = v
+
+            this.vars = {...this.vars, ...pythonResults.userVariables}
+
+            // if no Vars & an error exists then it must be a syntax exception
+            // in which case we skip updating because no need to clear out variables
+            if(!Utilities.isEmpty(pythonResults.userVariables) || pythonResults.userError == ""){
+                this.pythonPreview.updateVars(this.vars)
             }
+
+            if(pythonResults.done){
+                this.vars = {}
+            }
+
+            if(pythonResults.internalError){
+                this.reporter.sendError(pythonResults.internalError)
+                pythonResults.userError = pythonResults.internalError
+            }
+
+            if(this.printResults.length == 0) this.pythonPreview.clearPrint()
+
+            this.updateError(pythonResults.userError, true)
+
+            // clear print so empty for next program run
+            if(pythonResults.done) this.printResults = [];
+        } catch (error) {
+            this.reporter.sendError(error.stack)
+            vscode.window.showErrorMessage(error.stack)
         }
 
-        this.vars = {...this.vars, ...pythonResults.userVariables}
+    }
 
-        // if no Vars & an error exists then it must be a syntax exception
-        // in which case we skip updating because no need to clear out variables
-        if(!Utilities.isEmpty(pythonResults.userVariables) || pythonResults.userError == ""){
-            this.pythonPreview.updateVars(this.vars)
+    /**
+     * user may dump var(s), which we format into readable output for user
+     * @param pythonResults result with either "dump output" key or caller and lineno
+     */
+    private updateVarsWithDumpOutput(pythonResults:PythonResult){
+        const lineKey = "line " + pythonResults.lineno
+        if(pythonResults.userVariables["dump output"] != undefined){
+            const dumpOutput = pythonResults.userVariables["dump output"]
+            pythonResults.userVariables = {}
+            pythonResults.userVariables[lineKey] = dumpOutput
+        }
+        else{
+            const v = pythonResults.userVariables
+            pythonResults.userVariables = {}
+            pythonResults.userVariables[pythonResults.caller + " vars " + lineKey] = v
         }
 
-        if(pythonResults.done){
-            this.vars = {}
-        }
-
-        if(pythonResults.internalError){
-            this.reporter.sendError(pythonResults.internalError)
-            pythonResults.userError = pythonResults.internalError
-        }
-
-        if(this.printResults.length == 0) this.pythonPreview.clearPrint()
-
-        this.updateError(pythonResults.userError, true)
-
-        // clear print so empty for next program run
-        if(pythonResults.done) this.printResults = [];
+        return pythonResults.userVariables
     }
 
     public handlePrint(pythonResults: string){
