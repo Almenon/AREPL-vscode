@@ -1,7 +1,6 @@
 'use strict';
 import * as vscode from "vscode";
 import PreviewManager from "./PreviewManager"
-import pythonPreviewContentProvider from "./pythonPreview";
 import { registerAreplDump, unregisterAreplDump } from "./registerAreplDump";
 import Utilities from "./utilities";
 
@@ -32,10 +31,7 @@ export function activate(context: vscode.ExtensionContext) {
     });
 
     // push to subscriptions list so that they are disposed automatically
-    context.subscriptions.push(arepl);
-    context.subscriptions.push(newAreplSession);
-    context.subscriptions.push(areplOnHighlightedCode);
-    context.subscriptions.push(executeAREPL)
+    context.subscriptions.push(...[arepl, newAreplSession, areplOnHighlightedCode, executeAREPL]);
 
     // registering arepldump last in case it errors out
     // (an error here will lead to the user not being to import arepldump)
