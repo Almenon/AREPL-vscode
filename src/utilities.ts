@@ -11,6 +11,7 @@ export default class Utilities {
      * @param string
      */
     static escapeHtml(input: string) {
+        if (input == null) return null;
         return input.replace(/[&<>"'`=\/]/g, function(s) {
             return Utilities.entityMap[s];
         });
