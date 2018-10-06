@@ -60,9 +60,17 @@ export class ToAREPLLogic{
             this.restartPython(data)
             this.restartedLastTime = true
         })
-        .catch((error) => {
+        .catch((error:NodeJS.ErrnoException|string) => {
+            
+            // an ErrnoException is a bad internal error
+            let internalErr = ""
+            if(typeof(error) != "string"){
+                internalErr = error.message + '\n\n' + error.stack
+                error = ""
+            }
+
             this.previewContainer.handleResult(
-                {userVariables:{},userError:error, execTime: 0, totalPyTime: 0, totalTime: 0, internalError: "", caller: "", lineno: -1, done: true,}
+                {userVariables:{},userError:<string>error, execTime: 0, totalPyTime: 0, totalTime: 0, internalError: internalErr, caller: "", lineno: -1, done: true,}
             )
         })
     }
