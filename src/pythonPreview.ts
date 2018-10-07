@@ -27,9 +27,9 @@ export default class PythonPreview{
     <p style="font-size:14px">⚠ <b style="color:red">WARNING:</b> code is evaluated WHILE YOU TYPE - don't mess around with your file system! ⚠</p>
     <p>evaluation while you type can be turned off or adjusted in the settings</p>
     <br>
-    <h3>Bug Fixes with version 1.0.0! 🎉</h3>
+    <h3>Bug Fixes with version 1.0.2! 🏋️</h3>
     <ul>
-    <li>AREPL no longer has rendering problems when displaying print output</li>
+    <li>Fixed error with using gui's like turtle</li>
     </ul>
     <br>
     
