@@ -10,7 +10,7 @@ d = float('infinity')
 e = float('-infinity')
 f = 'é' #doesnt render properly :(
 g = {}
-h = []
+h = [] 
 i = [[[]]]
 j = lambda x: x+1 # doesnt show up???
 def k(x):
@@ -33,7 +33,7 @@ with open("C:\\dev\\t.html") as f:
     c: "NaN",
     d: "Infinity",
     e: "-Infinity",
-    f: null,
+    f: "Ã©",
     g: {},
     h: [],
     i: -[
