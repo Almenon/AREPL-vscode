@@ -10,3 +10,4 @@ myenv
 .vscode/settings.json
 coverage
 .nyc_output
+*.pyc
