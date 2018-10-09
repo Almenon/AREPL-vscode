@@ -262,7 +262,15 @@ export default class PythonPreview{
         // the weird div with a random id above is necessary
         // if not there weird issues appear
 
-        this.panel.webview.html = this.html;
+        try {
+            this.panel.webview.html = this.html;
+        } catch (error) {
+            if(error instanceof Error && error.message.includes("disposed")){
+                // swallow - user probably just got rid of webview inbetween throttled update call
+                console.warn(error)
+            }
+            else throw error
+        }
 
         this._onDidChange.fire(vscode.Uri.parse(PythonPreview.PREVIEW_URI));
     }
