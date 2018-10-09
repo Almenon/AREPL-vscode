@@ -1,3 +1,6 @@
+## v1.0.2
+Fixed error with using gui
+
 ## v1.0.1
 Fixed error on mac due to a filename having the wrong case when packaging extension
 
