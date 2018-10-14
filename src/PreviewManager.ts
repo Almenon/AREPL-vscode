@@ -68,8 +68,10 @@ export default class PreviewManager {
      * starts AREPL python backend and binds print&result output to the handlers
      */
     private startAndBindPython(){
-        const pythonPath = this.settings.get<string>("pythonPath")
+        let pythonPath = this.settings.get<string>("pythonPath")
         const pythonOptions = this.settings.get<string[]>("pythonOptions")
+
+        pythonPath = pythonPath.replace("${workspaceFolder}", this.getCurrentWorkspaceFolder())
 
         this.pythonEvaluator = new PythonEvaluator(pythonPath, pythonOptions)
         
@@ -91,6 +93,16 @@ export default class PreviewManager {
             this.status.hide()
             this.previewContainer.handleResult(result)
         }
+    }
+
+    /**
+     * returns current folder path or a string "could not find workspace folder" if no folder is open
+     */
+    private getCurrentWorkspaceFolder(){
+        if(vscode.workspace.workspaceFolders){
+            return vscode.workspace.workspaceFolders[0].uri.fsPath
+        }
+        else return "could not find workspace folder"
     }
 
     /**
