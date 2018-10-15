@@ -24,7 +24,7 @@ export default class PythonPreview{
     <br>
     <p style="font-size:14px">Start typing or make a change and your code will be evaluated.</p>
     
-    <p style="font-size:14px">⚠ <b style="color:red">WARNING:</b> code is evaluated WHILE YOU TYPE - don't mess around with your file system! ⚠</p>
+    <p style="font-size:14px">⚠ <b style="color:red">WARNING:</b> code is evaluated WHILE YOU TYPE - don't try deleting files/folders! ⚠</p>
     <p>evaluation while you type can be turned off or adjusted in the settings</p>
     <br>
     <h3>Enhancements with version 1.0.3 :) </h3>
