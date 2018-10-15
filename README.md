@@ -98,7 +98,8 @@ turtle.left(90)
 
 **VENV**
 
-to use you arepl with VENV you can set the AREPL.pythonPath setting to reference the location of your venv python
+To use you arepl with VENV you can set the AREPL.pythonPath setting to reference the location of your venv python. 
+You can use ${workspaceFolder} to reference the current workspace folder.
 
 **Variable Representation**
 
