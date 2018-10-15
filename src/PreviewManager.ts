@@ -71,7 +71,9 @@ export default class PreviewManager {
         let pythonPath = this.settings.get<string>("pythonPath")
         const pythonOptions = this.settings.get<string[]>("pythonOptions")
 
-        pythonPath = pythonPath.replace("${workspaceFolder}", this.getCurrentWorkspaceFolder())
+        if(pythonPath){
+            pythonPath = pythonPath.replace("${workspaceFolder}", this.getCurrentWorkspaceFolder())
+        }
 
         this.pythonEvaluator = new PythonEvaluator(pythonPath, pythonOptions)
         
