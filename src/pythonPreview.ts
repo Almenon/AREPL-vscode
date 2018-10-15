@@ -27,9 +27,11 @@ export default class PythonPreview{
     <p style="font-size:14px">⚠ <b style="color:red">WARNING:</b> code is evaluated WHILE YOU TYPE - don't mess around with your file system! ⚠</p>
     <p>evaluation while you type can be turned off or adjusted in the settings</p>
     <br>
-    <h3>Bug Fixes with version 1.0.2! 🏋️</h3>
+    <h3>Enhancements with version 1.0.3 :) </h3>
     <ul>
-    <li>Fixed error with using gui's like turtle</li>
+    <li>\${workspaceFolder} can now be used in pythonPath for pointing to workspace-specific python interpreters</li>
+    <li>jsonPickle version upgrade w/ slightly better numpy and pandas support</li>
+    <li>Fixed bug with linux</li>
     </ul>
     <br>
     
