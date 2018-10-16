@@ -55,7 +55,8 @@
             "plotly",
             "ggplot",
             "bokeh",
-            "ppb"
+            "ppb",
+            "PySimpleGUI"
           ],
           "description": "AREPL enters restart mode when one of these libraries are imported. Process is restarted at end of each run so GUI window is updated"
         },
