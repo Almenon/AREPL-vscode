@@ -3,6 +3,14 @@
 	"version": "0.1.0",
 	"configurations": [
 		{
+			"name": "Python: Current File (Integrated Terminal)",
+			"type": "python",
+			"request": "launch",
+			"program": "${file}",
+			"console": "integratedTerminal",
+			"debugStdLib": true
+		},
+		{
 			"name": "Launch Extension",
 			"type": "extensionHost",
 			"request": "launch",
