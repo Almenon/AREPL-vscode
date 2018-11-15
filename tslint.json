@@ -16,7 +16,8 @@
         "no-consecutive-blank-lines": false,
         "only-arrow-functions": false,
         "whitespace":false,
-        "prefer-const":false
+        "prefer-const":false,
+        "quotemark":false
     },
     "rulesDirectory": []
 }
