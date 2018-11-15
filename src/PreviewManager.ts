@@ -1,6 +1,7 @@
-'use strict'
+"use strict"
 import {PythonEvaluator} from "arepl-backend"
 import {EOL} from "os"
+import { isAbsolute, sep } from "path";
 import * as vscode from "vscode"
 import { PreviewContainer } from "./previewContainer";
 import Reporter from "./telemetry"
@@ -73,6 +74,11 @@ export default class PreviewManager {
 
         if(pythonPath){
             pythonPath = pythonPath.replace("${workspaceFolder}", this.getCurrentWorkspaceFolder())
+
+            // if its a relative path, make it absolute
+            if(pythonPath.includes(sep) && !isAbsolute(pythonPath)){
+                pythonPath = this.getCurrentWorkspaceFolder() + sep + pythonPath
+            }
         }
 
         this.pythonEvaluator = new PythonEvaluator(pythonPath, pythonOptions)
