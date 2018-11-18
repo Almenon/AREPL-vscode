@@ -10,14 +10,20 @@
 // to report the results back to the caller. When the tests are finished, return
 // a possible error to the callback or null if none.
 
-var testRunner = require('vscode/lib/testrunner');
+import * as testRunner from 'vscode/lib/testrunner';
+
+//@ts-ignore v8debug might be present in debug mode
+const debug = typeof v8debug === 'object' 
+            || /--debug|--inspect/.test(process.execArgv.join(' '));
+
+if(debug) console.log('debug test mode active - timeouts disabled')
 
 // You can directly control Mocha options by uncommenting the following lines
 // See https://github.com/mochajs/mocha/wiki/Using-mocha-programmatically#set-options for more info
 testRunner.configure({
-    ui: 'tdd', 		// the TDD UI is being used in extension.test.ts (suite, test, etc.)
+    ui: 'tdd', // see https://mochajs.org/#tdd and https://github.com/mochajs/mocha/issues/310
     useColors: true, // colored output from test results
-    timeout: 6000,
+    timeout: debug ? 99999999: 6000, // if we are debugging we dont want timeout
 });
 
 module.exports = testRunner;
