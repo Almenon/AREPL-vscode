@@ -31,7 +31,7 @@ suite("PreviewManager and pythonPreview Tests", () => {
 
             // for some reason travis sometimes gets error DISPOSED: TextEditor(vs.editor.ICodeEditor:1,$model2) has been disposed
             // so sleeping to try to avoid it
-            utilities.sleep(100).then(()=>{
+            utilities.sleep(500).then(()=>{
                 previewManager.startArepl().then((previewPanel)=>{
                     panel = previewPanel
                     console.log("preview panel started")
