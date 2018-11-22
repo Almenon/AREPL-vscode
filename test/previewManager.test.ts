@@ -1,7 +1,7 @@
 import * as assert from "assert";
 import * as vscode from "vscode";
 import PreviewManager from "../src/PreviewManager"
-import Utilities from "../src/utilities";
+import vscodeUtils from "../src/vscodeUtilities";
 import { EOL } from "os";
 
 
@@ -24,7 +24,7 @@ suite("PreviewManager and pythonPreview Tests", () => {
     }
 
     suiteSetup(function(done){
-        Utilities.newUnsavedPythonDoc("").then((newEditor)=>{
+        vscodeUtils.newUnsavedPythonDoc("").then((newEditor)=>{
             editor = newEditor;
             previewManager = new PreviewManager(mockContext);
             previewManager.startArepl().then((previewPanel)=>{
