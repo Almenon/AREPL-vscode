@@ -2,7 +2,7 @@
 import * as vscode from "vscode";
 import PreviewManager from "./PreviewManager"
 import { registerAreplDump, unregisterAreplDump } from "./registerAreplDump";
-import Utilities from "./utilities";
+import vscodeUtils from "./vscodeUtilities";
 
 let previewManager: PreviewManager = null;
 
@@ -16,13 +16,13 @@ export function activate(context: vscode.ExtensionContext) {
     });
 
     const newAreplSession = vscode.commands.registerCommand("extension.newAREPLSession", ()=>{
-        Utilities.newUnsavedPythonDoc(Utilities.getHighlightedText())
+        vscodeUtils.newUnsavedPythonDoc(vscodeUtils.getHighlightedText())
             .then(createPreviewDoc.bind(this, context));
     });
 
     // exact same as above, just defining command so users are aware of the feature
     const areplOnHighlightedCode = vscode.commands.registerCommand("extension.newAREPLSessionOnHighlightedCode", ()=>{
-        Utilities.newUnsavedPythonDoc(Utilities.getHighlightedText())
+        vscodeUtils.newUnsavedPythonDoc(vscodeUtils.getHighlightedText())
             .then(createPreviewDoc.bind(this, context));
     });
 

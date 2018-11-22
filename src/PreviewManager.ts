@@ -6,7 +6,7 @@ import * as vscode from "vscode"
 import { PreviewContainer } from "./previewContainer";
 import Reporter from "./telemetry"
 import {ToAREPLLogic} from "./toAREPLLogic"
-import Utilities from "./utilities";
+import vscodeUtils from "./vscodeUtilities";
 
 // This class initializes the previewmanager based on extension type and manages all the subscriptions
 export default class PreviewManager {
@@ -74,11 +74,11 @@ export default class PreviewManager {
         const pythonOptions = this.settings.get<string[]>("pythonOptions")
 
         if(pythonPath){
-            pythonPath = pythonPath.replace("${workspaceFolder}", Utilities.getCurrentWorkspaceFolder())
+            pythonPath = pythonPath.replace("${workspaceFolder}", vscodeUtils.getCurrentWorkspaceFolder())
 
             // if its a relative path, make it absolute
             if(pythonPath.includes(sep) && !isAbsolute(pythonPath)){
-                pythonPath = Utilities.getCurrentWorkspaceFolder() + sep + pythonPath
+                pythonPath = vscodeUtils.getCurrentWorkspaceFolder() + sep + pythonPath
             }
         }
 

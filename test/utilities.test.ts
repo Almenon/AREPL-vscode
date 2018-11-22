@@ -25,19 +25,4 @@ suite("Utility Tests", () => {
         assert.equal(Utilities.escapeHtml("feaf$"), "feaf$")
     });
 
-    test("new python doc", function(){
-        Utilities.newUnsavedPythonDoc("test").then((editor)=>{
-            assert.equal(editor.document.isClosed, false)
-            assert.equal(editor.document.getText(), "test")
-            // not sure how to close the document
-        })
-    });
-
-    // test("get highlighted text", function(){
-    //     Utilities.newUnsavedPythonDoc("testGetHighlightedText").then((editor)=>{
-    //         // not sure how to highlight text :/
-    //         assert.equal(Utilities.getHighlightedText(), "testGetHighlightedText")
-    //     })
-    // })
-
 });
