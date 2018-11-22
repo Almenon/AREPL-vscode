@@ -130,7 +130,7 @@ suite("PreviewContainer and pythonPreview Tests", () => {
         assert.equal(panel.webview.html.includes("&lt;module&gt;"), true, panel.webview.html);
     });
 
-    suiteTeardown(function(done){
+    suiteTeardown(function(){
         panel.dispose()
     })
 
