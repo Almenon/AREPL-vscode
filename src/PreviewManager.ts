@@ -48,6 +48,8 @@ export default class PreviewManager {
         }
 
         this.subscribeHandlersToDoc()
+
+        return panel
     }
 
     runArepl(){

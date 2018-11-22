@@ -12,6 +12,7 @@ suite("PreviewManager and pythonPreview Tests", () => {
 
     const arepl = vscode.extensions.getExtension("almenon.arepl")!;
     let editor:vscode.TextEditor
+    let panel:vscode.WebviewPanel
 
     const mockContext: any = {
         asAbsolutePath: (file: string)=>{
@@ -24,21 +25,27 @@ suite("PreviewManager and pythonPreview Tests", () => {
         Utilities.newUnsavedPythonDoc("").then((newEditor)=>{
             editor = newEditor;
             const previewManager = new PreviewManager(mockContext);
-            previewManager.startArepl().then(()=>done()).catch((err)=>done(err))
+            previewManager.startArepl().then((previewPanel)=>{
+                panel = previewPanel
+                done()
+            }).catch((err)=>done(err))
         })
     })
 
     test("webview should be displayed", function(){
-        console.log(vscode.workspace.textDocuments);
+        assert.equal(panel.visible, true)
     });
 
     test("edits should result in webview change", function(){
         editor.edit(editBuilder => {
-            editBuilder.insert(new vscode.Position(0,0), "x=1")
+            editBuilder.insert(new vscode.Position(0,0), "x=3424523")
         }).then(()=>{
-            console.log(vscode.workspace.textDocuments)
-            // get webview
+            assert.equal(panel.webview.html.includes("x: 3424523"), true, panel.webview.html)
         })
     });
+
+    suiteTeardown(function(){
+        panel.dispose()
+    })
 
 });
