@@ -36,6 +36,16 @@ export default class Utilities {
         return editor.document.getText(editor.selection)
     }
 
+    /**
+     * returns current folder path or a string "could not find workspace folder" if no folder is open
+     */
+    static getCurrentWorkspaceFolder(){
+        if(vscode.workspace.workspaceFolders){
+            return vscode.workspace.workspaceFolders[0].uri.fsPath
+        }
+        else return "could not find workspace folder"
+    }
+
     
     private static entityMap = {
         '"': "&quot;",

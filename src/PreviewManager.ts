@@ -6,6 +6,7 @@ import * as vscode from "vscode"
 import { PreviewContainer } from "./previewContainer";
 import Reporter from "./telemetry"
 import {ToAREPLLogic} from "./toAREPLLogic"
+import Utilities from "./utilities";
 
 // This class initializes the previewmanager based on extension type and manages all the subscriptions
 export default class PreviewManager {
@@ -73,11 +74,11 @@ export default class PreviewManager {
         const pythonOptions = this.settings.get<string[]>("pythonOptions")
 
         if(pythonPath){
-            pythonPath = pythonPath.replace("${workspaceFolder}", this.getCurrentWorkspaceFolder())
+            pythonPath = pythonPath.replace("${workspaceFolder}", Utilities.getCurrentWorkspaceFolder())
 
             // if its a relative path, make it absolute
             if(pythonPath.includes(sep) && !isAbsolute(pythonPath)){
-                pythonPath = this.getCurrentWorkspaceFolder() + sep + pythonPath
+                pythonPath = Utilities.getCurrentWorkspaceFolder() + sep + pythonPath
             }
         }
 
@@ -101,16 +102,6 @@ export default class PreviewManager {
             this.status.hide()
             this.previewContainer.handleResult(result)
         }
-    }
-
-    /**
-     * returns current folder path or a string "could not find workspace folder" if no folder is open
-     */
-    private getCurrentWorkspaceFolder(){
-        if(vscode.workspace.workspaceFolders){
-            return vscode.workspace.workspaceFolders[0].uri.fsPath
-        }
-        else return "could not find workspace folder"
     }
 
     /**
