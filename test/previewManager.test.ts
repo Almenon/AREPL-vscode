@@ -13,6 +13,7 @@ suite("PreviewManager and pythonPreview Tests", () => {
     const arepl = vscode.extensions.getExtension("almenon.arepl")!;
     let editor:vscode.TextEditor
     let panel:vscode.WebviewPanel
+    let previewManager: PreviewManager
 
     const mockContext: any = {
         asAbsolutePath: (file: string)=>{
@@ -24,7 +25,7 @@ suite("PreviewManager and pythonPreview Tests", () => {
     suiteSetup(function(done){
         Utilities.newUnsavedPythonDoc("").then((newEditor)=>{
             editor = newEditor;
-            const previewManager = new PreviewManager(mockContext);
+            previewManager = new PreviewManager(mockContext);
             previewManager.startArepl().then((previewPanel)=>{
                 panel = previewPanel
                 done()
@@ -45,7 +46,7 @@ suite("PreviewManager and pythonPreview Tests", () => {
     });
 
     suiteTeardown(function(){
-        panel.dispose()
+        previewManager.dispose()
     })
 
 });
