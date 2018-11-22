@@ -2,6 +2,7 @@ import * as assert from "assert";
 import * as vscode from "vscode";
 import PreviewManager from "../src/PreviewManager"
 import vscodeUtils from "../src/vscodeUtilities";
+import utilities from "../src/utilities";
 import { EOL } from "os";
 
 
@@ -28,12 +29,16 @@ suite("PreviewManager and pythonPreview Tests", () => {
             editor = newEditor;
             console.log("made editor")
             previewManager = new PreviewManager(mockContext);
-            console.log("constructed previewManager")
-            previewManager.startArepl().then((previewPanel)=>{
-                panel = previewPanel
-                console.log("preview panel started")
-                done()
-            }).catch((err)=>done(err))
+
+            // for some reason travis sometimes gets error DISPOSED: TextEditor(vs.editor.ICodeEditor:1,$model2) has been disposed
+            // so sleeping to try to avoid it
+            utilities.sleep(20).then(()=>{
+                previewManager.startArepl().then((previewPanel)=>{
+                    panel = previewPanel
+                    console.log("preview panel started")
+                    done()
+                }).catch((err)=>done(err))
+            })
         })
     })
 

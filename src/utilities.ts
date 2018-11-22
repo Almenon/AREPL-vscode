@@ -4,6 +4,12 @@ export default class Utilities {
     static isEmpty(obj: {}) {
         return Object.keys(obj).length === 0;
     }
+
+    static sleep(ms: number): Promise<void> {
+        return new Promise(resolve => {
+          setTimeout(resolve, ms)
+        })
+      }
       
     /**
      * see https://stackoverflow.com/a/12034334/6629672
