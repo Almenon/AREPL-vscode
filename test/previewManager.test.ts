@@ -27,12 +27,11 @@ suite("PreviewManager and pythonPreview Tests", () => {
     suiteSetup(function(done){
         vscodeUtils.newUnsavedPythonDoc("").then((newEditor)=>{
             editor = newEditor;
-            console.log("made editor")
             previewManager = new PreviewManager(mockContext);
 
             // for some reason travis sometimes gets error DISPOSED: TextEditor(vs.editor.ICodeEditor:1,$model2) has been disposed
             // so sleeping to try to avoid it
-            utilities.sleep(20).then(()=>{
+            utilities.sleep(100).then(()=>{
                 previewManager.startArepl().then((previewPanel)=>{
                     panel = previewPanel
                     console.log("preview panel started")
