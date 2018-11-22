@@ -2,6 +2,7 @@ import * as assert from "assert";
 import * as vscode from "vscode";
 import PreviewManager from "../src/PreviewManager"
 import Utilities from "../src/utilities";
+import { EOL } from "os";
 
 
 /**
@@ -32,6 +33,10 @@ suite("PreviewManager and pythonPreview Tests", () => {
             }).catch((err)=>done(err))
         })
     })
+
+    test("default imports should be inserted", function(){
+        assert.equal(editor.document.getText(), "from arepldump import dump" + EOL)
+    });
 
     test("webview should be displayed", function(){
         assert.equal(panel.visible, true)
