@@ -26,9 +26,12 @@ suite("PreviewManager and pythonPreview Tests", () => {
     suiteSetup(function(done){
         vscodeUtils.newUnsavedPythonDoc("").then((newEditor)=>{
             editor = newEditor;
+            console.log("made editor")
             previewManager = new PreviewManager(mockContext);
+            console.log("constructed previewManager")
             previewManager.startArepl().then((previewPanel)=>{
                 panel = previewPanel
+                console.log("preview panel started")
                 done()
             }).catch((err)=>done(err))
         })
