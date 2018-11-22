@@ -8,7 +8,7 @@ export default class vscodeUtils {
             language: "python",
         });
     
-        return await vscode.window.showTextDocument(pyDoc);
+        return vscode.window.showTextDocument(pyDoc);
     }
     
     /**
