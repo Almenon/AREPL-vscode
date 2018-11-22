@@ -168,14 +168,15 @@
   "scripts": {
     "vscode:prepublish": "tsc -p ./",
     "compile": "tsc -watch -p ./",
+    "compileOnce": "tsc -p ./",
     "postinstall": "node ./node_modules/vscode/bin/install",
     "test": "tsc -p ./ && node ./node_modules/vscode/bin/test",
     "visualize": "depcruise --exclude 'vscode|^[a-zA-Z0-9\\_]+$' --output-type dot src | dot -T svg > dependencygraph.svg"
   },
   "devDependencies": {
-    "@types/mocha": "^2.2.48",
+    "@types/mocha": "^5.2.5",
     "@types/node": "^8.9",
-    "mocha": "^5.0.1",
+    "mocha": "^5.2.0",
     "typescript": "^2.7.2",
     "vscode": "^1.1.21"
   },

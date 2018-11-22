@@ -21,6 +21,9 @@ export default class PreviewManager {
     previewContainer: PreviewContainer
     subscriptions: vscode.Disposable[] = [];
 
+    /**
+     * assumes a text editor is already open - if not will error out
+     */
     constructor(context: vscode.ExtensionContext) {
         this.settings = vscode.workspace.getConfiguration("AREPL");
         this.pythonEditor = vscode.window.activeTextEditor.document;
@@ -46,6 +49,8 @@ export default class PreviewManager {
         }
 
         this.subscribeHandlersToDoc()
+
+        return panel
     }
 
     runArepl(){

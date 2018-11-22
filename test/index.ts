@@ -16,8 +16,6 @@ import * as testRunner from 'vscode/lib/testrunner';
 const debug = typeof v8debug === 'object' 
             || /--debug|--inspect/.test(process.execArgv.join(' '));
 
-if(debug) console.log('debug test mode active - timeouts disabled')
-
 // You can directly control Mocha options by uncommenting the following lines
 // See https://github.com/mochajs/mocha/wiki/Using-mocha-programmatically#set-options for more info
 testRunner.configure({
