@@ -8,7 +8,9 @@ import Reporter from "./telemetry"
 import {ToAREPLLogic} from "./toAREPLLogic"
 import vscodeUtils from "./vscodeUtilities";
 
-// This class initializes the previewmanager based on extension type and manages all the subscriptions
+/**
+ * class with logic for starting arepl and arepl preview
+ */
 export default class PreviewManager {
 
     reporter: Reporter;
