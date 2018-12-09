@@ -40,6 +40,10 @@
           "default": 300,
           "description": "when restart mode is active we add this to delay to delay longer"
         },
+        "AREPL.inlineErrors": {
+          "type": "boolean",
+          "default": false
+        },
         "AREPL.pyGuiLibraries": {
           "type": "array",
           "default": [
@@ -94,7 +98,7 @@
             "print results appear on top",
             "print results appear on bottom"
           ],
-          "default": "bottom"
+          "default": "top"
         },
         "AREPL.pythonPath": {
           "type": "string",
