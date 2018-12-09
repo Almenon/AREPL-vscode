@@ -2,7 +2,7 @@
   "name": "arepl",
   "displayName": "AREPL for python",
   "description": "real-time python scratchpad",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "publisher": "almenon",
   "engines": {
     "vscode": "^1.23.0"
