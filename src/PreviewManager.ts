@@ -34,7 +34,7 @@ export default class PreviewManager {
         this.status.text = "Running python..."
         this.status.tooltip = "AREPL is currently running your python file.  Close the AREPL preview to stop"
 
-        this.previewContainer = new PreviewContainer(this.reporter, context)
+        this.previewContainer = new PreviewContainer(this.reporter, context, this.settings)
     }
 
     async startArepl(){

@@ -40,9 +40,10 @@
           "default": 300,
           "description": "when restart mode is active we add this to delay to delay longer"
         },
-        "AREPL.inlineErrors": {
+        "AREPL.inlineResults": {
           "type": "boolean",
-          "default": false
+          "default": false,
+          "description": "whether to show errors / results / prints inline. (Currently just error icons)"
         },
         "AREPL.pyGuiLibraries": {
           "type": "array",

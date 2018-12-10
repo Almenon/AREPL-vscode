@@ -15,7 +15,7 @@ export class PreviewContainer{
     private pythonPreview: PythonPreview
     private vars: {}
 
-    constructor(private reporter: Reporter, context: vscode.ExtensionContext, htmlUpdateFrequency=50){
+    constructor(private reporter: Reporter, private context: vscode.ExtensionContext, private settings:vscode.WorkspaceConfiguration, htmlUpdateFrequency=50){
         this.pythonPreview = new PythonPreview(context, htmlUpdateFrequency);
         this.scheme = PythonPreview.scheme
         this.errorDecorationType = vscode.window.createTextEditorDecorationType({
@@ -62,7 +62,9 @@ export class PreviewContainer{
             if(this.printResults.length == 0) this.pythonPreview.clearPrint()
 
             this.updateError(pythonResults.userError, true)
-            this.updateErrorGutterIcons(pythonResults.userError)
+            if(this.settings.get('inlineResults')){
+                this.updateErrorGutterIcons(pythonResults.userError)
+            }
 
             // clear print so empty for next program run
             if(pythonResults.done) this.printResults = [];
