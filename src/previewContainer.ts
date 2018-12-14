@@ -67,6 +67,22 @@ export class PreviewContainer{
 
     }
 
+    public handlePrint(pythonResults: string){
+        this.printResults.push(pythonResults);
+        this.pythonPreview.handlePrint(this.printResults.join('\n'))
+    }
+
+    /**
+     * @param refresh if true updates page immediately.  otherwise error will show up whenever updateContent is called
+     */
+    public updateError(err: string, refresh=false){
+        this.pythonPreview.updateError(err, refresh)
+    }
+
+    public handleSpawnError(pythonCommand: string, pythonPath: string, err: string){
+        this.pythonPreview.handleSpawnError(pythonCommand, pythonPath, err)
+    }
+
     /**
      * user may dump var(s), which we format into readable output for user
      * @param pythonResults result with either "dump output" key or caller and lineno
@@ -85,22 +101,6 @@ export class PreviewContainer{
         }
 
         return pythonResults.userVariables
-    }
-
-    public handlePrint(pythonResults: string){
-        this.printResults.push(pythonResults);
-        this.pythonPreview.handlePrint(this.printResults.join('\n'))
-    }
-
-    /**
-     * @param refresh if true updates page immediately.  otherwise error will show up whenever updateContent is called
-     */
-    public updateError(err: string, refresh=false){
-        this.pythonPreview.updateError(err, refresh)
-    }
-
-    public handleSpawnError(pythonCommand: string, pythonPath: string, err: string){
-        this.pythonPreview.handleSpawnError(pythonCommand, pythonPath, err)
     }
 
     get onDidChange(): vscode.Event<vscode.Uri> {
