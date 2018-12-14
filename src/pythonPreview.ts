@@ -117,7 +117,6 @@ export default class PythonPreview{
         this.css = `<link rel="stylesheet" type="text/css" href="${this.getMediaPath("pythonPreview.css")}">`
         this.jsonRendererScript = `<script src="${this.getMediaPath("jsonRenderer.js")}"></script>`
         this.settings = vscode.workspace.getConfiguration("AREPL");
-        this.html = this.landingPage;
 
         if(htmlUpdateFrequency != 0){
             // refreshing html too much can freeze vscode... lets avoid that
