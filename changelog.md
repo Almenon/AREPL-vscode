@@ -1,6 +1,10 @@
+## v1.0.4
+
 ## v1.0.3
-\${workspaceFolder} can now be used in pythonPath for pointing to workspace-specific python interpreters
+${workspaceFolder} can now be used in pythonPath for pointing to workspace-specific python interpreters
+
 jsonPickle version upgrade w/ slightly better numpy and pandas support
+
 Fixed bug with linux
 
 ## v1.0.2
