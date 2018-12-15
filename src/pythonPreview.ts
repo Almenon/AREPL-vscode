@@ -29,6 +29,7 @@ export default class PythonPreview{
     <br>
     <h3>Enhancements with version 1.0.4 :) </h3>
     <ul>
+    <li><a href="https://github.com/Almenon/AREPL-vscode/wiki">AREPL now has a wiki!</a></li>
     <li>pythonPath setting now supports paths relative to the workspace</li>
     <li>Added optional inline error icons</li>
     </ul>
