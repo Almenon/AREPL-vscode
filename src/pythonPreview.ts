@@ -30,8 +30,12 @@ export default class PythonPreview{
     <h3>Enhancements with version 1.0.4 :) </h3>
     <ul>
     <li><a href="https://github.com/Almenon/AREPL-vscode/wiki">AREPL now has a wiki!</a></li>
+    <li><a href="https://github.com/Almenon/AREPL-vscode/wiki/Using-AREPL-with-stdin">Added guide for hardcoding stdin</a></li>
+    <li>Howdoi integration - install howdoi with pip to be able to call howdoi from arepl. For example
+    <code>howdoi('calculate fibbonaci in python')</code> will give you a function to calcualate a fibonaci number
+    </li>
     <li>pythonPath setting now supports paths relative to the workspace</li>
-    <li>Added optional inline error icons</li>
+    <li>Added optional inline error icons - this can be turned on by setting inlineResults setting to true</li>
     </ul>
     <br>
     
@@ -197,7 +201,8 @@ export default class PythonPreview{
     public handleSpawnError(pythonCommand: string, pythonPath: string, err: string){
         let errMsg = `Error in the AREPL extension!\nWhile running python ${pythonCommand} ${pythonPath} we got ${err}`
         if(err.includes("ENOENT")){
-            errMsg = errMsg + "\n\nAre you sure you have installed python 3 and it is in your PATH?"
+            errMsg = errMsg + `\n\nAre you sure you have installed python 3 and it is in your PATH?
+            You can download python here: https://www.python.org/downloads/`
         }
 
         this.updateError(errMsg)

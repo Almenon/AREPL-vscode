@@ -1,4 +1,7 @@
-## v1.0.4
+## [v1.0.4](https://github.com/Almenon/AREPL-vscode/milestone/22?closed=1)
+pythonPath setting now supports paths relative to the workspace
+Added optional inline error icons - this can be turned on by setting inlineResults setting to true
+howdoi integration
 
 ## v1.0.3
 ${workspaceFolder} can now be used in pythonPath for pointing to workspace-specific python interpreters
