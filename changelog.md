@@ -1,7 +1,10 @@
-## [v1.0.4](https://github.com/Almenon/AREPL-vscode/milestone/22?closed=1)
+## [v1.0.4](https://github.com/Almenon/AREPL-vscode/milestone/22?closed=1) (12/15/2018)
 pythonPath setting now supports paths relative to the workspace
+
 Added optional inline error icons - this can be turned on by setting inlineResults setting to true
-howdoi integration
+
+[howdoi](https://github.com/gleitz/howdoi) integration - install howdoi with pip to be able to call howdoi from arepl. For example
+<code>howdoi('calculate fibbonaci in python')</code> will give you a function to calcualate a fibonaci number
 
 ## v1.0.3
 ${workspaceFolder} can now be used in pythonPath for pointing to workspace-specific python interpreters
