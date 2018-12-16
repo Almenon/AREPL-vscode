@@ -31,7 +31,7 @@ export default class PythonPreview{
     <ul>
     <li><a href="https://github.com/Almenon/AREPL-vscode/wiki">AREPL now has a wiki!</a></li>
     <li><a href="https://github.com/Almenon/AREPL-vscode/wiki/Using-AREPL-with-stdin">Added guide for hardcoding stdin</a></li>
-    <li>Howdoi integration - install howdoi with pip to be able to call howdoi from arepl. For example
+    <li><a href="https://github.com/gleitz/howdoi">Howdoi</a> integration - install howdoi with pip to be able to call howdoi from arepl. For example
     <code>howdoi('calculate fibbonaci in python')</code> will give you a function to calcualate a fibonaci number
     </li>
     <li>pythonPath setting now supports paths relative to the workspace</li>
