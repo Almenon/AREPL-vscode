@@ -2,7 +2,7 @@
   "name": "arepl",
   "displayName": "AREPL for python",
   "description": "real-time python scratchpad",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "publisher": "almenon",
   "engines": {
     "vscode": "^1.23.0"
@@ -39,6 +39,11 @@
           "type": "number",
           "default": 300,
           "description": "when restart mode is active we add this to delay to delay longer"
+        },
+        "AREPL.inlineResults": {
+          "type": "boolean",
+          "default": false,
+          "description": "whether to show errors / results / prints inline. (Currently just error icons)"
         },
         "AREPL.pyGuiLibraries": {
           "type": "array",
@@ -94,7 +99,7 @@
             "print results appear on top",
             "print results appear on bottom"
           ],
-          "default": "bottom"
+          "default": "top"
         },
         "AREPL.pythonPath": {
           "type": "string",

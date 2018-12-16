@@ -19,7 +19,14 @@ suite("PreviewContainer and pythonPreview Tests", () => {
         extensionPath: arepl.extensionPath,
     }
 
-    const previewContainer = new PreviewContainer(new Reporter(false), mockContext, 0);
+    const mockSettings: any = {
+        inlineResults:false,
+        get: function(arg){
+            if(arg == 'inlineResults') return this.inlineResults
+        }
+    }
+
+    const previewContainer = new PreviewContainer(new Reporter(false), mockContext, mockSettings, 0);
     const panel = previewContainer.start()
 
     test("landing page displayed", function(){
