@@ -76,16 +76,7 @@ howdoi('calculate fibbonaci in python')
 
 **GUIS**
 
-You can use arepl for working with gui's like turtle or many others.  Each time you edit the code the gui restarts, so to make it less annoying the typing debounce is automatically increased for a longer delay before execution. Or you can switch to execute on save.  I also suggest coding it so the gui appears on the side (not blocking your view of your code), like so:
-
-```python
-import turtle
-
-turtle.setup(width=500, height=500, startx=-1, starty=0)
-
-turtle.forward(100)
-turtle.left(90)
-```
+see https://github.com/Almenon/AREPL-vscode/wiki/Using-AREPL-with-GUI's
 
 **#$save**
 
