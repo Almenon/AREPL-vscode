@@ -29,7 +29,7 @@ or use a shortcut: control-shift-a / command-shift-a
 
 #### Misc
 
-**dumping**
+**Dumping**
 
 If you want to dump local variables or dump variables at a specific point in your program you can use the dump function:
 
@@ -52,6 +52,39 @@ for char in ['a','b','c']:
 a=1
 dump(a) # dump specific vars at any point in your program
 a=2
+```
+
+**STDIN**
+
+see https://github.com/Almenon/AREPL-vscode/wiki/Using-AREPL-with-stdin
+
+**HOWDOI**
+
+You can use [howdoi](https://github.com/gleitz/howdoi) with arepl:
+
+From the terminal / command line:
+
+> pip install howdoi
+
+Then in arepl you can use howdoi to get answers to your questions. For example:
+
+```python
+howdoi('calculate fibbonaci in python')
+```
+
+ will give you a function to calcualate a fibonaci number
+
+**GUIS**
+
+You can use arepl for working with gui's like turtle or many others.  Each time you edit the code the gui restarts, so to make it less annoying the typing debounce is automatically increased for a longer delay before execution. Or you can switch to execute on save.  I also suggest coding it so the gui appears on the side (not blocking your view of your code), like so:
+
+```python
+import turtle
+
+turtle.setup(width=500, height=500, startx=-1, starty=0)
+
+turtle.forward(100)
+turtle.left(90)
 ```
 
 **#$save**
@@ -83,18 +116,6 @@ print(x) # this number will not change when editing below the #$save line
 
 Please note that \#\$save [does not work](https://github.com/Almenon/AREPL-vscode/issues/53) with certain types, like generators.  If #$save fails in pickling the code state [file an issue](https://github.com/Almenon/AREPL-vscode/issues) so I can look into it.
 
-**GUIS**
-
-You can use arepl for working with gui's like turtle or many others.  Each time you edit the code the gui restarts, so to make it less annoying the typing debounce is automatically increased for a longer delay before execution. Or you can switch to execute on save.  I also suggest coding it so the gui appears on the side (not blocking your view of your code), like so:
-
-```python
-import turtle
-
-turtle.setup(width=500, height=500, startx=-1, starty=0)
-
-turtle.forward(100)
-turtle.left(90)
-```
 
 **VENV**
 
