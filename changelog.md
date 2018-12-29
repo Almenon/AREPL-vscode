@@ -1,3 +1,10 @@
+## [v1.0.4](https://github.com/Almenon/AREPL-vscode/milestone/23?closed=1) (12/29/2018)
+🚀 input() support! Hardcode input like so: standard_input = "hello\\nworld" to be able to use input()
+🔧 inline errors icons are now turned on by default - you can turn them off in settings
+🔧 AREPL on windows now uses py (C:\\Windows\\py.exe) to launch python
+🐛 Fixed bug where inline error icons stayed present when closing arepl
+🐛 Fixed bug where items kept on being added to sys.path between runs
+
 ## [v1.0.4](https://github.com/Almenon/AREPL-vscode/milestone/22?closed=1) (12/15/2018)
 pythonPath setting now supports paths relative to the workspace
 

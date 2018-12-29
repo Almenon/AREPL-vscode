@@ -27,15 +27,13 @@ export default class PythonPreview{
     <p style="font-size:14px">⚠ <b style="color:red">WARNING:</b> code is evaluated WHILE YOU TYPE - don't try deleting files/folders! ⚠</p>
     <p>evaluation while you type can be turned off or adjusted in the settings</p>
     <br>
-    <h3>Enhancements with version 1.0.4 :) </h3>
+    <h3>AREPL new years edition! 🎉 </h3>
     <ul>
-    <li><a href="https://github.com/Almenon/AREPL-vscode/wiki">AREPL now has a wiki!</a></li>
-    <li><a href="https://github.com/Almenon/AREPL-vscode/wiki/Using-AREPL-with-stdin">Added guide for hardcoding stdin</a></li>
-    <li><a href="https://github.com/gleitz/howdoi">Howdoi</a> integration - install howdoi with pip to be able to call howdoi from arepl. For example
-    <code>howdoi('calculate fibbonaci in python')</code> will give you a function to calcualate a fibonaci number
-    </li>
-    <li>pythonPath setting now supports paths relative to the workspace</li>
-    <li>Added optional inline error icons - this can be turned on by setting inlineResults setting to true</li>
+    <li>🚀 input() support! Hardcode input like so: standard_input = "hello\\nworld" to be able to use input()</li>
+    <li>🔧 inline errors icons are now turned on by default - you can turn them off in settings</li>
+    <li>🔧 AREPL on windows now uses py (C:\\Windows\\py.exe) to launch python</li>
+    <li>🐛 Fixed bug where inline error icons stayed present when closing arepl</li>
+    <li>🐛 Fixed bug where items kept on being added to sys.path between runs</li>
     </ul>
     <br>
     
