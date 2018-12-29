@@ -10,8 +10,8 @@ import Utilities from "./utilities"
 export class PreviewContainer{
     public scheme: string
     public printResults: string[] = [];
-
-    private errorDecorationType: vscode.TextEditorDecorationType
+    public errorDecorationType: vscode.TextEditorDecorationType
+    
     private pythonPreview: PythonPreview
     private vars: {}
 
