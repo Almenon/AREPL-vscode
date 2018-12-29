@@ -1,4 +1,4 @@
-## [v1.0.4](https://github.com/Almenon/AREPL-vscode/milestone/23?closed=1) (12/29/2018)
+## [v1.0.5](https://github.com/Almenon/AREPL-vscode/milestone/23?closed=1) (12/29/2018)
 🚀 input() support! Hardcode input like so: standard_input = "hello\\nworld" to be able to use input()
 🔧 inline errors icons are now turned on by default - you can turn them off in settings
 🔧 AREPL on windows now uses py (C:\\Windows\\py.exe) to launch python
