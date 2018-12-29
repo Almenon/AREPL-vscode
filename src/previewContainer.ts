@@ -11,7 +11,7 @@ export class PreviewContainer{
     public scheme: string
     public printResults: string[] = [];
 
-    private errorDecorationType:vscode.TextEditorDecorationType
+    private errorDecorationType: vscode.TextEditorDecorationType
     private pythonPreview: PythonPreview
     private vars: {}
 
@@ -94,14 +94,14 @@ export class PreviewContainer{
     /**
      * sets gutter icons in sidebar. Safe - catches and logs any exceptions
      */
-    private updateErrorGutterIcons(error:string){
+    private updateErrorGutterIcons(error: string){
         try {
             const errLineNums = this.getLineNumsFromPythonTrace(error)
             
             let decorations = errLineNums.map((num)=>{
                 const lineNum = num-1 // python trace uses 1-based indexing but vscode lines start at 0
                 const range = new vscode.Range(lineNum, 0, lineNum, 0)
-                return <vscode.DecorationOptions>{range}
+                return {range} as vscode.DecorationOptions
             })
             
             vscode.window.activeTextEditor.setDecorations(this.errorDecorationType, decorations)
@@ -116,7 +116,7 @@ export class PreviewContainer{
      * returns line numbers for each error in the stack trace
      * @param error a python stacktrace
      */
-    private getLineNumsFromPythonTrace(error){
+    private getLineNumsFromPythonTrace(error: string){
             /* this regex will get the line number of each error. A error might look like this:
             
             Traceback (most recent call last):
@@ -128,8 +128,8 @@ export class PreviewContainer{
             File "filePath", line 394, in func
             */
            const lineNumRegex = /^ *line (\d+), in /gm
-           let errLineNums:number[] = []
-           let match:RegExpExecArray
+           let errLineNums: number[] = []
+           let match: RegExpExecArray
            
            while(match = lineNumRegex.exec(error)){
                const matchCaptureGroup = match[1]
@@ -143,7 +143,7 @@ export class PreviewContainer{
      * user may dump var(s), which we format into readable output for user
      * @param pythonResults result with either "dump output" key or caller and lineno
      */
-    private updateVarsWithDumpOutput(pythonResults:PythonResult){
+    private updateVarsWithDumpOutput(pythonResults: PythonResult){
         const lineKey = "line " + pythonResults.lineno
         if(pythonResults.userVariables["dump output"] != undefined){
             const dumpOutput = pythonResults.userVariables["dump output"]
