@@ -104,7 +104,7 @@
         "AREPL.pythonPath": {
           "type": "string",
           "default": null,
-          "description": "By default python is used if windows or python3 otherwise. Changing this setting not reccomended"
+          "description": "By default py is used if windows or python3 otherwise. Changing this setting not reccomended"
         },
         "AREPL.pythonOptions": {
           "type": "array",
@@ -186,7 +186,7 @@
     "vscode": "^1.1.21"
   },
   "dependencies": {
-    "arepl-backend": "^1.0.4",
+    "arepl-backend": "^1.0.5",
     "opn": "^5.3.0",
     "path": "^0.12.7",
     "vscode-extension-telemetry": "0.0.18"
