@@ -34,7 +34,7 @@ export default class PythonPreview{
     <li>🔧 AREPL on windows now uses py (C:\\Windows\\py.exe) to launch python</li>
     <li>🐛 Fixed bug where inline error icons stayed present when closing arepl</li>
     <li>🐛 Fixed bug where items kept on being added to sys.path between runs - thanks @Radivarig!</li>
-    <li>Want a feature to be added to AREPL? Submit feedback at https://github.com/Almenon/AREPL-vscode/issues/new</li>
+    <li>What do you want for the next release? Submit feedback <a href="https://github.com/Almenon/AREPL-vscode/issues/new">here</a></li>
     </ul>
     <br>
     
