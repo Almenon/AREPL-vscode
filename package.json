@@ -42,7 +42,7 @@
         },
         "AREPL.inlineResults": {
           "type": "boolean",
-          "default": false,
+          "default": true,
           "description": "whether to show errors / results / prints inline. (Currently just error icons)"
         },
         "AREPL.pyGuiLibraries": {
