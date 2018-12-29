@@ -3,6 +3,7 @@ import * as path from "path";
 import * as vscode from "vscode"
 import {Limit} from "./throttle"
 import Utilities from "./utilities"
+import { readFileSync } from "fs";
 
 /**
  * shows AREPL output (variables, errors, timing, and stdout/stderr)
@@ -105,6 +106,7 @@ export default class PythonPreview{
 
     private css: string
     private jsonRendererScript: string;
+    private stdinContainer = "";
     private errorContainer = ""
     private jsonRendererCode = `<script></script>`;
     private emptyPrint = `<br><b>Print Output:</b><div id="print"></div>`
@@ -134,7 +136,9 @@ export default class PythonPreview{
                 vscode.Uri.file(path.join(this.context.extensionPath, "media"))
             ]
         });
-        this.panel.webview.html = this.landingPage
+        this.panel.webview.html = readFileSync(
+            path.join(this.context.extensionPath, "media/landingPage.html")
+        ).toString()
         return this.panel;
     }
 
@@ -180,6 +184,21 @@ export default class PythonPreview{
         this.errorContainer = `<div id="error">${err}</div>`
 
         if(refresh) this.throttledUpdate()
+    }
+
+    public updateStdin(stdin: string){
+        this.stdinContainer = `
+        <script>
+            const debounce = (function(){let timer=0;return function(callback,ms,...args){
+                clearTimeout(timer);timer = setTimeout(callback, ms, args)}})()
+            const vscode = acquireVsCodeApi();
+            function onStdinKeyUp(){
+                debounce(()=>{
+                    vscode.postMessage({command: 'stdin', text: document.querySelector("textarea").value})
+                }, 400);
+            }
+        </script>
+        <textarea onkeyup="onStdinKeyUp()">${stdin}</textarea>`
     }
 
     public handlePrint(printResults: string){
@@ -255,6 +274,7 @@ export default class PythonPreview{
             ${printPlacement == "bottom" ? 
                 '<div id="results"></div>' + this.printContainer : 
                 this.printContainer + '<div id="results"></div>'}
+            ${this.stdinContainer}
             ${this.timeContainer}
             ${showFooter ? this.footer : ""}
             <div id="${Math.random()}" style="display:none"></div>

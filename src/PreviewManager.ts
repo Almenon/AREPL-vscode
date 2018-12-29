@@ -38,6 +38,14 @@ export default class PreviewManager {
     async startArepl(){
         let panel = this.previewContainer.start();
         this.subscriptions.push(panel)
+        panel.webview.onDidReceiveMessage(message => {
+            switch (message.command) {
+                case 'stdin':
+                    console.log(message.text)
+                    this.pythonEvaluator.sendStdin(message.text);
+                    return;
+            }
+        }, undefined, this.subscriptions);
         panel.onDidDispose(()=>this.dispose(), this, this.subscriptions)
 
         this.startAndBindPython()
