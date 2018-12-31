@@ -40,7 +40,7 @@ suite("PreviewContainer and pythonPreview Tests", () => {
     });
 
     test("spawn error", function(){
-        previewContainer.handleSpawnError("python3", "C:\\dev\\python","error")
+        previewContainer.displayProcessError("python3 -u ENOENT")
         assert.equal(panel.webview.html.includes("Error in the AREPL extension"), true, panel.webview.html);
     });
 

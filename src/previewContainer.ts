@@ -87,8 +87,8 @@ export class PreviewContainer{
         this.pythonPreview.updateError(err, refresh)
     }
 
-    public handleSpawnError(pythonCommand: string, pythonPath: string, err: string){
-        this.pythonPreview.handleSpawnError(pythonCommand, pythonPath, err)
+    public displayProcessError(err: string){
+        this.pythonPreview.displayProcessError(err)
     }
 
     /**

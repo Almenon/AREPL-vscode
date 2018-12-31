@@ -95,9 +95,16 @@ export default class PreviewManager {
         
         this.pythonEvaluator.startPython()
         this.pythonEvaluator.pyshell.childProcess.on("error", err => {
-            const error: any = err; // typescript complains about type for some reason so defining to any
-            this.previewContainer.handleSpawnError(error.path, error.spawnargs[0], error.stack);
-            this.reporter.sendError("error starting python: " + error.path)
+            /* The 'error' event is emitted whenever:
+            The process could not be spawned, or
+            The process could not be killed, or
+            Sending a message to the child process failed.
+            */
+
+            // @ts-ignore err is maltyped for some reason, not sure what correct type is
+            const error = `Error running python with command: ${err.path} ${err.spawnargs.join(' ')}\n${err.stack}`
+            this.previewContainer.displayProcessError(error);
+            this.reporter.sendError(error)
         })
 
         this.toAREPLLogic = new ToAREPLLogic(this.pythonEvaluator, this.previewContainer)

@@ -197,9 +197,10 @@ export default class PythonPreview{
         this.printContainer = this.emptyPrint
     }
 
-    public handleSpawnError(pythonCommand: string, pythonPath: string, err: string){
-        let errMsg = `Error in the AREPL extension!\nWhile running python ${pythonCommand} ${pythonPath} we got ${err}`
-        if(err.includes("ENOENT")){
+    public displayProcessError(err: string){
+        let errMsg = `Error in the AREPL extension!\n${err}`
+        if(err.includes("ENOENT")){ // NO SUCH FILE OR DIRECTORY
+            // user probably just doesn't have python installed
             errMsg = errMsg + `\n\nAre you sure you have installed python 3 and it is in your PATH?
             You can download python here: https://www.python.org/downloads/`
         }
