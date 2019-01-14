@@ -1,3 +1,7 @@
+## [v1.0.6](https://github.com/Almenon/AREPL-vscode/milestone/24?closed=1) (01/14/2019)
+🔧 Changed message you get when python path is misconfigured
+🐛 Fixed bug when closing editor with error decorations
+
 ## [v1.0.5](https://github.com/Almenon/AREPL-vscode/milestone/23?closed=1) (12/29/2018)
 🚀 input() support! Hardcode input like so: standard_input = "hello\\nworld" to be able to use input()
 🔧 inline errors icons are now turned on by default - you can turn them off in settings

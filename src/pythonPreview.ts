@@ -27,14 +27,11 @@ export default class PythonPreview{
     <p style="font-size:14px">⚠ <b style="color:red">WARNING:</b> code is evaluated WHILE YOU TYPE - don't try deleting files/folders! ⚠</p>
     <p>evaluation while you type can be turned off or adjusted in the settings</p>
     <br>
-    <h3>AREPL new years edition! 🎉 </h3>
+    <h3>AREPL 1.0.6 </h3>
     <ul>
-    <li>🚀 input() support! Hardcode input like so: standard_input = "hello\\nworld" to be able to use input()</li>
-    <li>🔧 inline errors icons are now turned on by default - you can turn them off in settings</li>
-    <li>🔧 AREPL on windows now uses py (C:\\Windows\\py.exe) to launch python</li>
-    <li>🐛 Fixed bug where inline error icons stayed present when closing arepl</li>
-    <li>🐛 Fixed bug where items kept on being added to sys.path between runs - thanks @Radivarig!</li>
-    <li>What do you want for the next release? Submit feedback <a href="https://github.com/Almenon/AREPL-vscode/issues/new">here</a></li>
+      <li>🔧 Changed message you get when python path is misconfigured</li>
+      <li>🐛 Fixed bug when closing editor with error decorations</li>
+      <li>What do you want for the next release? Submit feedback <a href="https://github.com/Almenon/AREPL-vscode/issues/new">here</a></li>
     </ul>
     <br>
     
