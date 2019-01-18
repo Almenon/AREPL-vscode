@@ -87,6 +87,9 @@ export default class PreviewManager {
         if(pythonPath){
             pythonPath = pythonPath.replace("${workspaceFolder}", vscodeUtils.getCurrentWorkspaceFolder())
 
+            const pythonExtSettings = vscode.workspace.getConfiguration("python");
+            pythonPath = pythonPath.replace("${python.pythonPath}", pythonExtSettings.get('pythonPath'))
+
             // if its a relative path, make it absolute
             if(pythonPath.includes(sep) && !isAbsolute(pythonPath)){
                 pythonPath = vscodeUtils.getCurrentWorkspaceFolder() + sep + pythonPath
