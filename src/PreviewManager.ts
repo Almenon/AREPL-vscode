@@ -37,6 +37,10 @@ export default class PreviewManager {
     }
 
     async startArepl(){
+        if(!vscode.window.activeTextEditor){
+            vscode.window.showErrorMessage("no active text editor open")
+            return
+        }
         this.pythonEditor = vscode.window.activeTextEditor.document;
         
         let panel = this.previewContainer.start();
