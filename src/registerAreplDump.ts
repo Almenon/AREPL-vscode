@@ -5,16 +5,9 @@ import { isAbsolute, join, resolve, sep} from "path";
 
 /**
  * registers arepl dump python file w/ python so it can be imported
- * @param pythonPath if unspecified uses python if win, python3 if mac/linux
+ * @param pythonPath
  */
-export function registerAreplDump(pythonPath: string = null, extensionDir: string){
-
-    if(pythonPath == null){
-        // for non-windows OS it is best to use python3 instead of python
-        // Mac and Ubuntu both have python being v2 by default
-        // archlinux and freebsd both use v3 as default, but also provide python3 command
-        pythonPath = process.platform != "win32" ? "python3" : "python"
-    }
+export function registerAreplDump(pythonPath: string, extensionDir: string){
 
     const sitePackagePath = getsitePackagePath(pythonPath)
 

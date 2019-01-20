@@ -28,7 +28,6 @@ export default class PreviewManager {
      */
     constructor(context: vscode.ExtensionContext) {
         this.settings = vscode.workspace.getConfiguration("AREPL");
-        this.pythonEditor = vscode.window.activeTextEditor.document;
         this.reporter = new Reporter(this.settings.get<boolean>("telemetry"))
         this.status = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left, 100);
         this.status.text = "Running python..."
@@ -38,6 +37,8 @@ export default class PreviewManager {
     }
 
     async startArepl(){
+        this.pythonEditor = vscode.window.activeTextEditor.document;
+        
         let panel = this.previewContainer.start();
         this.subscriptions.push(panel)
         panel.onDidDispose(()=>this.dispose(), this, this.subscriptions)
@@ -77,12 +78,8 @@ export default class PreviewManager {
         }
     }
 
-    /**
-     * starts AREPL python backend and binds print&result output to the handlers
-     */
-    private startAndBindPython(){
+    getPythonPath(){
         let pythonPath = this.settings.get<string>("pythonPath")
-        const pythonOptions = this.settings.get<string[]>("pythonOptions")
 
         if(pythonPath){
             pythonPath = pythonPath.replace("${workspaceFolder}", vscodeUtils.getCurrentWorkspaceFolder())
@@ -95,6 +92,16 @@ export default class PreviewManager {
                 pythonPath = vscodeUtils.getCurrentWorkspaceFolder() + sep + pythonPath
             }
         }
+
+        return pythonPath
+    }
+
+    /**
+     * starts AREPL python backend and binds print&result output to the handlers
+     */
+    private startAndBindPython(){
+        const pythonPath = this.getPythonPath()
+        const pythonOptions = this.settings.get<string[]>("pythonOptions")
 
         this.pythonEvaluator = new PythonEvaluator(pythonPath, pythonOptions)
         
