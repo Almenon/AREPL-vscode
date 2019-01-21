@@ -7,6 +7,7 @@ import { PreviewContainer } from "./previewContainer";
 import Reporter from "./telemetry"
 import {ToAREPLLogic} from "./toAREPLLogic"
 import vscodeUtils from "./vscodeUtilities";
+import { PythonShell } from "python-shell";
 
 /**
  * class with logic for starting arepl and arepl preview
@@ -95,6 +96,9 @@ export default class PreviewManager {
             if(pythonPath.includes(sep) && !isAbsolute(pythonPath)){
                 pythonPath = vscodeUtils.getCurrentWorkspaceFolder() + sep + pythonPath
             }
+        }
+        else{
+            pythonPath = PythonShell.defaultPythonPath
         }
 
         return pythonPath
