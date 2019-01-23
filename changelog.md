@@ -1,3 +1,9 @@
+## [v1.0.7](https://github.com/Almenon/AREPL-vscode/milestone/25?closed=1) (01/22/2019)
+
+[🔧 give better error when control-shift-a is invoked with nothing open](https://github.com/Almenon/AREPL-vscode/issues/159)
+[🐛 Fix python path for dump](https://github.com/Almenon/AREPL-vscode/issues/165)
+[🚀 allow ${python.pythonPath} macro in pythonPath](https://github.com/Almenon/AREPL-vscode/issues/161)
+
 ## [v1.0.6](https://github.com/Almenon/AREPL-vscode/milestone/24?closed=1) (01/14/2019)
 🔧 Changed message you get when python path is misconfigured
 
