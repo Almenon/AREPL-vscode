@@ -27,11 +27,13 @@ export default class PythonPreview{
     <p style="font-size:14px">⚠ <b style="color:red">WARNING:</b> code is evaluated WHILE YOU TYPE - don't try deleting files/folders! ⚠</p>
     <p>evaluation while you type can be turned off or adjusted in the settings</p>
     <br>
-    <h3>AREPL 1.0.6 </h3>
+    <h3>AREPL 1.0.7 🔧</h3>
     <ul>
-      <li>🔧 Changed message you get when python path is misconfigured</li>
-      <li>🐛 Fixed bug when closing editor with error decorations</li>
-      <li>What do you want for the next release? Submit feedback <a href="https://github.com/Almenon/AREPL-vscode/issues/new">here</a></li>
+        <li>🔧 <a href="https://github.com/Almenon/AREPL-vscode/issues/159">give better error when control-shift-a is invoked with nothing open</a></li>
+
+        <li>🐛 <a href="https://github.com/Almenon/AREPL-vscode/issues/165">Fix python path for dump</a></li>
+        
+        <li>🚀 <a href="https://github.com/Almenon/AREPL-vscode/issues/161">allow \${python.pythonPath} macro in pythonPath</a></li>
     </ul>
     <br>
     
