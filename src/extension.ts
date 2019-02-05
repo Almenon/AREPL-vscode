@@ -4,7 +4,7 @@ import PreviewManager from "./PreviewManager"
 import { registerAreplDump, unregisterAreplDump } from "./registerAreplDump";
 import vscodeUtils from "./vscodeUtilities";
 
-let previewManager:PreviewManager = null;
+let previewManager: PreviewManager = null;
 
 export function activate(context: vscode.ExtensionContext) {
 
