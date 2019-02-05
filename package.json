@@ -104,7 +104,7 @@
         "AREPL.pythonPath": {
           "type": "string",
           "default": null,
-          "description": "By default py is used if windows or python3 otherwise. Changing this setting not reccomended"
+          "description": "AREPL uses the path you have defined in the official python extension. If not present then this setting will be used. If this setting is also empty then on windows py will be used, or python3 otherwise"
         },
         "AREPL.pythonOptions": {
           "type": "array",

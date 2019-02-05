@@ -86,10 +86,14 @@ export default class PreviewManager {
     getPythonPath(){
         let pythonPath = this.settings.get<string>("pythonPath")
 
+        const pythonExtSettings = vscode.workspace.getConfiguration("python", null);
+        const pythonExtPythonPath = pythonExtSettings.get<string>('pythonPath')
+        if(pythonExtPythonPath && !pythonPath) pythonPath = pythonExtPythonPath
+
         if(pythonPath){
             pythonPath = pythonPath.replace("${workspaceFolder}", vscodeUtils.getCurrentWorkspaceFolder())
 
-            const pythonExtSettings = vscode.workspace.getConfiguration("python");
+            // not needed anymore but here for backwards compatability. Remove in 2020
             pythonPath = pythonPath.replace("${python.pythonPath}", pythonExtSettings.get('pythonPath'))
 
             // if its a relative path, make it absolute
