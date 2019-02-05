@@ -38,6 +38,9 @@ export default class PreviewManager {
     }
 
     async startArepl(){
+        // reload settings in case user changed something
+        this.settings = vscode.workspace.getConfiguration("AREPL");
+
         if(!vscode.window.activeTextEditor){
             vscode.window.showErrorMessage("no active text editor open")
             return
