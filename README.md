@@ -6,7 +6,7 @@ AREPL automatically evaluates python code in real-time as you type
 
 AREPL is availible for free on the vscode [marketplace](https://marketplace.visualstudio.com/items?itemName=almenon.arepl#overview)
 
-### Useage
+## Useage
 
 First, make sure you have [python 3](https://www.python.org/downloads/) installed.
 
@@ -16,7 +16,7 @@ Open a python file and run AREPL through the command search
 
 or use a shortcut: control-shift-a / command-shift-a
 
-#### Features
+## Features
 
 * Real-time evaluation: no need to run - AREPL evaluates your code automatically. You can control this (or even turn it off) in the settings
 
@@ -27,7 +27,8 @@ or use a shortcut: control-shift-a / command-shift-a
 * Settings: AREPL offers many settings to fit your user experience.  Customize the look and feel, debounce time, python options, and more!
 
 
-#### Misc
+
+## Misc
 
 **Dumping**
 
@@ -107,11 +108,6 @@ print(x) # this number will not change when editing below the #$save line
 
 Please note that \#\$save [does not work](https://github.com/Almenon/AREPL-vscode/issues/53) with certain types, like generators.  If #$save fails in pickling the code state [file an issue](https://github.com/Almenon/AREPL-vscode/issues) so I can look into it.
 
-
-**VENV**
-
-To use you arepl with VENV you can set the AREPL.pythonPath setting to reference the location of your venv python. 
-You can use ${workspaceFolder} to reference the current workspace folder.
 
 **Variable Representation**
 
