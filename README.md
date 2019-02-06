@@ -6,7 +6,7 @@ AREPL automatically evaluates python code in real-time as you type
 
 AREPL is availible for free on the vscode [marketplace](https://marketplace.visualstudio.com/items?itemName=almenon.arepl#overview)
 
-## Useage
+## Usage
 
 First, make sure you have [python 3](https://www.python.org/downloads/) installed.
 
