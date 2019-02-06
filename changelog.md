@@ -1,8 +1,20 @@
+## [v1.0.8](https://github.com/Almenon/AREPL-vscode/milestone/26?closed=1) (02/05/2019) 🐛
+
+[🔧 Default pythonPath to be same as the python extension's python path](https://github.com/Almenon/AREPL-vscode/issues/170)
+
+[🐛 Fixed FileNotFoundError](https://github.com/Almenon/AREPL-vscode/issues/162)
+
+[🐛 Fixed pandas bug](https://github.com/Almenon/AREPL-vscode/issues/162)
+
+[🐛 Fixed bug with reloading system modules unnecessarily](https://github.com/Almenon/AREPL-vscode/issues/162)
+
+[🐛 Fixed bug with reloading pip modules unnecessarily](https://github.com/Almenon/AREPL-vscode/issues/162)
+
 ## [v1.0.7](https://github.com/Almenon/AREPL-vscode/milestone/25?closed=1) (01/22/2019)
 
 [🔧 give better error when control-shift-a is invoked with nothing open](https://github.com/Almenon/AREPL-vscode/issues/159)
 
-[🐛 Fix python path for dump](https://github.com/Almenon/AREPL-vscode/issues/165)
+[🐛 Fixed python path for dump](https://github.com/Almenon/AREPL-vscode/issues/165)
 
 [🚀 allow ${python.pythonPath} macro in pythonPath](https://github.com/Almenon/AREPL-vscode/issues/161)
 
@@ -22,7 +34,7 @@
 
 🐛 Fixed bug where items kept on being added to sys.path between runs
 
-## [v1.0.4](https://github.com/Almenon/AREPL-vscode/milestone/22?closed=1) (12/15/2018)
+## [v1.0.4](https://github.com/Almenon/AREPL-vscode/milestone/22?closed=1) (12/15/2018) 🚀
 🚀 pythonPath setting now supports paths relative to the workspace
 
 🚀 Added optional inline error icons - this can be turned on by setting inlineResults setting to true
