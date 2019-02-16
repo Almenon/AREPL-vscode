@@ -1,6 +1,8 @@
 import { Buffer } from "buffer";
 import { extensions, WorkspaceConfiguration } from "vscode";
 import TelemetryReporter from "vscode-extension-telemetry";
+import { userInfo } from "os";
+import { sep } from "path";
 
 export default class Reporter{
     private reporter: TelemetryReporter
@@ -27,6 +29,8 @@ export default class Reporter{
             // no point in sending same error twice (and we want to stay under free API limit)
             if(exception == this.lastException && code == this.lastErrorCode) return
 
+            exception = this.anonymizePaths(exception)
+
             this.reporter.sendTelemetryEvent("error", {
                 code: code.toString(),
                 exception,
@@ -48,13 +52,24 @@ export default class Reporter{
             this.timeSpent = Date.now() - this.timeSpent
             properties.timeSpent = this.timeSpent.toString()
 
-            const settingsDict = JSON.parse(JSON.stringify(settings))
+            // no idea why I did this but i think there was a reason?
+            // this is why you leave comments people
+            const settingsDict = JSON.parse(JSON.stringify(settings))            
             for(let key in settingsDict){
                 properties[key] = settingsDict[key]
             }
+            
+            properties['pythonPath'] = this.anonymizePaths(properties['pythonPath'])
 
             this.reporter.sendTelemetryEvent("closed", properties)
         }
+    }
+
+    /**
+     * replace username with anon
+     */
+    anonymizePaths(input:string){
+        return input.replace(new RegExp(sep+userInfo().username, 'g'), sep+'anon')
     }
 
     dispose(){this.reporter.dispose()}
