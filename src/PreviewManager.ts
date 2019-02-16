@@ -96,6 +96,11 @@ export default class PreviewManager {
         if(pythonPath){
             pythonPath = pythonPath.replace("${workspaceFolder}", vscodeUtils.getCurrentWorkspaceFolder())
 
+            let envVar = pythonPath.match(/\${env:([^}]+)}/)
+            if(envVar){
+                pythonPath = pythonPath.replace(envVar[1], process.env[envVar[1]])
+            }
+
             // not needed anymore but here for backwards compatability. Remove in 2020
             pythonPath = pythonPath.replace("${python.pythonPath}", pythonExtSettings.get('pythonPath'))
 
