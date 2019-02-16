@@ -7,8 +7,7 @@ import { sep } from "path";
 export default class Reporter{
     private reporter: TelemetryReporter
     private timeSpent: number
-    private lastException: string
-    private lastErrorCode: number
+    private lastStackTrace: string
 
     constructor(private enabled: boolean){
         const extensionId = "almenon.arepl";
@@ -24,20 +23,21 @@ export default class Reporter{
         this.timeSpent = Date.now()
     }
 
-    sendError(exception: string, code: number = 0){
+    sendError(name: string, stackTrace: string, code: number = 0, category='typescript'){
         if(this.enabled){
             // no point in sending same error twice (and we want to stay under free API limit)
-            if(exception == this.lastException && code == this.lastErrorCode) return
+            if(stackTrace == this.lastStackTrace) return
 
-            exception = this.anonymizePaths(exception)
+            stackTrace = this.anonymizePaths(stackTrace)
 
             this.reporter.sendTelemetryEvent("error", {
                 code: code.toString(),
-                exception,
+                name,
+                stackTrace,
+                category,
             })
 
-            this.lastErrorCode = code
-            this.lastException = exception
+            this.lastStackTrace = stackTrace
         }
     }
 

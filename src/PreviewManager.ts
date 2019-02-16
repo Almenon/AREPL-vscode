@@ -131,7 +131,7 @@ export default class PreviewManager {
             // @ts-ignore err is maltyped for some reason, not sure what correct type is
             const error = `Error running python with command: ${err.path} ${err.spawnargs.join(' ')}\n${err.stack}`
             this.previewContainer.displayProcessError(error);
-            this.reporter.sendError(error)
+            this.reporter.sendError('spawn', err.stack)
         })
 
         this.toAREPLLogic = new ToAREPLLogic(this.pythonEvaluator, this.previewContainer)

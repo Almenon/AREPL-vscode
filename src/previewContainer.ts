@@ -55,7 +55,8 @@ export class PreviewContainer{
             }
 
             if(pythonResults.internalError){
-                this.reporter.sendError(pythonResults.internalError)
+                // todo: change backend code to send error name
+                this.reporter.sendError('', pythonResults.internalError, null, 'python.internal')
                 pythonResults.userError = pythonResults.internalError
             }
 
@@ -69,8 +70,13 @@ export class PreviewContainer{
             // clear print so empty for next program run
             if(pythonResults.done) this.printResults = [];
         } catch (error) {
-            this.reporter.sendError(error.stack)
-            vscode.window.showErrorMessage(error.stack)
+            vscode.window.showErrorMessage(error)
+            if(error instanceof Error){
+                this.reporter.sendError(error.name, error.stack)
+            }
+            else{
+                this.reporter.sendError('', error)
+            }
         }
 
     }
@@ -108,7 +114,12 @@ export class PreviewContainer{
 
         } catch (error) {
             console.error(error)
-            this.reporter.sendError(error)
+            if(error instanceof Error){
+                this.reporter.sendError(error.name, error.stack)
+            }
+            else{
+                this.reporter.sendError('', error)
+            }
         }
     }
 
