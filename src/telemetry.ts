@@ -39,7 +39,7 @@ export default class Reporter{
 
     /**
      * we want to collect data on how long the user uses the extension
-     * also pythonPath to see if they are using python2 / 3 / virtual env python
+     * and the settings they use
      */
     sendFinishedEvent(settings: WorkspaceConfiguration){
         if(this.enabled){
