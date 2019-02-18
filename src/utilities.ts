@@ -1,5 +1,7 @@
 "use strict"
 
+import { EOL } from "os";
+
 export default class Utilities {
     static isEmpty(obj: {}) {
         return Object.keys(obj).length === 0;
@@ -9,7 +11,11 @@ export default class Utilities {
         return new Promise(resolve => {
           setTimeout(resolve, ms)
         })
-      }
+    }
+
+    static getLastLine(input: string){
+        return input.slice(input.lastIndexOf(EOL))
+    }
       
     /**
      * see https://stackoverflow.com/a/12034334/6629672

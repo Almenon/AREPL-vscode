@@ -30,6 +30,8 @@ export default class PythonPreview{
     <h3>AREPL 1.0.9 🐛</h3>
     <ul>
         <li>🐛 Variables that before crashed AREPL entirely now just show up as "AREPL could not pickle this object"</li>
+
+        <li>🐛 Fix var output being retained inbetween sessions</li>
         
         <li>🐛 Fixed FileNotFoundError (for real this time)</li>
         

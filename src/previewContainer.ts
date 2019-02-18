@@ -44,9 +44,9 @@ export class PreviewContainer{
 
             this.vars = {...this.vars, ...pythonResults.userVariables}
 
-            // if no Vars & an error exists then it must be a syntax exception
-            // in which case we skip updating because no need to clear out variables
-            if(!Utilities.isEmpty(pythonResults.userVariables) || pythonResults.userError == ""){
+            // if syntax err skip updating because no need to clear out variables
+            const lastLine = Utilities.getLastLine(pythonResults.userError.trimRight())
+            if(!(lastLine.startsWith("SyntaxError: ") || lastLine.startsWith("IndentationError: ") || lastLine.startsWith("TabError: "))){
                 this.pythonPreview.updateVars(this.vars)
             }
 

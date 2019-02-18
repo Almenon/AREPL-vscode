@@ -2,6 +2,8 @@
 
 🐛 Variables that before crashed AREPL entirely now just show up as "AREPL could not pickle this object"
 
+🐛 Fix var output being retained inbetween sessions
+
 🐛 Fixed FileNotFoundError (for real this time)
 
 🚀 python path now supports the ${env:NAME} macro
