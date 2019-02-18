@@ -56,7 +56,7 @@ export class PreviewContainer{
 
             if(pythonResults.internalError){
                 // todo: change backend code to send error name
-                this.reporter.sendError('', pythonResults.internalError, null, 'python.internal')
+                this.reporter.sendError('', pythonResults.internalError, 0, 'python.internal')
                 pythonResults.userError = pythonResults.internalError
             }
 
