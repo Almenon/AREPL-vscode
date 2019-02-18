@@ -1,3 +1,11 @@
+## [v1.0.9](https://github.com/Almenon/AREPL-vscode/milestone/27?closed=1) (02/17/2019) 🐛
+
+🐛 Variables that before crashed AREPL entirely now just show up as "AREPL could not pickle this object"
+
+🐛 Fixed FileNotFoundError (for real this time)
+
+🚀 python path now supports the ${env:NAME} macro
+
 ## [v1.0.8](https://github.com/Almenon/AREPL-vscode/milestone/26?closed=1) (02/05/2019) 🐛
 
 [🔧 Default pythonPath to be same as the python extension's python path](https://github.com/Almenon/AREPL-vscode/issues/170)

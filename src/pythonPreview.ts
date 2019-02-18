@@ -27,17 +27,13 @@ export default class PythonPreview{
     <p style="font-size:14px">⚠ <b style="color:red">WARNING:</b> code is evaluated WHILE YOU TYPE - don't try deleting files/folders! ⚠</p>
     <p>evaluation while you type can be turned off or adjusted in the settings</p>
     <br>
-    <h3>AREPL 1.0.8 🐛</h3>
+    <h3>AREPL 1.0.9 🐛</h3>
     <ul>
-    <li><a href="https://github.com/Almenon/AREPL-vscode/issues/170">🔧 Default pythonPath to be same as the python extension's python path</a></li>
-
-    <li><a href="https://github.com/Almenon/AREPL-vscode/issues/168">🐛 Fixed FileNotFoundError</a></li>
-    
-    <li><a href="https://github.com/Almenon/AREPL-vscode/issues/162">🐛 Fixed pandas bug</a></li>
-    
-    <li><a href="https://github.com/Almenon/AREPL-vscode/issues/162">🐛 Fixed bug with reloading system modules unnecessarily</a></li>
-    
-    <li><a href="https://github.com/Almenon/AREPL-vscode/issues/162">🐛 Fixed bug with reloading pip modules unnecessarily</a></li>
+        <li>🐛 Variables that before crashed AREPL entirely now just show up as "AREPL could not pickle this object"</li>
+        
+        <li>🐛 Fixed FileNotFoundError (for real this time)</li>
+        
+        <li>🚀 python path now supports the \${env:NAME} macro</li>
     </ul>
     <br>
     
