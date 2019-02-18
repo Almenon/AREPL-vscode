@@ -133,10 +133,11 @@ export default class PreviewManager {
             Sending a message to the child process failed.
             */
 
-            // @ts-ignore err is maltyped for some reason, not sure what correct type is
+            // @ts-ignore err is actually SystemError but node does not type it
             const error = `Error running python with command: ${err.path} ${err.spawnargs.join(' ')}\n${err.stack}`
             this.previewContainer.displayProcessError(error);
-            this.reporter.sendError('spawn', err.stack)
+            // @ts-ignore 
+            this.reporter.sendError(err.code, err.stack, error.errno, 'spawn')
         })
 
         this.toAREPLLogic = new ToAREPLLogic(this.pythonEvaluator, this.previewContainer)
