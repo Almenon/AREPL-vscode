@@ -39,61 +39,61 @@ export default class PythonPreview{
     
     <h3>Examples</h3>
     
-    <h4>Simple List</h4>
-    <code style="white-space:pre-wrap">
-    x = [1,2,3]
-    y = [num*2 for num in x]
-    print(y)
-    </code>
+<h4>Simple List</h4>
+<code style="white-space:pre-wrap">
+x = [1,2,3]
+y = [num*2 for num in x]
+print(y)
+</code>
 
-    <h4>Dumping</h4>
-    <code style="white-space:pre-wrap">
-    from arepldump import dump 
+<h4>Dumping</h4>
+<code style="white-space:pre-wrap">
+from arepldump import dump 
 
-    def milesToKilometers(miles):
-        kilometers = miles*1.60934
-        dump() # dumps all the vars in your function
+def milesToKilometers(miles):
+    kilometers = miles*1.60934
+    dump() # dumps all the vars in your function
 
-        # or dump when function is called for a second time
-        dump(None,1) 
+    # or dump when function is called for a second time
+    dump(None,1) 
 
-    milesToKilometers(2*2)
-    milesToKilometers(3*3)
+milesToKilometers(2*2)
+milesToKilometers(3*3)
 
-    for char in ['a','b','c']:
-        dump(char,2) # dump a var at a specific iteration
+for char in ['a','b','c']:
+    dump(char,2) # dump a var at a specific iteration
 
-    a=1
-    dump(a) # dump specific vars at any point in your program
-    a=2
-    </code>
-    
-    <h4>Turtle</h4>
-    <code style="white-space:pre-wrap">
-    import turtle
-    
-    # window in right hand side of screen
-    turtle.setup(500,500,-1,0)
-    
-    turtle.forward(100)
-    turtle.left(90)
-    </code>
-    
-    <h4>Web call</h4>
-    <code style="white-space:pre-wrap">
-    import requests
-    import datetime as dt
-    
-    r = requests.get("https://api.github.com")
-    
-    #$save
-    # #$save saves state so request is not re-executed when modifying below
-    
-    now = dt.datetime.now()
-    if r.status_code == 200:
-        print("API up at " + str(now))
-    
-    </code>`;
+a=1
+dump(a) # dump specific vars at any point in your program
+a=2
+</code>
+
+<h4>Turtle</h4>
+<code style="white-space:pre-wrap">
+import turtle
+
+# window in right hand side of screen
+turtle.setup(500,500,-1,0)
+
+turtle.forward(100)
+turtle.left(90)
+</code>
+
+<h4>Web call</h4>
+<code style="white-space:pre-wrap">
+import requests
+import datetime as dt
+
+r = requests.get("https://api.github.com")
+
+#$save
+# #$save saves state so request is not re-executed when modifying below
+
+now = dt.datetime.now()
+if r.status_code == 200:
+    print("API up at " + str(now))
+
+</code>`;
     private readonly footer = `<br><br>
         <div id="footer">
         <p style="margin:0px;">
