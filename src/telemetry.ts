@@ -69,6 +69,7 @@ export default class Reporter{
      * replace username with anon
      */
     anonymizePaths(input:string){
+        if(input == null) return input
         return input.replace(new RegExp(sep+userInfo().username, 'g'), sep+'anon')
     }
 
