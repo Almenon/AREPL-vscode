@@ -1,3 +1,9 @@
+## [v1.0.10](https://github.com/Almenon/AREPL-vscode/milestone/28?closed=1) (02/19/2019) 🐛
+
+🐛 Fix stdout/vars persisting across arepl sessions
+
+🐛 Fix error in telemtry crashing arepl
+
 ## [v1.0.9](https://github.com/Almenon/AREPL-vscode/milestone/27?closed=1) (02/17/2019) 🐛
 
 🐛 Variables that before crashed AREPL entirely now just show up as "AREPL could not pickle this object"

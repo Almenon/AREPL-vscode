@@ -27,15 +27,11 @@ export default class PythonPreview{
     <p style="font-size:14px">⚠ <b style="color:red">WARNING:</b> code is evaluated WHILE YOU TYPE - don't try deleting files/folders! ⚠</p>
     <p>evaluation while you type can be turned off or adjusted in the settings</p>
     <br>
-    <h3>AREPL 1.0.9 🐛</h3>
+    <h3>AREPL 1.0.10 🐛</h3>
     <ul>
-        <li>🐛 Variables that before crashed AREPL entirely now just show up as "AREPL could not pickle this object"</li>
+        <li>🐛 Fix stdout/vars persisting across arepl sessions</li>
 
-        <li>🐛 Fix var output being retained inbetween sessions</li>
-        
-        <li>🐛 Fixed FileNotFoundError (for real this time)</li>
-        
-        <li>🚀 python path now supports the \${env:NAME} macro</li>
+        <li>🐛 Fix error in telemtry crashing arepl</li>
     </ul>
     <br>
     
