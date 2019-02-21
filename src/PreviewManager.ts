@@ -139,6 +139,16 @@ export default class PreviewManager {
             // @ts-ignore 
             this.reporter.sendError(err.code, err.stack, error.errno, 'spawn')
         })
+        this.pythonEvaluator.pyshell.childProcess.on("exit", err => {
+            /* The 'exit' event is emitted after the child process ends */
+            // that's what node doc CLAIMS ..... 
+            // but when i debug this never gets called unless there's a unexpected error :/
+            
+            if(!err) return // normal exit
+            const error = `AREPL crashed unexpectedly! Are you using python 3? err: ${err}`
+            this.previewContainer.displayProcessError(error);
+            this.reporter.sendError('exit', null, err, 'spawn')
+        })
 
         this.toAREPLLogic = new ToAREPLLogic(this.pythonEvaluator, this.previewContainer)
 
