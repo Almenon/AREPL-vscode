@@ -61,7 +61,8 @@
             "ggplot",
             "bokeh",
             "ppb",
-            "PySimpleGUI"
+            "PySimpleGUI",
+            "pyglet"
           ],
           "description": "AREPL enters restart mode when one of these libraries are imported. Process is restarted at end of each run so GUI window is updated"
         },
