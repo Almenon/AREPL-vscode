@@ -70,7 +70,7 @@ export default class Reporter{
      */
     anonymizePaths(input:string){
         if(input == null) return input
-        return input.replace(new RegExp(sep+userInfo().username, 'g'), sep+'anon')
+        return input.replace(new RegExp('\\'+sep+userInfo().username, 'g'), sep+'anon')
     }
 
     dispose(){this.reporter.dispose()}
