@@ -37,11 +37,13 @@ export class PreviewContainer{
         // console.log(`Total time: ${pythonResults.totalTime}`)
 
         try {            
-            // exec time is the 'truest' time that user cares about
-            this.pythonPreview.updateTime(pythonResults.execTime);
-
+            
             if(!pythonResults.done){
                 pythonResults.userVariables = this.updateVarsWithDumpOutput(pythonResults)
+            }
+            else{
+                // exec time is the 'truest' time that user cares about
+                this.pythonPreview.updateTime(pythonResults.execTime);
             }
 
             this.vars = {...this.vars, ...pythonResults.userVariables}
