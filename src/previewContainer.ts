@@ -112,7 +112,9 @@ export class PreviewContainer{
                 return {range} as vscode.DecorationOptions
             })
             
-            vscode.window.activeTextEditor.setDecorations(this.errorDecorationType, decorations)
+            if(vscode.window.activeTextEditor){
+                vscode.window.activeTextEditor.setDecorations(this.errorDecorationType, decorations)
+            }
 
         } catch (error) {
             console.error(error)
