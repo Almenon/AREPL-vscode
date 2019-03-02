@@ -30,7 +30,8 @@ export function unregisterAreplDump(pythonPath: string){
 function getsitePackagePath(pythonPath: string){
     // for some godforsaken reason it returns the path with a space at the end
     // hence the trim
-    return execSync(pythonPath + " -m site --user-site").toString().trim()
+    // pythonPath needs to be wrapped in quotes because path might have spaces
+    return execSync(`"${pythonPath}" -m site --user-site`).toString().trim()
 }
 
 /**
