@@ -123,6 +123,19 @@ export default class PreviewManager {
         const pythonPath = this.getPythonPath()
         const pythonOptions = this.settings.get<string[]>("pythonOptions")
 
+        PythonShell.getVersion(`"${pythonPath}"`).then((out)=>{
+            if(out.stdout){
+                if(out.stdout.includes("Python 2.")){
+                    vscode.window.showErrorMessage("AREPL does not support python 2!")
+                }
+            }
+        }).catch((s:Error)=>{
+            // actually don't know why type s is...
+            // it doesn't have a name property!
+            this.reporter.sendError('error when checking python version', s.stack)
+            console.error(s)
+        })
+
         this.pythonEvaluator = new PythonEvaluator(pythonPath, pythonOptions)
         
         this.pythonEvaluator.startPython()
