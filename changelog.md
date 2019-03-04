@@ -1,14 +1,24 @@
+## [v1.0.11](https://github.com/Almenon/AREPL-vscode/milestone/29?closed=1) (03/04/2019) 🐛
+
+🚀 give friendly error message when bad python version
+
+🐛 Fixed time taken flashes when using dump
+
+🐛 Fixed 'C:\Program' is not recognized as an internal or external command, operable program or batch file
+
+🐛 Fixed TypeError: Cannot read property 'setDecorations' of undefined
+
 ## [v1.0.10](https://github.com/Almenon/AREPL-vscode/milestone/28?closed=1) (02/19/2019) 🐛
 
-🐛 Fix stdout/vars persisting across arepl sessions
+🐛 Fixed stdout/vars persisting across arepl sessions
 
-🐛 Fix error in telemtry crashing arepl
+🐛 Fixed error in telemtry crashing arepl
 
 ## [v1.0.9](https://github.com/Almenon/AREPL-vscode/milestone/27?closed=1) (02/17/2019) 🐛
 
 🐛 Variables that before crashed AREPL entirely now just show up as "AREPL could not pickle this object"
 
-🐛 Fix var output being retained inbetween sessions
+🐛 Fixed var output being retained inbetween sessions
 
 🐛 Fixed FileNotFoundError (for real this time)
 

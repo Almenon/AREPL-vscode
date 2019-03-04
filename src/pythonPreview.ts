@@ -27,11 +27,15 @@ export default class PythonPreview{
     <p style="font-size:14px">⚠ <b style="color:red">WARNING:</b> code is evaluated WHILE YOU TYPE - don't try deleting files/folders! ⚠</p>
     <p>evaluation while you type can be turned off or adjusted in the settings</p>
     <br>
-    <h3>AREPL 1.0.10 🐛</h3>
+    <h3>AREPL 1.0.11 🐛 🚀</h3>
     <ul>
-        <li>🐛 Fix stdout/vars persisting across arepl sessions</li>
+    <li>🚀 give friendly error message when bad python version</li>
 
-        <li>🐛 Fix error in telemtry crashing arepl</li>
+    <li>🐛 Fixed time taken flashes when using dump</li>
+    
+    <li>🐛 Fixed 'C:\Program' is not recognized as an internal or external command, operable program or batch file</li>
+    
+    <li>🐛 Fixed TypeError: Cannot read property 'setDecorations' of undefined</li>
     </ul>
     <br>
     
