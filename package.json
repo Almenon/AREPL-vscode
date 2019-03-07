@@ -48,7 +48,6 @@
         "AREPL.pyGuiLibraries": {
           "type": "array",
           "default": [
-            "turtle",
             "matplotlib",
             "tkinter",
             "kivy",
