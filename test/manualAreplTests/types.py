@@ -20,7 +20,7 @@ class l():
 		self.x = x
 m = l(5)
 n = False
-with open("C:\\dev\\t.html") as f:
+with open(__file__) as f:
   o = f
 
 ###########################################
