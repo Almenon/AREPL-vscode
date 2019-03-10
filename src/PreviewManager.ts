@@ -235,7 +235,7 @@ export default class PreviewManager {
 
             const text = event.getText()
             const filePath = this.pythonEditor.isUntitled ? "" : this.pythonEditor.fileName
-            this.toAREPLLogic.onUserInput(text, filePath)
+            this.toAREPLLogic.onUserInput(text, filePath, event.eol == 1 ? "\n":"\r\n")
         }        
     }
 }

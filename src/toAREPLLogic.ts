@@ -15,8 +15,8 @@ export class ToAREPLLogic{
 
     }
 
-    public onUserInput(text: string, filePath: string) {
-        let codeLines = text.split("\n")
+    public onUserInput(text: string, filePath: string, eol: string) {
+        let codeLines = text.split(eol)
     
         let savedLines: string[] = []
         let startLineNum = 0
@@ -35,9 +35,9 @@ export class ToAREPLLogic{
         codeLines = codeLines.slice(startLineNum, endLineNum)
     
         const data = {
-            evalCode: codeLines.join("\n"),
+            evalCode: codeLines.join(eol),
             filePath,
-            savedCode: savedLines.join("\n"),
+            savedCode: savedLines.join(eol),
         }
     
         this.restartMode = pyGuiLibraryIsPresent(text)
