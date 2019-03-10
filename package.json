@@ -185,10 +185,10 @@
     "mocha": "^5.2.0",
     "typescript": "^2.7.2",
     "vscode": "^1.1.29",
-    "decache": "^4.1.0",
+    "decache": "^4.4.0",
     "glob": "^7.1.1",
     "istanbul": "^0.4.5",
-    "remap-istanbul": "^0.8.4"
+    "remap-istanbul": "^0.10.1"
   },
   "dependencies": {
     "arepl-backend": "^1.1.0",
