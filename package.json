@@ -179,11 +179,16 @@
     "visualize": "depcruise --exclude 'vscode|^[a-zA-Z0-9\\_]+$' --output-type dot src | dot -T svg > dependencygraph.svg"
   },
   "devDependencies": {
+    "@types/glob": "^5.0.30",
     "@types/mocha": "^5.2.5",
     "@types/node": "^8.9",
     "mocha": "^5.2.0",
     "typescript": "^2.7.2",
-    "vscode": "^1.1.29"
+    "vscode": "^1.1.29",
+    "decache": "^4.1.0",
+    "glob": "^7.1.1",
+    "istanbul": "^0.4.5",
+    "remap-istanbul": "^0.8.4"
   },
   "dependencies": {
     "arepl-backend": "^1.1.0",
