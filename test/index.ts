@@ -17,9 +17,14 @@ if (!tty.getWindowSize) {
     };
 }
 
+//@ts-ignore v8debug might be present in debug mode
+const debug = typeof v8debug === 'object' 
+            || /--debug|--inspect/.test(process.execArgv.join(' '));
+
 let mocha = new Mocha({
     ui: "tdd",
     useColors: true,
+    timeout: debug ? 99999999: 6000 // if we are debugging we dont want timeout
 });
 
 function configure(mochaOpts): void {
