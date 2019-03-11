@@ -44,7 +44,6 @@ suite("PreviewManager and pythonPreview Tests", () => {
                 editor = newEditor
                 previewManager = new PreviewManager(mockContext);
     
-                //vscode.window.activeTextEditor.h
                 previewManager.startArepl().then((previewPanel)=>{
                     panel = previewPanel
                     console.log("preview panel started")
@@ -63,7 +62,7 @@ suite("PreviewManager and pythonPreview Tests", () => {
     });
 
     test("edits should result in webview change", function(){
-        editor.edit(editBuilder => {
+        return editor.edit(editBuilder => {
             editBuilder.insert(new vscode.Position(0,0), "x=3424523")
         }).then(()=>{
             assert.equal(panel.webview.html.includes("x: 3424523"), true, panel.webview.html)
