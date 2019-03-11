@@ -61,11 +61,14 @@ suite("PreviewManager and pythonPreview Tests", () => {
         assert.equal(panel.visible, true)
     });
 
-    test("edits should result in webview change", function(){
-        return editor.edit(editBuilder => {
-            editBuilder.insert(new vscode.Position(0,0), "x=3424523")
+    test("edits should result in webview change", function(done){
+        editor.edit(editBuilder => {
+            editBuilder.insert(new vscode.Position(0,0), "x=3424523;")
         }).then(()=>{
-            assert.equal(panel.webview.html.includes("x: 3424523"), true, panel.webview.html)
+            setTimeout(()=>{
+                assert.equal(panel.webview.html.includes(`"x":3424523`), true, panel.webview.html)
+                done()
+            },2000)
         })
     });
 
