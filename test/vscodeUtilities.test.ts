@@ -4,14 +4,17 @@
 //
 import * as assert from "assert";
 import vscodeUtils from '../src/vscodeUtilities'
+import * as vscode from "vscode";
 
 suite("Utility Tests", () => {
 
-    test("new python doc", function(){
+    test("new python doc", function(done){
         vscodeUtils.newUnsavedPythonDoc("test").then((editor)=>{
             assert.equal(editor.document.isClosed, false)
             assert.equal(editor.document.getText(), "test")
-            // not sure how to close the document
+            vscode.commands.executeCommand("workbench.action.closeActiveEditor").then(()=>{
+                done()
+            })
         })
     });
 

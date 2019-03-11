@@ -8,13 +8,13 @@ suite("extension tests", function(){
              // what we SHOULD be doing here is getting a promise from the command
              // and asserting once the promise is resolved
              // but despite returning a promise it comes in as undefined... ugggg
-
-             // for some reason uncommenting below assert causes timeout?
-             // even when setting timeout high like 10 seconds
-             // assert.equal(vscode.window.activeTextEditor, true, "command failed to create new file")
+             // so instead we just blindly assume arepl will open in 500ms
     
-             // close arepl preview here
-             done();
+             setTimeout(()=>{
+                // for some reason activeTextEditor is undefined :/
+                assert.equal(vscode.window.activeTextEditor, true, "command failed to create new file")
+                done()
+             }, 500)
          }, reason => {
              done(reason);
          })
