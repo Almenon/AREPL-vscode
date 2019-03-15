@@ -57,7 +57,7 @@ a=2
 
 **STDIN**
 
-see https://github.com/Almenon/AREPL-vscode/wiki/Using-AREPL-with-stdin
+see https://github.com/Almenon/AREPL-vscode/wiki/Using-AREPL-with-input
 
 **HOWDOI**
 
