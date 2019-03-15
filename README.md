@@ -120,4 +120,4 @@ If you want a type to be displayed in a particular manner just [file an issue](h
 
 #### Contributing to the project
 
-See the [wiki page](https://github.com/Almenon/AREPL-vscode/wiki/Getting-Started-developing-AREPL) on getting started. Contributions welcome!
+See the [wiki page](https://github.com/Almenon/AREPL-vscode/wiki/Getting-Started-for-contributors-to-AREPL) on getting started. Contributions welcome!
