@@ -7,10 +7,15 @@ out/test/**
 test/**
 src/**
 **/*.map
-.gitignore/**
+.gitignore
 tsconfig.json
 .github
 personal/**
 .travis.yml
 dependencygraph.svg
+#pycharm dir
+.idea/**
+# coverage output
+.nyc_output/**
 coverage/**
+coverconfig.json
