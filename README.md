@@ -1,4 +1,4 @@
-## AREPL: vscode edition [![Build Status](https://travis-ci.org/Almenon/AREPL-vscode.svg?branch=master)](https://travis-ci.org/Almenon/AREPL-vscode) [![Downloads](https://vsmarketplacebadge.apphb.com/installs/almenon.arepl.svg)](https://marketplace.visualstudio.com/items?itemName=almenon.arepl) [![Downloads](https://vsmarketplacebadge.apphb.com/rating-star/almenon.arepl.svg)](https://marketplace.visualstudio.com/items?itemName=almenon.arepl) [![Gitter chat](https://badges.gitter.im/arepl/gitter.png)](https://gitter.im/arepl/lobby)
+## AREPL: vscode edition [![Build Status](https://travis-ci.org/Almenon/AREPL-vscode.svg?branch=master)](https://travis-ci.org/Almenon/AREPL-vscode) [![Downloads](https://vsmarketplacebadge.apphb.com/installs/almenon.arepl.svg)](https://marketplace.visualstudio.com/items?itemName=almenon.arepl) [![Downloads](https://vsmarketplacebadge.apphb.com/rating-star/almenon.arepl.svg)](https://marketplace.visualstudio.com/items?itemName=almenon.arepl) [![Gitter chat](https://badges.gitter.im/arepl/gitter.png)](https://gitter.im/arepl/lobby) [![codecov](https://codecov.io/gh/Almenon/AREPL-vscode/branch/master/graph/badge.svg)](https://codecov.io/gh/Almenon/AREPL-vscode)
 
 AREPL automatically evaluates python code in real-time as you type
 
@@ -57,7 +57,7 @@ a=2
 
 **STDIN**
 
-see https://github.com/Almenon/AREPL-vscode/wiki/Using-AREPL-with-stdin
+see https://github.com/Almenon/AREPL-vscode/wiki/Using-AREPL-with-input
 
 **HOWDOI**
 
@@ -120,4 +120,4 @@ If you want a type to be displayed in a particular manner just [file an issue](h
 
 #### Contributing to the project
 
-See the [wiki page](https://github.com/Almenon/AREPL-vscode/wiki/Getting-Started-developing-AREPL) on getting started. Contributions welcome!
+See the [wiki page](https://github.com/Almenon/AREPL-vscode/wiki/Getting-Started-for-contributors-to-AREPL) on getting started. Contributions welcome!

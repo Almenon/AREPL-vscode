@@ -2,6 +2,7 @@ import * as assert from "assert";
 import * as vscode from "vscode";
 import {PreviewContainer} from "../src/previewContainer"
 import Reporter from "../src/telemetry";
+import vscodeUtils from "../src/vscodeUtilities";
 
 
 /**
@@ -20,7 +21,7 @@ suite("PreviewContainer and pythonPreview Tests", () => {
     }
 
     const mockSettings: any = {
-        inlineResults:false,
+        inlineResults:true,
         get: function(arg){
             if(arg == 'inlineResults') return this.inlineResults
         }
@@ -28,6 +29,14 @@ suite("PreviewContainer and pythonPreview Tests", () => {
 
     const previewContainer = new PreviewContainer(new Reporter(false), mockContext, mockSettings, 0);
     const panel = previewContainer.start()
+
+    suiteSetup(function(done){
+        // existing editor causes weird error for some reason
+        vscode.commands.executeCommand("workbench.action.closeActiveEditor").then(()=>{
+            // needed for inline errors
+            vscodeUtils.newUnsavedPythonDoc().then(()=>{done()})
+        })
+    })
 
     test("landing page displayed", function(){
         assert.equal(panel.webview.html.includes("Start typing or make a change and your code will be evaluated."), 
@@ -54,11 +63,13 @@ suite("PreviewContainer and pythonPreview Tests", () => {
                 lineno: -1,
                 totalPyTime: 0,
                 totalTime: 0,
-                userError: "yo",
+                userError: `Traceback (most recent call last):
+  line 1, in <module>
+NameError: name 'x' is not defined`,
                 userVariables: {},
             }
         )
-        assert.equal(panel.webview.html.includes("yo"), true, panel.webview.html);
+        assert.equal(panel.webview.html.includes("NameError"), true, panel.webview.html);
     });
 
     test("error should be googleable", function(){
@@ -127,6 +138,40 @@ suite("PreviewContainer and pythonPreview Tests", () => {
                 totalTime: 0,
                 userError: "",
                 userVariables: {x: 5},
+        }
+        )
+        assert.equal(panel.webview.html.includes('"x":5'), true, panel.webview.html);
+    });
+
+    test("dump userVariables", function(){
+        previewContainer.handleResult(
+            {
+                caller: "",
+                done: false,
+                execTime: 0,
+                internalError: "",
+                lineno: 1,
+                totalPyTime: 0,
+                totalTime: 0,
+                userError: "",
+                userVariables: {"dump output": {'x':5}},
+        }
+        )
+        assert.equal(panel.webview.html.includes('"x":5'), true, panel.webview.html);
+    });
+
+    test("function dump userVariables", function(){
+        previewContainer.handleResult(
+            {
+                caller: "foo",
+                done: false,
+                execTime: 0,
+                internalError: "",
+                lineno: 1,
+                totalPyTime: 0,
+                totalTime: 0,
+                userError: "",
+                userVariables: {'x':5},
         }
         )
         assert.equal(panel.webview.html.includes('"x":5'), true, panel.webview.html);

@@ -130,9 +130,8 @@ export default class PreviewManager {
                 }
             }
         }).catch((s:Error)=>{
-            // actually don't know why type s is...
-            // it doesn't have a name property!
-            this.reporter.sendError('error when checking python version', s.stack)
+            // if we get spawn error here thats already reported by telemetry
+            // so we skip telemetry reporting for this error
             console.error(s)
         })
 
@@ -236,7 +235,7 @@ export default class PreviewManager {
 
             const text = event.getText()
             const filePath = this.pythonEditor.isUntitled ? "" : this.pythonEditor.fileName
-            this.toAREPLLogic.onUserInput(text, filePath)
+            this.toAREPLLogic.onUserInput(text, filePath, event.eol == 1 ? "\n":"\r\n")
         }        
     }
 }

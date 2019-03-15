@@ -15,21 +15,29 @@ export class ToAREPLLogic{
 
     }
 
-    public onUserInput(text: string, filePath: string) {
-        let codeLines = text.split("\n")
+    public onUserInput(text: string, filePath: string, eol: string) {
+        let codeLines = text.split(eol)
     
         let savedLines: string[] = []
+        let startLineNum = 0
+        let endLineNum = codeLines.length
+
         codeLines.forEach((line, i) => {
-            if(line.trim().endsWith("#$save")){
+            if(line.trimRight().endsWith("#$save")){
                 savedLines = codeLines.slice(0, i + 1)
-                codeLines = codeLines.slice(i + 1, codeLines.length)
+                startLineNum = i+1
+            }
+            if(line.trimRight().endsWith("#$end")){
+                endLineNum = i+1
+                return
             }
         });
+        codeLines = codeLines.slice(startLineNum, endLineNum)
     
         const data = {
-            evalCode: codeLines.join("\n"),
+            evalCode: codeLines.join(eol),
             filePath,
-            savedCode: savedLines.join("\n"),
+            savedCode: savedLines.join(eol),
         }
     
         this.restartMode = pyGuiLibraryIsPresent(text)
