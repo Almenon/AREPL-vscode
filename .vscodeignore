@@ -13,3 +13,4 @@ tsconfig.json
 personal/**
 .travis.yml
 dependencygraph.svg
+coverage/**
