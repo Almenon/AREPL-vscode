@@ -1,3 +1,11 @@
+## [v1.0.12](https://github.com/Almenon/AREPL-vscode/milestone/30?closed=1) (03/20/2019) 🐛
+
+🚀 Reduce arepl bundle size
+
+🐛 Fixed broken readme links
+
+🐛 Fixed uppercase pip python modules reloading when they shouldnt be
+
 ## [v1.0.11](https://github.com/Almenon/AREPL-vscode/milestone/29?closed=1) (03/04/2019) 🐛
 
 🚀 give friendly error message when bad python version
