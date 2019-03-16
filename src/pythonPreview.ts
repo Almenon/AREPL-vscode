@@ -27,7 +27,7 @@ export default class PythonPreview{
     <p style="font-size:14px">⚠ <b style="color:red">WARNING:</b> code is evaluated WHILE YOU TYPE - don't try deleting files/folders! ⚠</p>
     <p>evaluation while you type can be turned off or adjusted in the settings</p>
     <br>
-    <h3>AREPL 1.0.11 🐛 🚀</h3>
+    <h3>AREPL 1.0.12 🐛 🚀</h3>
     <ul>
     <li>🚀 give friendly error message when bad python version</li>
 
