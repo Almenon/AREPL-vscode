@@ -27,7 +27,7 @@ export default class PythonPreview{
     <p style="font-size:14px">⚠ <b style="color:red">WARNING:</b> code is evaluated WHILE YOU TYPE - don't try deleting files/folders! ⚠</p>
     <p>evaluation while you type can be turned off or adjusted in the settings</p>
     <br>
-    <h3>AREPL 1.0.12 🐛 🚀</h3>
+    <h3>AREPL 1.0.12 🐛 🔧 🚀</h3>
     <ul>
         <li>🚀 Reduce arepl bundle size</li>
 
@@ -78,6 +78,9 @@ import turtle
 
 # window in right hand side of screen
 turtle.setup(500,500,-1,0)
+
+# you can comment this out to keep state inbetween runs
+turtle.reset()
 
 turtle.forward(100)
 turtle.left(90)
