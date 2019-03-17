@@ -1,6 +1,10 @@
-## [v1.0.12](https://github.com/Almenon/AREPL-vscode/milestone/30?closed=1) (03/20/2019) 🐛
+## [v1.0.12](https://github.com/Almenon/AREPL-vscode/milestone/30?closed=1) (03/17/2019) 🐛
 
 🚀 Reduce arepl bundle size
+
+🔧 Changed turtle setting for much nicer turtle experience
+
+🔧 Added more internal unit tests for less bugs in future releases
 
 🐛 Fixed broken readme links
 

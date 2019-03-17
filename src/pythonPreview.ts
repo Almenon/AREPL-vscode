@@ -29,13 +29,15 @@ export default class PythonPreview{
     <br>
     <h3>AREPL 1.0.12 🐛 🚀</h3>
     <ul>
-    <li>🚀 give friendly error message when bad python version</li>
+        <li>🚀 Reduce arepl bundle size</li>
 
-    <li>🐛 Fixed time taken flashes when using dump</li>
-    
-    <li>🐛 Fixed 'C:\Program' is not recognized as an internal or external command, operable program or batch file</li>
-    
-    <li>🐛 Fixed TypeError: Cannot read property 'setDecorations' of undefined</li>
+        <li>🔧 Changed turtle setting for much nicer turtle experience</li>
+
+        <li>🔧 Added more internal unit tests for less bugs in future releases</li>
+
+        <li>🐛 Fixed broken readme links</li>
+
+        <li>🐛 Fixed uppercase pip python modules reloading when they shouldnt be</li>
     </ul>
     <br>
     
