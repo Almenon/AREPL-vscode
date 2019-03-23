@@ -84,8 +84,7 @@ export class ToAREPLLogic{
     }
     
     private restartPython(data: {evalCode: string, savedCode: string, filePath: string}){
-        this.previewContainer.printResults = []
-        this.previewContainer.updateError("", true)
+        this.previewContainer.clearStoredData()
         this.pythonEvaluator.restart(
             this.pythonEvaluator.execCode.bind(this.pythonEvaluator, data)
         );     

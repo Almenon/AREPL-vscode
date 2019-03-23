@@ -24,17 +24,23 @@ export class PreviewContainer{
     }
 
     public start(){
+        this.clearStoredData()
+        return this.pythonPreview.start()
+    }
+
+    /**
+     * clears stored data (preview gui is unaffected)
+     */
+    public clearStoredData(){
         this.vars = {}
         this.printResults = []
-        return this.pythonPreview.start()
     }
 
     public handleResult(pythonResults: PythonResult){
 
-        // TODO: Hook these onto a config, turn it off by default
-        // console.log(`Exec time: ${pythonResults.execTime}`)
-        // console.log(`Python time: ${pythonResults.totalPyTime}`)
-        // console.log(`Total time: ${pythonResults.totalTime}`)
+        console.debug(`Exec time: ${pythonResults.execTime}`)
+        console.debug(`Python time: ${pythonResults.totalPyTime}`)
+        console.debug(`Total time: ${pythonResults.totalTime}`)
 
         try {            
             
