@@ -13,8 +13,13 @@ export default class Utilities {
         })
     }
 
+    /**
+     * returns trimmed last line (split by \n)
+     */
     static getLastLine(input: string){
-        return input.slice(input.lastIndexOf(EOL))
+        // even on windows python uses newline :/
+        // not sure if it's just my python setup?
+        return input.slice(input.lastIndexOf('\n')).trim()
     }
       
     /**
