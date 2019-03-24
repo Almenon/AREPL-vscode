@@ -10,11 +10,11 @@ AREPL is availible for free on the vscode [marketplace](https://marketplace.visu
 
 First, make sure you have [python 3](https://www.python.org/downloads/) installed.
 
-Open a python file and run AREPL through the command search
+Open a python file and right click on the editor title for AREPL launch options.
 
->     control-shift-p
+Or run AREPL through the command search: `control-shift-p`
 
-or use a shortcut: control-shift-a / command-shift-a
+or use the shortcuts: `control-shift-a` (current doc) / `control-shift-q` (new doc)
 
 ## Features
 
@@ -106,7 +106,9 @@ x = random.random()
 print(x) # this number will not change when editing below the #$save line
 ```
 
-Please note that \#\$save [does not work](https://github.com/Almenon/AREPL-vscode/issues/53) with certain types, like generators.  If #$save fails in pickling the code state [file an issue](https://github.com/Almenon/AREPL-vscode/issues) so I can look into it.
+Please note that \#\$save [does not work](https://github.com/Almenon/AREPL-vscode/issues/53) with certain types, like generators.  If #$save fails in pickling the code state [file an issue](https://github.com/Almenon/AREPL-vscode/issues) so I can look into it. 
+
+Alternatively, you can use the [areplStore variable](https://github.com/Almenon/AREPL-vscode/wiki/Caching-data-between-runs) to store data in between runs.
 
 
 **Variable Representation**
