@@ -27,17 +27,15 @@ export default class PythonPreview{
     <p style="font-size:14px">⚠ <b style="color:red">WARNING:</b> code is evaluated WHILE YOU TYPE - don't try deleting files/folders! ⚠</p>
     <p>evaluation while you type can be turned off or adjusted in the settings</p>
     <br>
-    <h3>AREPL 1.0.12 🐛 🔧 🚀</h3>
+    <h3>AREPL 1.0.13 🚀 🐛 "mononoke"</h3>
     <ul>
-        <li>🚀 Reduce arepl bundle size</li>
+        <li>🚀 right click on editor title to launch arepl</li>
 
-        <li>🔧 Changed turtle setting for much nicer turtle experience</li>
+        <li>🚀 Added cache var. Use "areplStore" to store data inbetween runs! See <a href="https://github.com/Almenon/AREPL-vscode/wiki/Caching-data-between-runs">wiki</a> for futher info.</li>
 
-        <li>🔧 Added more internal unit tests for less bugs in future releases</li>
+        <li>🐛 Fixed vars dissapearing when there is syntax error</li>
 
-        <li>🐛 Fixed broken readme links</li>
-
-        <li>🐛 Fixed uppercase pip python modules reloading when they shouldnt be</li>
+        <li>🐛 Fixed vars not clearing when using gui library</li>
     </ul>
     <br>
     

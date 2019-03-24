@@ -1,3 +1,13 @@
+## [v1.0.13](https://github.com/Almenon/AREPL-vscode/milestone/32?closed=1) (03/23/2019) 🐛
+
+🚀 right click on editor title to launch arepl
+
+🚀 Added cache var. See https://github.com/Almenon/AREPL-vscode/wiki/Caching-data-between-runs
+
+🐛 Fixed vars dissapearing when there is syntax error
+
+🐛 Fixed vars not clearing when using gui library
+
 ## [v1.0.12](https://github.com/Almenon/AREPL-vscode/milestone/30?closed=1) (03/17/2019) 🐛
 
 🚀 Reduce arepl bundle size
