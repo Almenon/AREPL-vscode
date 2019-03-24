@@ -2,7 +2,7 @@
   "name": "arepl",
   "displayName": "AREPL for python",
   "description": "real-time python scratchpad",
-  "version": "1.0.12",
+  "version": "1.0.13",
   "publisher": "almenon",
   "engines": {
     "vscode": "^1.23.0"
@@ -19,16 +19,20 @@
   "main": "./out/src/extension",
   "contributes": {
     "menus": {
-      "editor/title/context": [{
-        "command": "extension.currentAREPLSession"
-      },
-      {
-        "command": "extension.newAREPLSession"
-      }],
-      "editor/context": [{
+      "editor/title/context": [
+        {
+          "command": "extension.currentAREPLSession"
+        },
+        {
+          "command": "extension.newAREPLSession"
+        }
+      ],
+      "editor/context": [
+        {
           "command": "extension.newAREPLSessionOnHighlightedCode",
           "when": "editorHasSelection"
-      }]
+        }
+      ]
     },
     "configuration": {
       "type": "object",
