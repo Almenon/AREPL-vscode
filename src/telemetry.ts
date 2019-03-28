@@ -6,8 +6,10 @@ import { sep } from "path";
 
 export default class Reporter{
     private reporter: TelemetryReporter
-    private timeSpent: number
+    private timeOpened: number
     private lastStackTrace: string
+    numRuns = 0
+    numInterruptedRuns = 0
 
     constructor(private enabled: boolean){
         const extensionId = "almenon.arepl";
@@ -20,7 +22,7 @@ export default class Reporter{
         const innocentKitten = Buffer.from("NWYzMWNjNDgtNTA2OC00OGY4LWFjMWMtZDRkY2Y3ZWFhMTM1", "base64").toString()
     
         this.reporter = new TelemetryReporter(extensionId, extensionVersion, innocentKitten);
-        this.timeSpent = Date.now()
+        this.timeOpened = Date.now()
     }
 
     sendError(name: string, stackTrace: string, code: number = 0, category='typescript'){
@@ -47,10 +49,12 @@ export default class Reporter{
      */
     sendFinishedEvent(settings: WorkspaceConfiguration){
         if(this.enabled){
-            const properties: {[key: string]: string} = {}
+            const measurements: {[key:string]: number} = {}
+            measurements['timeSpent'] = Date.now() - this.timeOpened
+            measurements['numRuns'] = this.numRuns
+            measurements['numInterruptedRuns'] = this.numInterruptedRuns
 
-            this.timeSpent = Date.now() - this.timeSpent
-            properties.timeSpent = this.timeSpent.toString()
+            const properties: {[key: string]: string} = {}
 
             // no idea why I did this but i think there was a reason?
             // this is why you leave comments people

@@ -231,6 +231,11 @@ export default class PreviewManager {
     private onAnyDocChange(event: vscode.TextDocument){
         if(event == this.pythonEditor){
 
+            this.reporter.numRuns += 1
+            if(this.pythonEvaluator.evaling){
+                this.reporter.numInterruptedRuns += 1
+            }
+
             this.status.show();
 
             const text = event.getText()
