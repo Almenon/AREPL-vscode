@@ -50,7 +50,7 @@ export default class Reporter{
     sendFinishedEvent(settings: WorkspaceConfiguration){
         if(this.enabled){
             const measurements: {[key:string]: number} = {}
-            measurements['timeSpent'] = Date.now() - this.timeOpened
+            measurements['timeSpent'] = (Date.now() - this.timeOpened)/1000
             measurements['numRuns'] = this.numRuns
             measurements['numInterruptedRuns'] = this.numInterruptedRuns
 
