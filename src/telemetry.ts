@@ -10,6 +10,9 @@ export default class Reporter{
     private lastStackTrace: string
     numRuns: number
     numInterruptedRuns: number
+    execTime: number
+    totalPyTime: number
+    totalTime: number
 
     constructor(private enabled: boolean){
         const extensionId = "almenon.arepl";
@@ -22,10 +25,7 @@ export default class Reporter{
         const innocentKitten = Buffer.from("NWYzMWNjNDgtNTA2OC00OGY4LWFjMWMtZDRkY2Y3ZWFhMTM1", "base64").toString()
     
         this.reporter = new TelemetryReporter(extensionId, extensionVersion, innocentKitten);
-        this.timeOpened = Date.now()
-
-        this.numRuns = 0
-        this.numInterruptedRuns = 0
+        this.resetMeasurements()
     }
 
     sendError(name: string, stackTrace: string, code: number = 0, category='typescript'){
@@ -56,6 +56,9 @@ export default class Reporter{
             measurements['timeSpent'] = (Date.now() - this.timeOpened)/1000
             measurements['numRuns'] = this.numRuns
             measurements['numInterruptedRuns'] = this.numInterruptedRuns
+            measurements['execTime'] = this.execTime / this.numRuns
+            measurements['totalPyTime'] = this.totalPyTime / this.numRuns
+            measurements['totalTime'] = this.totalTime / this.numRuns
 
             const properties: {[key: string]: string} = {}
 
@@ -70,9 +73,18 @@ export default class Reporter{
 
             this.reporter.sendTelemetryEvent("closed", properties)
 
-            this.numRuns = 0
-            this.numInterruptedRuns = 0
+            this.resetMeasurements()
         }
+    }
+
+    private resetMeasurements(){
+        this.timeOpened = Date.now()
+
+        this.numRuns = 0
+        this.numInterruptedRuns = 0
+        this.execTime = 0
+        this.totalPyTime = 0
+        this.totalTime = 0
     }
 
     /**

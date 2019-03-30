@@ -42,6 +42,10 @@ export class PreviewContainer{
         console.debug(`Python time: ${pythonResults.totalPyTime}`)
         console.debug(`Total time: ${pythonResults.totalTime}`)
 
+        this.reporter.execTime += pythonResults.execTime
+        this.reporter.totalPyTime += pythonResults.totalPyTime
+        this.reporter.totalTime += pythonResults.totalTime
+
         try {            
             
             if(!pythonResults.done){
