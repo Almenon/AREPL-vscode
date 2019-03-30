@@ -8,8 +8,8 @@ export default class Reporter{
     private reporter: TelemetryReporter
     private timeOpened: number
     private lastStackTrace: string
-    numRuns = 0
-    numInterruptedRuns = 0
+    numRuns: number
+    numInterruptedRuns: number
 
     constructor(private enabled: boolean){
         const extensionId = "almenon.arepl";
@@ -23,6 +23,9 @@ export default class Reporter{
     
         this.reporter = new TelemetryReporter(extensionId, extensionVersion, innocentKitten);
         this.timeOpened = Date.now()
+
+        this.numRuns = 0
+        this.numInterruptedRuns = 0
     }
 
     sendError(name: string, stackTrace: string, code: number = 0, category='typescript'){
@@ -66,6 +69,9 @@ export default class Reporter{
             properties['pythonPath'] = this.anonymizePaths(properties['pythonPath'])
 
             this.reporter.sendTelemetryEvent("closed", properties)
+
+            this.numRuns = 0
+            this.numInterruptedRuns = 0
         }
     }
 
