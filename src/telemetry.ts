@@ -71,7 +71,7 @@ export default class Reporter{
             
             properties['pythonPath'] = this.anonymizePaths(properties['pythonPath'])
 
-            this.reporter.sendTelemetryEvent("closed", properties)
+            this.reporter.sendTelemetryEvent("closed", properties, measurements)
 
             this.resetMeasurements()
         }
