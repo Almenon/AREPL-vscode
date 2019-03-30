@@ -56,9 +56,17 @@ export default class Reporter{
             measurements['timeSpent'] = (Date.now() - this.timeOpened)/1000
             measurements['numRuns'] = this.numRuns
             measurements['numInterruptedRuns'] = this.numInterruptedRuns
-            measurements['execTime'] = this.execTime / this.numRuns
-            measurements['totalPyTime'] = this.totalPyTime / this.numRuns
-            measurements['totalTime'] = this.totalTime / this.numRuns
+
+            if(this.numRuns != 0){
+                measurements['execTime'] = this.execTime / this.numRuns
+                measurements['totalPyTime'] = this.totalPyTime / this.numRuns
+                measurements['totalTime'] = this.totalTime / this.numRuns
+            }
+            else{ // lets avoid 0/0 NaN error
+                measurements['execTime'] = 0
+                measurements['totalPyTime'] = 0
+                measurements['totalTime'] = 0
+            }
 
             const properties: {[key: string]: string} = {}
 
