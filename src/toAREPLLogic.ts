@@ -8,8 +8,11 @@ import pyGuiLibraryIsPresent from "./pyGuiLibraryIsPresent"
  */
 export class ToAREPLLogic{
 
-    restartMode: boolean;
-    restartedLastTime = false;
+    restartMode: boolean
+    restartedLastTime = false
+    lastSavedSection = ""
+    lastCodeSection = ""
+    lastEndSection = ""
 
     constructor(private pythonEvaluator: PythonEvaluator, private previewContainer: PreviewContainer){
 
@@ -32,13 +35,24 @@ export class ToAREPLLogic{
                 return
             }
         });
+        const endSection = codeLines.slice(endLineNum).join(eol)
         codeLines = codeLines.slice(startLineNum, endLineNum)
-    
+        
         const data = {
             evalCode: codeLines.join(eol),
             filePath,
             savedCode: savedLines.join(eol),
         }
+
+        // user should be able to rerun code without changing anything
+        // only scenario where we dont re-run is if just end section is changed
+        if(endSection != this.lastEndSection && data.savedCode == this.lastSavedSection && data.evalCode == this.lastCodeSection){
+            return
+        }
+
+        this.lastCodeSection = data.evalCode
+        this.lastSavedSection = data.savedCode
+        this.lastEndSection = endSection
     
         this.restartMode = pyGuiLibraryIsPresent(text)
         
