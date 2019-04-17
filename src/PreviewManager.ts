@@ -29,7 +29,6 @@ export default class PreviewManager {
      */
     constructor(context: vscode.ExtensionContext) {
         this.settings = vscode.workspace.getConfiguration("AREPL");
-        this.reporter = new Reporter(this.settings.get<boolean>("telemetry"))
         this.status = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left, 100);
         this.status.text = "Running python..."
         this.status.tooltip = "AREPL is currently running your python file.  Close the AREPL preview to stop"
@@ -40,6 +39,8 @@ export default class PreviewManager {
     async startArepl(){
         // reload settings in case user changed something
         this.settings = vscode.workspace.getConfiguration("AREPL");
+        // reload reporter (its disposed when arepl is closed)
+        this.reporter = new Reporter(this.settings.get<boolean>("telemetry"))
 
         if(!vscode.window.activeTextEditor){
             vscode.window.showErrorMessage("no active text editor open")
