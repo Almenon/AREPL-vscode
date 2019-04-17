@@ -29,6 +29,7 @@ export default class Reporter{
     }
 
     sendError(name: string, stackTrace: string, code: number = 0, category='typescript'){
+        console.error(`${category} error: ${name} code ${code}\n${stackTrace}`)
         if(this.enabled){
             // no point in sending same error twice (and we want to stay under free API limit)
             if(stackTrace == this.lastStackTrace) return

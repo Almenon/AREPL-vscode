@@ -137,7 +137,19 @@ export default class PreviewManager {
 
         this.pythonEvaluator = new PythonEvaluator(pythonPath, pythonOptions)
         
-        this.pythonEvaluator.startPython()
+        try {
+            this.pythonEvaluator.startPython()
+        } catch (err) {
+            if (err instanceof Error){
+                const error = `Error running python with command: ${pythonPath} ${pythonOptions.join(' ')}\n${err.stack}`
+                this.previewContainer.displayProcessError(error);
+                // @ts-ignore 
+                this.reporter.sendError(err.name+' '+err.message, err.stack, error.errno, 'spawn')            
+            }
+            else{
+                console.error(err)
+            }
+        }
         this.pythonEvaluator.pyshell.childProcess.on("error", err => {
             /* The 'error' event is emitted whenever:
             The process could not be spawned, or

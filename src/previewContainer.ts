@@ -129,7 +129,6 @@ export class PreviewContainer{
             }
 
         } catch (error) {
-            console.error(error)
             if(error instanceof Error){
                 this.reporter.sendError(error.name, error.stack)
             }
