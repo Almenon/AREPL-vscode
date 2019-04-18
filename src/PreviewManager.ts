@@ -32,7 +32,7 @@ export default class PreviewManager {
         this.status = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left, 100);
         this.status.text = "Running python..."
         this.status.tooltip = "AREPL is currently running your python file.  Close the AREPL preview to stop"
-
+        this.reporter = new Reporter(this.settings.get<boolean>("telemetry"))
         this.previewContainer = new PreviewContainer(this.reporter, context, this.settings)
     }
 
