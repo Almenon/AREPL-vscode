@@ -164,6 +164,11 @@
         "command": "extension.executeAREPL",
         "title": "trigger a run in the current AREPL session",
         "category": "AREPL"
+      },
+      {
+        "command": "extension.executeAREPLBlock",
+        "title": "execute the current block of code",
+        "category": "AREPL"
       }
     ],
     "keybindings": [
@@ -183,6 +188,12 @@
         "command": "extension.executeAREPL",
         "key": "ctrl+shift+;",
         "mac": "cmd+shift+;",
+        "when": "!inQuickOpen && !terminalFocus"
+      },
+      {
+        "command": "extension.executeAREPLBlock",
+        "key": "ctrl+shift+{",
+        "mac": "cmd+shift+{",
         "when": "!inQuickOpen && !terminalFocus"
       }
     ]

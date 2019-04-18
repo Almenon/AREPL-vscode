@@ -69,6 +69,44 @@ export default class PreviewManager {
         this.onAnyDocChange(vscode.window.activeTextEditor.document)
     }
 
+    runAreplBlock() {
+        const selection = vscode.window.activeTextEditor.selection
+        let block:vscode.Range = null;
+
+        if(selection.isEmpty){ // just a cursor
+
+            block = new vscode.Range(new vscode.Position(selection.start.line, 0), selection.end)
+
+            // following logic breaks when dealing with newlines in """
+            // but lets keep it simple for now
+
+            while(block.start.line > 0){
+                const aboveLine = this.pythonEditor.lineAt(block.start.line-1)
+                if(aboveLine.isEmptyOrWhitespace) break;
+                else block = new vscode.Range(aboveLine.range.start, selection.end)
+            }
+
+            while(block.end.line < this.pythonEditor.lineCount-1){
+                const belowLine = this.pythonEditor.lineAt(block.end.line+1)
+                if(belowLine.isEmptyOrWhitespace) break;
+                else block = new vscode.Range(block.start, belowLine.range.end)
+            }
+        }
+        else{
+            block = new vscode.Range(selection.start, selection.end)
+        }
+           
+        const codeLines = this.pythonEditor.getText(block)
+        const filePath = this.pythonEditor.isUntitled ? "" : this.pythonEditor.fileName
+        const data = {
+            evalCode: codeLines,
+            filePath,
+            savedCode: '',
+            usePreviousVariables: true
+        }
+        this.pythonEvaluator.execCode(data)
+    }
+
     dispose() {
         if(this.pythonEvaluator.pyshell != null && this.pythonEvaluator.pyshell.childProcess != null){
             this.pythonEvaluator.stop()
