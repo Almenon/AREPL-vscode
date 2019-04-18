@@ -75,7 +75,7 @@ export default class PreviewManager {
 
         if(selection.isEmpty){ // just a cursor
 
-            block = new vscode.Range(new vscode.Position(selection.start.line, 0), selection.end)
+            block = this.pythonEditor.lineAt(selection.start.line).range
 
             // following logic breaks when dealing with newlines in """
             // but lets keep it simple for now
