@@ -27,15 +27,13 @@ export default class PythonPreview{
     <p style="font-size:14px">⚠ <b style="color:red">WARNING:</b> code is evaluated WHILE YOU TYPE - don't try deleting files/folders! ⚠</p>
     <p>evaluation while you type can be turned off or adjusted in the settings</p>
     <br>
-    <h3>AREPL 1.0.13 🚀 🐛 "mononoke"</h3>
+    <h3>AREPL 1.0.14 🚀 🐛 "one punch"</h3>
     <ul>
-        <li>🚀 right click on editor title to launch arepl</li>
+        <li>🚀 Added ability to run blocks of code via control-shift-{</li>
 
-        <li>🚀 Added cache var. Use "areplStore" to store data inbetween runs! See <a href="https://github.com/Almenon/AREPL-vscode/wiki/Caching-data-between-runs">wiki</a> for futher info.</li>
+        <li>🚀 Added #$end comment for section where arepl will not auto-run on changes</li>
 
-        <li>🐛 Fixed vars dissapearing when there is syntax error</li>
-
-        <li>🐛 Fixed vars not clearing when using gui library</li>
+        <li>🐛 Fixed silent spawn error on mac</li>
     </ul>
     <br>
     
