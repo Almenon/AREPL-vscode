@@ -120,7 +120,6 @@ export default class PreviewManager {
 
         setTimeout(()=>{
             // clear decorations
-            //const emptyRange = new vscode.Range(new vscode.Position(0,0), new vscode.Position(0,0))
             editor.setDecorations(this.highlightDecorationType, [])
         }, 100)
     }
