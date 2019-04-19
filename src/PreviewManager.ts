@@ -91,7 +91,7 @@ export default class PreviewManager {
             while(block.start.line > 0){
                 const aboveLine = editor.document.lineAt(block.start.line-1)
                 if(aboveLine.isEmptyOrWhitespace) break;
-                else block = new vscode.Range(aboveLine.range.start, selection.end)
+                else block = new vscode.Range(aboveLine.range.start, block.end)
             }
 
             while(block.end.line < editor.document.lineCount-1){
