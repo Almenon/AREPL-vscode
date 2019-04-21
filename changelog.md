@@ -4,6 +4,8 @@
 
 🚀 Added #$end comment for section where arepl will not auto-run on changes
 
+🚀 Setting changes now take effect instantly (no need to reload arepl)
+
 🐛 Fixed silent spawn error on mac
 
 ## [v1.0.13](https://github.com/Almenon/AREPL-vscode/milestone/32?closed=1) (03/23/2019) 🐛

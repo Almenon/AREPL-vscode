@@ -3,6 +3,7 @@ import * as vscode from "vscode"
 import PythonPreview from "./pythonPreview"
 import Reporter from "./telemetry"
 import Utilities from "./utilities"
+import {settings} from "./settings"
 
 /**
  * logic wrapper around html preview doc
@@ -15,7 +16,7 @@ export class PreviewContainer{
     private pythonPreview: PythonPreview
     private vars: {}
 
-    constructor(private reporter: Reporter, private context: vscode.ExtensionContext, private settings:vscode.WorkspaceConfiguration, htmlUpdateFrequency=50){
+    constructor(private reporter: Reporter, private context: vscode.ExtensionContext, htmlUpdateFrequency=50){
         this.pythonPreview = new PythonPreview(context, htmlUpdateFrequency);
         this.scheme = PythonPreview.scheme
         this.errorDecorationType = vscode.window.createTextEditorDecorationType({
@@ -77,7 +78,7 @@ export class PreviewContainer{
             if(this.printResults.length == 0) this.pythonPreview.clearPrint()
 
             this.updateError(pythonResults.userError, true)
-            if(this.settings.get('inlineResults')){
+            if(settings().get('inlineResults')){
                 this.updateErrorGutterIcons(pythonResults.userError)
             }
 

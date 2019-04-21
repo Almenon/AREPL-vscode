@@ -1,9 +1,8 @@
 import * as vscode from "vscode"
+import {settings} from "./settings"
 
 export default function pythonGuiLibraryIsPresent(code: string){
-
-    const settings = vscode.workspace.getConfiguration("AREPL")
-    let pyGuiLibraries = settings.get<string[]>("pyGuiLibraries")
+    let pyGuiLibraries = settings().get<string[]>("pyGuiLibraries")
     pyGuiLibraries = pyGuiLibraries.filter(library => library.trim() != "")
     if(pyGuiLibraries.length == 0){
         return false

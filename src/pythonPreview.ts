@@ -3,6 +3,7 @@ import * as path from "path";
 import * as vscode from "vscode"
 import {Limit} from "./throttle"
 import Utilities from "./utilities"
+import {settings} from "./settings"
 
 /**
  * shows AREPL output (variables, errors, timing, and stdout/stderr)
@@ -15,7 +16,6 @@ export default class PythonPreview{
     public throttledUpdate: () => void
 
     private _onDidChange: vscode.EventEmitter<vscode.Uri>;
-    private settings: vscode.WorkspaceConfiguration;
     private lastTime: number = 999999999;
 
     private html;
@@ -32,6 +32,8 @@ export default class PythonPreview{
         <li>🚀 Added ability to run blocks of code via control-shift-{</li>
 
         <li>🚀 Added #$end comment for section where arepl will not auto-run on changes</li>
+
+        <li>🚀 Setting changes now take effect instantly (no need to reload arepl)</li>
 
         <li>🐛 Fixed silent spawn error on mac</li>
     </ul>
@@ -121,7 +123,6 @@ if r.status_code == 200:
         this._onDidChange = new vscode.EventEmitter<vscode.Uri>();
         this.css = `<link rel="stylesheet" type="text/css" href="${this.getMediaPath("pythonPreview.css")}">`
         this.jsonRendererScript = `<script src="${this.getMediaPath("jsonRenderer.js")}"></script>`
-        this.settings = vscode.workspace.getConfiguration("AREPL");
 
         if(htmlUpdateFrequency != 0){
             // refreshing html too much can freeze vscode... lets avoid that
@@ -153,8 +154,8 @@ if r.status_code == 200:
             window.onload = function(){
                 ${userVarsCode}
                 let jsonRenderer = renderjson.set_icons('+', '-') // default icons look a bit wierd, overriding
-                    .set_show_to_level(${this.settings.get("show_to_level")}) 
-                    .set_max_string_length(${this.settings.get("max_string_length")});
+                    .set_show_to_level(${settings().get("show_to_level")}) 
+                    .set_max_string_length(${settings().get("max_string_length")});
                 document.getElementById("results").appendChild(jsonRenderer(userVars));
             }
             </script>`
@@ -245,8 +246,8 @@ if r.status_code == 200:
 
     private updateContent(){
 
-        const printPlacement = this.settings.get<string>("printResultPlacement")
-        const showFooter = this.settings.get<boolean>("showFooter")
+        const printPlacement = settings().get<string>("printResultPlacement")
+        const showFooter = settings().get<boolean>("showFooter")
 
         // todo: handle different themes.  check body class: https://code.visualstudio.com/updates/June_2016
         this.html = `<!doctype html>

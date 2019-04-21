@@ -8,6 +8,7 @@ import Reporter from "./telemetry"
 import {ToAREPLLogic} from "./toAREPLLogic"
 import vscodeUtils from "./vscodeUtilities";
 import { PythonShell } from "python-shell";
+import {settings} from "./settings"
 
 /**
  * class with logic for starting arepl and arepl preview
@@ -19,7 +20,6 @@ export default class PreviewManager {
     pythonEditorDoc: vscode.TextDocument;
     pythonEvaluator: PythonEvaluator;
     runningStatus: vscode.StatusBarItem;
-    settings: vscode.WorkspaceConfiguration;
     toAREPLLogic: ToAREPLLogic
     previewContainer: PreviewContainer
     subscriptions: vscode.Disposable[] = []
@@ -30,12 +30,11 @@ export default class PreviewManager {
      * assumes a text editor is already open - if not will error out
      */
     constructor(context: vscode.ExtensionContext) {
-        this.settings = vscode.workspace.getConfiguration("AREPL");
         this.runningStatus = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left, 100);
         this.runningStatus.text = "Running python..."
         this.runningStatus.tooltip = "AREPL is currently running your python file.  Close the AREPL preview to stop"
-        this.reporter = new Reporter(this.settings.get<boolean>("telemetry"))
-        this.previewContainer = new PreviewContainer(this.reporter, context, this.settings)
+        this.reporter = new Reporter(settings().get<boolean>("telemetry"))
+        this.previewContainer = new PreviewContainer(this.reporter, context)
 
         this.highlightDecorationType = vscode.window.createTextEditorDecorationType(<vscode.ThemableDecorationRenderOptions>{
             backgroundColor: 'yellow'
@@ -43,10 +42,8 @@ export default class PreviewManager {
     }
 
     async startArepl(){
-        // reload settings in case user changed something
-        this.settings = vscode.workspace.getConfiguration("AREPL");
         // reload reporter (its disposed when arepl is closed)
-        this.reporter = new Reporter(this.settings.get<boolean>("telemetry"))
+        this.reporter = new Reporter(settings().get<boolean>("telemetry"))
 
         if(!vscode.window.activeTextEditor){
             vscode.window.showErrorMessage("no active text editor open")
@@ -119,7 +116,7 @@ export default class PreviewManager {
 
         this.runningStatus.dispose();
         
-        this.reporter.sendFinishedEvent(this.settings)
+        this.reporter.sendFinishedEvent(settings())
         this.reporter.dispose();
 
         if(vscode.window.activeTextEditor){
@@ -128,7 +125,7 @@ export default class PreviewManager {
     }
 
     getPythonPath(){
-        let pythonPath = this.settings.get<string>("pythonPath")
+        let pythonPath = settings().get<string>("pythonPath")
 
         const pythonExtSettings = vscode.workspace.getConfiguration("python", null);
         const pythonExtPythonPath = pythonExtSettings.get<string>('pythonPath')
@@ -162,7 +159,7 @@ export default class PreviewManager {
      */
     private startAndBindPython(){
         const pythonPath = this.getPythonPath()
-        const pythonOptions = this.settings.get<string[]>("pythonOptions")
+        const pythonOptions = settings().get<string[]>("pythonOptions")
 
         PythonShell.getVersion(`"${pythonPath}"`).then((out)=>{
             if(out.stdout){
@@ -233,25 +230,25 @@ export default class PreviewManager {
      */
     private subscribeHandlersToDoc(){
 
-        const debounce = this.settings.get<number>("delay");
-        const restartExtraDebounce = this.settings.get<number>("restartDelay");
-
-        if(this.settings.get<boolean>("skipLandingPage")){
+        if(settings().get<boolean>("skipLandingPage")){
             this.onAnyDocChange(this.pythonEditorDoc);
         }
 
-        if(this.settings.get<string>("whenToExecute") == "onSave"){
-            vscode.workspace.onDidSaveTextDocument((e) => {
+        
+        vscode.workspace.onDidSaveTextDocument((e) => {
+            if(settings().get<string>("whenToExecute") == "onSave"){
                 this.onAnyDocChange(e)
-            }, this, this.subscriptions)
-        }
-        else if(this.settings.get<string>("whenToExecute") == "afterDelay"){
-            vscode.workspace.onDidChangeTextDocument((e) => {
-                const delay = this.toAREPLLogic.restartMode ? debounce + restartExtraDebounce : debounce
+            }
+        }, this, this.subscriptions)
+        
+        vscode.workspace.onDidChangeTextDocument((e) => {
+            if(settings().get<string>("whenToExecute") == "afterDelay"){
+                let delay = settings().get<number>("delay");
+                const restartExtraDelay = settings().get<number>("restartDelay");
+                delay += this.toAREPLLogic.restartMode ? restartExtraDelay : 0
                 this.pythonEvaluator.debounce(this.onAnyDocChange.bind(this, e.document), delay)
-            }, this, this.subscriptions)
-        }
-        else {} //third option is onKeybinding in which case user manually invokes arepl
+            }
+        }, this, this.subscriptions)
         
         vscode.workspace.onDidCloseTextDocument((e) => {
             if(e == this.pythonEditorDoc) this.dispose()
@@ -260,7 +257,7 @@ export default class PreviewManager {
 
     private insertDefaultImports(editor: vscode.TextEditor){
         return editor.edit((editBuilder) => {
-            let imports = this.settings.get<string[]>("defaultImports")
+            let imports = settings().get<string[]>("defaultImports")
 
             imports = imports.filter(i => i.trim() != "")
             if(imports.length == 0) return
