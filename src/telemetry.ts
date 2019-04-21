@@ -48,8 +48,7 @@ export default class Reporter{
     }
 
     /**
-     * we want to collect data on how long the user uses the extension
-     * and the settings they use
+     * sends various stats to azure app insights
      */
     sendFinishedEvent(settings: WorkspaceConfiguration){
         if(this.enabled){
