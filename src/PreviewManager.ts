@@ -18,7 +18,7 @@ export default class PreviewManager {
     disposable: vscode.Disposable;
     pythonEditorDoc: vscode.TextDocument;
     pythonEvaluator: PythonEvaluator;
-    status: vscode.StatusBarItem;
+    runningStatus: vscode.StatusBarItem;
     settings: vscode.WorkspaceConfiguration;
     toAREPLLogic: ToAREPLLogic
     previewContainer: PreviewContainer
@@ -31,9 +31,9 @@ export default class PreviewManager {
      */
     constructor(context: vscode.ExtensionContext) {
         this.settings = vscode.workspace.getConfiguration("AREPL");
-        this.status = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left, 100);
-        this.status.text = "Running python..."
-        this.status.tooltip = "AREPL is currently running your python file.  Close the AREPL preview to stop"
+        this.runningStatus = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left, 100);
+        this.runningStatus.text = "Running python..."
+        this.runningStatus.tooltip = "AREPL is currently running your python file.  Close the AREPL preview to stop"
         this.reporter = new Reporter(this.settings.get<boolean>("telemetry"))
         this.previewContainer = new PreviewContainer(this.reporter, context, this.settings)
 
@@ -97,6 +97,7 @@ export default class PreviewManager {
             usePreviousVariables: true
         }
         this.pythonEvaluator.execCode(data)
+        this.runningStatus.show()
 
         if(editor){
             editor.setDecorations(this.highlightDecorationType, [block])
@@ -116,7 +117,7 @@ export default class PreviewManager {
         this.disposable = vscode.Disposable.from(...this.subscriptions);
         this.disposable.dispose();
 
-        this.status.dispose();
+        this.runningStatus.dispose();
         
         this.reporter.sendFinishedEvent(this.settings)
         this.reporter.dispose();
@@ -222,7 +223,7 @@ export default class PreviewManager {
         // but better than not showing stderr at all, so for now printing it out and ill fix later
         this.pythonEvaluator.onStderr = this.previewContainer.handlePrint.bind(this.previewContainer)
         this.pythonEvaluator.onResult = result => {
-            this.status.hide()
+            this.runningStatus.hide()
             this.previewContainer.handleResult(result)
         }
     }
@@ -288,7 +289,7 @@ export default class PreviewManager {
                 this.reporter.numInterruptedRuns += 1
             }
 
-            this.status.show();
+            this.runningStatus.show();
 
             const text = event.getText()
             const filePath = this.pythonEditorDoc.isUntitled ? "" : this.pythonEditorDoc.fileName
