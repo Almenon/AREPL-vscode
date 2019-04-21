@@ -140,6 +140,11 @@
           "type": "boolean",
           "default": true,
           "description": "Whether to report useful anonymous data back to developer."
+        },
+        "AREPL.dumpGlobalVars": {
+          "type": "boolean",
+          "default": true,
+          "description": "Whether to show global vars. Potential speed improvement if turned off - you can still inspect vars with dump()"
         }
       }
     },
