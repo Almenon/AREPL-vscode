@@ -82,23 +82,7 @@ export default class PreviewManager {
         let block:vscode.Range = null;
 
         if(selection.isEmpty){ // just a cursor
-
-            block = editor.document.lineAt(selection.start.line).range
-
-            // following logic breaks when dealing with newlines in """
-            // but lets keep it simple for now
-
-            while(block.start.line > 0){
-                const aboveLine = editor.document.lineAt(block.start.line-1)
-                if(aboveLine.isEmptyOrWhitespace) break;
-                else block = new vscode.Range(aboveLine.range.start, block.end)
-            }
-
-            while(block.end.line < editor.document.lineCount-1){
-                const belowLine = editor.document.lineAt(block.end.line+1)
-                if(belowLine.isEmptyOrWhitespace) break;
-                else block = new vscode.Range(block.start, belowLine.range.end)
-            }
+            block = vscodeUtils.getBlockOfText(editor, selection.start.line)
         }
         else{
             block = new vscode.Range(selection.start, selection.end)

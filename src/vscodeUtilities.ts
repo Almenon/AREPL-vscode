@@ -10,6 +10,27 @@ export default class vscodeUtils {
     
         return vscode.window.showTextDocument(pyDoc);
     }
+
+    /**
+     * returns block of text at lineNum, where a block is defined as a series of adjacent non-empty lines
+     */
+    static getBlockOfText(editor: vscode.TextEditor, lineNum: number){
+        let block = editor.document.lineAt(lineNum).range
+
+        while(block.start.line > 0){
+            const aboveLine = editor.document.lineAt(block.start.line-1)
+            if(aboveLine.isEmptyOrWhitespace) break;
+            else block = new vscode.Range(aboveLine.range.start, block.end)
+        }
+
+        while(block.end.line < editor.document.lineCount-1){
+            const belowLine = editor.document.lineAt(block.end.line+1)
+            if(belowLine.isEmptyOrWhitespace) break;
+            else block = new vscode.Range(block.start, belowLine.range.end)
+        }
+
+        return block
+    }
     
     /**
      * gets first highlighted text of active doc
