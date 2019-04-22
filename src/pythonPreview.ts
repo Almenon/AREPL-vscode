@@ -29,8 +29,6 @@ export default class PythonPreview{
     <br>
     <h3>AREPL 1.0.14 🚀 🐛 "one punch"</h3>
     <ul>
-        <li>🚀 Added #$end comment for section where arepl will not auto-run on changes</li>
-
         <li>🚀 Setting changes now take effect instantly (no need to reload arepl)</li>
 
         <li>🐛 Fixed silent spawn error on mac</li>
