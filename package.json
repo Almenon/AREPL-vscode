@@ -197,9 +197,9 @@
       },
       {
         "command": "extension.executeAREPLBlock",
-        "key": "ctrl+shift+{",
-        "mac": "cmd+shift+{",
-        "when": "!inQuickOpen && !terminalFocus"
+        "key": "shift+enter",
+        "mac": "shift+enter",
+        "when": "editorTextFocus"
       }
     ]
   },

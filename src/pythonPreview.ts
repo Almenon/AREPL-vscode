@@ -29,7 +29,7 @@ export default class PythonPreview{
     <br>
     <h3>AREPL 1.0.14 🚀 🐛 "one punch"</h3>
     <ul>
-        <li>🚀 Added ability to run blocks of code via control-shift-{</li>
+        <li>🚀 Added ability to run blocks of code via shift+enter</li>
 
         <li>🚀 Added #$end comment for section where arepl will not auto-run on changes</li>
 
