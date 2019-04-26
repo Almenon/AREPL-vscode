@@ -91,7 +91,8 @@ export default class PreviewManager {
             evalCode: codeLines,
             filePath,
             savedCode: '',
-            usePreviousVariables: true
+            usePreviousVariables: true,
+            showGlobalVars: settings().get<boolean>('showGlobalVars')
         }
         this.pythonEvaluator.execCode(data)
         this.runningStatus.show()
@@ -290,7 +291,7 @@ export default class PreviewManager {
 
             const text = event.getText()
             const filePath = this.pythonEditorDoc.isUntitled ? "" : this.pythonEditorDoc.fileName
-            this.toAREPLLogic.onUserInput(text, filePath, event.eol == 1 ? "\n":"\r\n")
+            this.toAREPLLogic.onUserInput(text, filePath, event.eol == 1 ? "\n":"\r\n", settings().get<boolean>('showGlobalVars'))
         }        
     }
 }

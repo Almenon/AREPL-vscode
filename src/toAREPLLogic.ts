@@ -18,7 +18,7 @@ export class ToAREPLLogic{
 
     }
 
-    public onUserInput(text: string, filePath: string, eol: string) {
+    public onUserInput(text: string, filePath: string, eol: string, showGlobalVars=true) {
         let codeLines = text.split(eol)
     
         let savedLines: string[] = []
@@ -42,6 +42,8 @@ export class ToAREPLLogic{
             evalCode: codeLines.join(eol),
             filePath,
             savedCode: savedLines.join(eol),
+            usePreviousVariables:false,
+            showGlobalVars
         }
 
         // user should be able to rerun code without changing anything
