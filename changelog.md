@@ -1,3 +1,13 @@
+## [v1.0.14](https://github.com/Almenon/AREPL-vscode/milestone/33?closed=1) (04/18/2019) 🚀
+
+🚀 Added ability to run blocks of code
+
+🚀 Added #$end comment for section where arepl will not auto-run on changes
+
+🚀 Setting changes now take effect instantly (no need to reload arepl)
+
+🐛 Fixed silent spawn error on mac
+
 ## [v1.0.13](https://github.com/Almenon/AREPL-vscode/milestone/32?closed=1) (03/23/2019) 🐛
 
 🚀 right click on editor title to launch arepl

@@ -2,7 +2,7 @@
   "name": "arepl",
   "displayName": "AREPL for python",
   "description": "real-time python scratchpad",
-  "version": "1.0.13",
+  "version": "1.0.14",
   "publisher": "almenon",
   "engines": {
     "vscode": "^1.23.0"
@@ -140,6 +140,11 @@
           "type": "boolean",
           "default": true,
           "description": "Whether to report useful anonymous data back to developer."
+        },
+        "AREPL.dumpGlobalVars": {
+          "type": "boolean",
+          "default": true,
+          "description": "Whether to show global vars. Potential speed improvement if turned off - you can still inspect vars with dump()"
         }
       }
     },
@@ -164,6 +169,11 @@
         "command": "extension.executeAREPL",
         "title": "trigger a run in the current AREPL session",
         "category": "AREPL"
+      },
+      {
+        "command": "extension.executeAREPLBlock",
+        "title": "execute the current block of code",
+        "category": "AREPL"
       }
     ],
     "keybindings": [
@@ -184,6 +194,10 @@
         "key": "ctrl+shift+;",
         "mac": "cmd+shift+;",
         "when": "!inQuickOpen && !terminalFocus"
+      },
+      {
+        "command": "extension.executeAREPLBlock",
+        "when": "editorTextFocus"
       }
     ]
   },

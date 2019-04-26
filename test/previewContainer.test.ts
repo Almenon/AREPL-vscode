@@ -3,6 +3,7 @@ import * as vscode from "vscode";
 import {PreviewContainer} from "../src/previewContainer"
 import Reporter from "../src/telemetry";
 import vscodeUtils from "../src/vscodeUtilities";
+import {settings} from "../src/settings"
 
 
 /**
@@ -20,17 +21,12 @@ suite("PreviewContainer and pythonPreview Tests", () => {
         extensionPath: arepl.extensionPath,
     }
 
-    const mockSettings: any = {
-        inlineResults:true,
-        get: function(arg){
-            if(arg == 'inlineResults') return this.inlineResults
-        }
-    }
-
-    const previewContainer = new PreviewContainer(new Reporter(false), mockContext, mockSettings, 0);
+    const previewContainer = new PreviewContainer(new Reporter(false), mockContext, 0);
     const panel = previewContainer.start()
 
     suiteSetup(function(done){
+        settings().update("inlineResults", true)
+
         // existing editor causes weird error for some reason
         vscode.commands.executeCommand("workbench.action.closeActiveEditor").then(()=>{
             // needed for inline errors

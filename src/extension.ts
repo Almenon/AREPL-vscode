@@ -30,8 +30,12 @@ export function activate(context: vscode.ExtensionContext) {
         previewManager.runArepl()
     });
 
+    const executeAREPLBlock = vscode.commands.registerCommand("extension.executeAREPLBlock", () => {
+        previewManager.runAreplBlock()
+    });
+
     // push to subscriptions list so that they are disposed automatically
-    context.subscriptions.push(...[arepl, newAreplSession, areplOnHighlightedCode, executeAREPL]);
+    context.subscriptions.push(...[arepl, newAreplSession, areplOnHighlightedCode, executeAREPL, executeAREPLBlock]);
 
     // registering arepldump last in case it errors out
     // (an error here will lead to the user not being to import arepldump)

@@ -8,6 +8,7 @@ import Reporter from "./telemetry"
 import {ToAREPLLogic} from "./toAREPLLogic"
 import vscodeUtils from "./vscodeUtilities";
 import { PythonShell } from "python-shell";
+import {settings} from "./settings"
 
 /**
  * class with logic for starting arepl and arepl preview
@@ -16,36 +17,40 @@ export default class PreviewManager {
 
     reporter: Reporter;
     disposable: vscode.Disposable;
-    pythonEditor: vscode.TextDocument;
+    pythonEditorDoc: vscode.TextDocument;
     pythonEvaluator: PythonEvaluator;
-    status: vscode.StatusBarItem;
-    settings: vscode.WorkspaceConfiguration;
+    runningStatus: vscode.StatusBarItem;
     toAREPLLogic: ToAREPLLogic
     previewContainer: PreviewContainer
-    subscriptions: vscode.Disposable[] = [];
+    subscriptions: vscode.Disposable[] = []
+    highlightDecorationType: vscode.TextEditorDecorationType
+    pythonEditor: vscode.TextEditor;
 
     /**
      * assumes a text editor is already open - if not will error out
      */
     constructor(context: vscode.ExtensionContext) {
-        this.settings = vscode.workspace.getConfiguration("AREPL");
-        this.reporter = new Reporter(this.settings.get<boolean>("telemetry"))
-        this.status = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left, 100);
-        this.status.text = "Running python..."
-        this.status.tooltip = "AREPL is currently running your python file.  Close the AREPL preview to stop"
+        this.runningStatus = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left, 100);
+        this.runningStatus.text = "Running python..."
+        this.runningStatus.tooltip = "AREPL is currently running your python file.  Close the AREPL preview to stop"
+        this.reporter = new Reporter(settings().get<boolean>("telemetry"))
+        this.previewContainer = new PreviewContainer(this.reporter, context)
 
-        this.previewContainer = new PreviewContainer(this.reporter, context, this.settings)
+        this.highlightDecorationType = vscode.window.createTextEditorDecorationType(<vscode.ThemableDecorationRenderOptions>{
+            backgroundColor: 'yellow'
+        })
     }
 
     async startArepl(){
-        // reload settings in case user changed something
-        this.settings = vscode.workspace.getConfiguration("AREPL");
+        // reload reporter (its disposed when arepl is closed)
+        this.reporter = new Reporter(settings().get<boolean>("telemetry"))
 
         if(!vscode.window.activeTextEditor){
             vscode.window.showErrorMessage("no active text editor open")
             return
         }
-        this.pythonEditor = vscode.window.activeTextEditor.document;
+        this.pythonEditor = vscode.window.activeTextEditor
+        this.pythonEditorDoc = this.pythonEditor.document
         
         let panel = this.previewContainer.start();
         this.subscriptions.push(panel)
@@ -53,8 +58,8 @@ export default class PreviewManager {
 
         this.startAndBindPython()
 
-        if(this.pythonEditor.isUntitled && this.pythonEditor.getText() == "") {
-            await this.insertDefaultImports(vscode.window.activeTextEditor)
+        if(this.pythonEditorDoc.isUntitled && this.pythonEditorDoc.getText() == "") {
+            await this.insertDefaultImports(this.pythonEditor)
             // waiting for this to complete so i dont accidentily trigger
             // the edit doc handler when i insert imports
         }
@@ -65,7 +70,40 @@ export default class PreviewManager {
     }
 
     runArepl(){
-        this.onAnyDocChange(vscode.window.activeTextEditor.document)
+        this.onAnyDocChange(this.pythonEditorDoc)
+    }
+
+    runAreplBlock() {
+        const editor = vscode.window.activeTextEditor
+        const selection = editor.selection
+        let block:vscode.Range = null;
+
+        if(selection.isEmpty){ // just a cursor
+            block = vscodeUtils.getBlockOfText(editor, selection.start.line)
+        }
+        else{
+            block = new vscode.Range(selection.start, selection.end)
+        }
+           
+        const codeLines = editor.document.getText(block)
+        const filePath = editor.document.isUntitled ? "" : editor.document.fileName
+        const data = {
+            evalCode: codeLines,
+            filePath,
+            savedCode: '',
+            usePreviousVariables: true
+        }
+        this.pythonEvaluator.execCode(data)
+        this.runningStatus.show()
+
+        if(editor){
+            editor.setDecorations(this.highlightDecorationType, [block])
+        }
+
+        setTimeout(()=>{
+            // clear decorations
+            editor.setDecorations(this.highlightDecorationType, [])
+        }, 100)
     }
 
     dispose() {
@@ -76,9 +114,9 @@ export default class PreviewManager {
         this.disposable = vscode.Disposable.from(...this.subscriptions);
         this.disposable.dispose();
 
-        this.status.dispose();
+        this.runningStatus.dispose();
         
-        this.reporter.sendFinishedEvent(this.settings)
+        this.reporter.sendFinishedEvent(settings())
         this.reporter.dispose();
 
         if(vscode.window.activeTextEditor){
@@ -87,7 +125,7 @@ export default class PreviewManager {
     }
 
     getPythonPath(){
-        let pythonPath = this.settings.get<string>("pythonPath")
+        let pythonPath = settings().get<string>("pythonPath")
 
         const pythonExtSettings = vscode.workspace.getConfiguration("python", null);
         const pythonExtPythonPath = pythonExtSettings.get<string>('pythonPath')
@@ -121,7 +159,7 @@ export default class PreviewManager {
      */
     private startAndBindPython(){
         const pythonPath = this.getPythonPath()
-        const pythonOptions = this.settings.get<string[]>("pythonOptions")
+        const pythonOptions = settings().get<string[]>("pythonOptions")
 
         PythonShell.getVersion(`"${pythonPath}"`).then((out)=>{
             if(out.stdout){
@@ -137,7 +175,19 @@ export default class PreviewManager {
 
         this.pythonEvaluator = new PythonEvaluator(pythonPath, pythonOptions)
         
-        this.pythonEvaluator.startPython()
+        try {
+            this.pythonEvaluator.startPython()
+        } catch (err) {
+            if (err instanceof Error){
+                const error = `Error running python with command: ${pythonPath} ${pythonOptions.join(' ')}\n${err.stack}`
+                this.previewContainer.displayProcessError(error);
+                // @ts-ignore 
+                this.reporter.sendError(err.name+' '+err.message, err.stack, error.errno, 'spawn')            
+            }
+            else{
+                console.error(err)
+            }
+        }
         this.pythonEvaluator.pyshell.childProcess.on("error", err => {
             /* The 'error' event is emitted whenever:
             The process could not be spawned, or
@@ -170,7 +220,7 @@ export default class PreviewManager {
         // but better than not showing stderr at all, so for now printing it out and ill fix later
         this.pythonEvaluator.onStderr = this.previewContainer.handlePrint.bind(this.previewContainer)
         this.pythonEvaluator.onResult = result => {
-            this.status.hide()
+            this.runningStatus.hide()
             this.previewContainer.handleResult(result)
         }
     }
@@ -180,34 +230,34 @@ export default class PreviewManager {
      */
     private subscribeHandlersToDoc(){
 
-        const debounce = this.settings.get<number>("delay");
-        const restartExtraDebounce = this.settings.get<number>("restartDelay");
-
-        if(this.settings.get<boolean>("skipLandingPage")){
-            this.onAnyDocChange(this.pythonEditor);
+        if(settings().get<boolean>("skipLandingPage")){
+            this.onAnyDocChange(this.pythonEditorDoc);
         }
 
-        if(this.settings.get<string>("whenToExecute") == "onSave"){
-            vscode.workspace.onDidSaveTextDocument((e) => {
+        
+        vscode.workspace.onDidSaveTextDocument((e) => {
+            if(settings().get<string>("whenToExecute") == "onSave"){
                 this.onAnyDocChange(e)
-            }, this, this.subscriptions)
-        }
-        else if(this.settings.get<string>("whenToExecute") == "afterDelay"){
-            vscode.workspace.onDidChangeTextDocument((e) => {
-                const delay = this.toAREPLLogic.restartMode ? debounce + restartExtraDebounce : debounce
+            }
+        }, this, this.subscriptions)
+        
+        vscode.workspace.onDidChangeTextDocument((e) => {
+            if(settings().get<string>("whenToExecute") == "afterDelay"){
+                let delay = settings().get<number>("delay");
+                const restartExtraDelay = settings().get<number>("restartDelay");
+                delay += this.toAREPLLogic.restartMode ? restartExtraDelay : 0
                 this.pythonEvaluator.debounce(this.onAnyDocChange.bind(this, e.document), delay)
-            }, this, this.subscriptions)
-        }
-        else {} //third option is onKeybinding in which case user manually invokes arepl
+            }
+        }, this, this.subscriptions)
         
         vscode.workspace.onDidCloseTextDocument((e) => {
-            if(e == this.pythonEditor) this.dispose()
+            if(e == this.pythonEditorDoc) this.dispose()
         }, this, this.subscriptions)
     }
 
     private insertDefaultImports(editor: vscode.TextEditor){
         return editor.edit((editBuilder) => {
-            let imports = this.settings.get<string[]>("defaultImports")
+            let imports = settings().get<string[]>("defaultImports")
 
             imports = imports.filter(i => i.trim() != "")
             if(imports.length == 0) return
@@ -229,17 +279,17 @@ export default class PreviewManager {
     }
 
     private onAnyDocChange(event: vscode.TextDocument){
-        if(event == this.pythonEditor){
+        if(event == this.pythonEditorDoc){
 
             this.reporter.numRuns += 1
             if(this.pythonEvaluator.evaling){
                 this.reporter.numInterruptedRuns += 1
             }
 
-            this.status.show();
+            this.runningStatus.show();
 
             const text = event.getText()
-            const filePath = this.pythonEditor.isUntitled ? "" : this.pythonEditor.fileName
+            const filePath = this.pythonEditorDoc.isUntitled ? "" : this.pythonEditorDoc.fileName
             this.toAREPLLogic.onUserInput(text, filePath, event.eol == 1 ? "\n":"\r\n")
         }        
     }
