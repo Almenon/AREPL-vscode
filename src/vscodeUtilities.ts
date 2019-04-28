@@ -2,6 +2,15 @@
 import * as vscode from "vscode";
 
 export default class vscodeUtils {
+
+    /**
+     * returns doc eol as string;
+     * necessary because vscode stores it as a number for some stupid reason
+     */
+    static eol(doc: vscode.TextDocument){
+        return doc.eol == 1 ? "\n":"\r\n"
+    }
+
     static async newUnsavedPythonDoc(content = ""){
         const pyDoc = await vscode.workspace.openTextDocument({
             content,
