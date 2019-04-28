@@ -3,9 +3,11 @@
 ###########################################
 import re
 import datetime
+import decimal
 
 search = re.compile("(d)(?P<yo>o)f(g)").search("ffdofg")
 now = datetime.datetime.now()
+d = decimal.Decimal('1.55')
 
 ###########################################
 #                Expected Result
