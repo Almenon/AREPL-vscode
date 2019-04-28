@@ -193,11 +193,13 @@
         "command": "extension.executeAREPL",
         "key": "ctrl+shift+;",
         "mac": "cmd+shift+;",
-        "when": "!inQuickOpen && !terminalFocus"
+        "when": "!inQuickOpen && !terminalFocus && editorLangId == python"
       },
       {
         "command": "extension.executeAREPLBlock",
-        "when": "editorTextFocus"
+        "key": "ctrl+enter",
+        "mac": "ctrl+enter",
+        "when": "editorTextFocus && editorLangId == python"
       }
     ]
   },
