@@ -290,11 +290,10 @@ export default class PreviewManager {
                 this.reporter.numInterruptedRuns += 1
             }
 
-            this.runningStatus.show();
-
             const text = event.getText()
             const filePath = this.pythonEditorDoc.isUntitled ? "" : this.pythonEditorDoc.fileName
-            this.toAREPLLogic.onUserInput(text, filePath, vscodeUtils.eol(event), settings().get<boolean>('showGlobalVars'))
+            const codeRan = this.toAREPLLogic.onUserInput(text, filePath, vscodeUtils.eol(event), settings().get<boolean>('showGlobalVars'))
+            if(codeRan) this.runningStatus.show();
         }        
     }
 }

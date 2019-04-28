@@ -49,7 +49,7 @@ export class ToAREPLLogic{
         // user should be able to rerun code without changing anything
         // only scenario where we dont re-run is if just end section is changed
         if(endSection != this.lastEndSection && data.savedCode == this.lastSavedSection && data.evalCode == this.lastCodeSection){
-            return
+            return false
         }
 
         this.lastCodeSection = data.evalCode
@@ -68,6 +68,8 @@ export class ToAREPLLogic{
         else{                
             this.pythonEvaluator.execCode(data)
         }
+
+        return true
     }
 
     /**
