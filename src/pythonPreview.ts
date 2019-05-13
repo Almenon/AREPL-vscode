@@ -130,11 +130,7 @@ if r.status_code == 200:
 
     start(){
         this.panel = vscode.window.createWebviewPanel("arepl","AREPL", vscode.ViewColumn.Two,{
-            enableScripts:true,
-            // Only allow the webview to access resources in our extension's media directory
-            localResourceRoots: [
-                vscode.Uri.file(path.join(this.context.extensionPath, "media"))
-            ]
+            enableScripts:true
         });
         this.panel.webview.html = this.landingPage
         return this.panel;
