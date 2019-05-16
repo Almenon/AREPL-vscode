@@ -85,13 +85,17 @@ export default class PreviewManager {
             block = new vscode.Range(selection.start, selection.end)
         }
            
-        const codeLines = editor.document.getText(block)
+        let codeLines = editor.document.getText(block)
+        // hack: we want accurate line # info
+        // so we prepend lines to put codeLines in right spot
+        codeLines = vscodeUtils.eol(editor.document).repeat(block.start.line) + codeLines
         const filePath = editor.document.isUntitled ? "" : editor.document.fileName
         const data = {
             evalCode: codeLines,
             filePath,
             savedCode: '',
-            usePreviousVariables: true
+            usePreviousVariables: true,
+            showGlobalVars: settings().get<boolean>('showGlobalVars')
         }
         this.pythonEvaluator.execCode(data)
         this.runningStatus.show()
@@ -286,11 +290,10 @@ export default class PreviewManager {
                 this.reporter.numInterruptedRuns += 1
             }
 
-            this.runningStatus.show();
-
             const text = event.getText()
             const filePath = this.pythonEditorDoc.isUntitled ? "" : this.pythonEditorDoc.fileName
-            this.toAREPLLogic.onUserInput(text, filePath, event.eol == 1 ? "\n":"\r\n")
+            const codeRan = this.toAREPLLogic.onUserInput(text, filePath, vscodeUtils.eol(event), settings().get<boolean>('showGlobalVars'))
+            if(codeRan) this.runningStatus.show();
         }        
     }
 }

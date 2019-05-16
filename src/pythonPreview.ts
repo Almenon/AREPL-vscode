@@ -27,9 +27,17 @@ export default class PythonPreview{
     <p style="font-size:14px">⚠ <b style="color:red">WARNING:</b> code is evaluated WHILE YOU TYPE - don't try deleting files/folders! ⚠</p>
     <p>evaluation while you type can be turned off or adjusted in the settings</p>
     <br>
-    <h3>AREPL 1.0.14 🚀 🐛 "one punch"</h3>
+    <h3>AREPL 1.0.14 🚀 🔧 🐛 - now with foxdot support!</h3>
     <ul>
+        <li>🚀 You can run a piece of code without running entire file with ctrl+enter</li>
+
+        <li>🚀 code after a #$end comment is not evaluated in real-time</li>
+
+        <li>🚀 Foxdot can now be used in arepl (I suggest setting arepl.showGlobalVars to false and AREPL.whenToExecute to onKeybinding)</li>
+
         <li>🚀 Setting changes now take effect instantly (no need to reload arepl)</li>
+
+        <li>🔧 Added arepl.showGlobalVars setting you can turn off to skip showing global vars</li>
 
         <li>🐛 Fixed silent spawn error on mac</li>
     </ul>

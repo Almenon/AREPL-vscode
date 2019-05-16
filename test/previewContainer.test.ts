@@ -25,8 +25,6 @@ suite("PreviewContainer and pythonPreview Tests", () => {
     const panel = previewContainer.start()
 
     suiteSetup(function(done){
-        settings().update("inlineResults", true)
-
         // existing editor causes weird error for some reason
         vscode.commands.executeCommand("workbench.action.closeActiveEditor").then(()=>{
             // needed for inline errors
