@@ -55,8 +55,9 @@ export default class vscodeUtils {
      * returns current folder path or a string "could not find workspace folder" if no folder is open
      */
     static getCurrentWorkspaceFolder(){
-        if(vscode.workspace.workspaceFolders){
-            return vscode.workspace.workspaceFolders[0].uri.fsPath
+        const workspaceFolders = vscode.workspace.workspaceFolders
+        if(workspaceFolders && workspaceFolders.length > 0 && workspaceFolders[0]){
+            return workspaceFolders[0].uri.fsPath
         }
         else return "could not find workspace folder"
     }
