@@ -180,7 +180,7 @@ export default class PreviewManager {
         this.pythonEvaluator = new PythonEvaluator(pythonPath, pythonOptions)
         
         try {
-            this.pythonEvaluator.startPython()
+            this.pythonEvaluator.start()
         } catch (err) {
             if (err instanceof Error){
                 const error = `Error running python with command: ${pythonPath} ${pythonOptions.join(' ')}\n${err.stack}`
