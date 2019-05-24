@@ -3,6 +3,19 @@
 	"version": "0.1.0",
 	"configurations": [
 		{
+			"name": "Python: Remote Attach",
+			"type": "python",
+			"request": "attach",
+			"port": 5678,
+			"host": "localhost",
+			"pathMappings": [
+				{
+					"localRoot": "${workspaceFolder}",
+					"remoteRoot": "."
+				}
+			]
+		},
+		{
 			"name": "Python: Current File (Integrated Terminal)",
 			"type": "python",
 			"request": "launch",
@@ -15,10 +28,14 @@
 			"type": "extensionHost",
 			"request": "launch",
 			"runtimeExecutable": "${execPath}",
-			"args": ["--extensionDevelopmentPath=${workspaceRoot}" ],
+			"args": [
+				"--extensionDevelopmentPath=${workspaceRoot}"
+			],
 			"stopOnEntry": false,
 			"sourceMaps": true,
-			"outFiles": ["out/src"],
+			"outFiles": [
+				"out/src"
+			],
 			"preLaunchTask": "npm"
 		},
 		{
@@ -33,7 +50,9 @@
 			],
 			"stopOnEntry": false,
 			"sourceMaps": true,
-			"outFiles": ["out/test"],
+			"outFiles": [
+				"out/test"
+			],
 			"preLaunchTask": "npm"
 		}
 	]
