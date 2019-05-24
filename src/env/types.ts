@@ -4,7 +4,6 @@
 
 import { Socket } from 'net';
 import { ConfigurationTarget, DiagnosticSeverity, Disposable, DocumentSymbolProvider, Event, Extension, ExtensionContext, OutputChannel, Uri, WorkspaceEdit } from 'vscode';
-import { CommandsWithoutArgs } from './application/commands';
 import { EnvironmentVariables } from './variables/types';
 export const IOutputChannel = Symbol('IOutputChannel');
 export interface IOutputChannel extends OutputChannel { }
@@ -371,21 +370,6 @@ export type DeprecatedSettingAndValue = {
     setting: string;
     values?: {}[];
 };
-
-export type DeprecatedFeatureInfo = {
-    doNotDisplayPromptStateKey: string;
-    message: string;
-    moreInfoUrl: string;
-    commands?: CommandsWithoutArgs[];
-    setting?: DeprecatedSettingAndValue;
-};
-
-export const IFeatureDeprecationManager = Symbol('IFeatureDeprecationManager');
-
-export interface IFeatureDeprecationManager extends Disposable {
-    initialize(): void;
-    registerDeprecation(deprecatedInfo: DeprecatedFeatureInfo): void;
-}
 
 export const IEditorUtils = Symbol('IEditorUtils');
 export interface IEditorUtils {
