@@ -53,8 +53,8 @@ export default class PreviewManager {
         this.pythonEditorDoc = this.pythonEditor.document
         
         let panel = this.previewContainer.start();
-        this.subscriptions.push(panel)
         panel.onDidDispose(()=>this.dispose(), this, this.subscriptions)
+        this.subscriptions.push(panel)
 
         this.startAndBindPython()
 
