@@ -46,6 +46,11 @@
           "type": "boolean",
           "default": true
         },
+        "AREPL.customCSS": {
+          "type": "string",
+          "default": null,
+          "description": "injected into AREPL each run. Use 'Developer: Open Webview Developer Tools' command to inspect arepl html"
+        },
         "AREPL.delay": {
           "type": "number",
           "default": 300,

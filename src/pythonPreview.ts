@@ -122,6 +122,7 @@ if r.status_code == 200:
     private printContainer = this.emptyPrint;
     private timeContainer = ""
     private panel: vscode.WebviewPanel
+    private customCSS = ""
 
     constructor(private context: vscode.ExtensionContext, htmlUpdateFrequency=50) {
         this._onDidChange = new vscode.EventEmitter<vscode.Uri>();
@@ -185,6 +186,11 @@ if r.status_code == 200:
 
         this.errorContainer = `<div id="error">${err}</div>`
 
+        if(refresh) this.throttledUpdate()
+    }
+
+    public injectCustomCSS(css: string, refresh=false){
+        this.customCSS = css
         if(refresh) this.throttledUpdate()
     }
 
@@ -255,6 +261,7 @@ if r.status_code == 200:
         <head>
             <title>AREPL</title>
             ${this.css}
+            <style>${this.customCSS}</style>
             ${this.jsonRendererScript}
             ${this.jsonRendererCode}
         </head>

@@ -16,7 +16,7 @@ export class PreviewContainer{
     private pythonPreview: PythonPreview
     private vars: {}
 
-    constructor(private reporter: Reporter, private context: vscode.ExtensionContext, htmlUpdateFrequency=50){
+    constructor(private reporter: Reporter, context: vscode.ExtensionContext, htmlUpdateFrequency=50){
         this.pythonPreview = new PythonPreview(context, htmlUpdateFrequency);
         this.scheme = PythonPreview.scheme
         this.errorDecorationType = vscode.window.createTextEditorDecorationType({
@@ -77,10 +77,13 @@ export class PreviewContainer{
 
             if(this.printResults.length == 0) this.pythonPreview.clearPrint()
 
-            this.updateError(pythonResults.userError, true)
+            this.updateError(pythonResults.userError)
             if(settings().get('inlineResults')){
                 this.updateErrorGutterIcons(pythonResults.userError)
             }
+
+            this.pythonPreview.injectCustomCSS(settings().get('customCSS'))
+            this.pythonPreview.throttledUpdate()
 
             // clear print so empty for next program run
             if(pythonResults.done) this.printResults = [];
@@ -90,6 +93,8 @@ export class PreviewContainer{
                 this.reporter.sendError(error.name, error.stack)
             }
             else{
+                // in JS an error might NOT be an error???
+                // god i hate JS error handling
                 this.reporter.sendError('', error)
             }
         }
