@@ -21,13 +21,13 @@
     "menus": {
       "editor/title": [
       {
-        "when": "editorLangId == python && !arepl",
+        "when": "editorLangId == python && !arepl && config.AREPL.showIcons",
         "command": "extension.newAREPLSession",
         "alt": "extension.currentAREPLSession",
         "group": "navigation"
       },
       {
-        "when": "arepl",
+        "when": "arepl && config.AREPL.showIcons",
         "command": "extension.closeAREPL",
         "group": "navigation"
       }],
@@ -50,6 +50,10 @@
       "type": "object",
       "title": "AREPL configuration",
       "properties": {
+        "AREPL.showIcons": {
+          "type": "boolean",
+          "default": true
+        },
         "AREPL.skipLandingPage": {
           "type": "boolean",
           "default": false
@@ -61,7 +65,7 @@
         "AREPL.delay": {
           "type": "number",
           "default": 300,
-          "description": "delay in ms before executing code after typing"
+          "description": "delay in milliseconds before executing code after typing"
         },
         "AREPL.restartDelay": {
           "type": "number",
@@ -101,11 +105,12 @@
             "onKeybinding"
           ],
           "enumDescriptions": [
-            "execute python after a delay",
-            "execute python on save"
+            "after a delay",
+            "on save",
+            "on keyboard shortcut"
           ],
           "default": "afterDelay",
-          "description": "afterDelay: execute python after delay. onSave: when saving the document. onKeybinding: on whatever keys you have bound to executeAREPL."
+          "description": "When to execute python code in AREPL"
         },
         "AREPL.show_to_level": {
           "type": "number",
