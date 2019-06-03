@@ -1,3 +1,11 @@
+## [v1.0.15](https://github.com/Almenon/AREPL-vscode/milestone/34?closed=1) (06/02/2019) 🚀
+
+🚀 Added icon to launch arepl. Click on the cat to open arepl on the current document. Click on the cat again to close. If you highlight a piece of code arepl will be opened on a new doc with that code.
+
+🚀 Added customCSS setting for custom styling of arepl
+
+🐛 Fixed arepl failing on linux
+
 ## [v1.0.14](https://github.com/Almenon/AREPL-vscode/milestone/33?closed=1) (04/18/2019) 🚀
 
 🚀 Added ability to run blocks of code
