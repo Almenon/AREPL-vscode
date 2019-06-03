@@ -19,10 +19,16 @@
   "main": "./out/src/extension",
   "contributes": {
     "menus": {
-      "editor/title": [{
-        "when": "resourceLangId == python",
+      "editor/title": [
+      {
+        "when": "editorLangId == python && !arepl",
         "command": "extension.newAREPLSession",
         "alt": "extension.currentAREPLSession",
+        "group": "navigation"
+      },
+      {
+        "when": "arepl",
+        "command": "extension.closeAREPL",
         "group": "navigation"
       }],
       "editor/title/context": [
@@ -165,6 +171,12 @@
         "title": "eval python in real time (new doc)",
         "category": "AREPL",
         "icon": "./media/crappy8BitCatTransparent.png"
+      },
+      {
+        "command": "extension.closeAREPL",
+        "title": "closes AREPL",
+        "category": "AREPL",
+        "icon": "./media/crappy8BitCatTransparentFilled.png"
       },
       {
         "command": "extension.newAREPLSessionOnHighlightedCode",
