@@ -21,9 +21,15 @@
     "menus": {
       "editor/title": [
       {
-        "when": "editorLangId == python && !arepl && config.AREPL.showIcons",
+        "when": "editorLangId == python && !arepl && editorHasSelection && config.AREPL.showIcons",
         "command": "extension.newAREPLSession",
         "alt": "extension.currentAREPLSession",
+        "group": "navigation"
+      },
+      {
+        "when": "editorLangId == python && !arepl && !editorHasSelection && config.AREPL.showIcons",
+        "command": "extension.currentAREPLSession",
+        "alt": "extension.newAREPLSession",
         "group": "navigation"
       },
       {
@@ -105,12 +111,12 @@
             "onKeybinding"
           ],
           "enumDescriptions": [
-            "after a delay",
+            "after a delay (change AREPL.delay to control the amount)",
             "on save",
             "on keyboard shortcut"
           ],
           "default": "afterDelay",
-          "description": "When to execute python code in AREPL"
+          "description": "When to execute your code"
         },
         "AREPL.show_to_level": {
           "type": "number",
@@ -169,7 +175,8 @@
       {
         "command": "extension.currentAREPLSession",
         "title": "eval python in real time (current doc)",
-        "category": "AREPL"
+        "category": "AREPL",
+        "icon": "./media/crappy8BitCatTransparent.png"
       },
       {
         "command": "extension.newAREPLSession",
