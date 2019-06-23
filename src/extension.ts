@@ -20,6 +20,10 @@ export function activate(context: vscode.ExtensionContext) {
             .then(()=>{previewManager.startArepl()});
     });
 
+    const closeArepl = vscode.commands.registerCommand("extension.closeAREPL", ()=>{
+        previewManager.dispose()
+    });
+
     // exact same as above, just defining command so users are aware of the feature
     const areplOnHighlightedCode = vscode.commands.registerCommand("extension.newAREPLSessionOnHighlightedCode", ()=>{
         vscodeUtils.newUnsavedPythonDoc(vscodeUtils.getHighlightedText())
@@ -35,7 +39,7 @@ export function activate(context: vscode.ExtensionContext) {
     });
 
     // push to subscriptions list so that they are disposed automatically
-    context.subscriptions.push(...[arepl, newAreplSession, areplOnHighlightedCode, executeAREPL, executeAREPLBlock]);
+    context.subscriptions.push(...[arepl, newAreplSession, closeArepl, areplOnHighlightedCode, executeAREPL, executeAREPLBlock]);
 
     // registering arepldump last in case it errors out
     // (an error here will lead to the user not being to import arepldump)

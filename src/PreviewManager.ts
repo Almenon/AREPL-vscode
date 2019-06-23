@@ -42,6 +42,9 @@ export default class PreviewManager {
     }
 
     async startArepl(){
+        // see https://github.com/Microsoft/vscode/issues/46445
+        vscode.commands.executeCommand("setContext", "arepl", true)
+
         // reload reporter (its disposed when arepl is closed)
         this.reporter = new Reporter(settings().get<boolean>("telemetry"))
 
@@ -111,6 +114,8 @@ export default class PreviewManager {
     }
 
     dispose() {
+        vscode.commands.executeCommand("setContext", "arepl", false)
+
         if(this.pythonEvaluator.pyshell != null && this.pythonEvaluator.pyshell.childProcess != null){
             this.pythonEvaluator.stop()
         }

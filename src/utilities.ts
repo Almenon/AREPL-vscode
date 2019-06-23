@@ -1,7 +1,5 @@
 "use strict"
 
-import { EOL } from "os";
-
 export default class Utilities {
     static isEmpty(obj: {}) {
         return Object.keys(obj).length === 0;
