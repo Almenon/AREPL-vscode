@@ -1,3 +1,7 @@
+## [v1.0.16](https://github.com/Almenon/AREPL-vscode/milestone/35?closed=1) (06/30/2019) 🚀
+
+🐛 Fixed Conda env not working whatsoever. Conda will still not work with numpy but you can use it with other stuff now. 
+
 ## [v1.0.15](https://github.com/Almenon/AREPL-vscode/milestone/34?closed=1) (06/02/2019) 🚀
 
 🚀 Added icon to launch arepl. Click on the cat to open arepl on the current document. Click on the cat again to close. If you highlight a piece of code arepl will be opened on a new doc with that code.

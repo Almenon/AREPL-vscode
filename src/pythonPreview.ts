@@ -27,11 +27,9 @@ export default class PythonPreview{
     <p style="font-size:14px">⚠ <b style="color:red">WARNING:</b> code is evaluated WHILE YOU TYPE - don't try deleting files/folders! ⚠</p>
     <p>evaluation while you type can be turned off or adjusted in the settings</p>
     <br>
-    <h3>AREPL 1.0.15 🚀 🐛 - Thanks to @m3thr1l and @nbahmanyar for their feedback</h3>
+    <h3>AREPL 1.0.16 🚀 🐛 - sunset</h3>
     <ul>
-        <li>🚀 Added icon to launch arepl. Click on the cat to open arepl on the current document. Click on the cat again to close. If you highlight a piece of code arepl will be opened on a new doc with that code. If you don't like the icon you can turn it off in the settings. I am clearly not a artist so if you can make a better icon please let me know.</li>
-        <li>🚀 Added customCSS setting for custom styling of arepl. For example, <code>span { font-size: 40px; }</code> would increase the font-size</li>
-        <li>🐛 Fixed arepl failing on linux</li>
+        <li>🐛 Fixed Conda env not working whatsoever. Conda will still not work with numpy but you can use it with other stuff now. </li>
     </ul>
     <br>
     
