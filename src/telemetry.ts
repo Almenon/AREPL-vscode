@@ -3,6 +3,7 @@ import { extensions, WorkspaceConfiguration } from "vscode";
 import TelemetryReporter from "vscode-extension-telemetry";
 import { userInfo } from "os";
 import { sep } from "path";
+import areplUtils from "./areplUtilities";
 
 export default class Reporter{
     private reporter: TelemetryReporter
@@ -77,7 +78,7 @@ export default class Reporter{
                 properties[key] = settingsDict[key]
             }
             
-            properties['pythonPath'] = this.anonymizePaths(properties['pythonPath'])
+            properties['pythonPath'] = this.anonymizePaths(areplUtils.getPythonPath())
 
             this.reporter.sendTelemetryEvent("closed", properties, measurements)
 
