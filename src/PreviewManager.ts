@@ -1,5 +1,5 @@
 "use strict"
-import {PythonEvaluator} from "arepl-backend"
+import {python_evaluator} from "arepl-backend"
 import * as vscode from "vscode"
 import { PreviewContainer } from "./previewContainer"
 import Reporter from "./telemetry"
@@ -17,7 +17,7 @@ export default class PreviewManager {
     reporter: Reporter;
     disposable: vscode.Disposable;
     pythonEditorDoc: vscode.TextDocument;
-    pythonEvaluator: PythonEvaluator;
+    python_evaluator: python_evaluator;
     runningStatus: vscode.StatusBarItem;
     toAREPLLogic: ToAREPLLogic
     previewContainer: PreviewContainer
@@ -99,7 +99,7 @@ export default class PreviewManager {
             usePreviousVariables: true,
             showGlobalVars: settings().get<boolean>('showGlobalVars')
         }
-        this.pythonEvaluator.execCode(data)
+        this.python_evaluator.execCode(data)
         this.runningStatus.show()
 
         if(editor){
@@ -115,8 +115,8 @@ export default class PreviewManager {
     dispose() {
         vscode.commands.executeCommand("setContext", "arepl", false)
 
-        if(this.pythonEvaluator.pyshell != null && this.pythonEvaluator.pyshell.childProcess != null){
-            this.pythonEvaluator.stop()
+        if(this.python_evaluator.pyshell != null && this.python_evaluator.pyshell.childProcess != null){
+            this.python_evaluator.stop()
         }
 
         this.disposable = vscode.Disposable.from(...this.subscriptions);
@@ -151,10 +151,10 @@ export default class PreviewManager {
             console.error(s)
         })
 
-        this.pythonEvaluator = new PythonEvaluator(pythonPath, pythonOptions)
+        this.python_evaluator = new python_evaluator(pythonPath, pythonOptions)
         
         try {
-            this.pythonEvaluator.start()
+            this.python_evaluator.start()
         } catch (err) {
             if (err instanceof Error){
                 const error = `Error running python with command: ${pythonPath} ${pythonOptions.join(' ')}\n${err.stack}`
@@ -166,7 +166,7 @@ export default class PreviewManager {
                 console.error(err)
             }
         }
-        this.pythonEvaluator.pyshell.childProcess.on("error", err => {
+        this.python_evaluator.pyshell.childProcess.on("error", err => {
             /* The 'error' event is emitted whenever:
             The process could not be spawned, or
             The process could not be killed, or
@@ -179,7 +179,7 @@ export default class PreviewManager {
             // @ts-ignore 
             this.reporter.sendError(err.code, err.stack, error.errno, 'spawn')
         })
-        this.pythonEvaluator.pyshell.childProcess.on("exit", err => {
+        this.python_evaluator.pyshell.childProcess.on("exit", err => {
             /* The 'exit' event is emitted after the child process ends */
             // that's what node doc CLAIMS ..... 
             // but when i debug this never gets called unless there's a unexpected error :/
@@ -190,14 +190,14 @@ export default class PreviewManager {
             this.reporter.sendError('exit', null, err, 'spawn')
         })
 
-        this.toAREPLLogic = new ToAREPLLogic(this.pythonEvaluator, this.previewContainer)
+        this.toAREPLLogic = new ToAREPLLogic(this.python_evaluator, this.previewContainer)
 
-        // binding this to the class so it doesn't get overwritten by PythonEvaluator
-        this.pythonEvaluator.onPrint = this.previewContainer.handlePrint.bind(this.previewContainer)
+        // binding this to the class so it doesn't get overwritten by python_evaluator
+        this.python_evaluator.onPrint = this.previewContainer.handlePrint.bind(this.previewContainer)
         // this is bad - stderr should be handled seperately so user is aware its different
         // but better than not showing stderr at all, so for now printing it out and ill fix later
-        this.pythonEvaluator.onStderr = this.previewContainer.handlePrint.bind(this.previewContainer)
-        this.pythonEvaluator.onResult = result => {
+        this.python_evaluator.onStderr = this.previewContainer.handlePrint.bind(this.previewContainer)
+        this.python_evaluator.onResult = result => {
             this.runningStatus.hide()
             this.previewContainer.handleResult(result)
         }
@@ -224,7 +224,7 @@ export default class PreviewManager {
                 let delay = settings().get<number>("delay");
                 const restartExtraDelay = settings().get<number>("restartDelay");
                 delay += this.toAREPLLogic.restartMode ? restartExtraDelay : 0
-                this.pythonEvaluator.debounce(this.onAnyDocChange.bind(this, e.document), delay)
+                this.python_evaluator.debounce(this.onAnyDocChange.bind(this, e.document), delay)
             }
         }, this, this.subscriptions)
         
@@ -238,7 +238,7 @@ export default class PreviewManager {
         if(event == this.pythonEditorDoc){
 
             this.reporter.numRuns += 1
-            if(this.pythonEvaluator.evaling){
+            if(this.python_evaluator.evaling){
                 this.reporter.numInterruptedRuns += 1
             }
 
