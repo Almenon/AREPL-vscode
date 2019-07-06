@@ -14,7 +14,6 @@ import * as assert from "assert";
 import * as vscode from "vscode";
 import PreviewManager from "../src/PreviewManager"
 import vscodeUtils from "../src/vscodeUtilities";
-import utilities from "../src/utilities";
 import { EOL } from "os";
 
 /*
