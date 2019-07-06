@@ -30,6 +30,7 @@ export default class PythonPreview{
     <h3>AREPL 1.0.16 🚀 🐛 - sunset</h3>
     <ul>
         <li>🐛 Fixed Conda env not working whatsoever. Conda will still not work with numpy but you can use it with other stuff now. </li>
+        <li>I am not seeing a increase in users so I will probably start working on other projects. Unless someone steps in to help with the development expect updates to be less frequent. To my current users, thanks for the good reviews and feedback. It means a lot.</li>
     </ul>
     <br>
     
