@@ -8,6 +8,7 @@ import vscodeUtils from "./vscodeUtilities"
 import areplUtils from "./areplUtilities"
 import { PythonShell } from "python-shell"
 import {settings} from "./settings"
+import printDir from "../personal/testPrintDir";
 
 /**
  * class with logic for starting arepl and arepl preview
@@ -73,6 +74,22 @@ export default class PreviewManager {
 
     runArepl(){
         this.onAnyDocChange(this.pythonEditorDoc)
+    }
+
+    /**
+     * adds print() or print(dir()) if line ends in .
+     * ex: x=1; print(x)
+     */
+    printDir(){
+        // todo: add command to invoke this
+
+        const editor = vscode.window.activeTextEditor
+        const selection = editor.selection
+        if(!selection.isSingleLine) return
+        let codeLines = editor.document.getText()
+
+        let codeLinesArr = printDir(codeLines.split(vscodeUtils.eol(editor.document)), selection.start.line)
+        // todo: how to connect this with onAnyDocChange?
     }
 
     runAreplBlock() {
