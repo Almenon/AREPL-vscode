@@ -8,7 +8,7 @@ import vscodeUtils from "./vscodeUtilities"
 import areplUtils from "./areplUtilities"
 import { PythonShell } from "python-shell"
 import {settings} from "./settings"
-import printDir from "../personal/testPrintDir";
+import printDir from "./printDir";
 
 /**
  * class with logic for starting arepl and arepl preview
