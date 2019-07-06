@@ -22,7 +22,7 @@ suite("printDir", () => {
         let currentLine = "  foo"
         let result = printDir(currentLine.split('\n'),0)
         
-        assert.equal(result[0], currentLine+';  print(  foo)')
+        assert.equal(result[0], currentLine+'; print(  foo)')
     })
 
     test("print(dir())'s var ending with .", () => {
@@ -44,11 +44,11 @@ suite("printDir", () => {
 
         var currentLine = "if(1+1==2):"
         var result = printDir(currentLine.split('\n'),0)
-        assert.equal(result.includes('print('), true)
+        assert.equal(result[0].includes('print('), true)
         
         var currentLine = "if 1+1==2:"
         var result = printDir(currentLine.split('\n'),0)
-        assert.equal(result.includes('print('), true)
+        assert.equal(result[0].includes('print('), true)
     })
 
 })
