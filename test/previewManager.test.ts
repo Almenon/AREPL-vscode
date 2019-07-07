@@ -53,7 +53,7 @@ suite("PreviewManager and pythonPreview Tests", () => {
     })
 
     test("default imports should be inserted", function(){
-        assert.equal(editor.document.getText(), "from arepldump import dump" + EOL)
+        assert.equal(editor.document.getText(), "from arepl_dump import dump" + EOL)
     });
 
     test("webview should be displayed", function(){

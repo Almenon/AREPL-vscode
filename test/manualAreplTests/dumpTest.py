@@ -1,4 +1,4 @@
-from arepldump import dump
+from arepl_dump import dump
 import sys
 
 def foo():

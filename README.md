@@ -35,7 +35,7 @@ or use the shortcuts: `control-shift-a` (current doc) / `control-shift-q` (new d
 If you want to dump local variables or dump variables at a specific point in your program you can use the dump function:
 
 ```python
-from arepldump import dump 
+from arepl_dump import dump 
 
 def milesToKilometers(miles):
     kilometers = miles*1.60934

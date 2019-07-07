@@ -161,7 +161,7 @@
         "AREPL.defaultImports": {
           "type": "array",
           "default": [
-            "from arepldump import dump"
+            "from arepl_dump import dump"
           ],
           "description": "default imports for new AREPL sessions. dump is included by default so you can use it to inspect variables & local scopes"
         },

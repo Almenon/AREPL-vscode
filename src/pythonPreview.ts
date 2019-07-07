@@ -45,7 +45,7 @@ print(y)
 
 <h4>Dumping</h4>
 <code style="white-space:pre-wrap">
-from arepldump import dump 
+from arepl_dump import dump 
 
 def milesToKilometers(miles):
     kilometers = miles*1.60934
