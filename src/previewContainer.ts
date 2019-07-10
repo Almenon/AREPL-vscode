@@ -71,7 +71,12 @@ export class PreviewContainer{
 
             if(pythonResults.internalError){
                 // todo: change backend code to send error name
-                this.reporter.sendError('', pythonResults.internalError, 0, 'python.internal')
+
+                // first word of last line is usually error name
+                const lastLine = pythonResults.internalError.trimRight().split('\n')
+                const firstWordOfLastLine = lastLine.pop().split(' ')[0].replace(':', '')
+
+                this.reporter.sendError(firstWordOfLastLine, pythonResults.internalError, 0, 'python.internal')
                 pythonResults.userError = pythonResults.internalError
             }
 
