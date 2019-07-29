@@ -165,6 +165,13 @@
           ],
           "description": "default imports for new AREPL sessions. dump is included by default so you can use it to inspect variables & local scopes"
         },
+        "AREPL.unsafeKeywords": {
+          "type": "array",
+          "default": [
+            "rmdir\\("
+          ],
+          "description": "AREPL will not evaulate your code in real-time mode if one of these keywords are detected. Keywords are applied via regex."
+        },
         "AREPL.telemetry": {
           "type": "boolean",
           "default": true,

@@ -261,8 +261,27 @@ export default class PreviewManager {
 
             const text = event.getText()
             const filePath = this.pythonEditorDoc.isUntitled ? "" : this.pythonEditorDoc.fileName
-            const codeRan = this.toAREPLLogic.onUserInput(text, filePath, vscodeUtils.eol(event), settings().get<boolean>('showGlobalVars'))
-            if(codeRan) this.runningStatus.show();
+            try {
+                const codeRan = this.toAREPLLogic.onUserInput(text, filePath, vscodeUtils.eol(event), settings().get<boolean>('showGlobalVars'))
+                if(codeRan) this.runningStatus.show();
+            } catch (error) {
+                if(error instanceof Error){
+                    if(error.message == "unsafeKeyword"){
+                        const unsafeKeywords = settings().get<string[]>('unsafeKeywords')
+                        this.previewContainer.updateError(`unsafe keyword detected. 
+Doing irreversible operations like deleting folders is very dangerous in a live editor. 
+If you want to continue please clear arepl.unsafeKeywords setting. 
+Currently arepl.unsafeKeywords is set to ["${unsafeKeywords.join('", "')}"]`, true)
+                        return
+                    }
+                    else{
+                        console.error(error)
+                        this.reporter.sendError(error.name, error.stack, 0)
+                        this.previewContainer.updateError(`internal arepl error: ${error.name} stack: ${error.stack}`, true) 
+                    }
+                }
+                throw error;
+            }
         }        
     }
 }

@@ -1,6 +1,7 @@
 import {python_evaluator} from "arepl-backend"
 import {PreviewContainer} from "./previewContainer"
 import pyGuiLibraryIsPresent from "./pyGuiLibraryIsPresent"
+import {settings} from "./settings"
 
 /**
  * formats text for passing into AREPL backend
@@ -16,6 +17,18 @@ export class ToAREPLLogic{
 
     constructor(private python_evaluator: python_evaluator, private previewContainer: PreviewContainer){
 
+    }
+
+    public scanForUnsafeKeywords(text: string, unsafeKeywords: string[]=[]){
+        const commentChar = "#"
+
+        // user may try to clear setting just by deleting word
+        // in that case make sure its cleared correctly
+        if(unsafeKeywords.length == 1 && unsafeKeywords[0].trim() == '') unsafeKeywords = []
+        if(unsafeKeywords.length == 0) return false
+        const unsafeKeywordsRe = new RegExp(`^[^${commentChar}]*${unsafeKeywords.join('|')}`)
+
+        return unsafeKeywordsRe.test(text)
     }
 
     public onUserInput(text: string, filePath: string, eol: string, showGlobalVars=true) {
@@ -37,7 +50,14 @@ export class ToAREPLLogic{
         });
         const endSection = codeLines.slice(endLineNum).join(eol)
         codeLines = codeLines.slice(startLineNum, endLineNum)
-        
+    
+        const unsafeKeywords = settings().get<string[]>('unsafeKeywords')
+        const realTime = settings().get<string>("whenToExecute") == "afterDelay"
+        // if not real-time we trust user to only run safe code
+        if(realTime && this.scanForUnsafeKeywords(codeLines.join(eol), unsafeKeywords)){
+            throw Error("unsafeKeyword")
+        }
+
         const data = {
             evalCode: codeLines.join(eol),
             filePath,
