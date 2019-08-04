@@ -27,10 +27,10 @@ export default class PythonPreview{
     <p style="font-size:14px">⚠ <b style="color:red">WARNING:</b> code is evaluated WHILE YOU TYPE - don't try deleting files/folders! ⚠</p>
     <p>evaluation while you type can be turned off or adjusted in the settings</p>
     <br>
-    <h3>AREPL 1.0.16 🚀 🐛 - sunset</h3>
+    <h3>AREPL 1.0.17 🚀 🐛 - Dance Party</h3>
     <ul>
-        <li>🐛 Fixed Conda env not working whatsoever. Conda will still not work with numpy but you can use it with other stuff now. </li>
-        <li>I am not seeing a increase in users so I will probably start working on other projects. Unless someone steps in to help with the development expect updates to be less frequent. To my current users, thanks for the good reviews and feedback. It means a lot.</li>
+        <li>Help me make arepl better by filling out this short survey: https://forms.gle/m7xirfRnSRoPAe9e9</li>
+        <li>🚀 unsafe keywords like rmdir are now banned in realtime mode. Using them is dangerous because you might accidentily delete something</li>
     </ul>
     <br>
     
