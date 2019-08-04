@@ -177,7 +177,7 @@ export default class PreviewManager {
                 const error = `Error running python with command: ${pythonPath} ${pythonOptions.join(' ')}\n${err.stack}`
                 this.previewContainer.displayProcessError(error);
                 // @ts-ignore 
-                this.reporter.sendError(err.name+' '+err.message, err.stack, error.errno, 'spawn')            
+                this.reporter.sendError(err, error.errno, 'spawn')            
             }
             else{
                 console.error(err)
@@ -194,7 +194,7 @@ export default class PreviewManager {
             const error = `Error running python with command: ${err.path} ${err.spawnargs.join(' ')}\n${err.stack}`
             this.previewContainer.displayProcessError(error);
             // @ts-ignore 
-            this.reporter.sendError(err.code, err.stack, error.errno, 'spawn')
+            this.reporter.sendError(err, error.errno, 'spawn')
         })
         this.python_evaluator.pyshell.childProcess.on("exit", err => {
             /* The 'exit' event is emitted after the child process ends */
@@ -204,7 +204,7 @@ export default class PreviewManager {
             if(!err) return // normal exit
             const error = `AREPL crashed unexpectedly! Are you using python 3? err: ${err}`
             this.previewContainer.displayProcessError(error);
-            this.reporter.sendError('exit', null, err, 'spawn')
+            this.reporter.sendError(new Error('exit'), err, 'spawn')
         })
 
         this.toAREPLLogic = new ToAREPLLogic(this.python_evaluator, this.previewContainer)
@@ -276,7 +276,7 @@ Currently arepl.unsafeKeywords is set to ["${unsafeKeywords.join('", "')}"]`, tr
                     }
                     else{
                         console.error(error)
-                        this.reporter.sendError(error.name, error.stack, 0)
+                        this.reporter.sendError(error)
                         this.previewContainer.updateError(`internal arepl error: ${error.name} stack: ${error.stack}`, true) 
                     }
                 }

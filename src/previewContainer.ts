@@ -76,7 +76,10 @@ export class PreviewContainer{
                 const lastLine = pythonResults.internalError.trimRight().split('\n')
                 const firstWordOfLastLine = lastLine.pop().split(' ')[0].replace(':', '')
 
-                this.reporter.sendError(firstWordOfLastLine, pythonResults.internalError, 0, 'python.internal')
+                const error = new Error(firstWordOfLastLine)
+                error.stack = pythonResults.internalError
+
+                this.reporter.sendError(error, 0, 'python.internal')
                 pythonResults.userError = pythonResults.internalError
             }
 
@@ -95,12 +98,12 @@ export class PreviewContainer{
         } catch (error) {
             vscode.window.showErrorMessage(error)
             if(error instanceof Error){
-                this.reporter.sendError(error.name, error.stack)
+                this.reporter.sendError(error)
             }
             else{
                 // in JS an error might NOT be an error???
                 // god i hate JS error handling
-                this.reporter.sendError('', error)
+                this.reporter.sendError(new Error(error))
             }
         }
 
@@ -141,10 +144,10 @@ export class PreviewContainer{
 
         } catch (error) {
             if(error instanceof Error){
-                this.reporter.sendError(error.name, error.stack)
+                this.reporter.sendError(error)
             }
             else{
-                this.reporter.sendError('', error)
+                this.reporter.sendError(new Error(error))
             }
         }
     }

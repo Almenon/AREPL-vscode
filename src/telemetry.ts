@@ -29,22 +29,21 @@ export default class Reporter{
         this.resetMeasurements()
     }
 
-    sendError(name: string, stackTrace: string, code: number = 0, category='typescript'){
-        console.error(`${category} error: ${name} code ${code}\n${stackTrace}`)
+    sendError(error: Error, code: number = 0, category='typescript'){
+        console.error(`${category} error: ${error.name} code ${code}\n${error.stack}`)
         if(this.enabled){
+            
+            error.stack = this.anonymizePaths(error.stack)
+            
             // no point in sending same error twice (and we want to stay under free API limit)
-            if(stackTrace == this.lastStackTrace) return
+            if(error.stack == this.lastStackTrace) return
 
-            stackTrace = this.anonymizePaths(stackTrace)
-
-            this.reporter.sendTelemetryEvent("error", {
+            this.reporter.sendTelemetryException(error, {
                 code: code.toString(),
-                name,
-                stackTrace,
                 category,
             })
 
-            this.lastStackTrace = stackTrace
+            this.lastStackTrace = error.stack
         }
     }
 
