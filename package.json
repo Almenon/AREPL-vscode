@@ -168,7 +168,8 @@
         "AREPL.unsafeKeywords": {
           "type": "array",
           "default": [
-            "rmdir\\("
+            "rmdir\\(",
+            "rmtree\\("
           ],
           "description": "AREPL will not evaulate your code in real-time mode if one of these keywords are detected. Keywords are applied via regex."
         },
