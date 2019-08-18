@@ -26,23 +26,21 @@ or use the shortcuts: `control-shift-a` (current doc) / `control-shift-q` (new d
 
 * Settings: AREPL offers many settings to fit your user experience.  Customize the look and feel, debounce time, python options, and more!
 
-
-
 ## Misc
 
-**Dumping**
+### Dumping
 
 If you want to dump local variables or dump variables at a specific point in your program you can use the dump function:
 
 ```python
-from arepl_dump import dump 
+from arepl_dump import dump
 
 def milesToKilometers(miles):
     kilometers = miles*1.60934
     dump() # dumps all the vars in your function
 
     # or dump when function is called for a second time
-    dump(None,1) 
+    dump(None,1)
 
 milesToKilometers(2*2)
 milesToKilometers(3*3)
@@ -55,19 +53,19 @@ dump(a) # dump specific vars at any point in your program
 a=2
 ```
 
-**STDIN**
+### STDIN
 
 see https://github.com/Almenon/AREPL-vscode/wiki/Using-AREPL-with-input
 
-**HOWDOI**
+### HOWDOI
 
-You can use [howdoi](https://github.com/gleitz/howdoi) with arepl:
+You can use [howdoi](https://github.com/gleitz/howdoi) with arepl.
 
-From the terminal / command line:
+First install in the terminal / command line:
 
 > pip install howdoi
 
-Then in arepl you can use howdoi to get answers to your questions. For example:
+Then reopen arepl and you will be able to use howdoi to get answers to your questions. For example:
 
 ```python
 howdoi('calculate fibbonaci in python')
@@ -75,11 +73,11 @@ howdoi('calculate fibbonaci in python')
 
  will give you a function to calcualate a fibonaci number
 
-**GUIS**
+### GUIS
 
 see https://github.com/Almenon/AREPL-vscode/wiki/Using-AREPL-with-GUI's
 
-**#$save**
+### #$save
 
 If you want to avoid a section of code being executed in real-time (due to it being slow or calling external resources) you can use \#\$save.  For example:
 
@@ -99,6 +97,7 @@ result = largest_prime_factor(8008514751439999)
 #$save
 print("but now that i saved i am back to real-time execution")
 ```
+
 ```python
 import random
 x = random.random()
@@ -110,15 +109,15 @@ Please note that \#\$save [does not work](https://github.com/Almenon/AREPL-vscod
 
 Alternatively, you can use the [areplStore variable](https://github.com/Almenon/AREPL-vscode/wiki/Caching-data-between-runs) to store data in between runs.
 
-
-**Variable Representation**
+### Variable Representation
 
 I have [overridden the display](https://github.com/Almenon/AREPL-backend/blob/master/python/customHandlers.py) of some types (like datetime) to be more readable to humans.
 
 If you want a type to be displayed in a particular manner just [file an issue](https://github.com/Almenon/AREPL-vscode/issues)
 
+### More Stuff
 
-**More Stuff:** Check out the [wiki](https://github.com/Almenon/AREPL-vscode/wiki)!
+Check out the [wiki](https://github.com/Almenon/AREPL-vscode/wiki)!
 
 #### Contributing to the project
 
