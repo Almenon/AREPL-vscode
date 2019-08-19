@@ -242,7 +242,7 @@
       {
         "command": "extension.executeAREPLBlock",
         "key": "ctrl+enter",
-        "mac": "ctrl+enter",
+        "mac": "cmd+enter",
         "when": "editorTextFocus && editorLangId == python"
       }
     ]

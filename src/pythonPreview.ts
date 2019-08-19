@@ -31,6 +31,7 @@ export default class PythonPreview{
     <ul>
         <li>Help me make arepl better by filling out this short survey: <a href="https://forms.gle/m7xirfRnSRoPAe9e9">https://forms.gle/m7xirfRnSRoPAe9e9</a></li>
         <li>🔧 rmdir and rmtree are banned in realtime mode. Using them is dangerous because you might accidentily delete data. You can change this by modifying AREPL.unsafeKeywords setting</li>
+        <li>🔧 Changed mac keybinding for executeAREPLBlock from ctrl-enter to cmd-enter.</li>
     </ul>
     <br>
     
