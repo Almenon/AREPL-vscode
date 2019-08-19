@@ -132,6 +132,8 @@ print(x) # 3
 upload_results_to_s3(x)
 ```
 
+Note that you can also use control-enter to run a block of code outside `#$end`.
+
 ### Variable Representation
 
 I have [overridden the display](https://github.com/Almenon/AREPL-backend/blob/master/python/customHandlers.py) of some types (like datetime) to be more readable to humans.
