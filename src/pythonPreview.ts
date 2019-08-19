@@ -29,7 +29,7 @@ export default class PythonPreview{
     <br>
     <h3>AREPL 1.0.17 🔧 - Dance Party</h3>
     <ul>
-        <li>Help me make arepl better by filling out this short survey: https://forms.gle/m7xirfRnSRoPAe9e9</li>
+        <li>Help me make arepl better by filling out this short survey: <a href="https://forms.gle/m7xirfRnSRoPAe9e9">https://forms.gle/m7xirfRnSRoPAe9e9</a></li>
         <li>🔧 rmdir and rmtree are banned in realtime mode. Using them is dangerous because you might accidentily delete data. You can change this by modifying AREPL.unsafeKeywords setting</li>
     </ul>
     <br>
