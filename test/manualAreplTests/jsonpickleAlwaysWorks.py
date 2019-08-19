@@ -10,3 +10,21 @@ g = foo2()
 
 good = "good"
 
+
+""" EXPECTED RESULT
+-{
+    f: "AREPL could not pickle this object",
+    foo: -{
+        py/type: "__main__.foo"
+    },
+    foo2: -{
+        py/type: "__main__.foo2"
+    },
+    g: -{
+        py/object: "__main__.foo2",
+        py/state: "custom display"
+    },
+    good: "good"
+}
+0 ms
+"""

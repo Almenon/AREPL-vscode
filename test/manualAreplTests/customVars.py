@@ -14,8 +14,9 @@ d = decimal.Decimal('1.55')
 ###########################################
 """
 -{
+    d: 1.55,
     now: -{
-        date/time: "2018-06-09 14:10:02.908383"
+        date/time: "2019-08-18 18:21:30.763471"
     },
     search: -{
         py/object: "_sre.SRE_Match",
@@ -24,4 +25,6 @@ d = decimal.Decimal('1.55')
         span: +[2 items]
     }
 }
+0 ms
 """
+

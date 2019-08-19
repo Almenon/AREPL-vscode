@@ -1,3 +1,6 @@
+# disable showing of global vars first
+# else you will get like 10 billion global vars
+
 from FoxDot import *
 
 
