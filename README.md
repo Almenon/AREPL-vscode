@@ -105,9 +105,32 @@ x = random.random()
 print(x) # this number will not change when editing below the #$save line
 ```
 
-Please note that \#\$save [does not work](https://github.com/Almenon/AREPL-vscode/issues/53) with certain types, like generators.  If #$save fails in pickling the code state [file an issue](https://github.com/Almenon/AREPL-vscode/issues) so I can look into it. 
+Please note that \#\$save [does not work](https://github.com/Almenon/AREPL-vscode/issues/53) with certain types, like generators.  If #$save fails in pickling the code state [file an issue](https://github.com/Almenon/AREPL-vscode/issues) so I can look into it.
 
 Alternatively, you can use the [areplStore variable](https://github.com/Almenon/AREPL-vscode/wiki/Caching-data-between-runs) to store data in between runs.
+
+### #$end
+
+Use the `#$end` comment to indicate the end of the real-time code. Code after `#$end` will not be executed in real-time.
+This is useful if you have something specific you want to run without running the entire file along with it. For example:
+
+```python
+x = calculate_all_digits_of_pi()
+
+#$end
+
+# I can inspect variables without rerunning calculate_all_digits_of_pi
+# the shortcut is control-enter - the code block should flash yellow.
+print(x) # 3.14......
+
+# I can also temporarily change the state of variables
+# note that control-enter will run all adjacent lines of code
+x = math.floor(x)
+print(x) # 3
+
+# i only want to do this once I've determined that x is correct
+upload_results_to_s3(x)
+```
 
 ### Variable Representation
 
