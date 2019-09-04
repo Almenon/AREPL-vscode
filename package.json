@@ -244,6 +244,12 @@
         "key": "ctrl+enter",
         "mac": "cmd+enter",
         "when": "editorTextFocus && editorLangId == python"
+      },
+      {
+        "command": "extension.printDir",
+        "key": "alt+enter",
+        "mac": "alt+enter",
+        "when": "editorTextFocus && editorLangId == python"
       }
     ]
   },

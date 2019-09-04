@@ -79,16 +79,16 @@ export default class PreviewManager {
     /**
      * adds print() or print(dir()) if line ends in .
      * ex: x=1; print(x)
+     * Then runs it
      */
     printDir(){
-        // todo: add command to invoke this
 
-        const editor = vscode.window.activeTextEditor
-        const selection = editor.selection
+        if(this.pythonEditor != vscode.window.activeTextEditor) return
+        const selection = this.pythonEditor.selection
         if(!selection.isSingleLine) return
-        let codeLines = editor.document.getText()
+        let codeLines = this.pythonEditor.document.getText()
 
-        let codeLinesArr = printDir(codeLines.split(vscodeUtils.eol(editor.document)), selection.start.line)
+        let codeLinesArr = printDir(codeLines.split(vscodeUtils.eol(this.pythonEditor.document)), selection.start.line)
         // todo: how to connect this with onAnyDocChange?
     }
 
