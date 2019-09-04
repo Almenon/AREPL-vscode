@@ -257,21 +257,22 @@
     "vscode:prepublish": "tsc -p ./",
     "compile": "tsc -watch -p ./",
     "compileOnce": "tsc -p ./",
-    "postinstall": "node ./node_modules/vscode/bin/install",
-    "test": "tsc -p ./ && node ./node_modules/vscode/bin/test",
+    "test": "tsc -p ./ && node ./out/test/runTest.js",
     "visualize": "depcruise --exclude 'vscode|^[a-zA-Z0-9\\_]+$' --output-type dot src | dot -T svg > dependencygraph.svg"
   },
   "devDependencies": {
-    "@types/glob": "^5.0.30",
-    "@types/mocha": "^5.2.5",
+    "@types/glob": "^7.1.1",
+    "@types/mocha": "^5.2.6",
     "@types/node": "^10.5.2",
+    "@types/vscode": "^1.23.0",
     "decache": "^4.4.0",
-    "glob": "^7.1.1",
+    "glob": "^7.1.4",
     "istanbul": "^0.4.5",
-    "mocha": "^5.2.0",
+    "mocha": "^6.1.4",
     "remap-istanbul": "^0.10.1",
+    "source-map-support": "^0.5.13",
     "typescript": "^3.4.5",
-    "vscode": "^1.1.33"
+    "vscode-test": "^1.2.0"
   },
   "dependencies": {
     "arepl-backend": "^1.1.12",
