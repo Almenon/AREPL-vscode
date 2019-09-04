@@ -18,7 +18,7 @@ script:
     echo ">>> Run sample integration test"
     npm test
   
-  after_success:
+after_success:
   - bash <(curl -s https://codecov.io/bash)
 
 notifications:
