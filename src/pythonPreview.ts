@@ -134,6 +134,15 @@ if r.status_code == 200:
             enableScripts:true
         });
         this.panel.webview.html = this.landingPage
+        this.panel.webview.onDidReceiveMessage(
+            async message => {
+                console.log(message)
+                let uri = vscode.Uri.file(message.text);
+                let success = await vscode.commands.executeCommand('vscode.open', uri);
+            },
+            undefined,
+            this.context.subscriptions
+        );
         return this.panel;
     }
 
@@ -176,7 +185,14 @@ if r.status_code == 200:
 
         err = this.makeErrorGoogleable(err)
 
-        this.errorContainer = `<div id="error">${err}</div>`
+        this.errorContainer = `<div id="error">${err}</div>
+        <script>
+        const vscode = acquireVsCodeApi();
+        vscode.postMessage({
+            command: 'openFile',
+            text: 'C:\\\\dev\\\\arepl-vscode\\\\src\\\\telemetry.ts'
+        })
+        </script>`
 
         if(refresh) this.throttledUpdate()
     }
