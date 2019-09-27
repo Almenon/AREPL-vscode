@@ -190,7 +190,7 @@ if r.status_code == 200:
         // escape any accidental html
         printResults = Utilities.escapeHtml(printResults);
 
-        this.printContainer = `<br><b>Print Output:</b><div id="print">${printResults}</div>`
+        this.printContainer = `<br><b>Print Output:</b><div class="print">${printResults}</div>`
         this.throttledUpdate();
     }
 
