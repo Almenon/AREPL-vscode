@@ -1,3 +1,9 @@
+## [v1.0.18](https://github.com/Almenon/AREPL-vscode/milestone/35?closed=1) (09/28/2019) 🚀
+
+🔧 Made print output font monospaced - now it should render output more evenly
+🐛 Fixed error with infinite generators - thanks @purpledot!
+🐛 Fixed python 2 error message not showing up on linux
+
 ## [v1.0.16](https://github.com/Almenon/AREPL-vscode/milestone/35?closed=1) (06/30/2019) 🚀
 
 🐛 Fixed Conda env not working whatsoever. Conda will still not work with numpy but you can use it with other stuff now. 

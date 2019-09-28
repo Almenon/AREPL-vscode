@@ -30,8 +30,9 @@ export default class PythonPreview{
     <h3>AREPL 1.0.17 🔧 - Dance Party</h3>
     <ul>
         <li>Help me make arepl better by filling out this short survey: <a href="https://forms.gle/m7xirfRnSRoPAe9e9">https://forms.gle/m7xirfRnSRoPAe9e9</a></li>
-        <li>🔧 rmdir and rmtree are banned in realtime mode. Using them is dangerous because you might accidentily delete data. You can change this by modifying AREPL.unsafeKeywords setting</li>
-        <li>🔧 Changed mac keybinding for executeAREPLBlock from ctrl-enter to cmd-enter.</li>
+        <li>🔧 Made print output font monospaced - now it should render output more evenly</li>
+        <li>🐛 Fixed error with infinite generators - thanks @purpledot!</li>
+        <li>🐛 Fixed python 2 error message not showing up on linux</li>
     </ul>
     <br>
     
