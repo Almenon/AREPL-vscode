@@ -2,7 +2,7 @@
 #results,#error{
     white-space: pre-wrap; /*https://stackoverflow.com/questions/11423300/new-lines-in-text-within-a-div*/
     font-family: var(--vscode-editor-font-family);
-    font-size:var(--vscode-editor-font-size);
+    font-size:14px;
     line-height:19px;
     letter-spacing:0px;
 }
@@ -10,7 +10,7 @@
 .print{
     white-space: pre-wrap; /*https://stackoverflow.com/questions/11423300/new-lines-in-text-within-a-div*/
     font-family: var(--vscode-editor-font-family);
-    font-size:var(--vscode-editor-font-size);
+    font-size:14px;
 }
 
 /*below stderr css will be used in future when i have handle stderr properly*/
