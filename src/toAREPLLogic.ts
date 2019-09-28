@@ -116,7 +116,10 @@ export class ToAREPLLogic{
             }
 
             this.previewContainer.handleResult(
-                {userVariables:{},userError:<string>error, execTime: 0, totalPyTime: 0, totalTime: 0, internalError: internalErr, caller: "", lineno: -1, done: true,}
+                {
+                    userVariables:{}, userError:null, userErrorMsg:<string>error, execTime: 0, totalPyTime: 0, totalTime: 0,
+                    internalError: internalErr, caller: "", lineno: -1, done: true,
+                }
             )
         })
     }

@@ -57,7 +57,8 @@ suite("PreviewContainer and pythonPreview Tests", () => {
                 lineno: -1,
                 totalPyTime: 0,
                 totalTime: 0,
-                userError: `Traceback (most recent call last):
+                userError: null,
+                userErrorMsg: `Traceback (most recent call last):
   line 1, in <module>
 NameError: name 'x' is not defined`,
                 userVariables: {},
@@ -76,7 +77,8 @@ NameError: name 'x' is not defined`,
                 lineno: -1,
                 totalPyTime: 0,
                 totalTime: 0,
-                userError: "json.decoder.JSONDecodeError: Expecting value: line 1 column 1 (char 0)",
+                userError: null,
+                userErrorMsg: "json.decoder.JSONDecodeError: Expecting value: line 1 column 1 (char 0)",
                 userVariables: {},
             }
         )
@@ -96,7 +98,8 @@ NameError: name 'x' is not defined`,
                 lineno: -1,
                 totalPyTime: 0,
                 totalTime: 0,
-                userError: "",
+                userError: null,
+                userErrorMsg: "",
                 userVariables: {},
             }
         )
@@ -113,7 +116,8 @@ NameError: name 'x' is not defined`,
                 lineno: -1,
                 totalPyTime: 0,
                 totalTime: 0,
-                userError: "",
+                userError: null,
+                userErrorMsg: "",
                 userVariables: {},
             }
         )
@@ -130,7 +134,8 @@ NameError: name 'x' is not defined`,
                 lineno: -1,
                 totalPyTime: 0,
                 totalTime: 0,
-                userError: "",
+                userError: null,
+                userErrorMsg: "",
                 userVariables: {x: 5},
         }
         )
@@ -147,7 +152,8 @@ NameError: name 'x' is not defined`,
                 lineno: 1,
                 totalPyTime: 0,
                 totalTime: 0,
-                userError: "",
+                userError: null,
+                userErrorMsg: "",
                 userVariables: {"dump output": {'x':5}},
         }
         )
@@ -164,7 +170,8 @@ NameError: name 'x' is not defined`,
                 lineno: 1,
                 totalPyTime: 0,
                 totalTime: 0,
-                userError: "",
+                userError: null,
+                userErrorMsg: "",
                 userVariables: {'x':5},
         }
         )

@@ -59,9 +59,15 @@ export class PreviewContainer{
 
             this.vars = {...this.vars, ...pythonResults.userVariables}
 
-            // if syntax err skip updating because no need to clear out variables
-            const lastLine = Utilities.getLastLine(pythonResults.userError.trimRight())
-            if(!(lastLine.startsWith("SyntaxError: ") || lastLine.startsWith("IndentationError: ") || lastLine.startsWith("TabError: "))){
+            if(!pythonResults.userErrorMsg){
+                pythonResults.userErrorMsg = ""
+            }
+
+            // if not syntax error we need to update variables from code that ran before error
+            // if syntax error we can skip setting vars because nothing changed
+            // syntax errors have msg attribute
+            const syntaxError = 'msg' in pythonResults.userError
+            if(!syntaxError){
                 this.pythonPreview.updateVars(this.vars)
             }
 
@@ -80,14 +86,14 @@ export class PreviewContainer{
                 error.stack = pythonResults.internalError
 
                 this.reporter.sendError(error, 0, 'python.internal')
-                pythonResults.userError = pythonResults.internalError
+                pythonResults.userErrorMsg = pythonResults.internalError
             }
 
             if(this.printResults.length == 0) this.pythonPreview.clearPrint()
 
-            this.updateError(pythonResults.userError)
+            this.updateError(pythonResults.userErrorMsg)
             if(settings().get('inlineResults')){
-                this.updateErrorGutterIcons(pythonResults.userError)
+                this.updateErrorGutterIcons(pythonResults.userErrorMsg)
             }
 
             this.pythonPreview.injectCustomCSS(settings().get('customCSS'))
