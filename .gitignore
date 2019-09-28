@@ -8,6 +8,7 @@ desktop.ini
 myenv
 .vscode/.ropeproject/config.py
 .vscode/settings.json
+*.code-workspace
 coverage
 .nyc_output
 .idea
