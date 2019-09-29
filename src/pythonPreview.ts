@@ -111,7 +111,7 @@ if r.status_code == 200:
     private jsonRendererScript: string;
     private errorContainer = ""
     private jsonRendererCode = `<script></script>`;
-    private emptyPrint = `<br><b>Print Output:</b><div id="print"></div>`
+    private emptyPrint = `<br><h3>Print Output:</h3><div id="print"></div>`
     private printContainer = this.emptyPrint;
     private timeContainer = ""
     private panel: vscode.WebviewPanel
@@ -191,7 +191,7 @@ if r.status_code == 200:
         // escape any accidental html
         printResults = Utilities.escapeHtml(printResults);
 
-        this.printContainer = `<br><b>Print Output:</b><div class="print">${printResults}</div>`
+        this.printContainer = `<br><h3>Print Output:</h3><div class="print">${printResults}</div>`
         this.throttledUpdate();
     }
 
@@ -247,6 +247,7 @@ if r.status_code == 200:
 
         const printPlacement = settings().get<string>("printResultPlacement")
         const showFooter = settings().get<boolean>("showFooter")
+        const variables = '<h3>Variables:</h3><div id="results"></div>'
 
         // todo: handle different themes.  check body class: https://code.visualstudio.com/updates/June_2016
         this.html = `<!doctype html>
@@ -261,8 +262,8 @@ if r.status_code == 200:
         <body>
             ${this.errorContainer}
             ${printPlacement == "bottom" ? 
-                '<div id="results"></div>' + this.printContainer : 
-                this.printContainer + '<div id="results"></div>'}
+                variables + this.printContainer : 
+                this.printContainer + variables}
             ${this.timeContainer}
             ${showFooter ? this.footer : ""}
             <div id="${Math.random()}" style="display:none"></div>
