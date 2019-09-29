@@ -9,6 +9,7 @@ import areplUtils from "./areplUtilities"
 import { PythonShell } from "python-shell"
 import {settings} from "./settings"
 import printDir from "./printDir";
+import { join } from "path";
 
 /**
  * class with logic for starting arepl and arepl preview
@@ -258,7 +259,16 @@ export default class PreviewManager {
             }
 
             const text = event.getText()
-            const filePath = this.pythonEditorDoc.isUntitled ? "" : this.pythonEditorDoc.fileName
+
+            let filePath = ""
+            if(this.pythonEditorDoc.isUntitled){
+                /* user would assume untitled file is in same dir as workspace root */
+                filePath = join(vscodeUtils.getCurrentWorkspaceFolder(false), this.pythonEditorDoc.fileName)
+            }
+            else{
+                filePath = this.pythonEditorDoc.fileName
+            }
+
             try {
                 const codeRan = this.toAREPLLogic.onUserInput(text, filePath, vscodeUtils.eol(event), settings().get<boolean>('showGlobalVars'))
                 if(codeRan) this.runningStatus.show();
