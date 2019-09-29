@@ -182,6 +182,11 @@
           "type": "boolean",
           "default": true,
           "description": "Whether to show global vars. Potential speed improvement if turned off - you can still inspect vars with dump()"
+        },
+        "AREPL.shell_plus": {
+          "type": "boolean",
+          "default": false,
+          "description": "Whether to automatically load django models. This setting doesn't actually do anything yet. See https://github.com/Almenon/AREPL-vscode/issues/279"
         }
       }
     },
