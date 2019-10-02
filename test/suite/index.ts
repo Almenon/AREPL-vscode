@@ -12,7 +12,7 @@ export function run(): Promise<void> {
 	const mocha = new Mocha({
 		ui: 'tdd',
 		useColors: true,
-		timeout: debug ? 99999999: 6000 // if we are debugging we dont want timeout
+		timeout: 6000
 	});
 	
 	const testsRoot = path.resolve(__dirname, '..');
