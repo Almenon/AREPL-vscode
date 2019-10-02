@@ -39,20 +39,17 @@
 			"preLaunchTask": "npm"
 		},
 		{
-			"name": "Launch Tests",
+			"name": "Integration Tests",
 			"type": "extensionHost",
 			"request": "launch",
 			"runtimeExecutable": "${execPath}",
 			"args": [
 				"--disable-extensions",
-				"--extensionDevelopmentPath=${workspaceRoot}",
-				"--extensionTestsPath=${workspaceRoot}/out/test"
+				"--extensionDevelopmentPath=${workspaceFolder}",
+				"--extensionTestsPath=${workspaceFolder}/out/test/suite/index"
 			],
 			"stopOnEntry": false,
-			"sourceMaps": true,
-			"outFiles": [
-				"out/test"
-			],
+			"outFiles": ["${workspaceFolder}/out/test/**/*.js"],
 			"preLaunchTask": "npm"
 		}
 	]
