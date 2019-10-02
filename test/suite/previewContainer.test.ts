@@ -14,6 +14,16 @@ suite("PreviewContainer and pythonPreview Tests", () => {
 
     const arepl = vscode.extensions.getExtension("almenon.arepl")!;
 
+    const mockUserError = {
+		"__cause__": {},
+		"__context__": {},
+		"__suppress_context__": false,
+		"_str": "",
+		"exc_traceback": {},
+		"exc_type": {},
+		"stack": {}
+    }
+
     const mockContext: any = {
         asAbsolutePath: (file: string)=>{
             return __dirname + "/" + file
@@ -47,7 +57,7 @@ suite("PreviewContainer and pythonPreview Tests", () => {
         assert.equal(panel.webview.html.includes("Error in the AREPL extension"), true, panel.webview.html);
     });
 
-    test("error", function(){
+    test("error name appears in preview", function(){
         previewContainer.handleResult(
             {
                 caller: "",
@@ -57,7 +67,7 @@ suite("PreviewContainer and pythonPreview Tests", () => {
                 lineno: -1,
                 totalPyTime: 0,
                 totalTime: 0,
-                userError: null,
+                userError: mockUserError,
                 userErrorMsg: `Traceback (most recent call last):
   line 1, in <module>
 NameError: name 'x' is not defined`,
@@ -77,7 +87,7 @@ NameError: name 'x' is not defined`,
                 lineno: -1,
                 totalPyTime: 0,
                 totalTime: 0,
-                userError: null,
+                userError: mockUserError,
                 userErrorMsg: "json.decoder.JSONDecodeError: Expecting value: line 1 column 1 (char 0)",
                 userVariables: {},
             }
@@ -98,7 +108,7 @@ NameError: name 'x' is not defined`,
                 lineno: -1,
                 totalPyTime: 0,
                 totalTime: 0,
-                userError: null,
+                userError: mockUserError,
                 userErrorMsg: "",
                 userVariables: {},
             }
@@ -116,7 +126,7 @@ NameError: name 'x' is not defined`,
                 lineno: -1,
                 totalPyTime: 0,
                 totalTime: 0,
-                userError: null,
+                userError: mockUserError,
                 userErrorMsg: "",
                 userVariables: {},
             }
@@ -134,7 +144,7 @@ NameError: name 'x' is not defined`,
                 lineno: -1,
                 totalPyTime: 0,
                 totalTime: 0,
-                userError: null,
+                userError: mockUserError,
                 userErrorMsg: "",
                 userVariables: {x: 5},
         }
@@ -152,7 +162,7 @@ NameError: name 'x' is not defined`,
                 lineno: 1,
                 totalPyTime: 0,
                 totalTime: 0,
-                userError: null,
+                userError: mockUserError,
                 userErrorMsg: "",
                 userVariables: {"dump output": {'x':5}},
         }
@@ -170,7 +180,7 @@ NameError: name 'x' is not defined`,
                 lineno: 1,
                 totalPyTime: 0,
                 totalTime: 0,
-                userError: null,
+                userError: mockUserError,
                 userErrorMsg: "",
                 userVariables: {'x':5},
         }
