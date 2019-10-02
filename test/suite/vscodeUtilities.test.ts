@@ -3,7 +3,7 @@
 // Please refer to their documentation on https://mochajs.org/ for help.
 //
 import * as assert from "assert";
-import vscodeUtils from '../src/vscodeUtilities'
+import vscodeUtils from '../../src/vscodeUtilities'
 import * as vscode from "vscode";
 
 suite("Utility Tests", () => {

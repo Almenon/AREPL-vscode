@@ -12,8 +12,8 @@ I tried sleeping 500ms after creating texteditor but it didnt help
 
 import * as assert from "assert";
 import * as vscode from "vscode";
-import PreviewManager from "../src/PreviewManager"
-import vscodeUtils from "../src/vscodeUtilities";
+import PreviewManager from "../../src/PreviewManager"
+import vscodeUtils from "../../src/vscodeUtilities";
 import { EOL } from "os";
 
 /*

@@ -3,7 +3,7 @@
 // Please refer to their documentation on https://mochajs.org/ for help.
 //
 import * as assert from "assert";
-import Utilities from '../src/utilities'
+import Utilities from '../../src/utilities'
 
 suite("Utility Tests", () => {
 
