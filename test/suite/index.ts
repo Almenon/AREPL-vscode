@@ -3,11 +3,17 @@ import * as Mocha from 'mocha';
 import * as glob from 'glob';
 
 export function run(): Promise<void> {
+
+	//@ts-ignore v8debug might be present in debug mode
+	const debug = typeof v8debug === 'object' 
+				|| /--debug|--inspect/.test(process.execArgv.join(' '));
+
 	// Create the mocha test
 	const mocha = new Mocha({
 		ui: 'tdd',
+		useColors: true,
+		timeout: debug ? 99999999: 6000 // if we are debugging we dont want timeout
 	});
-	mocha.useColors(true);
 	
 	const testsRoot = path.resolve(__dirname, '..');
 
