@@ -1,22 +1,8 @@
-/*
-
-commenting these tests out because travis always fails when running them
-(even though they run just fine locally)
-
-DISPOSED: TextEditor(vs.editor.ICodeEditor:1,$model2) has been disposed
-^ happens in startArepl somewhere. Stacktrace is useless :(
-
-I tried sleeping 500ms after creating texteditor but it didnt help
-
-*/
-
 import * as assert from "assert";
 import * as vscode from "vscode";
 import PreviewManager from "../../src/PreviewManager"
 import vscodeUtils from "../../src/vscodeUtilities";
 import { EOL } from "os";
-
-/*
 
 /**
  * this suite tests both PreviewManager and pythonPreview
