@@ -4,10 +4,6 @@ import * as glob from 'glob';
 
 export function run(): Promise<void> {
 
-	//@ts-ignore v8debug might be present in debug mode
-	const debug = typeof v8debug === 'object' 
-				|| /--debug|--inspect/.test(process.execArgv.join(' '));
-
 	// Create the mocha test
 	const mocha = new Mocha({
 		ui: 'tdd',
