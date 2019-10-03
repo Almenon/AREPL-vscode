@@ -1,13 +1,16 @@
 import * as path from 'path';
 import { IPathUtils } from '../types';
 import { NON_WINDOWS_PATH_VARIABLE_NAME, WINDOWS_PATH_VARIABLE_NAME } from './constants';
-// tslint:disable-next-line:no-var-requires no-require-imports
-const untildify = require('untildify');
+import { homedir } from 'os';
 
 export class PathUtils implements IPathUtils {
-    public readonly home = '';
+    public readonly home:string;
     constructor(private isWindows: boolean) {
-        this.home = untildify('~');
+        // this.home = untildify('~');
+        // ^ whoever wrote this should be burned at the stake
+        // but seriously such a useless use of a library ಠ_ಠ
+        // it's even two characters longer to write than homedir!
+        this.home = homedir()
     }
     public get delimiter(): string {
         return path.delimiter;
