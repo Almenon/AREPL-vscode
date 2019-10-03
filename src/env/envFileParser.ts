@@ -33,10 +33,11 @@ export function parseEnvFile(envFile: string, mergeWithProcessEnvVars: boolean =
 }
 
 /**
- * Merge the target environment variables into the source.
- * Note: The source variables are modified and returned (i.e. it modifies value passed in).
+ * Merges the target environment variables into the source.
+ * The source variables are modified as a side-effect
  * @param {EnvironmentVariables} targetEnvVars target environment variables.
  * @param {EnvironmentVariables} [sourceEnvVars=process.env] source environment variables (defaults to current process variables).
+ * @returns the target environment variables
  */
 export function mergeEnvVariables(targetEnvVars: EnvironmentVariables, sourceEnvVars: EnvironmentVariables = process.env): EnvironmentVariables {
     const service = new EnvironmentVariablesService(new PathUtils(IS_WINDOWS));
