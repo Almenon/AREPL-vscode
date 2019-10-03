@@ -3,6 +3,7 @@
 🔧 Changed filepath for temporary files to current workspace root
 🐛 Fixed error message not appearing in certain cases
 🐛 Fixed syntax error not appearing
+🔧 UI change: Variables section is now titled "Variables"
 
 ## [v1.0.18](https://github.com/Almenon/AREPL-vscode/milestone/36?closed=1) (09/28/2019) 🚀
 
