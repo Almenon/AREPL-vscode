@@ -35,10 +35,8 @@ export function parseEnvFile(envFile: string, mergeWithProcessEnvVars: boolean =
 /**
  * Merge the target environment variables into the source.
  * Note: The source variables are modified and returned (i.e. it modifies value passed in).
- * @export
  * @param {EnvironmentVariables} targetEnvVars target environment variables.
  * @param {EnvironmentVariables} [sourceEnvVars=process.env] source environment variables (defaults to current process variables).
- * @returns {EnvironmentVariables}
  */
 export function mergeEnvVariables(targetEnvVars: EnvironmentVariables, sourceEnvVars: EnvironmentVariables = process.env): EnvironmentVariables {
     const service = new EnvironmentVariablesService(new PathUtils(IS_WINDOWS));
@@ -52,10 +50,8 @@ export function mergeEnvVariables(targetEnvVars: EnvironmentVariables, sourceEnv
 /**
  * Merge the target PYTHONPATH value into the env variables passed.
  * Note: The env variables passed in are modified and returned (i.e. it modifies value passed in).
- * @export
  * @param {EnvironmentVariables} env target environment variables.
  * @param {string | undefined} [currentPythonPath] PYTHONPATH value.
- * @returns {EnvironmentVariables}
  */
 export function mergePythonPath(env: EnvironmentVariables, currentPythonPath: string | undefined): EnvironmentVariables {
     if (typeof currentPythonPath !== 'string' || currentPythonPath.length === 0) {
