@@ -10,6 +10,11 @@ import { PythonShell } from "python-shell"
 import {settings} from "./settings"
 import printDir from "./printDir";
 import { join } from "path";
+import { EnvironmentVariablesProvider } from "./env/variables/environmentVariablesProvider"
+import { EnvironmentVariablesService } from "./env/variables/environment"
+import { PlatformService } from "./env/platform/platformService"
+import { PathUtils } from "./env/platform/pathUtils"
+import { WorkspaceService } from "./env/application/workspace"
 
 /**
  * class with logic for starting arepl and arepl preview
@@ -42,6 +47,19 @@ export default class PreviewManager {
         })
     }
 
+    loadAndWatchEnvVars(){
+        const platformService = new PlatformService()
+        const envVarsService = new EnvironmentVariablesService(new PathUtils(platformService.isWindows))
+        const workspaceService = new WorkspaceService()
+        const e = new EnvironmentVariablesProvider(envVarsService,
+            this.subscriptions,
+            platformService,
+            workspaceService,
+            settings(),
+            process)
+        e.getEnvironmentVariables()
+    }
+
     async startArepl(){
         // see https://github.com/Microsoft/vscode/issues/46445
         vscode.commands.executeCommand("setContext", "arepl", true)
@@ -59,6 +77,8 @@ export default class PreviewManager {
         let panel = this.previewContainer.start();
         panel.onDidDispose(()=>this.dispose(), this, this.subscriptions)
         this.subscriptions.push(panel)
+
+        this.loadAndWatchEnvVars()
 
         this.startAndBindPython()
 
