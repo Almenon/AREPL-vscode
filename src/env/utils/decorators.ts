@@ -1,7 +1,7 @@
 // tslint:disable:no-any no-require-imports no-function-expression no-invalid-this
 
 import { ProgressLocation, ProgressOptions, Uri, window } from 'vscode';
-import '../../common/extensions';
+import '../extensions';
 import { Resource } from '../types';
 import { InMemoryInterpreterSpecificCache } from './cacheUtils';
 

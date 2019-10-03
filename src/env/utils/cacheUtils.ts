@@ -6,7 +6,7 @@
 // tslint:disable:no-any no-require-imports
 
 import { Uri } from 'vscode';
-import '../../common/extensions';
+import '../extensions';
 import { Resource } from '../types';
 
 type VSCodeType = typeof import('vscode');
