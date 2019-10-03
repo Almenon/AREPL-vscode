@@ -151,6 +151,11 @@
           "default": null,
           "description": "AREPL uses the path you have defined in the official python extension. If not present then this setting will be used. If this setting is also empty then on windows py will be used, or python3 otherwise"
         },
+        "AREPL.envFile": {
+          "type": "string",
+          "default": null,
+          "description": "Absolute path to a file containing environment variable definitions. If not set the setting from the python extension will be used, or ${workspaceFolder}/.env if the python extension is not installed"
+        },
         "AREPL.pythonOptions": {
           "type": "array",
           "default": [
