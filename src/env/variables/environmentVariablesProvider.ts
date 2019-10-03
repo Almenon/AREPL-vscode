@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import { ConfigurationChangeEvent, Disposable, Event, EventEmitter, FileSystemWatcher, Uri } from 'vscode';
+import { ConfigurationChangeEvent, Disposable, Event, EventEmitter, FileSystemWatcher, Uri, WorkspaceConfiguration } from 'vscode';
 import { IWorkspaceService } from '../application/types';
 import { IPlatformService } from '../platform/types';
-import { IConfigurationService, ICurrentProcess, IDisposableRegistry } from '../types';
+import { ICurrentProcess } from '../types';
 import { cacheResourceSpecificInterpreterData, clearCachedResourceSpecificIngterpreterData } from '../utils/decorators';
 import { EnvironmentVariables, IEnvironmentVariablesProvider, IEnvironmentVariablesService } from './types';
 
@@ -18,7 +18,7 @@ export class EnvironmentVariablesProvider implements IEnvironmentVariablesProvid
         disposableRegistry: Disposable[],
         private platformService: IPlatformService,
         private workspaceService: IWorkspaceService,
-        private readonly configurationService: IConfigurationService,
+        private readonly workspaceConfiguration: WorkspaceConfiguration,
         private process: ICurrentProcess) {
         disposableRegistry.push(this);
         this.changeEventEmitter = new EventEmitter();
@@ -40,11 +40,10 @@ export class EnvironmentVariablesProvider implements IEnvironmentVariablesProvid
     }
     @cacheResourceSpecificInterpreterData('getEnvironmentVariables', cacheDuration)
     public async getEnvironmentVariables(resource?: Uri): Promise<EnvironmentVariables> {
-        const settings = this.configurationService.getSettings(resource);
         const workspaceFolderUri = this.getWorkspaceFolderUri(resource);
         this.trackedWorkspaceFolders.add(workspaceFolderUri ? workspaceFolderUri.fsPath : '');
-        this.createFileWatcher(settings.envFile, workspaceFolderUri);
-        let mergedVars = await this.envVarsService.parseFile(settings.envFile, this.process.env);
+        this.createFileWatcher(this.workspaceConfiguration.get('envFile'), workspaceFolderUri);
+        let mergedVars = await this.envVarsService.parseFile(this.workspaceConfiguration.get('envFile'), this.process.env);
         if (!mergedVars) {
             mergedVars = {};
         }
