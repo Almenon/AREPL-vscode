@@ -7,8 +7,8 @@ buf = arr.tobytes()
 # arr = np.ndarray(buffer=buf, dtype=dtype, shape=shape).copy()
 # above code if uncommented causes segfault
 # not sure why jsonpickle v1 should handle it
-# also arepl should be able to gracefully inform user process crashed
-# but currently arepl just silently dies :/
+# also AREPL should be able to gracefully inform user process crashed
+# but currently AREPL just silently dies :/
 
 """ EXPECTED RESULT:
 -{

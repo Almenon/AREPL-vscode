@@ -7,7 +7,7 @@ import { PythonShell } from "python-shell";
 import vscodeUtils from "./vscodeUtilities"
 
 /**
- * utilities specific to Arepl
+ * utilities specific to AREPL
  */
 export default class areplUtils {
 

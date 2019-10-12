@@ -159,7 +159,7 @@ export default class PreviewManager {
 
         PythonShell.getVersion(`"${pythonPath}"`).then((out)=>{
             if((out.stdout && out.stdout.includes("Python 2.")) || (out.stderr && out.stderr.includes("Python 2."))){
-                vscode.window.showErrorMessage("AREPL does not support python 2. Please set arepl to use python 3.")
+                vscode.window.showErrorMessage("AREPL does not support python 2. Please set AREPL to use python 3.")
             }
         }).catch((s:Error)=>{
             // if we get spawn error here thats already reported by telemetry

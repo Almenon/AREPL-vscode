@@ -3,7 +3,7 @@ sometimes takes multiple executions to play...
 p1 >> pluck(PRange(5) | PRange(5,0,-1), scale=Scale.default.pentatonic)
 
 ctrl-enter is supercollider and foxdot command to run
-so using ctrl+enter for arepl run block command makes sense
+so using ctrl+enter for AREPL run block command makes sense
 
 need command for stopping sound
 
