@@ -5,7 +5,7 @@
   "version": "1.0.19",
   "publisher": "almenon",
   "engines": {
-    "vscode": "^1.23.0"
+    "vscode": "^1.31.0"
   },
   "categories": [
     "Other",
@@ -269,14 +269,14 @@
     "@types/glob": "^7.1.1",
     "@types/mocha": "^5.2.6",
     "@types/node": "^10.5.2",
-    "@types/vscode": "^1.23.0",
+    "@types/vscode": "^1.31.0",
     "decache": "^4.4.0",
     "glob": "^7.1.4",
     "istanbul": "^0.4.5",
     "mocha": "^6.1.4",
     "remap-istanbul": "^0.10.1",
     "source-map-support": "^0.5.13",
-    "typescript": "^3.4.5",
+    "typescript": "^3.5.1",
     "vscode-test": "^1.2.0"
   },
   "dependencies": {

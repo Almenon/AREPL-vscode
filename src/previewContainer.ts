@@ -102,7 +102,14 @@ export class PreviewContainer{
             // clear print so empty for next program run
             if(pythonResults.done) this.printResults = [];
         } catch (error) {
-            vscode.window.showErrorMessage(error)
+            if(error instanceof Error || error instanceof String){
+                vscode.window.showErrorMessage("Internal AREPL Error: " + error.toString(), "Report bug").then((action)=>{
+                    if(action == "Report bug"){
+                        const bugReportLink = vscode.Uri.parse("https://github.com/Almenon/AREPL-vscode/issues/new")
+                        vscode.env.openExternal(bugReportLink)
+                    }
+                })
+            }
             if(error instanceof Error){
                 this.reporter.sendError(error)
             }
