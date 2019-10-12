@@ -1,6 +1,7 @@
 ## [v1.0.19](https://github.com/Almenon/AREPL-vscode/milestone/37?closed=1) (??/??/2019) 🔧
 
 🔧 Changed filepath for temporary files to current workspace root
+🔧 AREPL now requires vscode version 1.31.0 or higher
 🐛 Fixed error message not appearing in certain cases
 
 ## [v1.0.18](https://github.com/Almenon/AREPL-vscode/milestone/36?closed=1) (09/28/2019) 🚀
