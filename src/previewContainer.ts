@@ -64,10 +64,12 @@ export class PreviewContainer{
                 pythonResults.userErrorMsg = ""
             }
 
-            // if not syntax error we need to update variables from code that ran before error
-            // if syntax error we can skip setting vars because nothing changed
             // syntax errors have msg attribute
-            const syntaxError = 'msg' in pythonResults.userError
+            const syntaxError = pythonResults.userError && 'msg' in pythonResults.userError
+
+            // a result with a syntax error will not have any variables
+            // So only update vars if there's not a syntax error
+            // this is because it's annoying to user if they have a syntax error and all their variables dissapear
             if(!syntaxError){
                 this.pythonPreview.updateVars(this.vars)
             }
