@@ -1,5 +1,5 @@
 import {PythonResult} from "arepl-backend"
-#import * as vscode from "vscode"
+import * as vscode from "vscode"
 import PythonPanelPreview from "./pythonPanelPreview"
 import {settings} from "./settings"
 import PythonInlinePreview from "./pythonInlinePreview"
