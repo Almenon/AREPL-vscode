@@ -9,14 +9,12 @@ import {settings} from "./settings"
  * logic wrapper around html preview doc
  */
 export class PreviewContainer{
-    public scheme: string
     public printResults: string[];
     public errorDecorationType: vscode.TextEditorDecorationType
     private vars: {}
 
     constructor(private reporter: Reporter, context: vscode.ExtensionContext, htmlUpdateFrequency=50, private pythonPreview?: PythonPreview){
         if(!this.pythonPreview) this.pythonPreview = new PythonPreview(context, htmlUpdateFrequency);
-        this.scheme = PythonPreview.scheme
         this.errorDecorationType = vscode.window.createTextEditorDecorationType({
             gutterIconPath: context.asAbsolutePath('media/red.jpg')
         })
