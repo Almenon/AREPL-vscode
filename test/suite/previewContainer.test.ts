@@ -3,7 +3,6 @@ import * as vscode from "vscode";
 import {PreviewContainer} from "../../src/previewContainer"
 import Reporter from "../../src/telemetry";
 import vscodeUtils from "../../src/vscodeUtilities";
-import {settings} from "../../src/settings"
 
 
 /**
