@@ -8,7 +8,7 @@ import { EOL } from "os";
  * this suite tests both PreviewManager and pythonPreview
  * by activating funcs in PreviewManager and looking at html rendered by pythonPreview
  */
-suite("PreviewManager and pythonPreview Tests", () => {
+suite("PreviewManager and pythonPreview Integration Tests", () => {
 
     const arepl = vscode.extensions.getExtension("almenon.arepl")!;
     let editor:vscode.TextEditor

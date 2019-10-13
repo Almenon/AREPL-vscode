@@ -6,7 +6,7 @@ import * as assert from "assert";
 import vscodeUtils from '../../src/vscodeUtilities'
 import * as vscode from "vscode";
 
-suite("Utility Tests", () => {
+suite("Utility Integration Tests", () => {
 
     test("new python doc", function(done){
         vscodeUtils.newUnsavedPythonDoc("test").then((editor)=>{

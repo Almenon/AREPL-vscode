@@ -1,7 +1,6 @@
-import * as assert from "assert";
 import * as vscode from "vscode";
 
-suite("extension tests", function(){
+suite("extension Integration tests", function(){
     // this test causes others to fail. Commenting this out untill I fix it
     test("command activates", (done) => {
          vscode.commands.executeCommand("extension.newAREPLSession").then((p) => {

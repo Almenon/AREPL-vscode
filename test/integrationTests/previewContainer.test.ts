@@ -9,7 +9,7 @@ import vscodeUtils from "../../src/vscodeUtilities";
  * this suite tests both previewContainer and pythonPreview
  * by activating funcs in previewContainer and looking at html rendered by pythonPreview
  */
-suite("PreviewContainer and pythonPreview Tests", () => {
+suite("PreviewContainer and pythonPreview Integration Tests", () => {
 
     const arepl = vscode.extensions.getExtension("almenon.arepl")!;
 
@@ -97,7 +97,7 @@ NameError: name 'x' is not defined`,
         );
     });
 
-    test("internal error", function(){
+    test("internal error appears", function(){
         previewContainer.handleResult(
             {
                 caller: "",
@@ -115,7 +115,7 @@ NameError: name 'x' is not defined`,
         assert.equal(panel.webview.html.includes("internal error!"), true, panel.webview.html);
     });
 
-    test("time", function(){
+    test("execTime appears", function(){
         previewContainer.handleResult(
             {
                 caller: "",
@@ -133,7 +133,7 @@ NameError: name 'x' is not defined`,
         assert.equal(panel.webview.html.includes("5513"), true, panel.webview.html);
     });
 
-    test("userVariables", function(){
+    test("userVariables appear", function(){
         previewContainer.handleResult(
             {
                 caller: "",
@@ -151,7 +151,7 @@ NameError: name 'x' is not defined`,
         assert.equal(panel.webview.html.includes('"x":5'), true, panel.webview.html);
     });
 
-    test("dump userVariables", function(){
+    test("dump output appears", function(){
         previewContainer.handleResult(
             {
                 caller: "",
