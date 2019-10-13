@@ -74,10 +74,6 @@ export class PreviewContainer{
                 this.pythonPreview.updateVars(this.vars)
             }
 
-            if(pythonResults.done){
-                this.vars = {}
-            }
-
             if(pythonResults.internalError){
                 // todo: change backend code to send error name
 
@@ -102,8 +98,7 @@ export class PreviewContainer{
             this.pythonPreview.injectCustomCSS(settings().get('customCSS'))
             this.pythonPreview.throttledUpdate()
 
-            // clear print so empty for next program run
-            if(pythonResults.done) this.printResults = [];
+            if(pythonResults.done) this.clearStoredData()
         } catch (error) {
             if(error instanceof Error || error instanceof String){
                 vscode.window.showErrorMessage("Internal AREPL Error: " + error.toString(), "Report bug").then((action)=>{
