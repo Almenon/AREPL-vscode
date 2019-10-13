@@ -9,11 +9,11 @@ import {settings} from "./settings"
  * shows AREPL output (variables, errors, timing, and stdout/stderr)
  * https://code.visualstudio.com/docs/extensions/webview
  */
-export default class PythonPreview{
+export default class PythonPanelPreview{
     
     static readonly scheme = "pythonPreview"
-    static readonly PREVIEW_URI = PythonPreview.scheme + "://authority/preview"
-    public throttledUpdate: () => void
+    static readonly PREVIEW_URI = PythonPanelPreview.scheme + "://authority/preview"
+    public throttledRenderPage: () => void
 
     private _onDidChange: vscode.EventEmitter<vscode.Uri>;
     private lastTime: number = 999999999;
@@ -125,9 +125,9 @@ if r.status_code == 200:
         if(htmlUpdateFrequency != 0){
             // refreshing html too much can freeze vscode... lets avoid that
             const l = new Limit()
-            this.throttledUpdate = l.throttledUpdate(this.updateContent, htmlUpdateFrequency)
+            this.throttledRenderPage = l.throttledUpdate(this.renderPage, htmlUpdateFrequency)
         }
-        else this.throttledUpdate = this.updateContent
+        else this.throttledRenderPage = this.renderPage
     }
 
     start(){
@@ -169,7 +169,7 @@ if r.status_code == 200:
     }
 
     /**
-     * @param refresh if true updates page immediately.  otherwise error will show up whenever updateContent is called
+     * @param refresh Defaults to false. If true updates page immediately. Otherwise error will show up whenever updateContent is called
      */
     public updateError(err: string, refresh=false){
         // escape the <module>
@@ -179,12 +179,12 @@ if r.status_code == 200:
 
         this.errorContainer = `<div id="error">${err}</div>`
 
-        if(refresh) this.throttledUpdate()
+        if(refresh) this.throttledRenderPage()
     }
 
-    public injectCustomCSS(css: string, refresh=false){
+    public updateCustomCSS(css: string, refresh=false){
         this.customCSS = css
-        if(refresh) this.throttledUpdate()
+        if(refresh) this.throttledRenderPage()
     }
 
     public handlePrint(printResults: string){
@@ -192,7 +192,7 @@ if r.status_code == 200:
         printResults = Utilities.escapeHtml(printResults);
 
         this.printContainer = `<br><h3>Print Output:</h3><div class="print">${printResults}</div>`
-        this.throttledUpdate();
+        this.throttledRenderPage();
     }
 
     clearPrint(){
@@ -208,7 +208,7 @@ if r.status_code == 200:
         }
 
         this.updateError(errMsg)
-        this.throttledUpdate()
+        this.throttledRenderPage()
     }
 
     private makeErrorGoogleable(err: string){
@@ -243,7 +243,7 @@ if r.status_code == 200:
         return onDiskPath.with({ scheme: "vscode-resource" });
     }
 
-    private updateContent(){
+    private renderPage(){
 
         const printPlacement = settings().get<string>("printResultPlacement")
         const showFooter = settings().get<boolean>("showFooter")
@@ -282,6 +282,6 @@ if r.status_code == 200:
             else throw error
         }
 
-        this._onDidChange.fire(vscode.Uri.parse(PythonPreview.PREVIEW_URI));
+        this._onDidChange.fire(vscode.Uri.parse(PythonPanelPreview.PREVIEW_URI));
     }
 }

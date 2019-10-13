@@ -146,7 +146,7 @@ export default class PreviewManager {
         this.reporter.dispose();
 
         if(vscode.window.activeTextEditor){
-            vscode.window.activeTextEditor.setDecorations(this.previewContainer.errorDecorationType, [])
+            this.previewContainer.clearErrorGutterIcons()
         }
     }
 
