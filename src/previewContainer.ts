@@ -50,7 +50,8 @@ export class PreviewContainer{
         try {            
             
             if(!pythonResults.done){
-                pythonResults.userVariables = this.updateVarsWithDumpOutput(pythonResults)
+                // user has dumped variables, add them to vars
+                this.updateVarsWithDumpOutput(pythonResults)
             }
             else{
                 // exec time is the 'truest' time that user cares about
@@ -208,8 +209,6 @@ export class PreviewContainer{
             pythonResults.userVariables = {}
             pythonResults.userVariables[pythonResults.caller + " vars " + lineKey] = v
         }
-
-        return pythonResults.userVariables
     }
 
     get onDidChange(): vscode.Event<vscode.Uri> {
