@@ -5,10 +5,10 @@ import vscodeUtils from "../../src/vscodeUtilities";
 import { EOL } from "os";
 
 /**
- * this suite tests both PreviewManager and pythonPreview
- * by activating funcs in PreviewManager and looking at html rendered by pythonPreview
+ * this suite tests both arepl and resultsPanel
+ * by activating funcs in arepl and looking at html rendered by resultsPanel
  */
-suite("PreviewManager and pythonPreview Tests", () => {
+suite("arepl and resultsPanel Tests", () => {
 
     const arepl = vscode.extensions.getExtension("almenon.arepl")!;
     let editor:vscode.TextEditor
