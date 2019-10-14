@@ -6,10 +6,10 @@ import vscodeUtils from "../../src/vscodeUtilities";
 
 
 /**
- * this suite tests both previewContainer and pythonPreview
- * by activating funcs in previewContainer and looking at html rendered by pythonPreview
+ * this suite tests both resultHandler and resultPanel
+ * by activating funcs in resultHandler and looking at html rendered by resultPanel
  */
-suite("PreviewContainer and pythonPreview Tests", () => {
+suite("resultHandler and resultPanel Tests", () => {
 
     const arepl = vscode.extensions.getExtension("almenon.arepl")!;
 
@@ -30,8 +30,8 @@ suite("PreviewContainer and pythonPreview Tests", () => {
         extensionPath: arepl.extensionPath,
     }
 
-    const previewContainer = new ResultsHandler(new Reporter(false), mockContext, 0);
-    const panel = previewContainer.start()
+    const resultHandler = new ResultsHandler(new Reporter(false), mockContext, 0);
+    const panel = resultHandler.start()
 
     suiteSetup(function(done){
         // existing editor causes weird error for some reason
@@ -47,17 +47,17 @@ suite("PreviewContainer and pythonPreview Tests", () => {
     });
 
     test("print", function(){
-        previewContainer.handlePrint("hello world");
+        resultHandler.handlePrint("hello world");
         assert.equal(panel.webview.html.includes("hello world"), true, panel.webview.html);
     });
 
     test("spawn error", function(){
-        previewContainer.displayProcessError("python3 -u ENOENT")
+        resultHandler.displayProcessError("python3 -u ENOENT")
         assert.equal(panel.webview.html.includes("Error in the AREPL extension"), true, panel.webview.html);
     });
 
     test("error name appears in preview", function(){
-        previewContainer.handleResult(
+        resultHandler.handleResult(
             {
                 caller: "",
                 done: true,
@@ -77,7 +77,7 @@ NameError: name 'x' is not defined`,
     });
 
     test("error should be googleable", function(){
-        previewContainer.handleResult(
+        resultHandler.handleResult(
             {
                 caller: "",
                 done: true,
@@ -98,7 +98,7 @@ NameError: name 'x' is not defined`,
     });
 
     test("internal error", function(){
-        previewContainer.handleResult(
+        resultHandler.handleResult(
             {
                 caller: "",
                 done: true,
@@ -116,7 +116,7 @@ NameError: name 'x' is not defined`,
     });
 
     test("time", function(){
-        previewContainer.handleResult(
+        resultHandler.handleResult(
             {
                 caller: "",
                 done: true,
@@ -134,7 +134,7 @@ NameError: name 'x' is not defined`,
     });
 
     test("userVariables", function(){
-        previewContainer.handleResult(
+        resultHandler.handleResult(
             {
                 caller: "",
                 done: true,
@@ -152,7 +152,7 @@ NameError: name 'x' is not defined`,
     });
 
     test("dump userVariables", function(){
-        previewContainer.handleResult(
+        resultHandler.handleResult(
             {
                 caller: "",
                 done: false,
@@ -170,7 +170,7 @@ NameError: name 'x' is not defined`,
     });
 
     test("function dump userVariables", function(){
-        previewContainer.handleResult(
+        resultHandler.handleResult(
             {
                 caller: "foo",
                 done: false,
@@ -188,7 +188,7 @@ NameError: name 'x' is not defined`,
     });
 
     test("print escapes panel.webview.html", function(){
-        previewContainer.handlePrint("<module>")
+        resultHandler.handlePrint("<module>")
         assert.equal(panel.webview.html.includes("&lt;module&gt;"), true, panel.webview.html);
     });
 
