@@ -15,7 +15,7 @@ export class ToAREPLLogic{
     lastCodeSection = ""
     lastEndSection = ""
 
-    constructor(private python_evaluator: python_evaluator, private previewContainer: ResultsHandler){
+    constructor(private python_evaluator: python_evaluator, private resultsHandler: ResultsHandler){
 
     }
 
@@ -115,7 +115,7 @@ export class ToAREPLLogic{
                 error = ""
             }
 
-            this.previewContainer.handleResult(
+            this.resultsHandler.handleResult(
                 {
                     userVariables:{}, userError:null, userErrorMsg:<string>error, execTime: 0, totalPyTime: 0, totalTime: 0,
                     internalError: internalErr, caller: "", lineno: -1, done: true,
@@ -125,7 +125,7 @@ export class ToAREPLLogic{
     }
     
     private restartPython(data: {evalCode: string, savedCode: string, filePath: string}){
-        this.previewContainer.clearStoredData()
+        this.resultsHandler.clearStoredData()
         this.python_evaluator.restart(
             this.python_evaluator.execCode.bind(this.python_evaluator, data)
         );     

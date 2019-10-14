@@ -11,7 +11,7 @@ import {settings} from "./settings"
  */
 export default class ResultsPanel{
     
-    static readonly scheme = "pythonPreview"
+    static readonly scheme = "areplResultsPanel"
     static readonly PREVIEW_URI = ResultsPanel.scheme + "://authority/preview"
     public throttledUpdate: () => void
 
@@ -119,7 +119,7 @@ if r.status_code == 200:
 
     constructor(private context: vscode.ExtensionContext, htmlUpdateFrequency=50) {
         this._onDidChange = new vscode.EventEmitter<vscode.Uri>();
-        this.css = `<link rel="stylesheet" type="text/css" href="${this.getMediaPath("pythonPreview.css")}">`
+        this.css = `<link rel="stylesheet" type="text/css" href="${this.getMediaPath("resultsPanel.css")}">`
         this.jsonRendererScript = `<script src="${this.getMediaPath("jsonRenderer.js")}"></script>`
 
         if(htmlUpdateFrequency != 0){

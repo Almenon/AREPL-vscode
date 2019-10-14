@@ -22,7 +22,7 @@ export default class Arepl {
     python_evaluator: python_evaluator;
     runningStatus: vscode.StatusBarItem;
     toAREPLLogic: ToAREPLLogic
-    previewContainer: ResultsHandler
+    resultsHandler: ResultsHandler
     subscriptions: vscode.Disposable[] = []
     highlightDecorationType: vscode.TextEditorDecorationType
     pythonEditor: vscode.TextEditor;
@@ -35,7 +35,7 @@ export default class Arepl {
         this.runningStatus.text = "Running python..."
         this.runningStatus.tooltip = "AREPL is currently running your python file.  Close the AREPL preview to stop"
         this.reporter = new Reporter(settings().get<boolean>("telemetry"))
-        this.previewContainer = new ResultsHandler(this.reporter, context)
+        this.resultsHandler = new ResultsHandler(this.reporter, context)
 
         this.highlightDecorationType = vscode.window.createTextEditorDecorationType(<vscode.ThemableDecorationRenderOptions>{
             backgroundColor: 'yellow'
@@ -56,7 +56,7 @@ export default class Arepl {
         this.pythonEditor = vscode.window.activeTextEditor
         this.pythonEditorDoc = this.pythonEditor.document
         
-        let panel = this.previewContainer.start();
+        let panel = this.resultsHandler.start();
         panel.onDidDispose(()=>this.dispose(), this, this.subscriptions)
         this.subscriptions.push(panel)
 
@@ -146,7 +146,7 @@ export default class Arepl {
         this.reporter.dispose();
 
         if(vscode.window.activeTextEditor){
-            vscode.window.activeTextEditor.setDecorations(this.previewContainer.errorDecorationType, [])
+            vscode.window.activeTextEditor.setDecorations(this.resultsHandler.errorDecorationType, [])
         }
     }
 
@@ -174,7 +174,7 @@ export default class Arepl {
         } catch (err) {
             if (err instanceof Error){
                 const error = `Error running python with command: ${pythonPath} ${pythonOptions.join(' ')}\n${err.stack}`
-                this.previewContainer.displayProcessError(error);
+                this.resultsHandler.displayProcessError(error);
                 // @ts-ignore 
                 this.reporter.sendError(err, error.errno, 'spawn')            
             }
@@ -191,7 +191,7 @@ export default class Arepl {
 
             // @ts-ignore err is actually SystemError but node does not type it
             const error = `Error running python with command: ${err.path} ${err.spawnargs.join(' ')}\n${err.stack}`
-            this.previewContainer.displayProcessError(error);
+            this.resultsHandler.displayProcessError(error);
             // @ts-ignore 
             this.reporter.sendError(err, error.errno, 'spawn')
         })
@@ -202,20 +202,20 @@ export default class Arepl {
             
             if(!err) return // normal exit
             const error = `AREPL crashed unexpectedly! Are you using python 3? err: ${err}`
-            this.previewContainer.displayProcessError(error);
+            this.resultsHandler.displayProcessError(error);
             this.reporter.sendError(new Error('exit'), err, 'spawn')
         })
 
-        this.toAREPLLogic = new ToAREPLLogic(this.python_evaluator, this.previewContainer)
+        this.toAREPLLogic = new ToAREPLLogic(this.python_evaluator, this.resultsHandler)
 
         // binding this to the class so it doesn't get overwritten by python_evaluator
-        this.python_evaluator.onPrint = this.previewContainer.handlePrint.bind(this.previewContainer)
+        this.python_evaluator.onPrint = this.resultsHandler.handlePrint.bind(this.resultsHandler)
         // this is bad - stderr should be handled seperately so user is aware its different
         // but better than not showing stderr at all, so for now printing it out and ill fix later
-        this.python_evaluator.onStderr = this.previewContainer.handlePrint.bind(this.previewContainer)
+        this.python_evaluator.onStderr = this.resultsHandler.handlePrint.bind(this.resultsHandler)
         this.python_evaluator.onResult = result => {
             this.runningStatus.hide()
-            this.previewContainer.handleResult(result)
+            this.resultsHandler.handleResult(result)
         }
     }
 
@@ -276,7 +276,7 @@ export default class Arepl {
                 if(error instanceof Error){
                     if(error.message == "unsafeKeyword"){
                         const unsafeKeywords = settings().get<string[]>('unsafeKeywords')
-                        this.previewContainer.updateError(`unsafe keyword detected. 
+                        this.resultsHandler.updateError(`unsafe keyword detected. 
 Doing irreversible operations like deleting folders is very dangerous in a live editor. 
 If you want to continue please clear arepl.unsafeKeywords setting. 
 Currently arepl.unsafeKeywords is set to ["${unsafeKeywords.join('", "')}"]`, true)
@@ -285,7 +285,7 @@ Currently arepl.unsafeKeywords is set to ["${unsafeKeywords.join('", "')}"]`, tr
                     else{
                         console.error(error)
                         this.reporter.sendError(error)
-                        this.previewContainer.updateError(`internal arepl error: ${error.name} stack: ${error.stack}`, true) 
+                        this.resultsHandler.updateError(`internal arepl error: ${error.name} stack: ${error.stack}`, true) 
                     }
                 }
                 throw error;
