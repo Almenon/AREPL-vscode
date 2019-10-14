@@ -17,9 +17,7 @@ export class ResultsHandler{
     constructor(private reporter: Reporter, context: vscode.ExtensionContext, htmlUpdateFrequency=50, private resultsPanel?: ResultsWebview){
         if(!this.resultsPanel) this.resultsPanel = new ResultsWebview(context, htmlUpdateFrequency)
         this.pythonInlinePreview = new PythonInlinePreview(reporter, context)
-        this.errorDecorationType = vscode.window.createTextEditorDecorationType({
-            gutterIconPath: context.asAbsolutePath('media/red.jpg')
-        })
+        this.errorDecorationType = this.pythonInlinePreview.errorDecorationType
     }
 
     public start(){
