@@ -5,7 +5,7 @@
   "version": "1.0.19",
   "publisher": "almenon",
   "engines": {
-    "vscode": "^1.31.0"
+    "vscode": "^1.23.0"
   },
   "categories": [
     "Other",
@@ -269,7 +269,7 @@
     "@types/glob": "^7.1.1",
     "@types/mocha": "^5.2.6",
     "@types/node": "^10.5.2",
-    "@types/vscode": "^1.31.0",
+    "@types/vscode": "^1.23.0",
     "decache": "^4.4.0",
     "glob": "^7.1.4",
     "istanbul": "^0.4.5",
