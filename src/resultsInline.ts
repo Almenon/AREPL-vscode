@@ -4,7 +4,7 @@ import Reporter from "./telemetry"
 /**
  * shows error icons
  */
-export class pythonInlinePreview{
+export class resultsInline{
     public printResults: string[];
     public errorDecorationType: vscode.TextEditorDecorationType
 

@@ -1,15 +1,15 @@
 'use strict';
 import * as vscode from "vscode";
-import PreviewManager from "./PreviewManager"
+import Arepl from "./arepl"
 import { registerAreplDump, unregisterAreplDump } from "./registerAreplDump";
 import vscodeUtils from "./vscodeUtilities";
 import areplUtils from "./areplUtilities";
 
-let previewManager: PreviewManager = null;
+let previewManager: Arepl = null;
 
 export function activate(context: vscode.ExtensionContext) {
 
-    previewManager = new PreviewManager(context);
+    previewManager = new Arepl(context);
 
     // Register the commands that are provided to the user
     const arepl = vscode.commands.registerCommand("extension.currentAREPLSession", () => {

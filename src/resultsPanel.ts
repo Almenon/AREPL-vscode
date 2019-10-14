@@ -9,10 +9,10 @@ import {settings} from "./settings"
  * shows AREPL output (variables, errors, timing, and stdout/stderr)
  * https://code.visualstudio.com/docs/extensions/webview
  */
-export default class PythonPanelPreview{
+export default class ResultsPanel{
     
     static readonly scheme = "pythonPreview"
-    static readonly PREVIEW_URI = PythonPanelPreview.scheme + "://authority/preview"
+    static readonly PREVIEW_URI = ResultsPanel.scheme + "://authority/preview"
     public throttledUpdate: () => void
 
     private _onDidChange: vscode.EventEmitter<vscode.Uri>;
@@ -282,6 +282,6 @@ if r.status_code == 200:
             else throw error
         }
 
-        this._onDidChange.fire(vscode.Uri.parse(PythonPanelPreview.PREVIEW_URI));
+        this._onDidChange.fire(vscode.Uri.parse(ResultsPanel.PREVIEW_URI));
     }
 }

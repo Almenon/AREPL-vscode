@@ -1,6 +1,6 @@
 import * as assert from "assert";
 import * as vscode from "vscode";
-import PreviewManager from "../../src/PreviewManager"
+import Arepl from "../../src/arepl"
 import vscodeUtils from "../../src/vscodeUtilities";
 import { EOL } from "os";
 
@@ -13,7 +13,7 @@ suite("PreviewManager and pythonPreview Tests", () => {
     const arepl = vscode.extensions.getExtension("almenon.arepl")!;
     let editor:vscode.TextEditor
     let panel:vscode.WebviewPanel
-    let previewManager: PreviewManager
+    let previewManager: Arepl
 
     const mockContext: any = {
         asAbsolutePath: (file: string)=>{
@@ -27,7 +27,7 @@ suite("PreviewManager and pythonPreview Tests", () => {
         vscode.commands.executeCommand("workbench.action.closeActiveEditor").then(()=>{
             vscodeUtils.newUnsavedPythonDoc("").then((newEditor)=>{
                 editor = newEditor
-                previewManager = new PreviewManager(mockContext);
+                previewManager = new Arepl(mockContext);
     
                 previewManager.startArepl().then((previewPanel)=>{
                     panel = previewPanel

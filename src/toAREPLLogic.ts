@@ -1,5 +1,5 @@
 import {python_evaluator} from "arepl-backend"
-import {PreviewContainer} from "./previewContainer"
+import {ResultsHandler} from "./resultsHandler"
 import pyGuiLibraryIsPresent from "./pyGuiLibraryIsPresent"
 import {settings} from "./settings"
 
@@ -15,7 +15,7 @@ export class ToAREPLLogic{
     lastCodeSection = ""
     lastEndSection = ""
 
-    constructor(private python_evaluator: python_evaluator, private previewContainer: PreviewContainer){
+    constructor(private python_evaluator: python_evaluator, private previewContainer: ResultsHandler){
 
     }
 

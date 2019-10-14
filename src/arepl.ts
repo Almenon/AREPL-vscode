@@ -1,7 +1,7 @@
 "use strict"
 import {python_evaluator} from "arepl-backend"
 import * as vscode from "vscode"
-import { PreviewContainer } from "./previewContainer"
+import { ResultsHandler } from "./resultsHandler"
 import Reporter from "./telemetry"
 import {ToAREPLLogic} from "./toAREPLLogic"
 import vscodeUtils from "./vscodeUtilities"
@@ -12,9 +12,9 @@ import printDir from "./printDir";
 import { join } from "path";
 
 /**
- * class with logic for starting arepl and arepl preview
+ * Main class that starts arepl & binds the I/O
  */
-export default class PreviewManager {
+export default class Arepl {
 
     reporter: Reporter;
     disposable: vscode.Disposable;
@@ -22,7 +22,7 @@ export default class PreviewManager {
     python_evaluator: python_evaluator;
     runningStatus: vscode.StatusBarItem;
     toAREPLLogic: ToAREPLLogic
-    previewContainer: PreviewContainer
+    previewContainer: ResultsHandler
     subscriptions: vscode.Disposable[] = []
     highlightDecorationType: vscode.TextEditorDecorationType
     pythonEditor: vscode.TextEditor;
@@ -35,7 +35,7 @@ export default class PreviewManager {
         this.runningStatus.text = "Running python..."
         this.runningStatus.tooltip = "AREPL is currently running your python file.  Close the AREPL preview to stop"
         this.reporter = new Reporter(settings().get<boolean>("telemetry"))
-        this.previewContainer = new PreviewContainer(this.reporter, context)
+        this.previewContainer = new ResultsHandler(this.reporter, context)
 
         this.highlightDecorationType = vscode.window.createTextEditorDecorationType(<vscode.ThemableDecorationRenderOptions>{
             backgroundColor: 'yellow'

@@ -1,21 +1,21 @@
 import {PythonResult} from "arepl-backend"
 import * as vscode from "vscode"
-import PythonPanelPreview from "./pythonPanelPreview"
+import ResultsWebview from "./resultsPanel"
 import Reporter from "./telemetry"
 import {settings} from "./settings"
-import { pythonInlinePreview as PythonInlinePreview } from "./pythonInlinePreview"
+import { resultsInline as PythonInlinePreview } from "./resultsInline"
 
 /**
  * logic wrapper around html preview doc
  */
-export class PreviewContainer{
+export class ResultsHandler{
     public printResults: string[];
     pythonInlinePreview:PythonInlinePreview
     public errorDecorationType: vscode.TextEditorDecorationType
     private vars: {}
 
-    constructor(private reporter: Reporter, context: vscode.ExtensionContext, htmlUpdateFrequency=50, private pythonPanelPreview?: PythonPanelPreview){
-        if(!this.pythonPanelPreview) this.pythonPanelPreview = new PythonPanelPreview(context, htmlUpdateFrequency)
+    constructor(private reporter: Reporter, context: vscode.ExtensionContext, htmlUpdateFrequency=50, private resultsPanel?: ResultsWebview){
+        if(!this.resultsPanel) this.resultsPanel = new ResultsWebview(context, htmlUpdateFrequency)
         this.pythonInlinePreview = new PythonInlinePreview(reporter, context)
         this.errorDecorationType = vscode.window.createTextEditorDecorationType({
             gutterIconPath: context.asAbsolutePath('media/red.jpg')
@@ -24,7 +24,7 @@ export class PreviewContainer{
 
     public start(){
         this.clearStoredData()
-        return this.pythonPanelPreview.start()
+        return this.resultsPanel.start()
     }
 
     /**
@@ -53,7 +53,7 @@ export class PreviewContainer{
             }
             else{
                 // exec time is the 'truest' time that user cares about
-                this.pythonPanelPreview.updateTime(pythonResults.execTime);
+                this.resultsPanel.updateTime(pythonResults.execTime);
             }
 
             this.vars = {...this.vars, ...pythonResults.userVariables}
@@ -69,7 +69,7 @@ export class PreviewContainer{
             // So only update vars if there's not a syntax error
             // this is because it's annoying to user if they have a syntax error and all their variables dissapear
             if(!syntaxError){
-                this.pythonPanelPreview.updateVars(this.vars)
+                this.resultsPanel.updateVars(this.vars)
             }
 
             if(pythonResults.internalError){
@@ -86,15 +86,15 @@ export class PreviewContainer{
                 pythonResults.userErrorMsg = pythonResults.internalError
             }
 
-            if(this.printResults.length == 0) this.pythonPanelPreview.clearPrint()
+            if(this.printResults.length == 0) this.resultsPanel.clearPrint()
 
             this.updateError(pythonResults.userErrorMsg)
             if(settings().get('inlineResults')){
                 this.pythonInlinePreview.updateErrorGutterIcons(pythonResults.userErrorMsg)
             }
 
-            this.pythonPanelPreview.injectCustomCSS(settings().get('customCSS'))
-            this.pythonPanelPreview.throttledUpdate()
+            this.resultsPanel.injectCustomCSS(settings().get('customCSS'))
+            this.resultsPanel.throttledUpdate()
 
             if(pythonResults.done) this.clearStoredData()
         } catch (error) {
@@ -123,18 +123,18 @@ export class PreviewContainer{
 
     public handlePrint(pythonResults: string){
         this.printResults.push(pythonResults);
-        this.pythonPanelPreview.handlePrint(this.printResults.join('\n'))
+        this.resultsPanel.handlePrint(this.printResults.join('\n'))
     }
 
     /**
      * @param refresh if true updates page immediately.  otherwise error will show up whenever updateContent is called
      */
     public updateError(err: string, refresh=false){
-        this.pythonPanelPreview.updateError(err, refresh)
+        this.resultsPanel.updateError(err, refresh)
     }
 
     public displayProcessError(err: string){
-        this.pythonPanelPreview.displayProcessError(err)
+        this.resultsPanel.displayProcessError(err)
     }
 
     /**
@@ -156,6 +156,6 @@ export class PreviewContainer{
     }
 
     get onDidChange(): vscode.Event<vscode.Uri> {
-        return this.pythonPanelPreview.onDidChange
+        return this.resultsPanel.onDidChange
     }
 }

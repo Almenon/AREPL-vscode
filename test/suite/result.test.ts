@@ -1,6 +1,6 @@
 import * as assert from "assert";
 import * as vscode from "vscode";
-import {PreviewContainer} from "../../src/previewContainer"
+import {ResultsHandler} from "../../src/resultsHandler"
 import Reporter from "../../src/telemetry";
 import vscodeUtils from "../../src/vscodeUtilities";
 
@@ -30,7 +30,7 @@ suite("PreviewContainer and pythonPreview Tests", () => {
         extensionPath: arepl.extensionPath,
     }
 
-    const previewContainer = new PreviewContainer(new Reporter(false), mockContext, 0);
+    const previewContainer = new ResultsHandler(new Reporter(false), mockContext, 0);
     const panel = previewContainer.start()
 
     suiteSetup(function(done){
