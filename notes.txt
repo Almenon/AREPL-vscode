@@ -9,3 +9,8 @@ need command for stopping sound
 
 MARKETING:
 I made a VSCode extension that lets you see your variables while you write your code. Any feedback?
+
+MISC:
+https://github.com/kenhowardpdx/vscode-gist
+^ they use jest for testing
+^ also they somehow use vscode imports just fine 🤔
