@@ -1,6 +1,6 @@
 import {PythonResult} from "arepl-backend"
 import * as vscode from "vscode"
-import PythonPreview from "./pythonPreview"
+import PythonPanelPreview from "./pythonPanelPreview"
 import Reporter from "./telemetry"
 import Utilities from "./utilities"
 import {settings} from "./settings"
@@ -13,8 +13,8 @@ export class PreviewContainer{
     public errorDecorationType: vscode.TextEditorDecorationType
     private vars: {}
 
-    constructor(private reporter: Reporter, context: vscode.ExtensionContext, htmlUpdateFrequency=50, private pythonPreview?: PythonPreview){
-        if(!this.pythonPreview) this.pythonPreview = new PythonPreview(context, htmlUpdateFrequency);
+    constructor(private reporter: Reporter, context: vscode.ExtensionContext, htmlUpdateFrequency=50, private pythonPreview?: PythonPanelPreview){
+        if(!this.pythonPreview) this.pythonPreview = new PythonPanelPreview(context, htmlUpdateFrequency);
         this.errorDecorationType = vscode.window.createTextEditorDecorationType({
             gutterIconPath: context.asAbsolutePath('media/red.jpg')
         })
