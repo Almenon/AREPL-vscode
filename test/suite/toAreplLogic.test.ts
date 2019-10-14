@@ -1,19 +1,10 @@
 import * as assert from "assert";
 import * as vscode from "vscode";
 import {ToAREPLLogic} from '../../src/toAREPLLogic'
-import Reporter from "../../src/telemetry";
-import vscodeUtils from "../../src/vscodeUtilities";
-import {settings} from "../../src/settings"
 import { EOL } from "os";
 
 
-/**
- * this suite tests both previewContainer and pythonPreview
- * by activating funcs in previewContainer and looking at html rendered by pythonPreview
- */
-suite("PreviewContainer and pythonPreview Tests", () => {
-
-    const arepl = vscode.extensions.getExtension("almenon.arepl")!;
+suite("to arepl logic", () => {
 
     const mockPythonEvaluator: any = {
         execCode: ()=>{}
