@@ -102,7 +102,10 @@ export class PreviewContainer{
                 vscode.window.showErrorMessage("Internal AREPL Error: " + error.toString(), "Report bug").then((action)=>{
                     if(action == "Report bug"){
                         const bugReportLink = vscode.Uri.parse("https://github.com/Almenon/AREPL-vscode/issues/new")
-                        vscode.env.openExternal(bugReportLink)
+                        // enable below for vscode version 1.31.0 or higher
+                        // vscode.env.openExternal(bugReportLink)
+                        vscode.commands.executeCommand('vscode.open', bugReportLink)
+
                     }
                 })
             }
