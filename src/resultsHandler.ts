@@ -3,21 +3,21 @@ import * as vscode from "vscode"
 import ResultsWebview from "./resultsPanel"
 import Reporter from "./telemetry"
 import {settings} from "./settings"
-import { resultsInline as PythonInlinePreview } from "./resultsInline"
+import { ResultsInline } from "./resultsInline"
 
 /**
  * logic wrapper around html preview doc
  */
 export class ResultsHandler{
     public printResults: string[];
-    pythonInlinePreview:PythonInlinePreview
+    resultsInline:ResultsInline
     public errorDecorationType: vscode.TextEditorDecorationType
     private vars: {}
 
     constructor(private reporter: Reporter, context: vscode.ExtensionContext, htmlUpdateFrequency=50, private resultsPanel?: ResultsWebview){
         if(!this.resultsPanel) this.resultsPanel = new ResultsWebview(context, htmlUpdateFrequency)
-        this.pythonInlinePreview = new PythonInlinePreview(reporter, context)
-        this.errorDecorationType = this.pythonInlinePreview.errorDecorationType
+        this.resultsInline = new ResultsInline(reporter, context)
+        this.errorDecorationType = this.resultsInline.errorDecorationType
     }
 
     public start(){
@@ -88,7 +88,7 @@ export class ResultsHandler{
 
             this.updateError(pythonResults.userErrorMsg)
             if(settings().get('inlineResults')){
-                this.pythonInlinePreview.updateErrorGutterIcons(pythonResults.userErrorMsg)
+                this.resultsInline.updateErrorGutterIcons(pythonResults.userErrorMsg)
             }
 
             this.resultsPanel.injectCustomCSS(settings().get('customCSS'))
