@@ -10,7 +10,7 @@ export default class PythonInlinePreview{
 
     constructor(private reporter: Reporter, context: vscode.ExtensionContext){
         this.errorDecorationType = vscode.window.createTextEditorDecorationType({
-            gutterIconPath: context.asAbsolutePath('media/red.jpg')
+            gutterIconPath: context.asAbsolutePath('media/red.jpg'),
         })
     }
 
