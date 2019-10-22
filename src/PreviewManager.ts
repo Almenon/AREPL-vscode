@@ -96,7 +96,7 @@ export default class PreviewManager {
     runAreplBlock() {
         const editor = vscode.window.activeTextEditor
         const selection = editor.selection
-        let block:vscode.Range = null;
+        let block: vscode.Range = null;
 
         if(selection.isEmpty){ // just a cursor
             block = vscodeUtils.getBlockOfText(editor, selection.start.line)
@@ -161,7 +161,7 @@ export default class PreviewManager {
             if((out.stdout && out.stdout.includes("Python 2.")) || (out.stderr && out.stderr.includes("Python 2."))){
                 vscode.window.showErrorMessage("AREPL does not support python 2. Please set AREPL to use python 3.")
             }
-        }).catch((s:Error)=>{
+        }).catch((s: Error)=>{
             // if we get spawn error here thats already reported by telemetry
             // so we skip telemetry reporting for this error
             console.error(s)

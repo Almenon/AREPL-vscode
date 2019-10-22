@@ -10,7 +10,7 @@ import {settings} from "./settings"
  */
 export class PreviewContainer{
     public printResults: string[];
-    pythonInlinePreview:PythonInlinePreview
+    pythonInlinePreview: PythonInlinePreview
     public errorDecorationType: vscode.TextEditorDecorationType
     private vars: {}
 

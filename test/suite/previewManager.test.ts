@@ -11,8 +11,8 @@ import { EOL } from "os";
 suite("PreviewManager and pythonPanelPreview Tests", () => {
 
     const arepl = vscode.extensions.getExtension("almenon.arepl")!;
-    let editor:vscode.TextEditor
-    let panel:vscode.WebviewPanel
+    let editor: vscode.TextEditor
+    let panel: vscode.WebviewPanel
     let previewManager: PreviewManager
 
     const mockContext: any = {
