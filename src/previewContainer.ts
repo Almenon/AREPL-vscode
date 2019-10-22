@@ -17,9 +17,7 @@ export class PreviewContainer{
     constructor(private reporter: Reporter, context: vscode.ExtensionContext, htmlUpdateFrequency=50, private pythonPanelPreview?: PythonPanelPreview){
         if(!this.pythonPanelPreview) this.pythonPanelPreview = new PythonPanelPreview(context, htmlUpdateFrequency)
         this.pythonInlinePreview = new PythonInlinePreview(reporter, context)
-        this.errorDecorationType = vscode.window.createTextEditorDecorationType({
-            gutterIconPath: context.asAbsolutePath('media/red.jpg')
-        })
+        this.errorDecorationType = this.pythonInlinePreview.errorDecorationType
     }
 
     public start(){
