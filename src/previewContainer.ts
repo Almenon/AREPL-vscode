@@ -1,9 +1,9 @@
 import {PythonResult} from "arepl-backend"
 import * as vscode from "vscode"
+import { pythonInlinePreview as PythonInlinePreview } from "./pythonInlinePreview"
 import PythonPanelPreview from "./pythonPanelPreview"
 import Reporter from "./telemetry"
 import {settings} from "./settings"
-import { pythonInlinePreview as PythonInlinePreview } from "./pythonInlinePreview"
 
 /**
  * logic wrapper around html preview doc
