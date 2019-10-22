@@ -62,7 +62,7 @@ export class ToAREPLLogic{
             evalCode: codeLines.join(eol),
             filePath,
             savedCode: savedLines.join(eol),
-            usePreviousVariables:false,
+            usePreviousVariables: false,
             showGlobalVars
         }
 

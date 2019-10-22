@@ -52,7 +52,7 @@ export default class Reporter{
      */
     sendFinishedEvent(settings: WorkspaceConfiguration){
         if(this.enabled){
-            const measurements: {[key:string]: number} = {}
+            const measurements: {[key: string]: number} = {}
             measurements['timeSpent'] = (Date.now() - this.timeOpened)/1000
             measurements['numRuns'] = this.numRuns
             measurements['numInterruptedRuns'] = this.numInterruptedRuns
@@ -98,7 +98,7 @@ export default class Reporter{
     /**
      * replace username with anon
      */
-    anonymizePaths(input:string){
+    anonymizePaths(input: string){
         if(input == null) return input
         return input.replace(new RegExp('\\'+sep+userInfo().username, 'g'), sep+'anon')
     }

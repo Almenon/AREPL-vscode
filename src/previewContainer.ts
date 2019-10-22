@@ -1,8 +1,8 @@
 import {PythonResult} from "arepl-backend"
 import * as vscode from "vscode"
+import PythonInlinePreview from "./pythonInlinePreview"
 import PythonPanelPreview from "./pythonPanelPreview"
 import Reporter from "./telemetry"
-import Utilities from "./utilities"
 import {settings} from "./settings"
 
 /**
@@ -10,14 +10,14 @@ import {settings} from "./settings"
  */
 export class PreviewContainer{
     public printResults: string[];
+    pythonInlinePreview: PythonInlinePreview
     public errorDecorationType: vscode.TextEditorDecorationType
     private vars: {}
 
     constructor(private reporter: Reporter, context: vscode.ExtensionContext, htmlUpdateFrequency=50, private pythonPanelPreview?: PythonPanelPreview){
-        if(!this.pythonPanelPreview) this.pythonPanelPreview = new PythonPanelPreview(context, htmlUpdateFrequency);
-        this.errorDecorationType = vscode.window.createTextEditorDecorationType({
-            gutterIconPath: context.asAbsolutePath('media/red.jpg')
-        })
+        if(!this.pythonPanelPreview) this.pythonPanelPreview = new PythonPanelPreview(context, htmlUpdateFrequency)
+        this.pythonInlinePreview = new PythonInlinePreview(reporter, context)
+        this.errorDecorationType = this.pythonInlinePreview.errorDecorationType
     }
 
     public start(){
@@ -88,7 +88,7 @@ export class PreviewContainer{
 
             this.updateError(pythonResults.userErrorMsg)
             if(settings().get('inlineResults')){
-                this.updateErrorGutterIcons(pythonResults.userErrorMsg)
+                this.pythonInlinePreview.updateErrorGutterIcons(pythonResults.userErrorMsg)
             }
 
             this.pythonPanelPreview.injectCustomCSS(settings().get('customCSS'))
@@ -133,60 +133,6 @@ export class PreviewContainer{
 
     public displayProcessError(err: string){
         this.pythonPanelPreview.displayProcessError(err)
-    }
-
-    /**
-     * sets gutter icons in sidebar. Safe - catches and logs any exceptions
-     */
-    private updateErrorGutterIcons(error: string){
-        try {
-            const errLineNums = this.getLineNumsFromPythonTrace(error)
-            
-            let decorations = errLineNums.map((num)=>{
-                const lineNum = num-1 // python trace uses 1-based indexing but vscode lines start at 0
-                const range = new vscode.Range(lineNum, 0, lineNum, 0)
-                return {range} as vscode.DecorationOptions
-            })
-            
-            if(vscode.window.activeTextEditor){
-                vscode.window.activeTextEditor.setDecorations(this.errorDecorationType, decorations)
-            }
-
-        } catch (error) {
-            if(error instanceof Error){
-                this.reporter.sendError(error)
-            }
-            else{
-                this.reporter.sendError(new Error(error))
-            }
-        }
-    }
-
-    /**
-     * returns line numbers for each error in the stack trace
-     * @param error a python stacktrace
-     */
-    private getLineNumsFromPythonTrace(error: string){
-            /* this regex will get the line number of each error. A error might look like this:
-            
-            Traceback (most recent call last):
-            line 4, in <module>
-            line 2, in foo
-            TypeError: unsupported operand type(s) for +: 'int' and 'str'
-            
-            The regex will not get line numbers in different files. Those have different format:
-            File "filePath", line 394, in func
-            */
-           const lineNumRegex = /^ *line (\d+), in /gm
-           let errLineNums: number[] = []
-           let match: RegExpExecArray
-           
-           while(match = lineNumRegex.exec(error)){
-               const matchCaptureGroup = match[1]
-               errLineNums.push(parseInt(matchCaptureGroup))
-           }
-
-           return errLineNums
     }
 
     /**
