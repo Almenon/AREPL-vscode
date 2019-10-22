@@ -6,10 +6,10 @@ import vscodeUtils from "../../src/vscodeUtilities";
 
 
 /**
- * this suite tests both previewContainer and pythonPreview
- * by activating funcs in previewContainer and looking at html rendered by pythonPreview
+ * this suite tests both previewContainer and pythonPanelPreview
+ * by activating funcs in previewContainer and looking at html rendered by pythonPanelPreview
  */
-suite("PreviewContainer and pythonPreview Tests", () => {
+suite("PreviewContainer and pythonPanelPreview Tests", () => {
 
     const arepl = vscode.extensions.getExtension("almenon.arepl")!;
 

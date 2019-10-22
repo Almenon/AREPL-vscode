@@ -13,8 +13,8 @@ export class PreviewContainer{
     public errorDecorationType: vscode.TextEditorDecorationType
     private vars: {}
 
-    constructor(private reporter: Reporter, context: vscode.ExtensionContext, htmlUpdateFrequency=50, private pythonPreview?: PythonPanelPreview){
-        if(!this.pythonPreview) this.pythonPreview = new PythonPanelPreview(context, htmlUpdateFrequency);
+    constructor(private reporter: Reporter, context: vscode.ExtensionContext, htmlUpdateFrequency=50, private pythonPanelPreview?: PythonPanelPreview){
+        if(!this.pythonPanelPreview) this.pythonPanelPreview = new PythonPanelPreview(context, htmlUpdateFrequency);
         this.errorDecorationType = vscode.window.createTextEditorDecorationType({
             gutterIconPath: context.asAbsolutePath('media/red.jpg')
         })
@@ -22,7 +22,7 @@ export class PreviewContainer{
 
     public start(){
         this.clearStoredData()
-        return this.pythonPreview.start()
+        return this.pythonPanelPreview.start()
     }
 
     /**
@@ -51,7 +51,7 @@ export class PreviewContainer{
             }
             else{
                 // exec time is the 'truest' time that user cares about
-                this.pythonPreview.updateTime(pythonResults.execTime);
+                this.pythonPanelPreview.updateTime(pythonResults.execTime);
             }
 
             this.vars = {...this.vars, ...pythonResults.userVariables}
@@ -67,7 +67,7 @@ export class PreviewContainer{
             // So only update vars if there's not a syntax error
             // this is because it's annoying to user if they have a syntax error and all their variables dissapear
             if(!syntaxError){
-                this.pythonPreview.updateVars(this.vars)
+                this.pythonPanelPreview.updateVars(this.vars)
             }
 
             if(pythonResults.internalError){
@@ -84,15 +84,15 @@ export class PreviewContainer{
                 pythonResults.userErrorMsg = pythonResults.internalError
             }
 
-            if(this.printResults.length == 0) this.pythonPreview.clearPrint()
+            if(this.printResults.length == 0) this.pythonPanelPreview.clearPrint()
 
             this.updateError(pythonResults.userErrorMsg)
             if(settings().get('inlineResults')){
                 this.updateErrorGutterIcons(pythonResults.userErrorMsg)
             }
 
-            this.pythonPreview.injectCustomCSS(settings().get('customCSS'))
-            this.pythonPreview.throttledUpdate()
+            this.pythonPanelPreview.injectCustomCSS(settings().get('customCSS'))
+            this.pythonPanelPreview.throttledUpdate()
 
             if(pythonResults.done) this.clearStoredData()
         } catch (error) {
@@ -121,18 +121,18 @@ export class PreviewContainer{
 
     public handlePrint(pythonResults: string){
         this.printResults.push(pythonResults);
-        this.pythonPreview.handlePrint(this.printResults.join('\n'))
+        this.pythonPanelPreview.handlePrint(this.printResults.join('\n'))
     }
 
     /**
      * @param refresh if true updates page immediately.  otherwise error will show up whenever updateContent is called
      */
     public updateError(err: string, refresh=false){
-        this.pythonPreview.updateError(err, refresh)
+        this.pythonPanelPreview.updateError(err, refresh)
     }
 
     public displayProcessError(err: string){
-        this.pythonPreview.displayProcessError(err)
+        this.pythonPanelPreview.displayProcessError(err)
     }
 
     /**
@@ -208,6 +208,6 @@ export class PreviewContainer{
     }
 
     get onDidChange(): vscode.Event<vscode.Uri> {
-        return this.pythonPreview.onDidChange
+        return this.pythonPanelPreview.onDidChange
     }
 }
