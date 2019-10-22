@@ -111,16 +111,16 @@
 <path fill="none" stroke="black" d="M82.2031,-173.07C95.8492,-169.286 111.941,-164.823 126.538,-160.775"/>
 <polygon fill="black" stroke="black" points="127.656,-164.097 136.357,-158.052 125.786,-157.352 127.656,-164.097"/>
 </g>
-<!-- src/pythonPreview.ts -->
-<g id="node7" class="node"><title>src/pythonPreview.ts</title>
-<g id="a_node7"><a xlink:href="src/pythonPreview.ts" xlink:title="pythonPreview.ts">
+<!-- src/pythonPanelPreview.ts -->
+<g id="node7" class="node"><title>src/pythonPanelPreview.ts</title>
+<g id="a_node7"><a xlink:href="src/pythonPanelPreview.ts" xlink:title="pythonPanelPreview.ts">
 <path fill="#ffffcc" stroke="black" d="M487.5,-202C487.5,-202 413.5,-202 413.5,-202 410.5,-202 407.5,-199 407.5,-196 407.5,-196 407.5,-190 407.5,-190 407.5,-187 410.5,-184 413.5,-184 413.5,-184 487.5,-184 487.5,-184 490.5,-184 493.5,-187 493.5,-190 493.5,-190 493.5,-196 493.5,-196 493.5,-199 490.5,-202 487.5,-202"/>
-<text text-anchor="middle" x="450.5" y="-190.8" font-family="Helvetica,sans-Serif" font-size="9.00">pythonPreview.ts</text>
+<text text-anchor="middle" x="450.5" y="-190.8" font-family="Helvetica,sans-Serif" font-size="9.00">pythonPanelPreview.ts</text>
 </a>
 </g>
 </g>
-<!-- src/extension.ts&#45;&gt;src/pythonPreview.ts -->
-<g id="edge7" class="edge"><title>src/extension.ts&#45;&gt;src/pythonPreview.ts</title>
+<!-- src/extension.ts&#45;&gt;src/pythonPanelPreview.ts -->
+<g id="edge7" class="edge"><title>src/extension.ts&#45;&gt;src/pythonPanelPreview.ts</title>
 <path fill="none" stroke="black" d="M82.1524,-179.72C93.4765,-179.02 106.297,-178.344 118,-178 164.202,-176.642 176.785,-168.405 222,-178 239.128,-181.635 240.872,-190.365 258,-194 300.607,-203.042 312.445,-194.233 356,-194 369.324,-193.929 383.716,-193.8 397.121,-193.659"/>
 <polygon fill="black" stroke="black" points="397.184,-197.158 407.145,-193.549 397.107,-190.159 397.184,-197.158"/>
 </g>
@@ -150,8 +150,8 @@
 <path fill="none" stroke="black" d="M68.2287,-191.067C81.6266,-197.205 100.475,-204.764 118,-208 288.889,-239.556 342.196,-256.736 509,-208 527.225,-202.675 528.694,-194.726 545,-185 545.518,-184.691 546.043,-184.38 546.573,-184.068"/>
 <polygon fill="black" stroke="black" points="548.408,-187.051 555.345,-179.043 544.928,-180.977 548.408,-187.051"/>
 </g>
-<!-- src/previewContainer.ts&#45;&gt;src/pythonPreview.ts -->
-<g id="edge10" class="edge"><title>src/previewContainer.ts&#45;&gt;src/pythonPreview.ts</title>
+<!-- src/previewContainer.ts&#45;&gt;src/pythonPanelPreview.ts -->
+<g id="edge10" class="edge"><title>src/previewContainer.ts&#45;&gt;src/pythonPanelPreview.ts</title>
 <path fill="none" stroke="black" d="M345.189,-128.184C348.99,-129.828 352.672,-131.752 356,-134 376.939,-148.141 370.729,-164.362 392,-178 393.905,-179.222 395.906,-180.344 397.973,-181.375"/>
 <polygon fill="black" stroke="black" points="396.782,-184.672 407.356,-185.337 399.505,-178.223 396.782,-184.672"/>
 </g>
@@ -176,13 +176,13 @@
 </a>
 </g>
 </g>
-<!-- src/pythonPreview.ts&#45;&gt;src/throttle.ts -->
-<g id="edge12" class="edge"><title>src/pythonPreview.ts&#45;&gt;src/throttle.ts</title>
+<!-- src/pythonPanelPreview.ts&#45;&gt;src/throttle.ts -->
+<g id="edge12" class="edge"><title>src/pythonPanelPreview.ts&#45;&gt;src/throttle.ts</title>
 <path fill="none" stroke="black" d="M493.645,-195.448C507.355,-196.245 522.443,-197.121 535.688,-197.891"/>
 <polygon fill="black" stroke="black" points="535.667,-201.395 545.853,-198.481 536.073,-194.407 535.667,-201.395"/>
 </g>
-<!-- src/pythonPreview.ts&#45;&gt;src/utilities.ts -->
-<g id="edge13" class="edge"><title>src/pythonPreview.ts&#45;&gt;src/utilities.ts</title>
+<!-- src/pythonPanelPreview.ts&#45;&gt;src/utilities.ts -->
+<g id="edge13" class="edge"><title>src/pythonPanelPreview.ts&#45;&gt;src/utilities.ts</title>
 <path fill="none" stroke="black" d="M493.645,-184.956C507.033,-182.4 521.736,-179.594 534.753,-177.109"/>
 <polygon fill="black" stroke="black" points="535.608,-180.509 544.774,-175.197 534.295,-173.634 535.608,-180.509"/>
 </g>
