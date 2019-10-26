@@ -5,7 +5,6 @@ import { ConfigurationChangeEvent, Disposable, Event, EventEmitter, FileSystemWa
 import { IWorkspaceService } from '../application/types';
 import { IPlatformService } from '../platform/types';
 import { ICurrentProcess } from '../types';
-import { cacheResourceSpecificInterpreterData, clearCachedResourceSpecificInterpreterData } from '../utils/decorators';
 import { EnvironmentVariables, IEnvironmentVariablesProvider, IEnvironmentVariablesService } from './types';
 
 const cacheDuration = 60 * 60 * 1000;
@@ -18,7 +17,6 @@ export class EnvironmentVariablesProvider implements IEnvironmentVariablesProvid
         disposableRegistry: Disposable[],
         private platformService: IPlatformService,
         private workspaceService: IWorkspaceService,
-        private readonly workspaceConfiguration: WorkspaceConfiguration,
         private process: ICurrentProcess) {
         disposableRegistry.push(this);
         this.changeEventEmitter = new EventEmitter();
@@ -38,12 +36,11 @@ export class EnvironmentVariablesProvider implements IEnvironmentVariablesProvid
             }
         });
     }
-    @cacheResourceSpecificInterpreterData('getEnvironmentVariables', cacheDuration)
-    public async getEnvironmentVariables(resource?: Uri): Promise<EnvironmentVariables> {
-        const workspaceFolderUri = this.getWorkspaceFolderUri(resource);
+
+    public async getEnvironmentVariables(envFilePath: string, workspaceFolderUri?: Uri): Promise<EnvironmentVariables> {
         this.trackedWorkspaceFolders.add(workspaceFolderUri ? workspaceFolderUri.fsPath : '');
-        this.createFileWatcher(this.workspaceConfiguration.get('envFile'), workspaceFolderUri);
-        let mergedVars = await this.envVarsService.parseFile(this.workspaceConfiguration.get('envFile'), this.process.env);
+        this.createFileWatcher(envFilePath, workspaceFolderUri);
+        let mergedVars = await this.envVarsService.parseFile(envFilePath, this.process.env);
         if (!mergedVars) {
             mergedVars = {};
         }
@@ -86,8 +83,6 @@ export class EnvironmentVariablesProvider implements IEnvironmentVariablesProvid
         return workspaceFolder ? workspaceFolder.uri : undefined;
     }
     private onEnvironmentFileChanged(workspaceFolderUri?: Uri) {
-        clearCachedResourceSpecificInterpreterData('getEnvironmentVariables', workspaceFolderUri);
-        clearCachedResourceSpecificInterpreterData('CustomEnvironmentVariables', workspaceFolderUri);
         this.changeEventEmitter.fire(workspaceFolderUri);
     }
 }

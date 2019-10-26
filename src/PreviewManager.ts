@@ -47,19 +47,16 @@ export default class PreviewManager {
         })
     }
 
-    loadAndWatchEnvVars(){
+    async loadAndWatchEnvVars(){
         const platformService = new PlatformService()
         const envVarsService = new EnvironmentVariablesService(new PathUtils(platformService.isWindows))
         const workspaceService = new WorkspaceService()
-        const workspaceConf = settings()
-        workspaceConf.update('envFile')
         const e = new EnvironmentVariablesProvider(envVarsService,
             this.subscriptions,
             platformService,
             workspaceService,
-            settings(),
             process)
-        e.getEnvironmentVariables()
+        await e.getEnvironmentVariables(areplUtils.getEnvFilePath(), vscodeUtils.getCurrentWorkspaceFolderUri())
     }
 
     async startArepl(){
@@ -80,7 +77,8 @@ export default class PreviewManager {
         panel.onDidDispose(()=>this.dispose(), this, this.subscriptions)
         this.subscriptions.push(panel)
 
-        this.loadAndWatchEnvVars()
+        // basically all this does is load a file.. why does it need to be async *sob*
+        await this.loadAndWatchEnvVars()
 
         this.startAndBindPython()
 
