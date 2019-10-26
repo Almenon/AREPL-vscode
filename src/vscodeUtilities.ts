@@ -1,7 +1,36 @@
 "use strict"
 import * as vscode from "vscode";
+import { isAbsolute, sep } from "path";
 
 export default class vscodeUtils {
+
+    /**
+     * expands ${} macros like ${workspaceFolder} or ${env:foo}
+     */
+    static expandSettingMacros(setting: string){
+        setting = setting.replace("${workspaceFolder}", vscodeUtils.getCurrentWorkspaceFolder())
+
+        const envVar = setting.match(/\${env:([^}]+)}/)
+        if(envVar){
+            setting = setting.replace(envVar[1], process.env[envVar[1]])
+        }
+        
+        return setting
+    }
+
+    /**
+     * returns absolute path with macros expanded
+     */
+    static expandPathSetting(path: string){
+        path = this.expandSettingMacros(path)
+
+        // if its a relative path, make it absolute
+        if(path.includes(sep) && !isAbsolute(path)){
+            path = vscodeUtils.getCurrentWorkspaceFolder() + sep + path
+        }
+
+        return path
+    }
 
     /**
      * returns doc eol as string;
