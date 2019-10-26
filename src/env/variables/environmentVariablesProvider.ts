@@ -5,7 +5,7 @@ import { ConfigurationChangeEvent, Disposable, Event, EventEmitter, FileSystemWa
 import { IWorkspaceService } from '../application/types';
 import { IPlatformService } from '../platform/types';
 import { ICurrentProcess } from '../types';
-import { cacheResourceSpecificInterpreterData, clearCachedResourceSpecificIngterpreterData } from '../utils/decorators';
+import { cacheResourceSpecificInterpreterData, clearCachedResourceSpecificInterpreterData } from '../utils/decorators';
 import { EnvironmentVariables, IEnvironmentVariablesProvider, IEnvironmentVariablesService } from './types';
 
 const cacheDuration = 60 * 60 * 1000;
@@ -61,7 +61,7 @@ export class EnvironmentVariablesProvider implements IEnvironmentVariablesProvid
     public configurationChanged(e: ConfigurationChangeEvent) {
         this.trackedWorkspaceFolders.forEach(item => {
             const uri = item && item.length > 0 ? Uri.file(item) : undefined;
-            if (e.affectsConfiguration('python.envFile', uri)) {
+            if (e.affectsConfiguration('python.envFile', uri) || e.affectsConfiguration('AREPL.envFile', uri)) {
                 this.onEnvironmentFileChanged(uri);
             }
         });
@@ -86,8 +86,8 @@ export class EnvironmentVariablesProvider implements IEnvironmentVariablesProvid
         return workspaceFolder ? workspaceFolder.uri : undefined;
     }
     private onEnvironmentFileChanged(workspaceFolderUri?: Uri) {
-        clearCachedResourceSpecificIngterpreterData('getEnvironmentVariables', workspaceFolderUri);
-        clearCachedResourceSpecificIngterpreterData('CustomEnvironmentVariables', workspaceFolderUri);
+        clearCachedResourceSpecificInterpreterData('getEnvironmentVariables', workspaceFolderUri);
+        clearCachedResourceSpecificInterpreterData('CustomEnvironmentVariables', workspaceFolderUri);
         this.changeEventEmitter.fire(workspaceFolderUri);
     }
 }

@@ -51,6 +51,8 @@ export default class PreviewManager {
         const platformService = new PlatformService()
         const envVarsService = new EnvironmentVariablesService(new PathUtils(platformService.isWindows))
         const workspaceService = new WorkspaceService()
+        const workspaceConf = settings()
+        workspaceConf.update('envFile')
         const e = new EnvironmentVariablesProvider(envVarsService,
             this.subscriptions,
             platformService,

@@ -8,7 +8,7 @@ import { InMemoryInterpreterSpecificCache } from './cacheUtils';
 type VSCodeType = typeof import('vscode');
 type PromiseFunctionWithFirstArgOfResource = (...any: [Uri | undefined, ...any[]]) => Promise<any>;
 
-export function clearCachedResourceSpecificIngterpreterData(key: string, resource: Resource, vscode: VSCodeType = require('vscode')) {
+export function clearCachedResourceSpecificInterpreterData(key: string, resource: Resource, vscode: VSCodeType = require('vscode')) {
     const cache = new InMemoryInterpreterSpecificCache(key, 0, [resource], vscode);
     cache.clear();
 }
