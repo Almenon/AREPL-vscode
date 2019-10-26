@@ -10,21 +10,20 @@ import vscodeUtils from "./vscodeUtilities"
  */
 export default class areplUtils {
 
+    static getEnvFilePath(){
+        let envFilePath = vscodeUtils.getSettingOrOtherExtSettingAsDefault<string>("AREPL", "python", "envFile")
+
+        if(!envFilePath) envFilePath = "${workspaceFolder}/.env"
+
+        return vscodeUtils.expandPathSetting(envFilePath)
+    }
+
     static getPythonPath(){
-        let pythonPath = settings().get<string>("pythonPath")
+        let pythonPath = vscodeUtils.getSettingOrOtherExtSettingAsDefault<string>("AREPL", "python", "pythonPath")
 
-        const pythonExtSettings = vscode.workspace.getConfiguration("python", null);
-        const pythonExtPythonPath = pythonExtSettings.get<string>('pythonPath')
-        if(pythonExtPythonPath && !pythonPath) pythonPath = pythonExtPythonPath
+        if(!pythonPath) pythonPath = PythonShell.defaultPythonPath
 
-        if(pythonPath){
-            pythonPath = vscodeUtils.expandPathSetting(pythonPath)
-        }
-        else{
-            pythonPath = PythonShell.defaultPythonPath
-        }
-
-        return pythonPath
+        return vscodeUtils.expandPathSetting(pythonPath)
     }
 
     static insertDefaultImports(editor: vscode.TextEditor){
