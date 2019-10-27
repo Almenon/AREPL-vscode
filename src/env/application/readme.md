@@ -1,0 +1,1 @@
+This folder contains a `workspace.ts` file that is a convenient wrapper around vscode.workspace
