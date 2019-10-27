@@ -48,10 +48,10 @@ export class EnvironmentVariablesProvider implements IEnvironmentVariablesProvid
         const pathVariable = this.platformService.pathVariableName;
         const pathValue = this.process.env[pathVariable];
         if (pathValue) {
-            this.envVarsService.appendPath(mergedVars!, pathValue);
+            this.envVarsService.appendPath(mergedVars, pathValue);
         }
         if (this.process.env.PYTHONPATH) {
-            this.envVarsService.appendPythonPath(mergedVars!, this.process.env.PYTHONPATH);
+            this.envVarsService.appendPythonPath(mergedVars, this.process.env.PYTHONPATH);
         }
         return mergedVars;
     }
