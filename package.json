@@ -281,7 +281,7 @@
     "mocha": "^6.1.4",
     "remap-istanbul": "^0.10.1",
     "source-map-support": "^0.5.13",
-    "typescript": "^3.5.1",
+    "typescript": "^3.6.4",
     "vscode-test": "^1.2.0"
   },
   "dependencies": {
