@@ -56,7 +56,7 @@ export default class PreviewManager {
             platformService,
             workspaceService,
             process)
-        await e.getEnvironmentVariables(areplUtils.getEnvFilePath(), vscodeUtils.getCurrentWorkspaceFolderUri())
+        process.env = await e.getEnvironmentVariables(areplUtils.getEnvFilePath(), vscodeUtils.getCurrentWorkspaceFolderUri())
     }
 
     async startArepl(){
