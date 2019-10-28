@@ -1,19 +1,19 @@
 "use strict"
 import {PythonEvaluator} from "arepl-backend"
+import areplUtils from "./areplUtilities"
 import * as vscode from "vscode"
+import { EnvironmentVariablesProvider } from "./env/variables/environmentVariablesProvider"
+import { EnvironmentVariablesService } from "./env/variables/environment"
+import { join } from "path";
 import { PreviewContainer } from "./previewContainer"
 import Reporter from "./telemetry"
 import {ToAREPLLogic} from "./toAREPLLogic"
-import vscodeUtils from "./vscodeUtilities"
-import areplUtils from "./areplUtilities"
 import { PythonShell } from "python-shell"
 import {settings} from "./settings"
 import printDir from "./printDir";
-import { join } from "path";
-import { EnvironmentVariablesProvider } from "./env/variables/environmentVariablesProvider"
-import { EnvironmentVariablesService } from "./env/variables/environment"
 import { PlatformService } from "./env/platform/platformService"
 import { PathUtils } from "./env/platform/pathUtils"
+import vscodeUtils from "./vscodeUtilities"
 import { WorkspaceService } from "./env/application/workspace"
 
 /**
@@ -190,7 +190,7 @@ export default class PreviewManager {
         this.PythonEvaluator = new PythonEvaluator({
             pythonOptions,
             pythonPath,
-            env
+            env,
         })
         
         try {

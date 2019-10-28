@@ -102,9 +102,10 @@ export default class vscodeUtils {
     }
 
     /**
-     * gets setting or if undefined/empty a setting from different extension. Assumes setting from other extension has the same name and type.
+     * gets setting or if undefined/empty a setting from different extension.
+     * Assumes setting from other extension has the same name and type.
      */
-    static getSettingOrOtherExtSettingAsDefault<T>(primaryExt: string, otherExt: string, setting: string):T{
+    static getSettingOrOtherExtSettingAsDefault<T>(primaryExt: string, otherExt: string, setting: string): T{
         let primarySetting = vscode.workspace.getConfiguration(primaryExt).get<T>(setting)
 
         const otherExtensionSettings = vscode.workspace.getConfiguration(otherExt, null)
