@@ -80,6 +80,9 @@ export default class vscodeUtils {
         return editor.document.getText(editor.selection)
     }
 
+    /**
+     * returns current workspace folder uri or undefined if no folder open
+     */
     static getCurrentWorkspaceFolderUri(): vscode.Uri{
         const workspaceFolders = vscode.workspace.workspaceFolders
         if(workspaceFolders && workspaceFolders.length > 0 && workspaceFolders[0]){
@@ -93,8 +96,8 @@ export default class vscodeUtils {
      * If no folder is open either returns friendly warning or empty string
      */
     static getCurrentWorkspaceFolder(friendlyWarning=true): string{
-        const path = this.getCurrentWorkspaceFolderUri().fsPath
-        if(path) return path;
+        const path = this.getCurrentWorkspaceFolderUri()
+        if(path) return path.fsPath;
         else return friendlyWarning ? "could not find workspace folder" : ""
     }
 
