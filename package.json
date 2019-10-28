@@ -285,7 +285,7 @@
     "vscode-test": "^1.2.0"
   },
   "dependencies": {
-    "arepl-backend": "^1.1.15",
+    "arepl-backend": "^1.2.0",
     "opn": "^5.3.0",
     "path": "^0.12.7",
     "vscode-extension-telemetry": "0.1.2"

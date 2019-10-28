@@ -1,4 +1,4 @@
-import {python_evaluator} from "arepl-backend"
+import {PythonEvaluator} from "arepl-backend"
 import {PreviewContainer} from "./previewContainer"
 import pyGuiLibraryIsPresent from "./pyGuiLibraryIsPresent"
 import {settings} from "./settings"
@@ -15,7 +15,7 @@ export class ToAREPLLogic{
     lastCodeSection = ""
     lastEndSection = ""
 
-    constructor(private python_evaluator: python_evaluator, private previewContainer: PreviewContainer){
+    constructor(private PythonEvaluator: PythonEvaluator, private previewContainer: PreviewContainer){
 
     }
 
@@ -86,7 +86,7 @@ export class ToAREPLLogic{
             this.restartedLastTime = false;
         }
         else{                
-            this.python_evaluator.execCode(data)
+            this.PythonEvaluator.execCode(data)
         }
 
         return true
@@ -100,7 +100,7 @@ export class ToAREPLLogic{
         let syntaxPromise: Promise<{}>
     
         // #22 it might be faster to use checkSyntaxFile but this is simpler
-        syntaxPromise = this.python_evaluator.checkSyntax(data.savedCode + data.evalCode)
+        syntaxPromise = this.PythonEvaluator.checkSyntax(data.savedCode + data.evalCode)
 
         syntaxPromise.then(() => {
             this.restartPython(data)
@@ -126,8 +126,8 @@ export class ToAREPLLogic{
     
     private restartPython(data: {evalCode: string, savedCode: string, filePath: string}){
         this.previewContainer.clearStoredData()
-        this.python_evaluator.restart(
-            this.python_evaluator.execCode.bind(this.python_evaluator, data)
+        this.PythonEvaluator.restart(
+            this.PythonEvaluator.execCode.bind(this.PythonEvaluator, data)
         );     
     }
 }
