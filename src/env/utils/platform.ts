@@ -16,7 +16,7 @@ export enum OSType {
 }
 
 // Return the OS type for the given platform string.
-export function getOSType(platform: string = process.platform): OSType {
+export function getOSType(platform: string = process.platform) {
     if (/^win/.test(platform)) {
         return OSType.Windows;
     } else if (/^darwin/.test(platform)) {

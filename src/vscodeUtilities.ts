@@ -1,7 +1,36 @@
 "use strict"
 import * as vscode from "vscode";
+import { isAbsolute, sep } from "path";
 
 export default class vscodeUtils {
+
+    /**
+     * expands ${} macros like ${workspaceFolder} or ${env:foo}
+     */
+    static expandSettingMacros(setting: string){
+        setting = setting.replace("${workspaceFolder}", vscodeUtils.getCurrentWorkspaceFolder())
+
+        const envVar = setting.match(/\${env:([^}]+)}/)
+        if(envVar){
+            setting = setting.replace(envVar[1], process.env[envVar[1]])
+        }
+        
+        return setting
+    }
+
+    /**
+     * returns absolute path with macros expanded
+     */
+    static expandPathSetting(path: string){
+        path = this.expandSettingMacros(path)
+
+        // if its a relative path, make it absolute
+        if(path.includes(sep) && !isAbsolute(path)){
+            path = vscodeUtils.getCurrentWorkspaceFolder() + sep + path
+        }
+
+        return path
+    }
 
     /**
      * returns doc eol as string;
@@ -50,16 +79,38 @@ export default class vscodeUtils {
         if(!editor) return ""
         return editor.document.getText(editor.selection)
     }
-    
+
+    /**
+     * returns current workspace folder uri or undefined if no folder open
+     */
+    static getCurrentWorkspaceFolderUri(): vscode.Uri{
+        const workspaceFolders = vscode.workspace.workspaceFolders
+        if(workspaceFolders && workspaceFolders.length > 0 && workspaceFolders[0]){
+            return workspaceFolders[0].uri
+        }
+        
+    }
+
     /**
      * returns current folder path. 
      * If no folder is open either returns friendly warning or empty string
      */
-    static getCurrentWorkspaceFolder(friendlyWarning=true){
-        const workspaceFolders = vscode.workspace.workspaceFolders
-        if(workspaceFolders && workspaceFolders.length > 0 && workspaceFolders[0]){
-            return workspaceFolders[0].uri.fsPath
-        }
+    static getCurrentWorkspaceFolder(friendlyWarning=true): string{
+        const path = this.getCurrentWorkspaceFolderUri()
+        if(path) return path.fsPath;
         else return friendlyWarning ? "could not find workspace folder" : ""
+    }
+
+    /**
+     * gets setting or if undefined/empty a setting from different extension.
+     * Assumes setting from other extension has the same name and type.
+     */
+    static getSettingOrOtherExtSettingAsDefault<T>(primaryExt: string, otherExt: string, setting: string): T{
+        let primarySetting = vscode.workspace.getConfiguration(primaryExt).get<T>(setting)
+
+        const otherExtensionSettings = vscode.workspace.getConfiguration(otherExt, null)
+        const otherSetting = otherExtensionSettings.get<T>(setting)
+        if(otherSetting && !primarySetting) primarySetting = otherSetting       
+        return primarySetting
     }
 }

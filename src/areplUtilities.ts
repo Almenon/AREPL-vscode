@@ -1,7 +1,6 @@
 "use strict"
 import * as vscode from "vscode";
 import {EOL} from "os"
-import { isAbsolute, sep } from "path";
 import {settings} from "./settings"
 import { PythonShell } from "python-shell";
 import vscodeUtils from "./vscodeUtilities"
@@ -11,34 +10,20 @@ import vscodeUtils from "./vscodeUtilities"
  */
 export default class areplUtils {
 
+    static getEnvFilePath(){
+        let envFilePath = vscodeUtils.getSettingOrOtherExtSettingAsDefault<string>("AREPL", "python", "envFile")
+
+        if(!envFilePath) envFilePath = "${workspaceFolder}/.env"
+
+        return vscodeUtils.expandPathSetting(envFilePath)
+    }
+
     static getPythonPath(){
-        let pythonPath = settings().get<string>("pythonPath")
+        let pythonPath = vscodeUtils.getSettingOrOtherExtSettingAsDefault<string>("AREPL", "python", "pythonPath")
 
-        const pythonExtSettings = vscode.workspace.getConfiguration("python", null);
-        const pythonExtPythonPath = pythonExtSettings.get<string>('pythonPath')
-        if(pythonExtPythonPath && !pythonPath) pythonPath = pythonExtPythonPath
+        if(!pythonPath) pythonPath = PythonShell.defaultPythonPath
 
-        if(pythonPath){
-            pythonPath = pythonPath.replace("${workspaceFolder}", vscodeUtils.getCurrentWorkspaceFolder())
-
-            let envVar = pythonPath.match(/\${env:([^}]+)}/)
-            if(envVar){
-                pythonPath = pythonPath.replace(envVar[1], process.env[envVar[1]])
-            }
-
-            // not needed anymore but here for backwards compatability. Remove in 2020
-            pythonPath = pythonPath.replace("${python.pythonPath}", pythonExtSettings.get('pythonPath'))
-
-            // if its a relative path, make it absolute
-            if(pythonPath.includes(sep) && !isAbsolute(pythonPath)){
-                pythonPath = vscodeUtils.getCurrentWorkspaceFolder() + sep + pythonPath
-            }
-        }
-        else{
-            pythonPath = PythonShell.defaultPythonPath
-        }
-
-        return pythonPath
+        return vscodeUtils.expandPathSetting(pythonPath)
     }
 
     static insertDefaultImports(editor: vscode.TextEditor){

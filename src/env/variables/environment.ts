@@ -74,7 +74,7 @@ export class EnvironmentVariablesService implements IEnvironmentVariablesService
 export function parseEnvFile(
     lines: string | Buffer,
     baseVars?: EnvironmentVariables
-): EnvironmentVariables {
+) {
     const globalVars = baseVars ? baseVars : {};
     const vars : EnvironmentVariables = {};
     lines.toString().split('\n').forEach((line, _idx) => {

@@ -151,6 +151,11 @@
           "default": null,
           "description": "AREPL uses the path you have defined in the official python extension. If not present then this setting will be used. If this setting is also empty then on windows py will be used, or python3 otherwise"
         },
+        "AREPL.envFile": {
+          "type": "string",
+          "default": null,
+          "description": "Absolute path to a file containing environment variable definitions. If not set the setting from the python extension will be used, or ${workspaceFolder}/.env if the python extension is not installed"
+        },
         "AREPL.pythonOptions": {
           "type": "array",
           "default": [
@@ -276,11 +281,11 @@
     "mocha": "^6.1.4",
     "remap-istanbul": "^0.10.1",
     "source-map-support": "^0.5.13",
-    "typescript": "^3.5.1",
+    "typescript": "^3.6.4",
     "vscode-test": "^1.2.0"
   },
   "dependencies": {
-    "arepl-backend": "^1.1.15",
+    "arepl-backend": "^1.2.0",
     "opn": "^5.3.0",
     "path": "^0.12.7",
     "vscode-extension-telemetry": "0.1.2"

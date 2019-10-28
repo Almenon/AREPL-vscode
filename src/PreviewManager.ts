@@ -1,15 +1,20 @@
 "use strict"
-import {python_evaluator} from "arepl-backend"
+import {PythonEvaluator} from "arepl-backend"
+import areplUtils from "./areplUtilities"
 import * as vscode from "vscode"
+import { EnvironmentVariablesProvider } from "./env/variables/environmentVariablesProvider"
+import { EnvironmentVariablesService } from "./env/variables/environment"
+import { join } from "path";
 import { PreviewContainer } from "./previewContainer"
 import Reporter from "./telemetry"
 import {ToAREPLLogic} from "./toAREPLLogic"
-import vscodeUtils from "./vscodeUtilities"
-import areplUtils from "./areplUtilities"
 import { PythonShell } from "python-shell"
 import {settings} from "./settings"
 import printDir from "./printDir";
-import { join } from "path";
+import { PlatformService } from "./env/platform/platformService"
+import { PathUtils } from "./env/platform/pathUtils"
+import vscodeUtils from "./vscodeUtilities"
+import { WorkspaceService } from "./env/application/workspace"
 
 /**
  * class with logic for starting arepl and arepl preview
@@ -19,7 +24,7 @@ export default class PreviewManager {
     reporter: Reporter;
     disposable: vscode.Disposable;
     pythonEditorDoc: vscode.TextDocument;
-    python_evaluator: python_evaluator;
+    PythonEvaluator: PythonEvaluator;
     runningStatus: vscode.StatusBarItem;
     toAREPLLogic: ToAREPLLogic
     previewContainer: PreviewContainer
@@ -40,6 +45,18 @@ export default class PreviewManager {
         this.highlightDecorationType = vscode.window.createTextEditorDecorationType(<vscode.ThemableDecorationRenderOptions>{
             backgroundColor: 'yellow'
         })
+    }
+
+    async loadAndWatchEnvVars(){
+        const platformService = new PlatformService()
+        const envVarsService = new EnvironmentVariablesService(new PathUtils(platformService.isWindows))
+        const workspaceService = new WorkspaceService()
+        const e = new EnvironmentVariablesProvider(envVarsService,
+            this.subscriptions,
+            platformService,
+            workspaceService,
+            process)
+        return e.getEnvironmentVariables(areplUtils.getEnvFilePath(), vscodeUtils.getCurrentWorkspaceFolderUri())
     }
 
     async startArepl(){
@@ -117,7 +134,7 @@ export default class PreviewManager {
             usePreviousVariables: true,
             showGlobalVars: settings().get<boolean>('showGlobalVars')
         }
-        this.python_evaluator.execCode(data)
+        this.PythonEvaluator.execCode(data)
         this.runningStatus.show()
 
         if(editor){
@@ -133,8 +150,8 @@ export default class PreviewManager {
     dispose() {
         vscode.commands.executeCommand("setContext", "arepl", false)
 
-        if(this.python_evaluator.pyshell != null && this.python_evaluator.pyshell.childProcess != null){
-            this.python_evaluator.stop()
+        if(this.PythonEvaluator.pyshell != null && this.PythonEvaluator.pyshell.childProcess != null){
+            this.PythonEvaluator.stop()
         }
 
         this.disposable = vscode.Disposable.from(...this.subscriptions);
@@ -153,7 +170,7 @@ export default class PreviewManager {
     /**
      * starts AREPL python backend and binds print&result output to the handlers
      */
-    private startAndBindPython(){
+    private async startAndBindPython(){
         const pythonPath = areplUtils.getPythonPath()
         const pythonOptions = settings().get<string[]>("pythonOptions")
 
@@ -167,10 +184,17 @@ export default class PreviewManager {
             console.error(s)
         })
 
-        this.python_evaluator = new python_evaluator(pythonPath, pythonOptions)
+        // basically all this does is load a file.. why does it need to be async *sob*
+        const env = await this.loadAndWatchEnvVars()
+
+        this.PythonEvaluator = new PythonEvaluator({
+            pythonOptions,
+            pythonPath,
+            env,
+        })
         
         try {
-            this.python_evaluator.start()
+            this.PythonEvaluator.start()
         } catch (err) {
             if (err instanceof Error){
                 const error = `Error running python with command: ${pythonPath} ${pythonOptions.join(' ')}\n${err.stack}`
@@ -182,7 +206,7 @@ export default class PreviewManager {
                 console.error(err)
             }
         }
-        this.python_evaluator.pyshell.childProcess.on("error", err => {
+        this.PythonEvaluator.pyshell.childProcess.on("error", err => {
             /* The 'error' event is emitted whenever:
             The process could not be spawned, or
             The process could not be killed, or
@@ -195,7 +219,7 @@ export default class PreviewManager {
             // @ts-ignore 
             this.reporter.sendError(err, error.errno, 'spawn')
         })
-        this.python_evaluator.pyshell.childProcess.on("exit", err => {
+        this.PythonEvaluator.pyshell.childProcess.on("exit", err => {
             /* The 'exit' event is emitted after the child process ends */
             // that's what node doc CLAIMS ..... 
             // but when i debug this never gets called unless there's a unexpected error :/
@@ -206,14 +230,14 @@ export default class PreviewManager {
             this.reporter.sendError(new Error('exit'), err, 'spawn')
         })
 
-        this.toAREPLLogic = new ToAREPLLogic(this.python_evaluator, this.previewContainer)
+        this.toAREPLLogic = new ToAREPLLogic(this.PythonEvaluator, this.previewContainer)
 
-        // binding this to the class so it doesn't get overwritten by python_evaluator
-        this.python_evaluator.onPrint = this.previewContainer.handlePrint.bind(this.previewContainer)
+        // binding this to the class so it doesn't get overwritten by PythonEvaluator
+        this.PythonEvaluator.onPrint = this.previewContainer.handlePrint.bind(this.previewContainer)
         // this is bad - stderr should be handled seperately so user is aware its different
         // but better than not showing stderr at all, so for now printing it out and ill fix later
-        this.python_evaluator.onStderr = this.previewContainer.handlePrint.bind(this.previewContainer)
-        this.python_evaluator.onResult = result => {
+        this.PythonEvaluator.onStderr = this.previewContainer.handlePrint.bind(this.previewContainer)
+        this.PythonEvaluator.onResult = result => {
             this.runningStatus.hide()
             this.previewContainer.handleResult(result)
         }
@@ -240,7 +264,7 @@ export default class PreviewManager {
                 let delay = settings().get<number>("delay");
                 const restartExtraDelay = settings().get<number>("restartDelay");
                 delay += this.toAREPLLogic.restartMode ? restartExtraDelay : 0
-                this.python_evaluator.debounce(this.onAnyDocChange.bind(this, e.document), delay)
+                this.PythonEvaluator.debounce(this.onAnyDocChange.bind(this, e.document), delay)
             }
         }, this, this.subscriptions)
         
@@ -254,7 +278,7 @@ export default class PreviewManager {
         if(event == this.pythonEditorDoc){
 
             this.reporter.numRuns += 1
-            if(this.python_evaluator.evaling){
+            if(this.PythonEvaluator.evaling){
                 this.reporter.numInterruptedRuns += 1
             }
 

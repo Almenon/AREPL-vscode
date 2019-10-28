@@ -1,16 +1,27 @@
-## [v1.0.19](https://github.com/Almenon/AREPL-vscode/milestone/37?closed=1) (10/13/2019)
+## [v1.0.20](https://github.com/Almenon/AREPL-vscode/milestone/38?closed=1) (11/??/2019) 🚀
+
+🚀 AREPL now automatically loads vars in your .env file
+
+## [v1.0.19](https://github.com/Almenon/AREPL-vscode/milestone/37?closed=1) (10/13/2019) 🔧🐛
 
 🔧 Changed filepath for temporary files to current workspace root
+
+🔧 UI change: Variables section is now titled "Variables"
+
 🐛 Fixed error message not appearing in certain cases
+
 🐛 Fixed syntax error not appearing
 
-## [v1.0.18](https://github.com/Almenon/AREPL-vscode/milestone/36?closed=1) (09/28/2019) 🚀
+## [v1.0.18](https://github.com/Almenon/AREPL-vscode/milestone/36?closed=1) (09/28/2019) 🔧🐛
+
 
 🔧 Made print output font monospaced - now it should render output more evenly
+
 🐛 Fixed error with infinite generators - thanks @purpledot!
+
 🐛 Fixed python 2 error message not showing up on linux
 
-## [v1.0.16](https://github.com/Almenon/AREPL-vscode/milestone/35?closed=1) (06/30/2019) 🚀
+## [v1.0.16](https://github.com/Almenon/AREPL-vscode/milestone/35?closed=1) (06/30/2019) 🐛
 
 🐛 Fixed Conda env not working whatsoever. Conda will still not work with numpy but you can use it with other stuff now. 
 
