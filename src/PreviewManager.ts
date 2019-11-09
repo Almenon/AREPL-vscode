@@ -4,7 +4,7 @@ import areplUtils from "./areplUtilities"
 import * as vscode from "vscode"
 import { EnvironmentVariablesProvider } from "./env/variables/environmentVariablesProvider"
 import { EnvironmentVariablesService } from "./env/variables/environment"
-import { join } from "path";
+import { join, basename } from "path";
 import { PreviewContainer } from "./previewContainer"
 import Reporter from "./telemetry"
 import {ToAREPLLogic} from "./toAREPLLogic"
@@ -73,7 +73,7 @@ export default class PreviewManager {
         this.pythonEditor = vscode.window.activeTextEditor
         this.pythonEditorDoc = this.pythonEditor.document
         
-        let panel = this.previewContainer.start();
+        let panel = this.previewContainer.start(basename(this.pythonEditorDoc.fileName));
         panel.onDidDispose(()=>this.dispose(), this, this.subscriptions)
         this.subscriptions.push(panel)
 

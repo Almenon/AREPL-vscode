@@ -130,8 +130,8 @@ if r.status_code == 200:
         else this.throttledUpdate = this.updateContent
     }
 
-    start(){
-        this.panel = vscode.window.createWebviewPanel("arepl","AREPL", vscode.ViewColumn.Two,{
+    start(linkedFileName: string){
+        this.panel = vscode.window.createWebviewPanel("arepl","AREPL - " + linkedFileName, vscode.ViewColumn.Two,{
             enableScripts:true
         });
         this.panel.webview.html = this.landingPage

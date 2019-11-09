@@ -20,9 +20,9 @@ export class PreviewContainer{
         this.errorDecorationType = this.pythonInlinePreview.errorDecorationType
     }
 
-    public start(){
+    public start(linkedFileName: string){
         this.clearStoredData()
-        return this.pythonPanelPreview.start()
+        return this.pythonPanelPreview.start(linkedFileName)
     }
 
     /**

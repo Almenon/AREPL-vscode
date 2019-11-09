@@ -31,7 +31,7 @@ suite("PreviewContainer and pythonPanelPreview Tests", () => {
     }
 
     const previewContainer = new PreviewContainer(new Reporter(false), mockContext, 0);
-    const panel = previewContainer.start()
+    const panel = previewContainer.start("")
 
     suiteSetup(function(done){
         // existing editor causes weird error for some reason
