@@ -1,6 +1,7 @@
 ## [v1.0.20](https://github.com/Almenon/AREPL-vscode/milestone/38?closed=1) (11/??/2019) 🚀
 
-🚀 AREPL now automatically loads vars in your .env file
+🚀 AREPL now automatically loads vars in your .env file. This feature is customizable in settings
+🚀 Filename is now included in preview title so you know what file the preview is linked to
 
 ## [v1.0.19](https://github.com/Almenon/AREPL-vscode/milestone/37?closed=1) (10/13/2019) 🔧🐛
 
