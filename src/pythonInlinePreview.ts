@@ -1,5 +1,6 @@
 import * as vscode from "vscode"
 import Reporter from "./telemetry"
+import { UserError } from "arepl-backend";
 
 /**
  * shows error icons
@@ -17,15 +18,30 @@ export default class PythonInlinePreview{
     /**
      * sets gutter icons in sidebar. Safe - catches and logs any exceptions
      */
-    public updateErrorGutterIcons(error: string){
+    public updateErrorGutterIcons(error: UserError){
         try {
-            const errLineNums = this.getLineNumsFromPythonTrace(error)
-            
-            let decorations = errLineNums.map((num)=>{
-                const lineNum = num-1 // python trace uses 1-based indexing but vscode lines start at 0
-                const range = new vscode.Range(lineNum, 0, lineNum, 0)
-                return {range} as vscode.DecorationOptions
-            })
+
+            let decorations: vscode.DecorationOptions[] = []
+            // py/type:"builtins.NameError" <- for error.exc_type
+            // error.stack["py/seq"] <- for stack
+            // also need to update context and cause to be UserError's
+
+            while(error != null){
+                decorations.concat(error.stack.map(frame => {
+                    const lineNum = frame.lineno-1 // python trace uses 1-based indexing but vscode lines start at 0
+                    const range = new vscode.Range(lineNum, 0, lineNum, 0)
+                    const text = error._str ? error._str : error.exc_type
+                    return {
+                        range,
+                        renderOptions: {
+                            after: {
+                                contentText: text
+                            }
+                        }
+                    } as vscode.DecorationOptions
+                }));
+                error = error.context as UserError;
+            }
             
             if(vscode.window.activeTextEditor){
                 vscode.window.activeTextEditor.setDecorations(this.errorDecorationType, decorations)
@@ -39,33 +55,6 @@ export default class PythonInlinePreview{
                 this.reporter.sendError(new Error(error))
             }
         }
-    }
-
-    /**
-     * returns line numbers for each error in the stack trace
-     * @param error a python stacktrace
-     */
-    private getLineNumsFromPythonTrace(error: string){
-            /* this regex will get the line number of each error. A error might look like this:
-            
-            Traceback (most recent call last):
-            line 4, in <module>
-            line 2, in foo
-            TypeError: unsupported operand type(s) for +: 'int' and 'str'
-            
-            The regex will not get line numbers in different files. Those have different format:
-            File "filePath", line 394, in func
-            */
-           const lineNumRegex = /^ *line (\d+), in /gm
-           let errLineNums: number[] = []
-           let match: RegExpExecArray
-           
-           while(match = lineNumRegex.exec(error)){
-               const matchCaptureGroup = match[1]
-               errLineNums.push(parseInt(matchCaptureGroup))
-           }
-
-           return errLineNums
     }
 
 }
