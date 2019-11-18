@@ -22,15 +22,12 @@ export default class PythonInlinePreview{
         try {
 
             let decorations: vscode.DecorationOptions[] = []
-            // py/type:"builtins.NameError" <- for error.exc_type
-            // error.stack["py/seq"] <- for stack
-            // also need to update context and cause to be UserError's
 
             while(error != null){
-                decorations.concat(error.stack.map(frame => {
+                decorations.concat(error.stack["py/seq"].map(frame => {
                     const lineNum = frame.lineno-1 // python trace uses 1-based indexing but vscode lines start at 0
                     const range = new vscode.Range(lineNum, 0, lineNum, 0)
-                    const text = error._str ? error._str : error.exc_type
+                    const text = error._str ? error._str : error.exc_type["py/type"]
                     return {
                         range,
                         renderOptions: {
@@ -40,7 +37,7 @@ export default class PythonInlinePreview{
                         }
                     } as vscode.DecorationOptions
                 }));
-                error = error.context as UserError;
+                error = error.context;
             }
             
             if(vscode.window.activeTextEditor){
