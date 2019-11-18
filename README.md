@@ -57,22 +57,6 @@ a=2
 
 see https://github.com/Almenon/AREPL-vscode/wiki/Using-AREPL-with-input
 
-### HOWDOI
-
-You can use [howdoi](https://github.com/gleitz/howdoi) with arepl.
-
-First install in the terminal / command line:
-
-> pip install howdoi
-
-Then reopen arepl and you will be able to use howdoi to get answers to your questions. For example:
-
-```python
-howdoi('calculate fibbonaci in python')
-```
-
- will give you a function to calcualate a fibonaci number
-
 ### GUIS
 
 see https://github.com/Almenon/AREPL-vscode/wiki/Using-AREPL-with-GUI's
@@ -133,6 +117,22 @@ upload_results_to_s3(x)
 ```
 
 Note that you can also use control-enter to run a block of code outside `#$end`.
+
+### HOWDOI
+
+You can use [howdoi](https://github.com/gleitz/howdoi) with arepl.
+
+First install in the terminal / command line:
+
+> pip install howdoi
+
+Then reopen arepl and you will be able to use howdoi to get answers to your questions. For example:
+
+```python
+howdoi('calculate fibbonaci in python')
+```
+
+ will give you a function to calcualate a fibonaci number
 
 ### Variable Representation
 
