@@ -27,12 +27,12 @@ export default class PythonPanelPreview{
     <p style="font-size:14px">⚠ <b style="color:red">WARNING:</b> code is evaluated WHILE YOU TYPE - don't try deleting files/folders! ⚠</p>
     <p>evaluation while you type can be turned off or adjusted in the settings</p>
     <br>
-    <h3>AREPL 1.0.19 🔧🐛 - Rosso</h3>
+    <h3>AREPL 1.0.20 🚀 - Sponsored by AOL-Time-Warner-Pepsico-Viacom-Skynet-Trader-Joe's</h3>
     <ul>
         <li>Help me make arepl better by filling out this short survey: <a href="https://forms.gle/m7xirfRnSRoPAe9e9">https://forms.gle/m7xirfRnSRoPAe9e9</a></li>
-        <li>🔧 Changed filepath for temporary files to current workspace root</li>
-        <li>🐛 Fixed error message not appearing in certain cases</li>
-        <li>🐛 Fixed syntax error not appearing</li>
+        <li>🚀 AREPL now automatically loads vars in your .env file. This feature is customizable in settings</li>
+        <li>🚀 Filename is now included in preview title so you know what file the preview is linked to (requested by @LightCC)</li>
+        <li>🚀 When running arepl you can set a var like so <code>arepl_filter = ['foo']</code> to filter out vars from the variable display</li>
     </ul>
     <br>
     
