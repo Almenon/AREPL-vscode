@@ -14,12 +14,16 @@ suite("PreviewContainer and pythonPanelPreview Tests", () => {
     const arepl = vscode.extensions.getExtension("almenon.arepl")!;
 
     const mockUserError: UserError = {
-		"cause": {},
-		"context": {},
+		"cause": null,
+		"context": null,
 		"_str": "",
 		"exc_traceback": {},
-		"exc_type": {},
-		"stack": []
+		"exc_type": {
+            "py/type": ""
+        },
+		"stack": {
+            "py/seq": []
+        }
     }
 
     const mockContext: any = {
