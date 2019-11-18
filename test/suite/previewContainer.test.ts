@@ -3,7 +3,7 @@ import * as vscode from "vscode";
 import {PreviewContainer} from "../../src/previewContainer"
 import Reporter from "../../src/telemetry";
 import vscodeUtils from "../../src/vscodeUtilities";
-
+import {UserError} from "arepl-backend"
 
 /**
  * this suite tests both previewContainer and pythonPanelPreview
@@ -13,14 +13,13 @@ suite("PreviewContainer and pythonPanelPreview Tests", () => {
 
     const arepl = vscode.extensions.getExtension("almenon.arepl")!;
 
-    const mockUserError = {
-		"__cause__": {},
-		"__context__": {},
-		"__suppress_context__": false,
+    const mockUserError: UserError = {
+		"cause": {},
+		"context": {},
 		"_str": "",
 		"exc_traceback": {},
 		"exc_type": {},
-		"stack": {}
+		"stack": []
     }
 
     const mockContext: any = {
