@@ -118,6 +118,17 @@ upload_results_to_s3(x)
 
 Note that you can also use control-enter to run a block of code outside `#$end`.
 
+### Filtering variables from display
+
+Don't want to see a variable in AREPL's result panel?
+Just add it to a variable named `arepl_filter`:
+
+```python
+arepl_filter = ['a']
+a = "foo" # this won't show up
+b = 3 # this does
+```
+
 ### HOWDOI
 
 You can use [howdoi](https://github.com/gleitz/howdoi) with arepl.

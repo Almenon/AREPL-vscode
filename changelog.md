@@ -2,6 +2,7 @@
 
 🚀 AREPL now automatically loads vars in your .env file. This feature is customizable in settings
 🚀 Filename is now included in preview title so you know what file the preview is linked to
+🚀 `arepl_filter` var added so you can filter out vars you don't want to see in preview
 
 ## [v1.0.19](https://github.com/Almenon/AREPL-vscode/milestone/37?closed=1) (10/13/2019) 🔧🐛
 
@@ -14,7 +15,6 @@
 🐛 Fixed syntax error not appearing
 
 ## [v1.0.18](https://github.com/Almenon/AREPL-vscode/milestone/36?closed=1) (09/28/2019) 🔧🐛
-
 
 🔧 Made print output font monospaced - now it should render output more evenly
 
