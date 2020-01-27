@@ -1,4 +1,8 @@
-## [v1.0.20](https://github.com/Almenon/AREPL-vscode/milestone/38?closed=1) (11/??/2019) 🚀
+## [v1.0.21](https://github.com/Almenon/AREPL-vscode/milestone/39?closed=1) (01/26/2020) 🚀
+
+🚀 Sped up backend when pickling primitives
+
+## [v1.0.20](https://github.com/Almenon/AREPL-vscode/milestone/38?closed=1) (11/26/2019) 🚀
 
 🚀 AREPL now automatically loads vars in your .env file. This feature is customizable in settings
 🚀 Filename is now included in preview title so you know what file the preview is linked to
