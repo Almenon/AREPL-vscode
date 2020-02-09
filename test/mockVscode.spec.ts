@@ -1,3 +1,4 @@
+// adapted from https://github.com/rokucommunity/vscode-brightscript-language/blob/master/src/mockVscode.spec.ts
 
 export interface Uri {
     parse(value: string, strict?: boolean): Uri;
