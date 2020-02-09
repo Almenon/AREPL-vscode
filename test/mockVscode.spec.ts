@@ -278,15 +278,12 @@ export let vscodeMock = {
         save(): Thenable<boolean> {return new Promise(()=>{});};
         public lineAt(line: number): TextLine {
             const splitText = this.text.split(EOL)
-            const lineLengths = splitText.slice(0,line).map(line => line.length)
-            const lengthOfTextSoFar = lineLengths.length ? lineLengths.reduce((a,b) => a+b) : 0
             return {
                 lineNumber: line,
                 text: splitText[line],
                 range: <Range>{
                     start: <Position>{
                         line: line,
-                        character: lengthOfTextSoFar+splitText[line].length
                     },
                     end: <Position>{
                         line: line
