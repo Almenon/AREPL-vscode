@@ -16,6 +16,7 @@ Module.prototype.require = function hijacked(file) {
 import * as assert from "assert";
 import vscodeUtilities from '../src/vscodeUtilities'
 import { sep } from 'path';
+import { EOL } from 'os';
 
 describe('vscode utilities tests', ()=>{
 
@@ -45,6 +46,17 @@ describe('vscode utilities tests', ()=>{
         
         it('should not change absolute paths', () => {
             assert.strictEqual(vscodeUtilities.expandPathSetting(__dirname), __dirname)
+        });
+    });
+
+    describe('getBlockOfText', () => {
+        it('should return block of text at lineNum', () => {
+            const e = {document: new vscodeMock.TextDocument("", `a${EOL}b`)}
+            const textBlock = vscodeUtilities.getBlockOfText(<any>e, 0)
+            assert.strictEqual(textBlock.isSingleLine, true)
+            assert.strictEqual(textBlock.start.line, 0)
+            assert.strictEqual(textBlock.end.line, 0)
+            assert.strictEqual(e.document.getText().slice(0,textBlock.end.character), "a")
         });
     });
 
