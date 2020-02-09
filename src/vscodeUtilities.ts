@@ -12,7 +12,7 @@ export default class vscodeUtils {
 
         const envVar = setting.match(/\${env:([^}]+)}/)
         if(envVar){
-            setting = setting.replace(envVar[1], process.env[envVar[1]])
+            setting = setting.replace("${env:"+envVar[1]+"}", process.env[envVar[1]])
         }
         
         return setting
