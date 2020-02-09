@@ -1,4 +1,13 @@
+import { sep } from "path";
+import { EOL } from "os";
+
 // adapted from https://github.com/rokucommunity/vscode-brightscript-language/blob/master/src/mockVscode.spec.ts
+
+export interface WorkspaceFolder {
+    readonly uri: Uri;
+    readonly name: string;
+    readonly index: number;
+}
 
 export interface Uri {
     parse(value: string, strict?: boolean): Uri;
@@ -93,7 +102,13 @@ export let vscodeMock = {
         subscriptions: [],
     },
     workspace: {
-        workspaceFolders: [],
+        workspaceFolders: [<WorkspaceFolder>{
+            uri: {
+                fsPath: "root"
+            },
+            name: "foo",
+            index: 0
+        }],
         createFileSystemWatcher: () => {
             return {
                 onDidCreate: () => {
@@ -246,9 +261,8 @@ export let vscodeMock = {
         TypeParameter: 25
     },
     TextDocument: class {
-        constructor(fileName: string, text?: string) {
+        constructor(fileName: string, private text: string) {
             this.fileName = fileName;
-            this.text = text;
         }
 
         readonly uri: Uri;
@@ -258,12 +272,33 @@ export let vscodeMock = {
         readonly isDirty: boolean;
         readonly isClosed: boolean;
         readonly lineCount: number;
-        private text: any;
         public fileName: string;
         public eol: 1 | 2 = 1;
         public getText() { return this.text; }
         save(): Thenable<boolean> {return new Promise(()=>{});};
-        public lineAt(line: number): TextLine {return null};
+        public lineAt(line: number): TextLine {
+            const splitText = this.text.split(EOL)
+            const lineLengths = splitText.slice(0,line).map(line => line.length)
+            const lengthOfTextSoFar = lineLengths.length ? lineLengths.reduce((a,b) => a+b) : 0
+            return {
+                lineNumber: line,
+                text: splitText[line],
+                range: <Range>{
+                    start: <Position>{
+                        line: line,
+                        character: lengthOfTextSoFar+splitText[line].length
+                    },
+                    end: <Position>{
+                        line: line
+                    },
+                    isEmpty: Boolean(this.text),
+                    isSingleLine: true
+                },
+                rangeIncludingLineBreak: null,
+                firstNonWhitespaceCharacterIndex: null,
+                isEmptyOrWhitespace: null
+            }
+        };
 		public offsetAt(position: Position): number {return 0};
 		public positionAt(offset: number): Position {return null};
 		public getWordRangeAtPosition(position: Position, regex?: RegExp): Range | undefined { return undefined};
@@ -283,16 +318,15 @@ export let vscodeMock = {
         private value: string;
     },
     Uri: class {
-        constructor(scheme: string, authority: string, path: string, query: string, fragment: string){
+        constructor(public scheme: string, public authority: string, public path: string, public query: string, public fragment: string){
             this.fsPath = path; // not exactly accurate but whatever
         };
         readonly fsPath: string
+        parse(){return null}
+        with(){return null}
+        toJSON(){}
         file(src: string){
-            return {
-                with: ({}) => {
-                    return {};
-                }
-            };
+            return null;
         }
     },
     SnippetString: class {
