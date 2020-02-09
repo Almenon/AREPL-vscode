@@ -221,16 +221,20 @@ export let vscodeMock = {
         private documentation: string | any | undefined;
     },
     Range: class {
-        constructor(startLine: number, startCharacter: number, endLine: number, endCharacter: number) {
-            this.startLine = startLine;
-            this.startCharacter = startCharacter;
-            this.endLine = endLine;
-            this.endCharacter = endCharacter;
+        constructor(private startLine: number, private startCharacter: number, private endLine: number, private endCharacter: number) {
+            this.start = <Position>{
+                line:startLine,
+                character: startCharacter
+            }
+            this.end = <Position>{
+                line:endLine,
+                character: endCharacter
+            }
         }
-        private startLine: number;
-        private startCharacter: number;
-        private endLine: number;
-        private endCharacter: number;
+        readonly start: Position
+        readonly end: Position
+        public isEmpty: boolean
+        public isSingleLine: boolean
     },
     SymbolKind: {
         File: 0,
@@ -263,6 +267,7 @@ export let vscodeMock = {
     TextDocument: class {
         constructor(fileName: string, private text: string) {
             this.fileName = fileName;
+            this.lineCount = text.split(EOL).length
         }
 
         readonly uri: Uri;
