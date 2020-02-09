@@ -1,7 +1,7 @@
 //////////////////////////////////////////////
 // below thanks to https://github.com/rokucommunity/vscode-brightscript-language
 let Module = require('module');
-import { vscodeMock, TextLine, Range, Position } from './mockVscode.spec';
+import { vscodeMock } from './mockVscode.spec';
 //override the "require" call to mock certain items
 const { require: oldRequire } = Module.prototype;
 Module.prototype.require = function hijacked(file) {
@@ -46,38 +46,6 @@ describe('vscode utilities tests', ()=>{
         
         it('should not change absolute paths', () => {
             assert.strictEqual(vscodeUtilities.expandPathSetting(__dirname), __dirname)
-        });
-    });
-
-    describe('getBlockOfText', () => {
-        it('should return block of text at lineNum', () => {
-            const e = {document: new vscodeMock.TextDocument("", `a${EOL}b`)}
-            e.document.lineAt = (lineNum): TextLine=>{
-                return {
-                    lineNumber: lineNum,
-                    text: "a",
-                    range: <Range>{
-                        start: <Position>{
-                            line: lineNum,
-                        },
-                        end: <Position>{
-                            line: lineNum,
-                            character: 1
-                        },
-                        isEmpty: false,
-                        isSingleLine: true
-                    },
-                    rangeIncludingLineBreak: null,
-                    firstNonWhitespaceCharacterIndex: null,
-                    isEmptyOrWhitespace: null
-                }
-            }
-            const textBlock = vscodeUtilities.getBlockOfText(<any>e, 0)
-
-            assert.strictEqual(textBlock.isSingleLine, true)
-            assert.strictEqual(textBlock.start.line, 0)
-            assert.strictEqual(textBlock.end.line, 0)
-            assert.strictEqual(e.document.getText().slice(0,textBlock.end.character), "ab")
         });
     });
 
