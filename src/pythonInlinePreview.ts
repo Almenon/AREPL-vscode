@@ -24,7 +24,7 @@ export default class PythonInlinePreview{
             let decorations: vscode.DecorationOptions[] = []
 
             while(error != null){
-                decorations.concat(error.stack["py/seq"].map(frame => {
+                let moreDecorations = error.stack["py/seq"].map(frame => {
                     const lineNum = frame.lineno-1 // python trace uses 1-based indexing but vscode lines start at 0
                     const range = new vscode.Range(lineNum, 0, lineNum, 0)
                     const text = error._str ? error._str : error.exc_type["py/type"]
@@ -36,8 +36,11 @@ export default class PythonInlinePreview{
                             }
                         }
                     } as vscode.DecorationOptions
-                }));
-                error = error.context;
+                })
+                decorations = decorations.concat(moreDecorations);
+                // todo: update backend so this is a valid type
+                // @ts-ignore
+                error = error.__context__;
             }
             
             if(vscode.window.activeTextEditor){
