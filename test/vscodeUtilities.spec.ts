@@ -40,8 +40,7 @@ suite('vscode utilities tests', ()=>{
         });
 
         test('should replace workspacefolder', () => {
-            const originalWorkspaceFolders = vscodeMock.workspace.workspaceFolders
-            assert.strictEqual(vscodeUtilities.expandPathSetting("${workspaceFolder}/foo"), "root/foo")
+            assert.strictEqual(vscodeUtilities.expandPathSetting("${workspaceFolder}"), "root")
         });
 
         test('should make relative paths absolute', () => {
