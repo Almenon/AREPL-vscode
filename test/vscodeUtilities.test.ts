@@ -22,9 +22,9 @@ import vscodeUtilities from '../src/vscodeUtilities'
 import { sep } from 'path';
 import { EOL } from 'os';
 
-describe('vscode utilities tests', ()=>{
+suite('vscode utilities tests', ()=>{
 
-    it('eol as string', ()=>{
+    test('eol as string', ()=>{
         const d = new vscodeMock.TextDocument("", "")
         assert.strictEqual(vscodeUtilities.eol(<any>d), "\n")
 
@@ -32,23 +32,23 @@ describe('vscode utilities tests', ()=>{
         assert.strictEqual(vscodeUtilities.eol(<any>d), "\r\n")
     })
 
-    describe('expand path setting', () => {
-        it('should replace env vars', () => {
+    suite('expand path setting', () => {
+        test('should replace env vars', () => {
             process.env["foo2435"] = "a"
             assert.strictEqual(vscodeUtilities.expandPathSetting("${env:foo2435}"), "a")
             delete process.env["foo2435"]
         });
 
-        it('should replace workspacefolder', () => {
+        test('should replace workspacefolder', () => {
             const originalWorkspaceFolders = vscodeMock.workspace.workspaceFolders
             assert.strictEqual(vscodeUtilities.expandPathSetting("${workspaceFolder}/foo"), "root/foo")
         });
 
-        it('should make relative paths absolute', () => {
+        test('should make relative paths absolute', () => {
             assert.strictEqual(vscodeUtilities.expandPathSetting(`foo${sep}.env`), `root${sep}foo${sep}.env`)
         });
         
-        it('should not change absolute paths', () => {
+        test('should not change absolute paths', () => {
             assert.strictEqual(vscodeUtilities.expandPathSetting(__dirname), __dirname)
         });
     });
@@ -56,7 +56,7 @@ describe('vscode utilities tests', ()=>{
     // get bizarre error with this one
     // bad option: --extensionTestsPath=c:\dev\AREPL-vscode\test\suite\index
     // can't even run it
-    // describe('new unsaved python doc', () => {
+    // suite('new unsaved python doc', () => {
     //     it('should return a doc', (done) => {
     //         vscodeUtilities.newUnsavedPythonDoc().then((doc)=>{
     //             assert.strictEqual(doc, 1)
