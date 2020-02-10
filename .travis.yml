@@ -16,6 +16,7 @@ script:
     npm ci && npm run vscode:prepublish
     echo ">>> Compiled vscode-test"
     echo ">>> Run sample integration test"
+    npm run unitTests
     npm test
   
 after_success:
