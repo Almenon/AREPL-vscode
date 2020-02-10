@@ -13,6 +13,10 @@ Module.prototype.require = function hijacked(file) {
 };
 //////////////////////////////////////////////
 
+// these tests haven't been going well 
+// should try looking into sinon
+// if that doesn't work try switching to jest
+
 import * as assert from "assert";
 import vscodeUtilities from '../src/vscodeUtilities'
 import { sep } from 'path';
