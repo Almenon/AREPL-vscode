@@ -15,8 +15,13 @@ script:
     echo ">>> Compile vscode-test"
     npm ci && npm run vscode:prepublish
     echo ">>> Compiled vscode-test"
-    echo ">>> Run sample integration test"
+    echo ">>> Run unit tests"
     npm run unitTests
+  - |
+    echo ">>> Compile vscode-test"
+    npm ci && npm run vscode:prepublish
+    echo ">>> Compiled vscode-test"
+    echo ">>> Run integration tests"
     npm test
   
 after_success:
