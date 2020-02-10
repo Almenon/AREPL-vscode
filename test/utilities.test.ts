@@ -30,5 +30,15 @@ suite("Utility Tests", () => {
         });
         
     });
+
+    suite('get last line', () => {
+        test("gets last line", function(){
+            assert.strictEqual(Utilities.getLastLine("a\nb"), "b")
+        })
+
+        test("does not error when empty", function(){
+            assert.strictEqual(Utilities.getLastLine(""), "")
+        })
+    });
     
 });
