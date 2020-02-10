@@ -49,4 +49,16 @@ describe('vscode utilities tests', ()=>{
         });
     });
 
+    // get bizarre error with this one
+    // bad option: --extensionTestsPath=c:\dev\AREPL-vscode\test\suite\index
+    // can't even run it
+    // describe('new unsaved python doc', () => {
+    //     it('should return a doc', (done) => {
+    //         vscodeUtilities.newUnsavedPythonDoc().then((doc)=>{
+    //             assert.strictEqual(doc, 1)
+    //             done()
+    //         })
+    //     });
+    // });
+
 })

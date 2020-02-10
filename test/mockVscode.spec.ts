@@ -1,7 +1,27 @@
-import { sep } from "path";
 import { EOL } from "os";
 
 // adapted from https://github.com/rokucommunity/vscode-brightscript-language/blob/master/src/mockVscode.spec.ts
+
+export interface TextDocument {
+    readonly uri: Uri;
+    readonly fileName: string;
+    readonly isUntitled: boolean;
+    readonly languageId: string;
+    readonly version: number;
+    readonly isDirty: boolean;
+    readonly isClosed: boolean;
+    save(): Thenable<boolean>;
+    readonly eol: 1|2;
+    readonly lineCount: number;
+    lineAt(line: number): TextLine;
+    lineAt(position: Position): TextLine;
+    offsetAt(position: Position): number;
+    positionAt(offset: number): Position;
+    getText(range?: Range): string;
+    getWordRangeAtPosition(position: Position, regex?: RegExp): Range | undefined;
+    validateRange(range: Range): Range;
+    validatePosition(position: Position): Position;
+}
 
 export interface WorkspaceFolder {
     readonly uri: Uri;
@@ -135,7 +155,8 @@ export let vscodeMock = {
         },
         findFiles: (include, exclude) => {
             return [];
-        }
+        },
+        openTextDocument: (content: string)=>new Promise(()=><TextDocument>{})
     },
     window: {
         createOutputChannel: function() {
@@ -149,6 +170,9 @@ export let vscodeMock = {
         },
         activeTextEditor: {
             document: undefined
+        },
+        showTextDocument: function(doc){
+            return new Promise(()=>doc)
         }
     },
     CompletionItemKind: {
