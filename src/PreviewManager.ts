@@ -279,7 +279,7 @@ export default class PreviewManager {
         if(event == this.pythonEditorDoc){
 
             this.reporter.numRuns += 1
-            if(this.PythonEvaluator.evaling){
+            if(this.PythonEvaluator.executing){
                 this.reporter.numInterruptedRuns += 1
             }
 
