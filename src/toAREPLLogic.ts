@@ -115,6 +115,8 @@ export class ToAREPLLogic{
                 error = ""
             }
 
+            // todo: refactor above to call arepl to check syntax so we get a actual error object back instead of error text
+
             this.previewContainer.handleResult(
                 {
                     userVariables:{}, userError:null, userErrorMsg:<string>error, execTime: 0, totalPyTime: 0, totalTime: 0,
