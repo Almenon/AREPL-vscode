@@ -260,9 +260,10 @@ export default class PreviewManager {
         }, this, this.subscriptions)
         
         vscode.workspace.onDidChangeTextDocument((e) => {
-            if(settings().get<string>("whenToExecute") == "afterDelay"){
-                let delay = settings().get<number>("delay");
-                const restartExtraDelay = settings().get<number>("restartDelay");
+            const cachedSettings = settings()
+            if(cachedSettings.get<string>("whenToExecute") == "afterDelay"){
+                let delay = cachedSettings.get<number>("delay");
+                const restartExtraDelay = cachedSettings.get<number>("restartDelay");
                 delay += this.toAREPLLogic.restartMode ? restartExtraDelay : 0
                 this.PythonEvaluator.debounce(this.onAnyDocChange.bind(this, e.document), delay)
             }
