@@ -163,6 +163,18 @@
           ],
           "description": "default -u to see prints in real-time. See https://docs.python.org/3/using/cmdline.html#miscellaneous-options for other options. Changing this setting not reccomended"
         },
+        "AREPL.defaultFilterVars": {
+          "type": "array",
+          "default": [
+          ],
+          "description": "Not yet used. Any variables with these names are not shown in arepl variable view. You can use the arepl_filter variable in arepl to play around with this setting in real-time"
+        },
+        "AREPL.defaultFilterTypes": {
+          "type": "array",
+          "default": [
+          ],
+          "description": "Not yet used. Any variables with these types are not shown in arepl variable view. You can use the arepl_filter_type variable in arepl to play around with this setting in real-time"
+        },
         "AREPL.defaultImports": {
           "type": "array",
           "default": [
