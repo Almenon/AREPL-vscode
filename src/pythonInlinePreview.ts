@@ -38,7 +38,7 @@ export default class PythonInlinePreview{
                     } as vscode.DecorationOptions
                 })
                 decorations = decorations.concat(moreDecorations);
-                // todo: update backend so this is a valid type
+                // todo: update backend to fix type
                 // @ts-ignore
                 error = error.__context__;
             }
