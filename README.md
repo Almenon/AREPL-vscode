@@ -91,7 +91,7 @@ print(x) # this number will not change when editing below the #$save line
 
 Please note that \#\$save [does not work](https://github.com/Almenon/AREPL-vscode/issues/53) with certain types, like generators.  If #$save fails in pickling the code state [file an issue](https://github.com/Almenon/AREPL-vscode/issues) so I can look into it.
 
-Alternatively, you can use the [areplStore variable](https://github.com/Almenon/AREPL-vscode/wiki/Caching-data-between-runs) to store data in between runs.
+Alternatively, you can use the [arepl_store variable](https://github.com/Almenon/AREPL-vscode/wiki/Caching-data-between-runs) to store data in between runs.
 
 ### #$end
 

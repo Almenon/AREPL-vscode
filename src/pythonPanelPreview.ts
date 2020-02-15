@@ -27,12 +27,13 @@ export default class PythonPanelPreview{
     <p style="font-size:14px">⚠ <b style="color:red">WARNING:</b> code is evaluated WHILE YOU TYPE - don't try deleting files/folders! ⚠</p>
     <p>evaluation while you type can be turned off or adjusted in the settings</p>
     <br>
-    <h3>AREPL 1.0.19 🔧🐛 - Rosso</h3>
+    <h3>AREPL 1.0.21 🚀 - Castle of Cagliostro</h3>
     <ul>
         <li>Help me make arepl better by filling out this short survey: <a href="https://forms.gle/m7xirfRnSRoPAe9e9">https://forms.gle/m7xirfRnSRoPAe9e9</a></li>
-        <li>🔧 Changed filepath for temporary files to current workspace root</li>
-        <li>🐛 Fixed error message not appearing in certain cases</li>
-        <li>🐛 Fixed syntax error not appearing</li>
+        <li>🚀 Sped up backend when pickling primitives</li>
+        <li>🚀 You can now define a arepl_filter_type variable you can use to filter out types you don't want to see in the variable view</li>
+        <li>🚀 You can now define a arepl_filter_function variable you can use to totally customize the variables appearing in view</li>
+        <li>🐛 [Fixed a TypeError with pandas thanks to David Aguilar](https://github.com/Almenon/AREPL-backend/issues/104)</li>
     </ul>
     <br>
     
