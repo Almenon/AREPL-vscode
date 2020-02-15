@@ -175,7 +175,10 @@ export default class PreviewManager {
         const pythonOptions = settings().get<string[]>("pythonOptions")
 
         PythonShell.getVersion(`"${pythonPath}"`).then((out)=>{
-            if((out.stdout && out.stdout.includes("Python 2.")) || (out.stderr && out.stderr.includes("Python 2."))){
+            if((out.stdout?.includes("Python 3.4")) || (out.stderr?.includes("Python 3.4"))){
+                vscode.window.showErrorMessage("AREPL does not support python 3.4. Please upgrade or set AREPL.pythonPath to a diffent python")
+            }
+            if((out.stdout?.includes("Python 2.")) || (out.stderr?.includes("Python 2."))){
                 vscode.window.showErrorMessage("AREPL does not support python 2. Please set AREPL to use python 3.")
             }
         }).catch((s: Error)=>{
