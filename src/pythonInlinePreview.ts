@@ -26,7 +26,10 @@ export default class PythonInlinePreview{
             while(error != null){
                 let moreDecorations = error.stack["py/seq"].map(frame => {
                     const lineNum = frame.lineno-1 // python trace uses 1-based indexing but vscode lines start at 0
-                    const range = new vscode.Range(lineNum, 0, lineNum, 0)
+                    // todo: pull endCharNum from relevant line from file
+                    // remember that the file might not be the active doc...
+                    const endCharNum = 0
+                    const range = new vscode.Range(lineNum, 0, lineNum, endCharNum)
                     const text = error._str ? error._str : error.exc_type["py/type"]
                     return {
                         range,
