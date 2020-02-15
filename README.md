@@ -8,7 +8,7 @@ AREPL is availible for free on the vscode [marketplace](https://marketplace.visu
 
 ## Usage
 
-First, make sure you have [python 3](https://www.python.org/downloads/) installed.
+First, make sure you have [python 3.5 or greater](https://www.python.org/downloads/) installed.
 
 Open a python file and right click on the editor title for AREPL launch options.
 
