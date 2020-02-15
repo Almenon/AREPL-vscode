@@ -17,10 +17,16 @@ export default class PythonInlinePreview{
     }
 
     /**
-     * sets gutter icons in sidebar. Safe - catches and logs any exceptions
+     * Safe - catches and logs any exceptions
      */
-    public updateErrorGutterIcons(error: UserError){
+    public showInlineErrors(error: UserError, userErrorMsg: string){
         try {
+
+            if(userErrorMsg.includes("AREPL has ran into an error")){
+                // this.showInternalError(userErrorMsg)
+                // return
+            }
+
             const decorations = this.convertErrorToDecorationOptions(error)
             
             if(vscode.window.activeTextEditor){
@@ -37,6 +43,10 @@ export default class PythonInlinePreview{
         }
     }
 
+    private showInternalError(internalError: string){
+        throw Error('not implemented')
+    }
+
     private convertFrameToDecorationOption(frame: FrameSummary){
         const lineNum = frame.lineno-1 // python trace uses 1-based indexing but vscode lines start at 0
         // todo: pull endCharNum from relevant line from file
@@ -44,6 +54,7 @@ export default class PythonInlinePreview{
         const endCharNum = 0
         const range = new vscode.Range(lineNum, 0, lineNum, endCharNum)
         // temporarily skip error text untill above todo is fixed
+        // _str might be empty if user raised an error while leaving message empty
         //const text = error._str ? error._str : error.exc_type["py/type"]
         const text = ""
         return {

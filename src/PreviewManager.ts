@@ -301,7 +301,7 @@ export default class PreviewManager {
                 if(error instanceof Error){
                     if(error.message == "unsafeKeyword"){
                         const unsafeKeywords = settings().get<string[]>('unsafeKeywords')
-                        this.previewContainer.updateError(`unsafe keyword detected. 
+                        this.previewContainer.updateError(null, `unsafe keyword detected. 
 Doing irreversible operations like deleting folders is very dangerous in a live editor. 
 If you want to continue please clear arepl.unsafeKeywords setting. 
 Currently arepl.unsafeKeywords is set to ["${unsafeKeywords.join('", "')}"]`, true)
@@ -310,7 +310,7 @@ Currently arepl.unsafeKeywords is set to ["${unsafeKeywords.join('", "')}"]`, tr
                     else{
                         console.error(error)
                         this.reporter.sendError(error)
-                        this.previewContainer.updateError(`internal arepl error: ${error.name} stack: ${error.stack}`, true) 
+                        this.previewContainer.updateError(null, `internal arepl error: ${error.name} stack: ${error.stack}`, true) 
                     }
                 }
                 throw error;

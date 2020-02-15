@@ -1,4 +1,4 @@
-import {PythonResult} from "arepl-backend"
+import {PythonResult, UserError} from "arepl-backend"
 import * as vscode from "vscode"
 import PythonInlinePreview from "./pythonInlinePreview"
 import PythonPanelPreview from "./pythonPanelPreview"
@@ -84,12 +84,12 @@ export class PreviewContainer{
                 pythonResults.userErrorMsg = pythonResults.internalError
             }
 
-            if(this.printResults.length == 0) this.pythonPanelPreview.clearPrint()
+            // if it's a syntax error don't clear print results
+            // the user might be in the middle of typing something and it would be annoying
+            // to have print results suddenly dissapear
+            if(!syntaxError && this.printResults.length == 0) this.pythonPanelPreview.clearPrint()
 
-            this.updateError(pythonResults.userErrorMsg)
-            if(settings().get('inlineResults')){
-                this.pythonInlinePreview.updateErrorGutterIcons(pythonResults.userError)
-            }
+            this.updateError(pythonResults.userError, pythonResults.userErrorMsg, false)
 
             this.pythonPanelPreview.injectCustomCSS(settings().get('customCSS'))
             this.pythonPanelPreview.throttledUpdate()
@@ -124,11 +124,24 @@ export class PreviewContainer{
         this.pythonPanelPreview.handlePrint(this.printResults.join('\n'))
     }
 
-    /**
-     * @param refresh if true updates page immediately.  otherwise error will show up whenever updateContent is called
-     */
-    public updateError(err: string, refresh=false){
-        this.pythonPanelPreview.updateError(err, refresh)
+    public updateError(userError: UserError, userErrorMsg: string, refresh: boolean){
+        const cachedSettings = settings()
+        if(!cachedSettings.get('showNameErrors')){
+            if(userError?.exc_type?.["py/type"]?.includes("NameError")){
+                console.warn('skipped showing name error - showNameErrors setting is off')
+                return
+            }
+        }
+        if(!cachedSettings.get('showSyntaxErrors')){
+            if(userError?.exc_type?.["py/type"]?.includes("SyntaxError")){
+                console.warn('skipped showing syntax error - SyntaxError setting is off')
+                return
+            }
+        }
+        if(cachedSettings.get('inlineResults')){
+            this.pythonInlinePreview.showInlineErrors(userError, userErrorMsg)
+        }
+        this.pythonPanelPreview.updateError(userErrorMsg, refresh)
     }
 
     public displayProcessError(err: string){

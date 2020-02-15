@@ -8,6 +8,8 @@
 
 🐛 [Fixed a TypeError with pandas thanks to David Aguilar](https://github.com/Almenon/AREPL-backend/issues/104)
 
+🔧 Added showNameErrors and showSyntaxErrors settings you can use to not show those errors if they annoy you
+
 ## [v1.0.20](https://github.com/Almenon/AREPL-vscode/milestone/38?closed=1) (11/26/2019) 🚀
 
 🚀 AREPL now automatically loads vars in your .env file. This feature is customizable in settings

@@ -34,6 +34,7 @@ export default class PythonPanelPreview{
         <li>🚀 You can now define a arepl_filter_type variable you can use to filter out types you don't want to see in the variable view</li>
         <li>🚀 You can now define a arepl_filter_function variable you can use to totally customize the variables appearing in view</li>
         <li>🐛 [Fixed a TypeError with pandas thanks to David Aguilar](https://github.com/Almenon/AREPL-backend/issues/104)</li>
+        <li>🔧 Added showNameErrors and showSyntaxErrors settings you can use to not show those errors if they annoy you</li>
     </ul>
     <br>
     
