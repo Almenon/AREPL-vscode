@@ -1,11 +1,19 @@
-## [v1.0.21](https://github.com/Almenon/AREPL-vscode/milestone/39?closed=1) (01/26/2020) 🚀
+## [v1.0.21](https://github.com/Almenon/AREPL-vscode/milestone/39?closed=1) (01/26/2020) 🚀🐛
 
 🚀 Sped up backend when pickling primitives
+
+🚀 You can now define a arepl_filter_type variable you can use to filter out types you don't want to see in the variable view
+
+🚀 You can now define a arepl_filter_function variable you can use to totally customize the variables appearing in view
+
+🐛 [Fixed a TypeError with pandas thanks to David Aguilar](https://github.com/Almenon/AREPL-backend/issues/104)
 
 ## [v1.0.20](https://github.com/Almenon/AREPL-vscode/milestone/38?closed=1) (11/26/2019) 🚀
 
 🚀 AREPL now automatically loads vars in your .env file. This feature is customizable in settings
+
 🚀 Filename is now included in preview title so you know what file the preview is linked to
+
 🚀 `arepl_filter` var added so you can filter out vars you don't want to see in preview
 
 ## [v1.0.19](https://github.com/Almenon/AREPL-vscode/milestone/37?closed=1) (10/13/2019) 🔧🐛
@@ -30,7 +38,7 @@
 
 🐛 Fixed Conda env not working whatsoever. Conda will still not work with numpy but you can use it with other stuff now. 
 
-## [v1.0.15](https://github.com/Almenon/AREPL-vscode/milestone/34?closed=1) (06/02/2019) 🚀
+## [v1.0.15](https://github.com/Almenon/AREPL-vscode/milestone/34?closed=1) (06/02/2019) 🚀🐛
 
 🚀 Added icon to launch arepl. Click on the cat to open arepl on the current document. Click on the cat again to close. If you highlight a piece of code arepl will be opened on a new doc with that code.
 
@@ -38,7 +46,7 @@
 
 🐛 Fixed arepl failing on linux
 
-## [v1.0.14](https://github.com/Almenon/AREPL-vscode/milestone/33?closed=1) (04/18/2019) 🚀
+## [v1.0.14](https://github.com/Almenon/AREPL-vscode/milestone/33?closed=1) (04/18/2019) 🚀🐛
 
 🚀 Added ability to run blocks of code
 
@@ -48,7 +56,7 @@
 
 🐛 Fixed silent spawn error on mac
 
-## [v1.0.13](https://github.com/Almenon/AREPL-vscode/milestone/32?closed=1) (03/23/2019) 🐛
+## [v1.0.13](https://github.com/Almenon/AREPL-vscode/milestone/32?closed=1) (03/23/2019) 🚀🐛
 
 🚀 right click on editor title to launch arepl
 
@@ -58,7 +66,7 @@
 
 🐛 Fixed vars not clearing when using gui library
 
-## [v1.0.12](https://github.com/Almenon/AREPL-vscode/milestone/30?closed=1) (03/17/2019) 🐛
+## [v1.0.12](https://github.com/Almenon/AREPL-vscode/milestone/30?closed=1) (03/17/2019) 🔧🐛
 
 🚀 Reduce arepl bundle size
 
@@ -108,7 +116,7 @@
 
 [🐛 Fixed bug with reloading pip modules unnecessarily](https://github.com/Almenon/AREPL-vscode/issues/162)
 
-## [v1.0.7](https://github.com/Almenon/AREPL-vscode/milestone/25?closed=1) (01/22/2019)
+## [v1.0.7](https://github.com/Almenon/AREPL-vscode/milestone/25?closed=1) (01/22/2019) 🐛
 
 [🔧 give better error when control-shift-a is invoked with nothing open](https://github.com/Almenon/AREPL-vscode/issues/159)
 
@@ -116,12 +124,12 @@
 
 [🚀 allow ${python.pythonPath} macro in pythonPath](https://github.com/Almenon/AREPL-vscode/issues/161)
 
-## [v1.0.6](https://github.com/Almenon/AREPL-vscode/milestone/24?closed=1) (01/14/2019)
+## [v1.0.6](https://github.com/Almenon/AREPL-vscode/milestone/24?closed=1) (01/14/2019) 🔧
 🔧 Changed message you get when python path is misconfigured
 
 🐛 Fixed bug when closing editor with error decorations
 
-## [v1.0.5](https://github.com/Almenon/AREPL-vscode/milestone/23?closed=1) (12/29/2018)
+## [v1.0.5](https://github.com/Almenon/AREPL-vscode/milestone/23?closed=1) (12/29/2018) 🔧🐛
 🚀 input() support! Hardcode input like so: standard_input = "hello\\nworld" to be able to use input()
 
 🔧 inline errors icons are now turned on by default - you can turn them off in settings
@@ -140,26 +148,26 @@
 [howdoi](https://github.com/gleitz/howdoi) integration - install howdoi with pip to be able to call howdoi from arepl. For example
 <code>howdoi('calculate fibbonaci in python')</code> will give you a function to calcualate a fibonaci number
 
-## v1.0.3
+## v1.0.3 🚀
 🚀 ${workspaceFolder} can now be used in pythonPath for pointing to workspace-specific python interpreters
 
 jsonPickle version upgrade w/ slightly better numpy and pandas support
 
 🐛 Fixed bug with linux
 
-## v1.0.2
+## v1.0.2 🐛
 🐛 Fixed error with using gui
 
-## v1.0.1
+## v1.0.1 🐛
 🐛 Fixed error on mac due to a filename having the wrong case when packaging extension
 
-## [v1.0.0](https://github.com/Almenon/AREPL-vscode/milestone/16?closed=1)
+## [v1.0.0](https://github.com/Almenon/AREPL-vscode/milestone/16?closed=1) 🐛
 
 Fixed: 🐛 
-#86 unittest causes arepl to fail silently bug
-#101 styling becomes wierd when in certain scenarios bug 
-#102  internal error does not show bug
-#94  arepl frequently has problems rendering when there is a lot of prints bug
+🐛 #86 unittest causes arepl to fail silently bug
+🐛 #101 styling becomes wierd when in certain scenarios bug 
+🐛 #102  internal error does not show bug
+🐛 #94  arepl frequently has problems rendering when there is a lot of prints bug
 
 Updated:
 #56  use new webview enhancement
@@ -167,7 +175,7 @@ Updated:
 
 ## [v1.5](https://github.com/Almenon/AREPL-vscode/milestone/15?closed=1)
 
-fixed #84 #87 #98
+🐛 fixed #84 #87 #98
 
 AREPL now works with python 3.7
 
@@ -178,11 +186,11 @@ AREPL will no longer fail silently when help or input is called
 ## [v1.4](https://github.com/Almenon/AREPL-vscode/milestone/14?closed=1)
 
 ### Fixed: 🐛 
-dump output does not appear if exception [#91](https://github.com/Almenon/AREPL-vscode/issues/91)
+🐛 dump output does not appear if exception [#91](https://github.com/Almenon/AREPL-vscode/issues/91)
 
-arepl does not update when user changes a imported file [#82](https://github.com/Almenon/AREPL-vscode/issues/82)
+🐛 arepl does not update when user changes a imported file [#82](https://github.com/Almenon/AREPL-vscode/issues/82)
 
-Functions no longer appear in variable preview (not much point in showing them and they clutter screen)
+🐛 Functions no longer appear in variable preview (not much point in showing them and they clutter screen)
 
 ## [v1.3](https://github.com/Almenon/AREPL-vscode/milestone/13?closed=1)
 

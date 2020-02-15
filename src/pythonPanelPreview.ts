@@ -31,6 +31,9 @@ export default class PythonPanelPreview{
     <ul>
         <li>Help me make arepl better by filling out this short survey: <a href="https://forms.gle/m7xirfRnSRoPAe9e9">https://forms.gle/m7xirfRnSRoPAe9e9</a></li>
         <li>🚀 Sped up backend when pickling primitives</li>
+        <li>🚀 You can now define a arepl_filter_type variable you can use to filter out types you don't want to see in the variable view</li>
+        <li>🚀 You can now define a arepl_filter_function variable you can use to totally customize the variables appearing in view</li>
+        <li>🐛 [Fixed a TypeError with pandas thanks to David Aguilar](https://github.com/Almenon/AREPL-backend/issues/104)</li>
     </ul>
     <br>
     
