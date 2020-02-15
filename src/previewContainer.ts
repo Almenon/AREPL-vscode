@@ -88,7 +88,7 @@ export class PreviewContainer{
 
             this.updateError(pythonResults.userErrorMsg)
             if(settings().get('inlineResults')){
-                this.pythonInlinePreview.updateErrorGutterIcons(pythonResults.userErrorMsg)
+                this.pythonInlinePreview.updateErrorGutterIcons(pythonResults.userError)
             }
 
             this.pythonPanelPreview.injectCustomCSS(settings().get('customCSS'))

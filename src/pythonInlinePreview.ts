@@ -1,5 +1,7 @@
 import * as vscode from "vscode"
 import Reporter from "./telemetry"
+import { UserError, FrameSummary } from "arepl-backend";
+import Utilities from "./utilities";
 
 /**
  * shows error icons
@@ -17,55 +19,58 @@ export default class PythonInlinePreview{
     /**
      * sets gutter icons in sidebar. Safe - catches and logs any exceptions
      */
-    public updateErrorGutterIcons(error: string){
+    public updateErrorGutterIcons(error: UserError){
         try {
-            const errLineNums = this.getLineNumsFromPythonTrace(error)
-            
-            let decorations = errLineNums.map((num)=>{
-                const lineNum = num-1 // python trace uses 1-based indexing but vscode lines start at 0
-                const range = new vscode.Range(lineNum, 0, lineNum, 0)
-                return {range} as vscode.DecorationOptions
-            })
+            const decorations = this.convertErrorToDecorationOptions(error)
             
             if(vscode.window.activeTextEditor){
                 vscode.window.activeTextEditor.setDecorations(this.errorDecorationType, decorations)
             }
 
-        } catch (error) {
-            if(error instanceof Error){
-                this.reporter.sendError(error)
+        } catch (internalError) {
+            if(internalError instanceof Error){
+                this.reporter.sendError(internalError)
             }
             else{
-                this.reporter.sendError(new Error(error))
+                this.reporter.sendError(new Error(internalError))
             }
         }
     }
 
-    /**
-     * returns line numbers for each error in the stack trace
-     * @param error a python stacktrace
-     */
-    private getLineNumsFromPythonTrace(error: string){
-            /* this regex will get the line number of each error. A error might look like this:
-            
-            Traceback (most recent call last):
-            line 4, in <module>
-            line 2, in foo
-            TypeError: unsupported operand type(s) for +: 'int' and 'str'
-            
-            The regex will not get line numbers in different files. Those have different format:
-            File "filePath", line 394, in func
-            */
-           const lineNumRegex = /^ *line (\d+), in /gm
-           let errLineNums: number[] = []
-           let match: RegExpExecArray
-           
-           while(match = lineNumRegex.exec(error)){
-               const matchCaptureGroup = match[1]
-               errLineNums.push(parseInt(matchCaptureGroup))
-           }
-
-           return errLineNums
+    private convertFrameToDecorationOption(frame: FrameSummary){
+        const lineNum = frame.lineno-1 // python trace uses 1-based indexing but vscode lines start at 0
+        // todo: pull endCharNum from relevant line from file
+        // remember that the file might not be the active doc...
+        const endCharNum = 0
+        const range = new vscode.Range(lineNum, 0, lineNum, endCharNum)
+        // temporarily skip error text untill above todo is fixed
+        //const text = error._str ? error._str : error.exc_type["py/type"]
+        const text = ""
+        return {
+            range,
+            renderOptions: {
+                after: {
+                    contentText: text
+                }
+            }
+        }
     }
 
+    private convertErrorToDecorationOptions(error: UserError){
+        let decorations: vscode.DecorationOptions[] = []
+
+        if(Utilities.isEmpty(error)) return [];
+
+        const flattenedErrors = Utilities.flattenNestedObjectWithMultipleKeys(error, ["__context__", "__cause__"])
+
+        flattenedErrors.forEach(error => {
+            error.stack["py/seq"].forEach(frame => {
+                decorations.push(
+                    this.convertFrameToDecorationOption(frame)
+                )
+            })
+        })
+
+        return decorations
+    }
 }
