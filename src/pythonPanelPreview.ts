@@ -35,6 +35,7 @@ export default class PythonPanelPreview{
         <li>🚀 You can now define a arepl_filter_function variable you can use to totally customize the variables appearing in view</li>
         <li>🐛 [Fixed a TypeError with pandas thanks to David Aguilar](https://github.com/Almenon/AREPL-backend/issues/104)</li>
         <li>🔧 Added showNameErrors and showSyntaxErrors settings you can use to not show those errors if they annoy you</li>
+        <li>🔧 Python 3.4 is no longer supported</li>
     </ul>
     <br>
     

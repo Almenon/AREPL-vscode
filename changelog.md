@@ -10,6 +10,8 @@
 
 🔧 Added showNameErrors and showSyntaxErrors settings you can use to not show those errors if they annoy you
 
+🔧 Python 3.4 is no longer supported
+
 ## [v1.0.20](https://github.com/Almenon/AREPL-vscode/milestone/38?closed=1) (11/26/2019) 🚀
 
 🚀 AREPL now automatically loads vars in your .env file. This feature is customizable in settings
