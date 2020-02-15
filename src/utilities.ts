@@ -5,6 +5,45 @@ export default class Utilities {
         return Object.keys(obj).length === 0;
     }
 
+    /**
+     * ex: {k:{k:{}}} -> [k,k]
+     * @param object returns empty list if null/undefined object
+     * @param key assumes key is same throughout
+     */
+    static flattenNestedObject<T>(object: T, key: string){
+        const objects:T[] = []
+
+        while(object != null){
+            objects.push(object)
+            object = object[key]
+        }
+
+        return objects
+    }
+
+    /**
+     * ex: {k:{k:{}}} -> [k,k]
+     * @param object returns empty list if null/undefined object
+     * @param key object will be transversed using first non-null key
+     */
+    static flattenNestedObjectWithMultipleKeys<T>(object: T, keys: string[]){
+        const objects:T[] = []
+
+        while(object != null){
+            objects.push(object)
+
+            let innerObject;
+            for (let index = 0; index < keys.length; index++) {
+                innerObject = object[keys[index]];
+                if(innerObject) break
+            }
+
+            object = innerObject
+        }
+
+        return objects
+    }
+
     static sleep(ms: number): Promise<void> {
         return new Promise(resolve => {
           setTimeout(resolve, ms)

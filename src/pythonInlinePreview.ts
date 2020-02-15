@@ -1,6 +1,7 @@
 import * as vscode from "vscode"
 import Reporter from "./telemetry"
-import { UserError } from "arepl-backend";
+import { UserError, FrameSummary } from "arepl-backend";
+import Utilities from "./utilities";
 
 /**
  * shows error icons
@@ -20,44 +21,56 @@ export default class PythonInlinePreview{
      */
     public updateErrorGutterIcons(error: UserError){
         try {
-
-            let decorations: vscode.DecorationOptions[] = []
-
-            while(error != null){
-                let moreDecorations = error.stack["py/seq"].map(frame => {
-                    const lineNum = frame.lineno-1 // python trace uses 1-based indexing but vscode lines start at 0
-                    // todo: pull endCharNum from relevant line from file
-                    // remember that the file might not be the active doc...
-                    const endCharNum = 0
-                    const range = new vscode.Range(lineNum, 0, lineNum, endCharNum)
-                    const text = error._str ? error._str : error.exc_type["py/type"]
-                    return {
-                        range,
-                        renderOptions: {
-                            after: {
-                                contentText: text
-                            }
-                        }
-                    } as vscode.DecorationOptions
-                })
-                decorations = decorations.concat(moreDecorations);
-                // todo: update backend to fix type
-                // @ts-ignore
-                error = error.__context__;
-            }
+            const decorations = this.convertErrorToDecorationOptions(error)
             
             if(vscode.window.activeTextEditor){
                 vscode.window.activeTextEditor.setDecorations(this.errorDecorationType, decorations)
             }
 
-        } catch (error) {
-            if(error instanceof Error){
-                this.reporter.sendError(error)
+        } catch (internalError) {
+            if(internalError instanceof Error){
+                this.reporter.sendError(internalError)
             }
             else{
-                this.reporter.sendError(new Error(error))
+                this.reporter.sendError(new Error(internalError))
             }
         }
     }
 
+    private convertFrameToDecorationOption(frame: FrameSummary){
+        const lineNum = frame.lineno-1 // python trace uses 1-based indexing but vscode lines start at 0
+        // todo: pull endCharNum from relevant line from file
+        // remember that the file might not be the active doc...
+        const endCharNum = 0
+        const range = new vscode.Range(lineNum, 0, lineNum, endCharNum)
+        // temporarily skip error text untill above todo is fixed
+        //const text = error._str ? error._str : error.exc_type["py/type"]
+        const text = ""
+        return {
+            range,
+            renderOptions: {
+                after: {
+                    contentText: text
+                }
+            }
+        }
+    }
+
+    private convertErrorToDecorationOptions(error: UserError){
+        let decorations: vscode.DecorationOptions[] = []
+
+        if(Utilities.isEmpty(error)) return [];
+
+        const flattenedErrors = Utilities.flattenNestedObjectWithMultipleKeys(error, ["__context__", "__cause__"])
+
+        flattenedErrors.forEach(error => {
+            error.stack["py/seq"].forEach(frame => {
+                decorations.push(
+                    this.convertFrameToDecorationOption(frame)
+                )
+            })
+        })
+
+        return decorations
+    }
 }

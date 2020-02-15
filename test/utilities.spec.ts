@@ -40,5 +40,37 @@ suite("Utility Tests", () => {
             assert.strictEqual(Utilities.getLastLine(""), "")
         })
     });
+
+    suite('flatten nested object', () => {
+        test("does not error out on null objects", function(){
+            assert.deepStrictEqual(Utilities.flattenNestedObject(null, "key"), [])
+        })
+
+        test("does not error with bad key", function(){
+            assert.deepStrictEqual(Utilities.flattenNestedObject({}, "b"), [{}])
+        })
+
+        test("can flatten a single object", function(){
+            assert.deepStrictEqual(Utilities.flattenNestedObject({'a':null}, "a"), [{'a':null}])
+        })
+
+        test("can flatten nested objects", function(){
+            assert.deepStrictEqual(
+                Utilities.flattenNestedObject({'a':{'a':null}}, "a"), [{'a':{'a':null}}, {'a':null}]
+            )
+        })
+    });
     
+    suite('flatten nested object with multiple keys', () => {
+        test("can flatten nested objects", function(){
+            assert.deepStrictEqual(
+                Utilities.flattenNestedObjectWithMultipleKeys({'a':{'a':null}}, ["a", "b"]), [{'a':{'a':null}}, {'a':null}]
+            )
+
+            assert.deepStrictEqual(
+                Utilities.flattenNestedObjectWithMultipleKeys({'a':{'b':null}}, ["a", "b"]), [{'a':{'b':null}}, {'b':null}]
+            )
+        })
+    });
+
 });
