@@ -168,12 +168,9 @@ export default class PreviewManager {
     }
 
     /**
-     * starts AREPL python backend and binds print&result output to the handlers
+     * show err message to user if outdated version of python
      */
-    private async startAndBindPython(){
-        const pythonPath = areplUtils.getPythonPath()
-        const pythonOptions = settings().get<string[]>("pythonOptions")
-
+    private warnIfOutdatedPythonVersion(pythonPath: string){
         PythonShell.getVersion(`"${pythonPath}"`).then((out)=>{
             if((out.stdout?.includes("Python 3.4")) || (out.stderr?.includes("Python 3.4"))){
                 vscode.window.showErrorMessage("AREPL does not support python 3.4. Please upgrade or set AREPL.pythonPath to a diffent python")
@@ -186,6 +183,16 @@ export default class PreviewManager {
             // so we skip telemetry reporting for this error
             console.error(s)
         })
+    }
+
+    /**
+     * starts AREPL python backend and binds print&result output to the handlers
+     */
+    private async startAndBindPython(){
+        const pythonPath = areplUtils.getPythonPath()
+        const pythonOptions = settings().get<string[]>("pythonOptions")
+
+        this.warnIfOutdatedPythonVersion(pythonPath)
 
         // basically all this does is load a file.. why does it need to be async *sob*
         const env = await this.loadAndWatchEnvVars()
