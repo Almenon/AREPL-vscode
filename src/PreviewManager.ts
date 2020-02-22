@@ -134,8 +134,8 @@ export default class PreviewManager {
             savedCode: '',
             usePreviousVariables: true,
             showGlobalVars: settingsCached.get<boolean>('showGlobalVars'),
-            default_filter_vars: settingsCached.get<string[]>('default_filter_vars'),
-            default_filter_types: settingsCached.get<string[]>('default_filter_types')
+            default_filter_vars: settingsCached.get<string[]>('defaultFilterVars'),
+            default_filter_types: settingsCached.get<string[]>('defaultFilterTypes')
         }
         this.PythonEvaluator.execCode(data)
         this.runningStatus.show()

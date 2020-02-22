@@ -67,8 +67,8 @@ export class ToAREPLLogic{
             savedCode: savedLines.join(eol),
             usePreviousVariables: false,
             showGlobalVars,
-            default_filter_vars: settingsCached.get<string[]>('default_filter_vars'),
-            default_filter_types: settingsCached.get<string[]>('default_filter_types')
+            default_filter_vars: settingsCached.get<string[]>('defaultFilterVars'),
+            default_filter_types: settingsCached.get<string[]>('defaultFilterTypes')
         }
 
         // user should be able to rerun code without changing anything
