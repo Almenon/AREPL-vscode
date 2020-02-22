@@ -1,5 +1,5 @@
 "use strict"
-import {PythonEvaluator} from "arepl-backend"
+import {PythonEvaluator, ExecArgs} from "arepl-backend"
 import areplUtils from "./areplUtilities"
 import * as vscode from "vscode"
 import { EnvironmentVariablesProvider } from "./env/variables/environmentVariablesProvider"
@@ -127,12 +127,15 @@ export default class PreviewManager {
         // so we prepend lines to put codeLines in right spot
         codeLines = vscodeUtils.eol(editor.document).repeat(block.start.line) + codeLines
         const filePath = editor.document.isUntitled ? "" : editor.document.fileName
-        const data = {
+        const settingsCached = settings()
+        const data: ExecArgs = {
             evalCode: codeLines,
             filePath,
             savedCode: '',
             usePreviousVariables: true,
-            showGlobalVars: settings().get<boolean>('showGlobalVars')
+            showGlobalVars: settingsCached.get<boolean>('showGlobalVars'),
+            default_filter_vars: settingsCached.get<string[]>('default_filter_vars'),
+            default_filter_types: settingsCached.get<string[]>('default_filter_types')
         }
         this.PythonEvaluator.execCode(data)
         this.runningStatus.show()

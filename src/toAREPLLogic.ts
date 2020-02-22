@@ -1,4 +1,4 @@
-import {PythonEvaluator} from "arepl-backend"
+import {PythonEvaluator, ExecArgs} from "arepl-backend"
 import {PreviewContainer} from "./previewContainer"
 import pyGuiLibraryIsPresent from "./pyGuiLibraryIsPresent"
 import {settings} from "./settings"
@@ -32,6 +32,9 @@ export class ToAREPLLogic{
     }
 
     public onUserInput(text: string, filePath: string, eol: string, showGlobalVars=true) {
+
+        const settingsCached = settings()
+
         let codeLines = text.split(eol)
     
         let savedLines: string[] = []
@@ -51,19 +54,21 @@ export class ToAREPLLogic{
         const endSection = codeLines.slice(endLineNum).join(eol)
         codeLines = codeLines.slice(startLineNum, endLineNum)
     
-        const unsafeKeywords = settings().get<string[]>('unsafeKeywords')
-        const realTime = settings().get<string>("whenToExecute") == "afterDelay"
+        const unsafeKeywords = settingsCached.get<string[]>('unsafeKeywords')
+        const realTime = settingsCached.get<string>("whenToExecute") == "afterDelay"
         // if not real-time we trust user to only run safe code
         if(realTime && this.scanForUnsafeKeywords(codeLines.join(eol), unsafeKeywords)){
             throw Error("unsafeKeyword")
         }
 
-        const data = {
+        const data: ExecArgs = {
             evalCode: codeLines.join(eol),
             filePath,
             savedCode: savedLines.join(eol),
             usePreviousVariables: false,
-            showGlobalVars
+            showGlobalVars,
+            default_filter_vars: settingsCached.get<string[]>('default_filter_vars'),
+            default_filter_types: settingsCached.get<string[]>('default_filter_types')
         }
 
         // user should be able to rerun code without changing anything
