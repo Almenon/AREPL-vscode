@@ -2,9 +2,13 @@
 
 🚀 Sped up backend when pickling primitives
 
-🚀 You can now define a arepl_filter_type variable you can use to filter out types you don't want to see in the variable view
+🚀 defaultFilterVars setting added. You can use it to filter out vars of certain types from displaying in the variable view. You can also set a arepl_filter variable in arepl to play around with it in real-time. `arepl_filter=['foo']`
+
+🚀 defaultFilterTypes setting added. You can use it to filter out vars of certain types from displaying in the variable view. You can also set a arepl_filter_type variable in arepl to play around with it in real-time. `arepl_filter_type=["<class 'str'>"]`
 
 🚀 You can now define a arepl_filter_function variable you can use to totally customize the variables appearing in view
+
+🐛 Fixed arepl_store var not working
 
 🐛 [Fixed a TypeError with pandas thanks to David Aguilar](https://github.com/Almenon/AREPL-backend/issues/104)
 
