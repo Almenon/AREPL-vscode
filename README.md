@@ -129,6 +129,31 @@ a = "foo" # this won't show up
 b = 3 # this does
 ```
 
+You can also filter out types:
+
+```python
+arepl_filter_type=["<class 'str'>"]
+c = "foo" # this won't show up
+c = 3 # this does
+```
+
+Finally there is a super-powerful arepl_filter_function var you can use to totally customize what is shown:
+
+```python
+from collections import namedtuple
+
+Point = namedtuple('Point', ['x', 'y'])
+p = Point(x=1, y=1)
+
+def arepl_filter_function(var_dict):
+    var_dict['p']=var_dict['p'].x + var_dict['p'].y
+    return var_dict
+
+# p will show up as 2
+```
+
+You can set default filters via the `defaultFilterVars` or `defaultFilterTypes` settings.
+
 ### HOWDOI
 
 You can use [howdoi](https://github.com/gleitz/howdoi) with arepl.
