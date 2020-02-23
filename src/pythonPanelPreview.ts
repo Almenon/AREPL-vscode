@@ -34,7 +34,7 @@ export default class PythonPanelPreview{
         <li>🚀 defaultFilterVars setting added. You can use it to filter out vars of certain types from displaying in the variable view. You can also set a arepl_filter variable in arepl to play around with it in real-time. <code>arepl_filter=['foo']</code></li>
         <li>🚀 defaultFilterTypes setting added. You can use it to filter out vars of certain types from displaying in the variable view. You can also set a arepl_filter_type variable in arepl to play around with it in real-time. <code>arepl_filter_type=["\<class 'str'\>"]</code></li>
         <li>🚀 You can now define a arepl_filter_function variable you can use to totally customize the variables appearing in view</li>
-        <li>🐛 [Fixed a TypeError with pandas thanks to David Aguilar](https://github.com/Almenon/AREPL-backend/issues/104)</li>
+        <li>🐛 <a href="https://github.com/Almenon/AREPL-backend/issues/104">Fixed a TypeError with pandas thanks to David Aguilar</a></li>
         <li>🔧 Added showNameErrors and showSyntaxErrors settings you can use to not show those errors if they annoy you</li>
         <li>🔧 Python 3.4 is no longer supported</li>
     </ul>

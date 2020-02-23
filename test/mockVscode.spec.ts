@@ -300,7 +300,7 @@ export let vscodeMock = {
     },
     workspace: {
         workspaceFolders: [<WorkspaceFolder>{
-            uri: new uri("","","","",""),
+            uri: new uri("","","root","",""),
             name: "foo",
             index: 0
         }],
