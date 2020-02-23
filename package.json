@@ -303,9 +303,9 @@
     "glob": "^7.1.4",
     "mocha": "^6.1.4",
     "source-map-support": "^0.5.13",
-    "typescript": "^3.7.5",
     "ts-node": "^8.6.2",
-    "vscode-test": "^1.2.0"
+    "typescript": "^3.7.5",
+    "vscode-test": "^1.3.0"
   },
   "dependencies": {
     "arepl-backend": "^1.3.6",
