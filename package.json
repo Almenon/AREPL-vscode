@@ -215,6 +215,11 @@
           "type": "boolean",
           "default": false,
           "description": "Whether to automatically load django models. This setting doesn't actually do anything yet. See https://github.com/Almenon/AREPL-vscode/issues/279"
+        },
+        "AREPL.keepPreviousVars": {
+          "type": "boolean",
+          "default": false,
+          "description": "If set to true AREPL will add onto the local state each run instead of clearing it and starting fresh."
         }
       }
     },
