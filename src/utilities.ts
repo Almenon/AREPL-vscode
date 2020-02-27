@@ -1,7 +1,13 @@
 "use strict"
 
 export default class Utilities {
+    
+    /**
+     * note that this returns true if obj evaluates to false. 
+     * (For example, of obj is null)
+     */
     static isEmpty(obj: {}) {
+        if(!obj) return true
         return Object.keys(obj).length === 0;
     }
 

@@ -17,6 +17,10 @@ suite("Utility Tests", () => {
             assert.strictEqual(Utilities.isEmpty({a:null}), false)
             assert.strictEqual(Utilities.isEmpty([1]), false)
         }); 
+
+        test("returns true for null element", function(){
+            assert.strictEqual(Utilities.isEmpty(null), true)
+        });
     });
 
     suite('escape html', () => {
