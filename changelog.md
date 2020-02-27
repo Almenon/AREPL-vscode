@@ -1,4 +1,8 @@
-## [v1.0.21](https://github.com/Almenon/AREPL-vscode/milestone/39?closed=1) (01/26/2020) 🚀🐛
+## [v1.0.22](https://github.com/Almenon/AREPL-vscode/milestone/40?closed=1) (02/26/2020) 🚀
+
+🚀 Added keepPreviousVars setting. If set to true AREPL will add onto the local state each run instead of clearing it and starting fresh.
+
+## [v1.0.21](https://github.com/Almenon/AREPL-vscode/milestone/39?closed=1) (02/22/2020) 🚀🐛
 
 🚀 Sped up backend when pickling primitives
 

@@ -27,16 +27,10 @@ export default class PythonPanelPreview{
     <p style="font-size:14px">⚠ <b style="color:red">WARNING:</b> code is evaluated WHILE YOU TYPE - don't try deleting files/folders! ⚠</p>
     <p>evaluation while you type can be turned off or adjusted in the settings</p>
     <br>
-    <h3>AREPL 1.0.21 🚀🐛🔧 - Castle of Cagliostro</h3>
+    <h3>AREPL 1.0.22 🚀 - kiki</h3>
     <ul>
         <li>Help me make arepl better by filling out this short survey: <a href="https://forms.gle/m7xirfRnSRoPAe9e9">https://forms.gle/m7xirfRnSRoPAe9e9</a></li>
-        <li>🚀 Sped up backend when pickling primitives</li>
-        <li>🚀 defaultFilterVars setting added. You can use it to filter out vars of certain types from displaying in the variable view. You can also set a arepl_filter variable in arepl to play around with it in real-time. <code>arepl_filter=['foo']</code></li>
-        <li>🚀 defaultFilterTypes setting added. You can use it to filter out vars of certain types from displaying in the variable view. You can also set a arepl_filter_type variable in arepl to play around with it in real-time. <code>arepl_filter_type=["\<class 'str'\>"]</code></li>
-        <li>🚀 You can now define a arepl_filter_function variable you can use to totally customize the variables appearing in view</li>
-        <li>🐛 <a href="https://github.com/Almenon/AREPL-backend/issues/104">Fixed a TypeError with pandas thanks to David Aguilar</a></li>
-        <li>🔧 Added showNameErrors and showSyntaxErrors settings you can use to not show those errors if they annoy you</li>
-        <li>🔧 Python 3.4 is no longer supported</li>
+        <li>🚀 Added keepPreviousVars setting. If set to true AREPL will add onto the local state each run instead of clearing it and starting fresh.</li>
     </ul>
     <br>
     
