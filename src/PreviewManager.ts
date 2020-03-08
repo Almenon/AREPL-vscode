@@ -233,10 +233,6 @@ export default class PreviewManager {
             this.reporter.sendError(err, error.errno, 'spawn')
         })
         this.PythonEvaluator.pyshell.childProcess.on("exit", err => {
-            /* The 'exit' event is emitted after the child process ends */
-            // that's what node doc CLAIMS ..... 
-            // but when i debug this never gets called unless there's a unexpected error :/
-            
             if(!err) return // normal exit
             this.previewContainer.displayProcessError(`err code: ${err}`);
             this.reporter.sendError(new Error('exit'), err, 'spawn')
