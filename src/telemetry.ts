@@ -14,6 +14,7 @@ export default class Reporter{
     execTime: number
     totalPyTime: number
     totalTime: number
+    pythonVersion: string
 
     constructor(private enabled: boolean){
         const extensionId = "almenon.arepl";
@@ -78,6 +79,7 @@ export default class Reporter{
             }
             
             properties['pythonPath'] = this.anonymizePaths(areplUtils.getPythonPath())
+            properties['pythonVersion'] = this.pythonVersion
 
             this.reporter.sendTelemetryEvent("closed", properties, measurements)
 

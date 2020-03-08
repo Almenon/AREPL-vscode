@@ -181,6 +181,9 @@ export default class PreviewManager {
                 Please upgrade or set AREPL.pythonPath to a diffent python.
                 AREPL needs python 3.5 or greater`)
             }
+            if(version){
+                this.reporter.pythonVersion = version.trim()
+            }
         }).catch((err: NodeJS.ErrnoException)=>{
             // if we get spawn error here thats already reported by telemetry
             // so we skip telemetry reporting for this error
