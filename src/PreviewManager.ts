@@ -238,8 +238,7 @@ export default class PreviewManager {
             // but when i debug this never gets called unless there's a unexpected error :/
             
             if(!err) return // normal exit
-            const error = `AREPL crashed unexpectedly! Are you using python 3? err: ${err}`
-            this.previewContainer.displayProcessError(error);
+            this.previewContainer.displayProcessError(`err code: ${err}`);
             this.reporter.sendError(new Error('exit'), err, 'spawn')
         })
 

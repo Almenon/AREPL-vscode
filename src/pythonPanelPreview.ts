@@ -199,14 +199,13 @@ if r.status_code == 200:
 
     public displayProcessError(err: string){
         let errMsg = `Error in the AREPL extension!\n${err}`
-        if(err.includes("ENOENT")){ // NO SUCH FILE OR DIRECTORY
+        if(err.includes("ENOENT") || err.includes("9009")){ // NO SUCH FILE OR DIRECTORY
             // user probably just doesn't have python installed
             errMsg = errMsg + `\n\nAre you sure you have installed python 3 and it is in your PATH?
             You can download python here: https://www.python.org/downloads/`
         }
 
-        this.updateError(errMsg)
-        this.throttledUpdate()
+        this.updateError(errMsg, true)
     }
 
     private makeErrorGoogleable(err: string){
