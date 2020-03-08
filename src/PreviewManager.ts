@@ -175,16 +175,19 @@ export default class PreviewManager {
      */
     private warnIfOutdatedPythonVersion(pythonPath: string){
         PythonShell.getVersion(`"${pythonPath}"`).then((out)=>{
-            if((out.stdout?.includes("Python 3.4")) || (out.stderr?.includes("Python 3.4"))){
-                vscode.window.showErrorMessage("AREPL does not support python 3.4. Please upgrade or set AREPL.pythonPath to a diffent python")
+            let version = out.stdout ? out.stdout : out.stderr
+            if(version?.includes("Python 3.4") || version?.includes("Python 2")){
+                vscode.window.showErrorMessage(`AREPL does not support ${version}.
+                Please upgrade or set AREPL.pythonPath to a diffent python.
+                AREPL needs python 3.5 or greater`)
             }
-            if((out.stdout?.includes("Python 2.")) || (out.stderr?.includes("Python 2."))){
-                vscode.window.showErrorMessage("AREPL does not support python 2. Please set AREPL to use python 3.")
-            }
-        }).catch((s: Error)=>{
+        }).catch((err: NodeJS.ErrnoException)=>{
             // if we get spawn error here thats already reported by telemetry
             // so we skip telemetry reporting for this error
-            console.error(s)
+            console.error(err)
+            if(err.message.includes("Python was not found but can be installed from the Microsoft Store")){
+                vscode.window.showErrorMessage(err.message)
+            }
         })
     }
 
@@ -219,7 +222,7 @@ export default class PreviewManager {
                 console.error(err)
             }
         }
-        this.PythonEvaluator.pyshell.childProcess.on("error", err => {
+        this.PythonEvaluator.pyshell.childProcess.on("error", (err: NodeJS.ErrnoException) => {
             /* The 'error' event is emitted whenever:
             The process could not be spawned, or
             The process could not be killed, or
@@ -229,8 +232,7 @@ export default class PreviewManager {
             // @ts-ignore err is actually SystemError but node does not type it
             const error = `Error running python with command: ${err.path} ${err.spawnargs.join(' ')}\n${err.stack}`
             this.previewContainer.displayProcessError(error);
-            // @ts-ignore 
-            this.reporter.sendError(err, error.errno, 'spawn')
+            this.reporter.sendError(err, err.errno, 'spawn')
         })
         this.PythonEvaluator.pyshell.childProcess.on("exit", err => {
             if(!err) return // normal exit
