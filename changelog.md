@@ -1,6 +1,10 @@
-## [v1.0.22](https://github.com/Almenon/AREPL-vscode/milestone/40?closed=1) (02/26/2020) 🚀
+## [v1.0.22](https://github.com/Almenon/AREPL-vscode/milestone/40?closed=1) (03/22/2020) 🚀🐛
 
 🚀 Added keepPreviousVars setting. If set to true AREPL will add onto the local state each run instead of clearing it and starting fresh.
+🚀 Added stdlib list for python 3.8
+🐛 Renamed arepl files to start with arepl_ to avoid conflicting with user files. See #314
+🐛 Improved error handling for bad python path. See #309
+🐛 Fixed \_\_loader\_\_ - meta variable - it should now be the same as \_\_loader\_\_ when running python normally
 
 ## [v1.0.21](https://github.com/Almenon/AREPL-vscode/milestone/39?closed=1) (02/22/2020) 🚀🐛
 
