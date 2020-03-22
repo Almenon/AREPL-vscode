@@ -31,6 +31,10 @@ export default class PythonPanelPreview{
     <ul>
         <li>Help me make arepl better by filling out this short survey: <a href="https://forms.gle/m7xirfRnSRoPAe9e9">https://forms.gle/m7xirfRnSRoPAe9e9</a></li>
         <li>🚀 Added keepPreviousVars setting. If set to true AREPL will add onto the local state each run instead of clearing it and starting fresh.</li>
+        <li>🚀 Added stdlib list for python 3.8</li>
+        <li>🐛 Renamed arepl files to start with arepl_ to avoid conflicting with user files. See #314</li>
+        <li>🐛 Improved error handling for bad python path. See #309</li>
+        <li>🐛 Fixed \_\_loader\_\_ - meta variable - it should now be the same as \_\_loader\_\_ when running python normally</li>
     </ul>
     <br>
     
