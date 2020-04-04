@@ -31,6 +31,7 @@ export default class PythonPanelPreview{
     <ul>
         <li>Help me make arepl better by filling out this short survey: <a href="https://forms.gle/m7xirfRnSRoPAe9e9">https://forms.gle/m7xirfRnSRoPAe9e9</a></li>
         <li>🚀 Improved how classes are dislayed in variable view <a href="https://github.com/Almenon/AREPL-vscode/issues/320">#320</a></li>
+        <li>🐛 Fix inline error icons showing up on the wrong line</li>
         <li>🐛 Fixed arepl.pythonPath setting so it correctly uses python interpreter set by python extension</li>
     </ul>
     <br>
