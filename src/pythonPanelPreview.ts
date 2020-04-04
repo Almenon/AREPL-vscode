@@ -27,14 +27,11 @@ export default class PythonPanelPreview{
     <p style="font-size:14px">⚠ <b style="color:red">WARNING:</b> code is evaluated WHILE YOU TYPE - don't try deleting files/folders! ⚠</p>
     <p>evaluation while you type can be turned off or adjusted in the settings</p>
     <br>
-    <h3>AREPL 1.0.22 🚀 - kiki</h3>
+    <h3>AREPL 1.0.23 🚀 - Dark Meat City</h3>
     <ul>
         <li>Help me make arepl better by filling out this short survey: <a href="https://forms.gle/m7xirfRnSRoPAe9e9">https://forms.gle/m7xirfRnSRoPAe9e9</a></li>
-        <li>🚀 Added keepPreviousVars setting. If set to true AREPL will add onto the local state each run instead of clearing it and starting fresh.</li>
-        <li>🚀 Added stdlib list for python 3.8</li>
-        <li>🐛 Renamed arepl files to start with arepl_ to avoid conflicting with user files. See #314</li>
-        <li>🐛 Improved error handling for bad python path. See #309</li>
-        <li>🐛 Fixed \_\_loader\_\_ - meta variable - it should now be the same as \_\_loader\_\_ when running python normally</li>
+        <li>🚀 Improved how classes are dislayed in variable view <a href="https://github.com/Almenon/AREPL-vscode/issues/320">#320</a></li>
+        <li>🐛 Fixed arepl.pythonPath setting so it correctly uses python interpreter set by python extension</li>
     </ul>
     <br>
     

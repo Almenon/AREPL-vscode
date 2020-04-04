@@ -1,3 +1,8 @@
+## [v1.0.23](https://github.com/Almenon/AREPL-vscode/milestone/41?closed=1) (04/04/2020) 🚀🐛
+
+🚀 Improved how classes are dislayed in variable view [#320](https://github.com/Almenon/AREPL-vscode/issues/320)
+🐛 Fixed arepl.pythonPath setting so it correctly uses python interpreter set by python extension
+
 ## [v1.0.22](https://github.com/Almenon/AREPL-vscode/milestone/40?closed=1) (03/22/2020) 🚀🐛
 
 🚀 Added keepPreviousVars setting. If set to true AREPL will add onto the local state each run instead of clearing it and starting fresh.
@@ -289,3 +294,4 @@ see https://github.com/Almenon/AREPL-vscode/milestone/5
 
 ## Fixed:
 * timing is not sticky
+    
