@@ -1,7 +1,7 @@
 import * as vscode from "vscode"
 import Reporter from "./telemetry"
 import { UserError, FrameSummary } from "arepl-backend";
-import Utilities from "./utilities";
+import Utilities, {DefaultDict} from "./utilities";
 
 /**
  * shows error icons
@@ -30,7 +30,10 @@ export default class PythonInlinePreview{
             const decorations = this.convertErrorToDecorationOptions(error)
             
             if(vscode.window.activeTextEditor){
-                vscode.window.activeTextEditor.setDecorations(this.errorDecorationType, decorations)
+                vscode.window.activeTextEditor.setDecorations(
+                    // <string> indicates the main arepl file
+                    this.errorDecorationType, decorations["<string>"]
+                )
             }
 
         } catch (internalError) {
@@ -47,7 +50,7 @@ export default class PythonInlinePreview{
         throw Error('not implemented')
     }
 
-    private convertFrameToDecorationOption(frame: FrameSummary){
+    private convertFrameToDecorationOption(frame: FrameSummary): vscode.DecorationOptions{
         const lineNum = frame.lineno-1 // python trace uses 1-based indexing but vscode lines start at 0
         // todo: pull endCharNum from relevant line from file
         // remember that the file might not be the active doc...
@@ -67,21 +70,23 @@ export default class PythonInlinePreview{
         }
     }
 
-    private convertErrorToDecorationOptions(error: UserError){
-        let decorations: vscode.DecorationOptions[] = []
+    /**
+     * converts error to dictionary of error decorations indexed by filename
+     */
+    private convertErrorToDecorationOptions(error: UserError): Record<string, vscode.DecorationOptions[]>{
+        const decorations = new DefaultDict(Array)
 
-        if(Utilities.isEmpty(error)) return [];
+        if(Utilities.isEmpty(error)) return {'<string>': []};
 
         const flattenedErrors = Utilities.flattenNestedObjectWithMultipleKeys(error, ["__context__", "__cause__"])
 
         flattenedErrors.forEach(error => {
             error.stack["py/seq"].forEach(frame => {
-                decorations.push(
-                    this.convertFrameToDecorationOption(frame)
-                )
+                decorations[frame.filename].push(this.convertFrameToDecorationOption(frame))
             })
         })
 
+        // @ts-ignore no idea how to type defaultdict properly
         return decorations
     }
 }
