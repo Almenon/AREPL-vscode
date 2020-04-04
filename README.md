@@ -18,11 +18,11 @@ or use the shortcuts: `control-shift-a` (current doc) / `control-shift-q` (new d
 
 ## Features
 
-* Real-time evaluation: no need to run - AREPL evaluates your code automatically. You can control this (or even turn it off) in the settings
+* Real-time evaluation: no need to run - AREPL evaluates your code automatically. You can control this (or even turn it off) in the settings.
 
-* Variable display: The final state of your local variables are displayed in a collapsible JSON format
+* Variable display: The final state of your local variables are displayed in a collapsible JSON format.
 
-* Error display: The instant you make a mistake an error with stack trace is shown
+* Error display: The instant you make a mistake an error with stack trace is shown.
 
 * Settings: AREPL offers many settings to fit your user experience.  Customize the look and feel, debounce time, python options, and more!
 
