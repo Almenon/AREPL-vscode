@@ -133,7 +133,7 @@ export default class PreviewManager {
             filePath,
             savedCode: '',
             usePreviousVariables: true,
-            showGlobalVars: settingsCached.get<boolean>('showGlobalVars'),
+            show_global_vars: settingsCached.get<boolean>('showGlobalVars'),
             default_filter_vars: settingsCached.get<string[]>('defaultFilterVars'),
             default_filter_types: settingsCached.get<string[]>('defaultFilterTypes')
         }
