@@ -119,8 +119,6 @@ if r.status_code == 200:
 
     constructor(private context: vscode.ExtensionContext, htmlUpdateFrequency=50) {
         this._onDidChange = new vscode.EventEmitter<vscode.Uri>();
-        this.css = `<link rel="stylesheet" type="text/css" href="${this.getMediaPath("pythonPanelPreview.css")}">`
-        this.jsonRendererScript = `<script src="${this.getMediaPath("jsonRenderer.js")}"></script>`
 
         if(htmlUpdateFrequency != 0){
             // refreshing html too much can freeze vscode... lets avoid that
@@ -134,6 +132,10 @@ if r.status_code == 200:
         this.panel = vscode.window.createWebviewPanel("arepl","AREPL - " + linkedFileName, vscode.ViewColumn.Two,{
             enableScripts:true
         });
+
+        this.css = `<link rel="stylesheet" type="text/css" href="${this.getMediaPath("pythonPanelPreview.css", this.panel.webview)}">`
+        this.jsonRendererScript = `<script src="${this.getMediaPath("jsonRenderer.js", this.panel.webview)}"></script>`
+
         this.panel.webview.html = this.landingPage
         return this.panel;
     }
@@ -237,9 +239,9 @@ if r.status_code == 200:
         return this._onDidChange.event;
     }
 
-    private getMediaPath(mediaFile: string) {
+    private getMediaPath(mediaFile: string, webview: vscode.Webview) {
         const onDiskPath = vscode.Uri.file(path.join(this.context.extensionPath, "media", mediaFile));
-        return onDiskPath.with({ scheme: "vscode-resource" });
+        return webview.asWebviewUri(onDiskPath)
     }
 
     private updateContent(){
