@@ -59,7 +59,7 @@ export default class PreviewManager {
         return e.getEnvironmentVariables(areplUtils.getEnvFilePath(), vscodeUtils.getCurrentWorkspaceFolderUri())
     }
 
-    async startArepl(){
+    startArepl(){
         // see https://github.com/Microsoft/vscode/issues/46445
         vscode.commands.executeCommand("setContext", "arepl", true)
 
@@ -72,22 +72,19 @@ export default class PreviewManager {
         }
         this.pythonEditor = vscode.window.activeTextEditor
         this.pythonEditorDoc = this.pythonEditor.document
-        
-        let panel = this.previewContainer.start(basename(this.pythonEditorDoc.fileName));
-        panel.onDidDispose(()=>this.dispose(), this, this.subscriptions)
-        this.subscriptions.push(panel)
-
-        this.startAndBindPython()
 
         if(this.pythonEditorDoc.isUntitled && this.pythonEditorDoc.getText() == "") {
-            await areplUtils.insertDefaultImports(this.pythonEditor)
-            // waiting for this to complete so i dont accidentily trigger
-            // the edit doc handler when i insert imports
+            areplUtils.insertDefaultImports(this.pythonEditor)
         }
+        
+        return this.startAndBindPython().then(()=>{
+            let panel = this.previewContainer.start(basename(this.pythonEditorDoc.fileName), this.PythonEvaluator);
+            panel.onDidDispose(()=>this.dispose(), this, this.subscriptions)
+            this.subscriptions.push(panel)
 
-        this.subscribeHandlersToDoc()
-
-        return panel
+            this.subscribeHandlersToDoc()
+            return panel;
+        })
     }
 
     runArepl(){

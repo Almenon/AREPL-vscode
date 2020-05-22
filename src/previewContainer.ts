@@ -1,4 +1,4 @@
-import {PythonResult, UserError} from "arepl-backend"
+import {PythonResult, UserError, PythonEvaluator} from "arepl-backend"
 import * as vscode from "vscode"
 import PythonInlinePreview from "./pythonInlinePreview"
 import PythonPanelPreview from "./pythonPanelPreview"
@@ -9,10 +9,11 @@ import {settings} from "./settings"
  * logic wrapper around html preview doc
  */
 export class PreviewContainer{
-    public printResults: string[];
-    pythonInlinePreview: PythonInlinePreview
     public errorDecorationType: vscode.TextEditorDecorationType
+    public printResults: string[];
     private vars: {}
+    pythonInlinePreview: PythonInlinePreview
+    pythonEvaluator: PythonEvaluator
 
     constructor(private reporter: Reporter, context: vscode.ExtensionContext, htmlUpdateFrequency=50, private pythonPanelPreview?: PythonPanelPreview){
         if(!this.pythonPanelPreview) this.pythonPanelPreview = new PythonPanelPreview(context, htmlUpdateFrequency)
@@ -20,8 +21,9 @@ export class PreviewContainer{
         this.errorDecorationType = this.pythonInlinePreview.errorDecorationType
     }
 
-    public start(linkedFileName: string){
+    public start(linkedFileName: string, pythonEvaluator: PythonEvaluator){
         this.clearStoredData()
+        this.pythonEvaluator = pythonEvaluator;
         return this.pythonPanelPreview.start(linkedFileName)
     }
 
@@ -119,8 +121,13 @@ export class PreviewContainer{
 
     }
 
-    public handlePrint(pythonResults: string){
-        this.printResults.push(pythonResults);
+    public handlePrint(printResult: string){
+        if(!this.pythonEvaluator.executing){
+            // this happens when python prints more than 8192*8 bytes, not sure why
+            console.warn("Got print result when arepl was not running: " + printResult)
+            return
+        }
+        this.printResults.push(printResult);
         this.pythonPanelPreview.handlePrint(this.printResults.join('\n'))
     }
 

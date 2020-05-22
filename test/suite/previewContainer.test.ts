@@ -3,7 +3,7 @@ import * as vscode from "vscode";
 import {PreviewContainer} from "../../src/previewContainer"
 import Reporter from "../../src/telemetry";
 import vscodeUtils from "../../src/vscodeUtilities";
-import {UserError} from "arepl-backend"
+import {UserError, PythonEvaluator} from "arepl-backend"
 
 /**
  * this suite tests both previewContainer and pythonPanelPreview
@@ -36,7 +36,7 @@ suite("PreviewContainer and pythonPanelPreview Tests", () => {
     }
 
     const previewContainer = new PreviewContainer(new Reporter(false), mockContext, 0);
-    const panel = previewContainer.start("")
+    const panel = previewContainer.start("", new PythonEvaluator())
 
     suiteSetup(function(done){
         // existing editor causes weird error for some reason
