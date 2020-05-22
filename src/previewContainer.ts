@@ -128,7 +128,7 @@ export class PreviewContainer{
             return
         }
         this.printResults.push(printResult);
-        this.pythonPanelPreview.handlePrint(this.printResults.join('\n'))
+        this.pythonPanelPreview.handlePrint(this.printResults.join(''))
     }
 
     public updateError(userError: UserError, userErrorMsg: string, refresh: boolean){
