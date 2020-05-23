@@ -35,7 +35,7 @@ suite("PreviewManager and pythonPanelPreview Tests", () => {
                     // wait for default import to be inserted
                     setTimeout(() => {
                         done()
-                    }, 50);
+                    }, 100);
                 }).catch((err)=>done(err))
             })
         })
@@ -56,8 +56,8 @@ suite("PreviewManager and pythonPanelPreview Tests", () => {
             setTimeout(()=>{
                 assert.equal(panel.webview.html.includes(`"x":3424523`), true, panel.webview.html)
                 done()
-            },4000)
-        })
+            },3000)
+        }, done)
     });
 
     suiteTeardown(function(){
