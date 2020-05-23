@@ -197,8 +197,11 @@ NameError: name 'x' is not defined`,
         assert.equal(panel.webview.html.includes("&lt;module&gt;"), true, panel.webview.html);
     });
 
-    suiteTeardown(function(){
+    suiteTeardown(function(done){
         panel.dispose()
+        vscode.commands.executeCommand("workbench.action.closeActiveEditor").then(()=>{
+            done()
+        })
     })
 
 });
