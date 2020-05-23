@@ -27,7 +27,7 @@ export default class PythonPanelPreview{
     <p style="font-size:14px">⚠ <b style="color:red">WARNING:</b> code is evaluated WHILE YOU TYPE - don't try deleting files/folders! ⚠</p>
     <p>evaluation while you type can be turned off or adjusted in the settings</p>
     <br>
-    <h3>AREPL 1.0.24 🚀 - Galileo</h3>
+    <h3>AREPL 1.0.24 🚀🐛🐛🐛🐛 - Galileo</h3>
     <ul>
         <li>Help me make arepl better by filling out this short survey: <a href="https://forms.gle/m7xirfRnSRoPAe9e9">https://forms.gle/m7xirfRnSRoPAe9e9</a></li>
         <li>🚀 print results with many lines now come in much faster</li>
