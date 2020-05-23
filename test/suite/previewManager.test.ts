@@ -32,7 +32,10 @@ suite("PreviewManager and pythonPanelPreview Tests", () => {
                 previewManager.startArepl().then((previewPanel)=>{
                     panel = previewPanel
                     console.log("preview panel started")
-                    done()
+                    // wait for default import to be inserted
+                    setTimeout(() => {
+                        done()
+                    }, 50);
                 }).catch((err)=>done(err))
             })
         })
