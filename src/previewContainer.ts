@@ -1,4 +1,4 @@
-import {PythonResult, UserError} from "arepl-backend"
+import {PythonResult, UserError, PythonEvaluator} from "arepl-backend"
 import * as vscode from "vscode"
 import PythonInlinePreview from "./pythonInlinePreview"
 import PythonPanelPreview from "./pythonPanelPreview"
@@ -9,10 +9,11 @@ import {settings} from "./settings"
  * logic wrapper around html preview doc
  */
 export class PreviewContainer{
-    public printResults: string[];
-    pythonInlinePreview: PythonInlinePreview
     public errorDecorationType: vscode.TextEditorDecorationType
+    public printResults: string[];
     private vars: {}
+    pythonInlinePreview: PythonInlinePreview
+    pythonEvaluator: PythonEvaluator
 
     constructor(private reporter: Reporter, context: vscode.ExtensionContext, htmlUpdateFrequency=50, private pythonPanelPreview?: PythonPanelPreview){
         if(!this.pythonPanelPreview) this.pythonPanelPreview = new PythonPanelPreview(context, htmlUpdateFrequency)
@@ -20,8 +21,9 @@ export class PreviewContainer{
         this.errorDecorationType = this.pythonInlinePreview.errorDecorationType
     }
 
-    public start(linkedFileName: string){
+    public start(linkedFileName: string, pythonEvaluator: PythonEvaluator){
         this.clearStoredData()
+        this.pythonEvaluator = pythonEvaluator;
         return this.pythonPanelPreview.start(linkedFileName)
     }
 
@@ -30,7 +32,7 @@ export class PreviewContainer{
      */
     public clearStoredData(){
         this.vars = {}
-        this.printResults = []
+    this.printResults = []
     }
 
     public handleResult(pythonResults: PythonResult){
@@ -88,13 +90,12 @@ export class PreviewContainer{
             // the user might be in the middle of typing something and it would be annoying
             // to have print results suddenly dissapear
             if(!syntaxError && this.printResults.length == 0) this.pythonPanelPreview.clearPrint()
-
+            
             this.updateError(pythonResults.userError, pythonResults.userErrorMsg, false)
 
             this.pythonPanelPreview.injectCustomCSS(settings().get('customCSS'))
             this.pythonPanelPreview.throttledUpdate()
 
-            if(pythonResults.done) this.clearStoredData()
         } catch (error) {
             if(error instanceof Error || error instanceof String){
                 vscode.window.showErrorMessage("Internal AREPL Error: " + error.toString(), "Report bug").then((action)=>{
@@ -119,9 +120,9 @@ export class PreviewContainer{
 
     }
 
-    public handlePrint(pythonResults: string){
-        this.printResults.push(pythonResults);
-        this.pythonPanelPreview.handlePrint(this.printResults.join('\n'))
+    public handlePrint(printResult: string){
+        this.printResults.push(printResult);
+        this.pythonPanelPreview.handlePrint(this.printResults.join(''))
     }
 
     public updateError(userError: UserError, userErrorMsg: string, refresh: boolean){

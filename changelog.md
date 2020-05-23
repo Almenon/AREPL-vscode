@@ -1,3 +1,16 @@
+## [v1.0.24](https://github.com/Almenon/AREPL-vscode/milestone/42?closed=1) (05/23/2020) 🚀🐛🐛🐛🐛
+
+🚀 [print results with many lines now come in much faster](https://github.com/Almenon/AREPL-vscode/pull/332)
+
+🐛 Fixed arepl breaking when unicode was used [#149](https://github.com/Almenon/AREPL-vscode/issues/149) [#334](https://github.com/Almenon/AREPL-vscode/issues/334)
+
+🐛 Fixed error when printing without a newline [#327](https://github.com/Almenon/AREPL-vscode/issues/327)
+
+🐛 Fixed running indicator not appearing after reopening arepl [#334](https://github.com/Almenon/AREPL-vscode/issues/334)
+
+🐛 Fixed rare bug where variables fail to show [#330](https://github.com/Almenon/AREPL-vscode/issues/330)
+
+
 ## [v1.0.23](https://github.com/Almenon/AREPL-vscode/milestone/41?closed=1) (04/04/2020) 🚀🐛
 
 🚀 Improved how classes are dislayed in variable view [#320](https://github.com/Almenon/AREPL-vscode/issues/320)

@@ -27,12 +27,14 @@ export default class PythonPanelPreview{
     <p style="font-size:14px">⚠ <b style="color:red">WARNING:</b> code is evaluated WHILE YOU TYPE - don't try deleting files/folders! ⚠</p>
     <p>evaluation while you type can be turned off or adjusted in the settings</p>
     <br>
-    <h3>AREPL 1.0.23 🚀 - Dark Meat City</h3>
+    <h3>AREPL 1.0.24 🚀🐛🐛🐛🐛 - Galileo</h3>
     <ul>
         <li>Help me make arepl better by filling out this short survey: <a href="https://forms.gle/m7xirfRnSRoPAe9e9">https://forms.gle/m7xirfRnSRoPAe9e9</a></li>
-        <li>🚀 Improved how classes are dislayed in variable view <a href="https://github.com/Almenon/AREPL-vscode/issues/320">#320</a></li>
-        <li>🐛 Fix inline error icons showing up on the wrong line</li>
-        <li>🐛 Fixed arepl.pythonPath setting so it correctly uses python interpreter set by python extension</li>
+        <li>🚀 print results with many lines now come in much faster</li>
+        <li>🐛 Fixed arepl breaking when unicode was used <a href="https://github.com/Almenon/AREPL-vscode/issues/334">#334</a> <a href="https://github.com/Almenon/AREPL-vscode/issues/149">#149</a></li>
+        <li>🐛 Fixed error when printing without a newline <a href="https://github.com/Almenon/AREPL-vscode/issues/327">#327</a></li>
+        <li>🐛 Fixed running indicator not appearing after reopening arepl <a href="https://github.com/Almenon/AREPL-vscode/issues/334">#334</a></li>
+        <li>🐛 Fixed rare bug where variables fail to show <a href="https://github.com/Almenon/AREPL-vscode/issues/330">#330</a></li>
     </ul>
     <br>
     
@@ -119,8 +121,6 @@ if r.status_code == 200:
 
     constructor(private context: vscode.ExtensionContext, htmlUpdateFrequency=50) {
         this._onDidChange = new vscode.EventEmitter<vscode.Uri>();
-        this.css = `<link rel="stylesheet" type="text/css" href="${this.getMediaPath("pythonPanelPreview.css")}">`
-        this.jsonRendererScript = `<script src="${this.getMediaPath("jsonRenderer.js")}"></script>`
 
         if(htmlUpdateFrequency != 0){
             // refreshing html too much can freeze vscode... lets avoid that
@@ -134,6 +134,10 @@ if r.status_code == 200:
         this.panel = vscode.window.createWebviewPanel("arepl","AREPL - " + linkedFileName, vscode.ViewColumn.Two,{
             enableScripts:true
         });
+
+        this.css = `<link rel="stylesheet" type="text/css" href="${this.getMediaPath("pythonPanelPreview.css", this.panel.webview)}">`
+        this.jsonRendererScript = `<script src="${this.getMediaPath("jsonRenderer.js", this.panel.webview)}"></script>`
+
         this.panel.webview.html = this.landingPage
         return this.panel;
     }
@@ -237,9 +241,9 @@ if r.status_code == 200:
         return this._onDidChange.event;
     }
 
-    private getMediaPath(mediaFile: string) {
+    private getMediaPath(mediaFile: string, webview: vscode.Webview) {
         const onDiskPath = vscode.Uri.file(path.join(this.context.extensionPath, "media", mediaFile));
-        return onDiskPath.with({ scheme: "vscode-resource" });
+        return webview.asWebviewUri(onDiskPath)
     }
 
     private updateContent(){

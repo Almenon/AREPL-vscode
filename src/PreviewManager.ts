@@ -36,11 +36,15 @@ export default class PreviewManager {
      * assumes a text editor is already open - if not will error out
      */
     constructor(context: vscode.ExtensionContext) {
+        this.startDisposables()
+        this.previewContainer = new PreviewContainer(this.reporter, context)
+    }
+
+    startDisposables(){
         this.runningStatus = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left, 100);
         this.runningStatus.text = "Running python..."
         this.runningStatus.tooltip = "AREPL is currently running your python file.  Close the AREPL preview to stop"
         this.reporter = new Reporter(settings().get<boolean>("telemetry"))
-        this.previewContainer = new PreviewContainer(this.reporter, context)
 
         this.highlightDecorationType = vscode.window.createTextEditorDecorationType(<vscode.ThemableDecorationRenderOptions>{
             backgroundColor: 'yellow'
@@ -59,12 +63,11 @@ export default class PreviewManager {
         return e.getEnvironmentVariables(areplUtils.getEnvFilePath(), vscodeUtils.getCurrentWorkspaceFolderUri())
     }
 
-    async startArepl(){
+    startArepl(){
         // see https://github.com/Microsoft/vscode/issues/46445
         vscode.commands.executeCommand("setContext", "arepl", true)
 
-        // reload reporter (its disposed when arepl is closed)
-        this.reporter = new Reporter(settings().get<boolean>("telemetry"))
+        this.startDisposables()
 
         if(!vscode.window.activeTextEditor){
             vscode.window.showErrorMessage("no active text editor open")
@@ -72,22 +75,19 @@ export default class PreviewManager {
         }
         this.pythonEditor = vscode.window.activeTextEditor
         this.pythonEditorDoc = this.pythonEditor.document
-        
-        let panel = this.previewContainer.start(basename(this.pythonEditorDoc.fileName));
-        panel.onDidDispose(()=>this.dispose(), this, this.subscriptions)
-        this.subscriptions.push(panel)
-
-        this.startAndBindPython()
 
         if(this.pythonEditorDoc.isUntitled && this.pythonEditorDoc.getText() == "") {
-            await areplUtils.insertDefaultImports(this.pythonEditor)
-            // waiting for this to complete so i dont accidentily trigger
-            // the edit doc handler when i insert imports
+            areplUtils.insertDefaultImports(this.pythonEditor)
         }
+        
+        return this.startAndBindPython().then(()=>{
+            let panel = this.previewContainer.start(basename(this.pythonEditorDoc.fileName), this.PythonEvaluator);
+            panel.onDidDispose(()=>this.dispose(), this, this.subscriptions)
+            this.subscriptions.push(panel)
 
-        this.subscribeHandlersToDoc()
-
-        return panel
+            this.subscribeHandlersToDoc()
+            return panel;
+        })
     }
 
     runArepl(){
@@ -133,10 +133,11 @@ export default class PreviewManager {
             filePath,
             savedCode: '',
             usePreviousVariables: true,
-            showGlobalVars: settingsCached.get<boolean>('showGlobalVars'),
+            show_global_vars: settingsCached.get<boolean>('showGlobalVars'),
             default_filter_vars: settingsCached.get<string[]>('defaultFilterVars'),
             default_filter_types: settingsCached.get<string[]>('defaultFilterTypes')
         }
+        this.previewContainer.clearStoredData()
         this.PythonEvaluator.execCode(data)
         this.runningStatus.show()
 
@@ -168,6 +169,7 @@ export default class PreviewManager {
         if(vscode.window.activeTextEditor){
             vscode.window.activeTextEditor.setDecorations(this.previewContainer.errorDecorationType, [])
         }
+        this.highlightDecorationType.dispose()
     }
 
     /**
@@ -308,6 +310,7 @@ export default class PreviewManager {
             }
 
             try {
+                this.previewContainer.clearStoredData()
                 const codeRan = this.toAREPLLogic.onUserInput(text, filePath, vscodeUtils.eol(event), settings().get<boolean>('showGlobalVars'))
                 if(codeRan) this.runningStatus.show();
             } catch (error) {

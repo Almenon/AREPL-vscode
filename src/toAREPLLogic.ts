@@ -66,7 +66,7 @@ export class ToAREPLLogic{
             filePath,
             savedCode: savedLines.join(eol),
             usePreviousVariables: settingsCached.get<boolean>('keepPreviousVars'),
-            showGlobalVars,
+            show_global_vars: showGlobalVars,
             default_filter_vars: settingsCached.get<string[]>('defaultFilterVars'),
             default_filter_types: settingsCached.get<string[]>('defaultFilterTypes')
         }
