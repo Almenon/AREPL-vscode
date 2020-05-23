@@ -32,7 +32,7 @@ export class PreviewContainer{
      */
     public clearStoredData(){
         this.vars = {}
-        this.printResults = []
+    this.printResults = []
     }
 
     public handleResult(pythonResults: PythonResult){
@@ -90,13 +90,12 @@ export class PreviewContainer{
             // the user might be in the middle of typing something and it would be annoying
             // to have print results suddenly dissapear
             if(!syntaxError && this.printResults.length == 0) this.pythonPanelPreview.clearPrint()
-
+            
             this.updateError(pythonResults.userError, pythonResults.userErrorMsg, false)
 
             this.pythonPanelPreview.injectCustomCSS(settings().get('customCSS'))
             this.pythonPanelPreview.throttledUpdate()
 
-            if(pythonResults.done) this.clearStoredData()
         } catch (error) {
             if(error instanceof Error || error instanceof String){
                 vscode.window.showErrorMessage("Internal AREPL Error: " + error.toString(), "Report bug").then((action)=>{
@@ -122,11 +121,6 @@ export class PreviewContainer{
     }
 
     public handlePrint(printResult: string){
-        if(!this.pythonEvaluator.executing){
-            // this happens when python prints more than 8192*8 bytes, not sure why
-            console.warn("Got print result when arepl was not running: " + printResult)
-            return
-        }
         this.printResults.push(printResult);
         this.pythonPanelPreview.handlePrint(this.printResults.join(''))
     }

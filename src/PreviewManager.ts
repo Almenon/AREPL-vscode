@@ -137,6 +137,7 @@ export default class PreviewManager {
             default_filter_vars: settingsCached.get<string[]>('defaultFilterVars'),
             default_filter_types: settingsCached.get<string[]>('defaultFilterTypes')
         }
+        this.previewContainer.clearStoredData()
         this.PythonEvaluator.execCode(data)
         this.runningStatus.show()
 
@@ -309,6 +310,7 @@ export default class PreviewManager {
             }
 
             try {
+                this.previewContainer.clearStoredData()
                 const codeRan = this.toAREPLLogic.onUserInput(text, filePath, vscodeUtils.eol(event), settings().get<boolean>('showGlobalVars'))
                 if(codeRan) this.runningStatus.show();
             } catch (error) {
