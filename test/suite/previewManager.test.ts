@@ -56,7 +56,7 @@ suite("PreviewManager and pythonPanelPreview Tests", () => {
             setTimeout(()=>{
                 assert.equal(panel.webview.html.includes(`"x":3424523`), true, panel.webview.html)
                 done()
-            },3000)
+            },4000)
         }, done)
     });
 
