@@ -108,7 +108,7 @@ NameError: name 'x' is not defined`,
                 caller: "",
                 done: true,
                 execTime: 0,
-                internalError: "internal error!",
+                internalError: "intentional internal test error",
                 lineno: -1,
                 totalPyTime: 0,
                 totalTime: 0,
@@ -117,7 +117,7 @@ NameError: name 'x' is not defined`,
                 userVariables: {},
             }
         )
-        assert.equal(panel.webview.html.includes("internal error!"), true, panel.webview.html);
+        assert.equal(panel.webview.html.includes("internal test error"), true, panel.webview.html);
     });
 
     test("time", function(){
