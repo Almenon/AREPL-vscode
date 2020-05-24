@@ -1,4 +1,3 @@
-import * as vscode from "vscode"
 import {settings} from "./settings"
 
 export default function pythonGuiLibraryIsPresent(code: string){
