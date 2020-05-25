@@ -121,6 +121,7 @@ export class ToAREPLLogic{
             }
 
             // todo: refactor above to call arepl to check syntax so we get a actual error object back instead of error text
+            // The error text has a bunch of useless info
 
             this.previewContainer.handleResult(
                 {
