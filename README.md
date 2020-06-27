@@ -37,7 +37,7 @@ from arepl_dump import dump
 
 def milesToKilometers(miles):
     kilometers = miles*1.60934
-    dump() # dumps all the vars in your function
+    dump() # dumps all the vars in your function when the function is called the first time
 
     # or dump when function is called for a second time
     dump(None,1)
