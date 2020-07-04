@@ -35,7 +35,7 @@ suite("PreviewManager and pythonPanelPreview Tests", () => {
                     // wait for default import to be inserted
                     setTimeout(() => {
                         done()
-                    }, 100);
+                    }, 300);
                 }).catch((err)=>done(err))
             })
         })
