@@ -1,6 +1,6 @@
 import { EOL } from "os";
 import {} from "vscode"
-import type { TextDocument, WorkspaceFolder, TextLine, Position, Range, StatusBarItem, Extension } from "vscode"
+import type { TextDocument, WorkspaceFolder, TextLine, Position, Range, StatusBarItem, Extension, TreeDataProvider, Command, TreeItemCollapsibleState } from "vscode"
 import { URI } from 'vscode-uri'
 
 // adapted from https://github.com/rokucommunity/vscode-brightscript-language/blob/master/src/mockVscode.spec.ts
@@ -139,6 +139,7 @@ export let vscodeMock = {
                 appendLine: () => { }
             };
         },
+        registerTreeDataProvider: function(viewId: string, treeDataProvider: TreeDataProvider<any>) { },
         showErrorMessage: function(message: string) {
 
         },
@@ -295,6 +296,7 @@ export let vscodeMock = {
         public eol: 1 | 2 = 1;
         public getText() { return this.text; }
         save(): Thenable<boolean> {return new Promise(()=>{});};
+        public getWordRangeAtPosition(position: Position, regex?: RegExp): Range | undefined { return undefined};
         public lineAt(line: number): TextLine {
             const splitText = this.text.split(EOL)
             return {
@@ -315,9 +317,19 @@ export let vscodeMock = {
                 isEmptyOrWhitespace: null
             }
         };
-		public offsetAt(position: Position): number {return 0};
+		public offsetAt(position: Position): number {return -1};
 		public positionAt(offset: number): Position {return null};
-		public getWordRangeAtPosition(position: Position, regex?: RegExp): Range | undefined { return undefined};
+    },
+    TreeItem: class {
+        constructor(label: string, collapsibleState?: TreeItemCollapsibleState) {
+            this.label = label;
+            this.collapsibleState = collapsibleState;
+        }
+        public readonly label: string;
+        public readonly iconPath?: string | URI | { light: string | URI; dark: string | URI };
+        public readonly command?: Command;
+        public readonly collapsibleState?: TreeItemCollapsibleState;
+        public readonly contextValue?: string;
     },
     DocumentLink: class {
         constructor(range: Range, uri: string) {
