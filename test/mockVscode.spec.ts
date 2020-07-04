@@ -48,6 +48,9 @@ export let vscodeMock = {
     commands: {
         registerCommand: () => {
 
+        },
+        executeCommand: () => {
+
         }
     },
     context: {
@@ -157,6 +160,7 @@ export let vscodeMock = {
     OutputChannel: class {
         public clear() { }
         public appendLine() { }
+        public show() { }
     },
     DebugCollection: class {
         public clear() { }
