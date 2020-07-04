@@ -1,5 +1,6 @@
 import { EOL } from "os";
 import {} from "vscode"
+import { URI } from 'vscode-uri'
 
 // adapted from https://github.com/rokucommunity/vscode-brightscript-language/blob/master/src/mockVscode.spec.ts
 // todo: get rid of redeclarations of type once typescript 3.8 is released
@@ -7,7 +8,7 @@ import {} from "vscode"
 
 
 export interface TextDocument {
-    readonly uri: Uri;
+    readonly uri: URI;
     readonly fileName: string;
     readonly isUntitled: boolean;
     readonly languageId: string;
@@ -95,36 +96,9 @@ export interface Extension<T> {
 }
 
 export interface WorkspaceFolder {
-    readonly uri: Uri;
+    readonly uri: URI;
     readonly name: string;
     readonly index: number;
-}
-
-export interface Uri {
-    parse(value: string, strict?: boolean): Uri;
-    file(path: string): Uri;
-    readonly scheme: string;
-    readonly authority: string;
-    readonly path: string;
-    readonly query: string;
-    readonly fragment: string;
-    readonly fsPath: string;
-    with(change: { scheme?: string; authority?: string; path?: string; query?: string; fragment?: string }): Uri;
-    toString(skipEncoding?: boolean): string;
-    toJSON(): any;
-}
-
-class uri implements Uri {
-    constructor(public scheme: string, public authority: string, public path: string, public query: string, public fragment: string){
-        this.fsPath = path; // not exactly accurate but whatever
-    };
-    readonly fsPath: string
-    parse(){return null}
-    with(){return null}
-    toJSON(){}
-	file(path: string): Uri {
-        return new uri("","","","","")
-	}
 }
 
 export interface TextLine {
@@ -300,7 +274,7 @@ export let vscodeMock = {
     },
     workspace: {
         workspaceFolders: [<WorkspaceFolder>{
-            uri: new uri("","","root","",""),
+            uri: URI.parse(""),
             name: "foo",
             index: 0
         }],
@@ -487,7 +461,7 @@ export let vscodeMock = {
             this.lineCount = text.split(EOL).length
         }
 
-        readonly uri: Uri;
+        readonly uri: URI;
         readonly isUntitled: boolean;
         readonly languageId: string;
         readonly version: number;
@@ -536,7 +510,7 @@ export let vscodeMock = {
         }
         private value: string;
     },
-    Uri: new uri("","","","",""),
+    Uri: URI.parse(""),
     SnippetString: class {
         constructor(value: string = null) {
             this.value = value;

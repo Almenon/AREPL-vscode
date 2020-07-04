@@ -310,7 +310,8 @@
     "source-map-support": "^0.5.13",
     "ts-node": "^8.6.2",
     "typescript": "^3.7.5",
-    "vscode-test": "^1.3.0"
+    "vscode-test": "^1.3.0",
+    "vscode-uri": "^2.1.2"
   },
   "dependencies": {
     "arepl-backend": "^1.3.11",
