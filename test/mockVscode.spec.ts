@@ -84,12 +84,13 @@ export let vscodeMock = {
                 "dispose": ()=>{}
             }
         },
-        onDidChangeWorkspaceFolders: () => {
-
-        },
+        onDidChangeWorkspaceFolders: () => { },
         findFiles: (include, exclude) => {
             return [];
         },
+        registerTextDocumentContentProvider: () => { },
+        onDidChangeTextDocument: () => { },
+        onDidCloseTextDocument: () => { },
         openTextDocument: (content: string)=>new Promise(()=><TextDocument>{})
     },
     window: {
@@ -105,6 +106,7 @@ export let vscodeMock = {
         activeTextEditor: {
             document: undefined
         },
+        onDidChangeTextEditorSelection: () => { },
         createTextEditorDecorationType: function(){},
         showTextDocument: function(doc){
             return new Promise(()=>doc)
