@@ -1,14 +1,16 @@
 import { EOL } from "os";
 import {} from "vscode"
-import type { TextDocument, WorkspaceFolder, TextLine, Position, Range, StatusBarItem } from "vscode"
+import type { TextDocument, WorkspaceFolder, TextLine, Position, Range, StatusBarItem, Extension } from "vscode"
 import { URI } from 'vscode-uri'
 
 // adapted from https://github.com/rokucommunity/vscode-brightscript-language/blob/master/src/mockVscode.spec.ts
 
 export let vscodeMock = {
+    CompletionItem: class { },
+    CodeLens: class { },
     StatusBarAlignment: {
-		Left: 1,
-		Right: 2
+        Left: 1,
+        Right: 2
     },
 	StatusBarItem: {
 		alignment: {
@@ -24,6 +26,38 @@ export let vscodeMock = {
 		hide: ()=>{},
 		dispose: ()=>{}
 	},
+    extensions: {
+		getExtension: function(extensionId: string): Extension<any> | undefined {
+            return {
+                id: "",
+
+                /**
+                 * The absolute file path of the directory containing this extension.
+                 */
+                extensionPath: "",
+        
+                /**
+                 * `true` if the extension has been activated.
+                 */
+                isActive: true,
+        
+                /**
+                 * The parsed contents of the extension's package.json.
+                 */
+                packageJSON: {
+                    "version": "0.0.0"
+                },
+
+                extensionKind: null,
+
+                exports: null,
+
+                activate: ()=>{return new Promise(()=>{})}
+            }
+        },
+		all: [],
+		onDidChange: null,
+    },
     debug: {
         registerDebugConfigurationProvider: () => { },
         onDidStartDebugSession: () => { },
@@ -55,6 +89,7 @@ export let vscodeMock = {
     },
     context: {
         subscriptions: [],
+        asAbsolutePath: function() { }
     },
     workspace: {
         workspaceFolders: [<WorkspaceFolder>{
@@ -100,7 +135,8 @@ export let vscodeMock = {
         createOutputChannel: function() {
             return {
                 show: () => { },
-                clear: () => { }
+                clear: () => { },
+                appendLine: () => { }
             };
         },
         showErrorMessage: function(message: string) {
@@ -304,31 +340,4 @@ export let vscodeMock = {
         }
         private value: string;
     },
-
-    extensions: {
-		getExtension: function(extensionId: string){
-            return {
-                id: "",
-
-                /**
-                 * The absolute file path of the directory containing this extension.
-                 */
-                extensionPath: "",
-        
-                /**
-                 * `true` if the extension has been activated.
-                 */
-                isActive: true,
-        
-                /**
-                 * The parsed contents of the extension's package.json.
-                 */
-                packageJSON: {
-                    "version": "0.0.0"
-                }
-            }
-        },
-		all: [],
-		onDidChange: null,
-    }
 };
