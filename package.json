@@ -228,19 +228,19 @@
         "command": "extension.currentAREPLSession",
         "title": "eval python in real time (current doc)",
         "category": "AREPL",
-        "icon": "./media/crappy8BitCatTransparent.png"
+        "icon": "./media/happy_cat.svg"
       },
       {
         "command": "extension.newAREPLSession",
         "title": "eval python in real time (new doc)",
         "category": "AREPL",
-        "icon": "./media/crappy8BitCatTransparent.png"
+        "icon": "./media/happy_cat.svg"
       },
       {
         "command": "extension.closeAREPL",
         "title": "closes AREPL",
         "category": "AREPL",
-        "icon": "./media/crappy8BitCatTransparentFilled.png"
+        "icon": "./media/angry_cat_filled.svg"
       },
       {
         "command": "extension.newAREPLSessionOnHighlightedCode",
@@ -333,5 +333,5 @@
     "real-time",
     "scratchpad"
   ],
-  "icon": "media/crappy8BitCat.png"
+  "icon": "media/happy_cat_filled.png"
 }
