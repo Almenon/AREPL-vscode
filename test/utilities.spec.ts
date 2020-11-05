@@ -1,5 +1,5 @@
 //
-// Note: This example test is leveraging the Mocha test framework.
+// Note: This test is leveraging the Mocha test framework.
 // Please refer to their documentation on https://mochajs.org/ for help.
 //
 import * as assert from "assert";
