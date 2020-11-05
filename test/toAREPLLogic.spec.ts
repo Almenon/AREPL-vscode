@@ -1,19 +1,8 @@
-import * as assert from "assert";
-import * as vscode from "vscode";
-import {ToAREPLLogic} from '../../src/toAREPLLogic'
-import Reporter from "../../src/telemetry";
-import vscodeUtils from "../../src/vscodeUtilities";
-import {settings} from "../../src/settings"
 import { EOL } from "os";
+import * as assert from "assert";
+import {ToAREPLLogic} from '../src/toAREPLLogic'
 
-
-/**
- * this suite tests both previewContainer and pythonPanelPreview
- * by activating funcs in previewContainer and looking at html rendered by pythonPanelPreview
- */
-suite("PreviewContainer and pythonPanelPreview Tests", () => {
-
-    const arepl = vscode.extensions.getExtension("almenon.arepl")!;
+suite("toAREPLLogic tests", ()=>{
 
     const mockPythonEvaluator: any = {
         execCode: ()=>{}
@@ -29,7 +18,7 @@ suite("PreviewContainer and pythonPanelPreview Tests", () => {
     });
 
     test("unsafe keyword not allowed", function(){
-        assert.equal(toAREPLLogic.scanForUnsafeKeywords("  os.rmdir('bla')", ["rmdir"]), true)
+        assert.equal(toAREPLLogic.scanForUnsafeKeywords("os.rmdir('bla')", ["rmdir"]), true)
     });
 
     test("safe keyword allowed", function(){
@@ -43,6 +32,4 @@ suite("PreviewContainer and pythonPanelPreview Tests", () => {
     test("unsafe keywords not allowed", function(){
         assert.equal(toAREPLLogic.scanForUnsafeKeywords("DELETE * FROM", ["rmdir","DELETE"]), true)
     });
-
-
-});
+})
