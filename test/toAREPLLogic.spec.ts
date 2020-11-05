@@ -12,24 +12,24 @@ suite("toAREPLLogic tests", ()=>{
 
     test("arepl not ran when just end section is changed", function(){
         let returnVal = toAREPLLogic.onUserInput(`#$end${EOL}bla`, "", EOL)
-        assert.equal(returnVal, true)
+        assert.strictEqual(returnVal, true)
         returnVal = toAREPLLogic.onUserInput(`#$end${EOL}foo`, "", EOL)
-        assert.equal(returnVal, false)
+        assert.strictEqual(returnVal, false)
     });
 
     test("unsafe keyword not allowed", function(){
-        assert.equal(toAREPLLogic.scanForUnsafeKeywords("os.rmdir('bla')", ["rmdir"]), true)
+        assert.strictEqual(toAREPLLogic.scanForUnsafeKeywords("os.rmdir('bla')", ["rmdir"]), true)
     });
 
     test("safe keyword allowed", function(){
-        assert.equal(toAREPLLogic.scanForUnsafeKeywords("bla bla bla", ["rmdir"]), false)
+        assert.strictEqual(toAREPLLogic.scanForUnsafeKeywords("bla bla bla", ["rmdir"]), false)
     });
 
     test("unsafe keyword allowed in comment", function(){
-        assert.equal(toAREPLLogic.scanForUnsafeKeywords("#rmdir", ["rmdir"]), false)
+        assert.strictEqual(toAREPLLogic.scanForUnsafeKeywords("#rmdir", ["rmdir"]), false)
     });
 
     test("unsafe keywords not allowed", function(){
-        assert.equal(toAREPLLogic.scanForUnsafeKeywords("DELETE * FROM", ["rmdir","DELETE"]), true)
+        assert.strictEqual(toAREPLLogic.scanForUnsafeKeywords("DELETE * FROM", ["rmdir","DELETE"]), true)
     });
 })
