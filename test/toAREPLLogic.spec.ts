@@ -1,5 +1,21 @@
 import { EOL } from "os";
 import * as assert from "assert";
+
+//////////////////////////////////////////////
+// below thanks to https://github.com/rokucommunity/vscode-brightscript-language
+let Module = require('module');
+import { vscodeMock } from './mockVscode.spec';
+//override the "require" call to mock certain items
+const { require: oldRequire } = Module.prototype;
+Module.prototype.require = function hijacked(file) {
+    if (file === 'vscode') {
+        return vscodeMock;
+    } else {
+        return oldRequire.apply(this, arguments);
+    }
+};
+//////////////////////////////////////////////
+
 import {ToAREPLLogic} from '../src/toAREPLLogic'
 
 suite("toAREPLLogic tests", ()=>{
