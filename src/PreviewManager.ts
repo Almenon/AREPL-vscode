@@ -63,7 +63,7 @@ export default class PreviewManager {
         return e.getEnvironmentVariables(areplUtils.getEnvFilePath(), vscodeUtils.getCurrentWorkspaceFolderUri())
     }
 
-    startArepl(){
+    startArepl(mockEditor: vscode.TextEditor = null){
         // see https://github.com/Microsoft/vscode/issues/46445
         vscode.commands.executeCommand("setContext", "arepl", true)
 
@@ -73,7 +73,7 @@ export default class PreviewManager {
             vscode.window.showErrorMessage("no active text editor open")
             return
         }
-        this.pythonEditor = vscode.window.activeTextEditor
+        this.pythonEditor = mockEditor || vscode.window.activeTextEditor
         this.pythonEditorDoc = this.pythonEditor.document
 
         if(this.pythonEditorDoc.isUntitled && this.pythonEditorDoc.getText() == "") {
