@@ -23,21 +23,18 @@ suite("PreviewManager and pythonPanelPreview Tests", () => {
     }
 
     suiteSetup(function(done){
-        // existing editor causes weird error for some reason
-        vscode.commands.executeCommand("workbench.action.closeActiveEditor").then(()=>{
-            vscodeUtils.newUnsavedPythonDoc("").then((newEditor)=>{
-                editor = newEditor
-                previewManager = new PreviewManager(mockContext);
-    
-                previewManager.startArepl().then((previewPanel)=>{
-                    panel = previewPanel
-                    console.log("preview panel started")
-                    // wait for default import to be inserted
-                    setTimeout(() => {
-                        done()
-                    }, 500);
-                }).catch((err)=>done(err))
-            })
+        vscodeUtils.newUnsavedPythonDoc("").then((newEditor)=>{
+            editor = newEditor
+            previewManager = new PreviewManager(mockContext);
+
+            previewManager.startArepl().then((previewPanel)=>{
+                panel = previewPanel
+                console.log("preview panel started")
+                // wait for default import to be inserted
+                setTimeout(() => {
+                    done()
+                }, 500);
+            }).catch((err)=>done(err))
         })
     })
 
@@ -60,8 +57,13 @@ suite("PreviewManager and pythonPanelPreview Tests", () => {
         }, done)
     });
 
-    suiteTeardown(function(){
+    suiteTeardown(function(done){
         previewManager.dispose()
+        setTimeout(() => {
+            vscode.commands.executeCommand("workbench.action.closeActiveEditor").then(()=>{
+                done()
+            })
+        }, 250);
     })
 
 });
