@@ -178,10 +178,11 @@ export default class PreviewManager {
     private warnIfOutdatedPythonVersion(pythonPath: string){
         PythonShell.getVersion(`"${pythonPath}"`).then((out)=>{
             let version = out.stdout ? out.stdout : out.stderr
-            if(version?.includes("Python 3.4") || version?.includes("Python 2")){
-                vscode.window.showErrorMessage(`AREPL does not support ${version}.
+            if(version?.includes("Python 3.6") || version?.includes("Python 3.5")
+            || version?.includes("Python 3.4") || version?.includes("Python 2")){
+                vscode.window.showErrorMessage(`AREPL no longer supports ${version}.
                 Please upgrade or set AREPL.pythonPath to a diffent python.
-                AREPL needs python 3.5 or greater`)
+                AREPL needs python 3.7 or greater`)
             }
             if(version){
                 this.reporter.pythonVersion = version.trim()
