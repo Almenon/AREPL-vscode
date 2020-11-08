@@ -114,6 +114,7 @@ export let vscodeMock = {
             return {
                 get: function(section?: string, resource?: any) {
                     if(section == "enableTelemetry") return false
+                    if(section == "pyGuiLibraries") return []
                 }
             };
         },

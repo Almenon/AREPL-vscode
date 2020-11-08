@@ -1,6 +1,6 @@
 import * as assert from "assert";
 
-import printDir from '../../src/printDir'
+import printDir from '../src/printDir'
 
 suite("printDir", () => {
 

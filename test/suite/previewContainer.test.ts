@@ -39,11 +39,8 @@ suite("PreviewContainer and pythonPanelPreview Tests", () => {
     const panel = previewContainer.start("", new PythonEvaluator())
 
     suiteSetup(function(done){
-        // existing editor causes weird error for some reason
-        vscode.commands.executeCommand("workbench.action.closeActiveEditor").then(()=>{
-            // needed for inline errors
-            vscodeUtils.newUnsavedPythonDoc().then(()=>{done()})
-        })
+        // needed for inline errors
+        vscodeUtils.newUnsavedPythonDoc().then(()=>{done()})
     })
 
     test("landing page displayed", function(){
