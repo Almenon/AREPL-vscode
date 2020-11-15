@@ -8,7 +8,7 @@ AREPL is availible for free on the vscode [marketplace](https://marketplace.visu
 
 ## Usage
 
-First, make sure you have [python 3.5 or greater](https://www.python.org/downloads/) installed.
+First, make sure you have [python 3.7 or greater](https://www.python.org/downloads/) installed.
 
 Open a python file and click on the badly drawn mspaint cat in the top bar to the right to open AREPL. You can click the same cat to close.
 
