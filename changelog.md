@@ -1,3 +1,12 @@
+## [v1.0.25](https://github.com/Almenon/AREPL-vscode/milestone/43?closed=1) (11/07/2020) 🔧🚀🐛
+
+🔧 Python 3.7 or above is required for the below bugfix.
+
+🐛 [Fixed error with Decimal library, among others](https://github.com/Almenon/AREPL-vscode/issues/347)
+
+🚀 [Better icon thanks to @gllms](https://github.com/Almenon/AREPL-vscode/issues/115)
+
+
 ## [v1.0.24](https://github.com/Almenon/AREPL-vscode/milestone/42?closed=1) (05/23/2020) 🚀🐛🐛🐛🐛
 
 🚀 [print results with many lines now come in much faster](https://github.com/Almenon/AREPL-vscode/pull/332)
