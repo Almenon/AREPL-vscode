@@ -27,13 +27,10 @@ suite("PreviewManager and pythonPanelPreview Tests", () => {
             editor = newEditor
             previewManager = new PreviewManager(mockContext);
 
-            previewManager.startArepl(editor).then((previewPanel)=>{
-                panel = previewPanel
+            previewManager.startArepl(editor).then((promiseResults)=>{
+                panel = promiseResults[0]
                 console.log("preview panel started")
-                // wait for default import to be inserted
-                setTimeout(() => {
-                    done()
-                }, 1000);
+                done()
             }).catch((err)=>done(err))
         })
     })
