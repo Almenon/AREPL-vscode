@@ -140,7 +140,7 @@ howdoi('calculate fibbonaci in python')
 
 ### Variable Representation
 
-I have [overridden the display](https://github.com/Almenon/AREPL-backend/blob/master/python/customHandlers.py) of some types (like datetime) to be more readable to humans.
+I have [overridden the display](https://github.com/Almenon/AREPL-backend/blob/master/python/arepl_custom_handlers.py) of some types (like datetime) to be more readable to humans.
 
 If you want a type to be displayed in a particular manner just [file an issue](https://github.com/Almenon/AREPL-vscode/issues)
 
