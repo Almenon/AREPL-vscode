@@ -145,7 +145,8 @@ export let vscodeMock = {
 
         },
         activeTextEditor: {
-            document: undefined
+            document: undefined,
+            setDecorations(decorationType, rangesOrOptions){}
         },
         onDidChangeTextEditorSelection: () => { },
         createTextEditorDecorationType: function(){},
