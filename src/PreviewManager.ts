@@ -76,18 +76,24 @@ export default class PreviewManager {
         this.pythonEditor = mockEditor || vscode.window.activeTextEditor
         this.pythonEditorDoc = this.pythonEditor.document
 
+        let handlersBoundPromise: Thenable<void> = Promise.resolve().then(()=>{})
         if(this.pythonEditorDoc.isUntitled && this.pythonEditorDoc.getText() == "") {
-            areplUtils.insertDefaultImports(this.pythonEditor)
+            handlersBoundPromise = areplUtils.insertDefaultImports(this.pythonEditor).then(
+                this.subscribeHandlersToDoc.bind(this)
+            )
+        }
+        else{
+            this.subscribeHandlersToDoc()
         }
         
-        return this.startAndBindPython().then(()=>{
+        const pythonStartedPromise = this.startAndBindPython().then(()=>{
             let panel = this.previewContainer.start(basename(this.pythonEditorDoc.fileName), this.PythonEvaluator);
             panel.onDidDispose(()=>this.dispose(), this, this.subscriptions)
             this.subscriptions.push(panel)
 
-            this.subscribeHandlersToDoc()
             return panel;
         })
+        return Promise.all([pythonStartedPromise, handlersBoundPromise])
     }
 
     runArepl(){
