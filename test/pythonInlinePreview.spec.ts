@@ -19,10 +19,11 @@ import { UserError } from 'arepl-backend';
 
 suite('inline preview', ()=>{
 
+    const context: any = {
+        'asAbsolutePath': (path)=>{}
+    }
+
     test('shows one error if just one error', ()=>{
-        const context: any = {
-            'asAbsolutePath': (path)=>{}
-        }
         let p = new PythonInlinePreview(null, context);
 
         const error: UserError = {
@@ -52,4 +53,38 @@ suite('inline preview', ()=>{
         p.showInlineErrors(error, "")
 
     })
+
+    test('shows multiple errors if more than one', ()=>{
+        let p = new PythonInlinePreview(null, context);
+
+        const error: UserError = {
+            __cause__: null,
+            __context__: null,
+            _str: "",
+            cause: null,
+            context: null,
+            exc_traceback: {},
+            exc_type: {
+                "py/type": "ValueError"
+            },
+            stack: {
+                "py/seq": [{
+                    _line: "raise ValueError()",
+                    filename: "<string>",
+                    lineno: 1,
+                    locals: {},
+                    name: "foo"
+                }]
+            }
+        }
+        // deep-copy error to avoid infinite recursion
+        error.__cause__ = JSON.parse(JSON.stringify(error));
+
+        vscodeMock.window.activeTextEditor.setDecorations = (decorationType, rangesOrOptions: any[])=>{
+            assert.strictEqual(rangesOrOptions.length, 2)
+        }
+        p.showInlineErrors(error, "")
+
+    })
+
 })
