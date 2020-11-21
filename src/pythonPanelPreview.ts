@@ -27,11 +27,10 @@ export default class PythonPanelPreview{
     <p style="font-size:14px">⚠ <b style="color:red">WARNING:</b> code is evaluated WHILE YOU TYPE - don't try deleting files/folders! ⚠</p>
     <p>evaluation while you type can be turned off or adjusted in the settings</p>
     <br>
-    <h3>AREPL v2 🔧🚀🐛 - Figaro</h3>
+    <h3>AREPL v2.0.1 🐛🐛 - Kanuma</h3>
     <ul>
-    <li>🔧 <b>Python 3.7 or above is now required</b> for the below bugfix.</li>
-    <li>🐛 Fixed error with Decimal library, among others</li>
-    <li>🚀 Better icon thanks to @gllms</li>
+    <li>🐛 Fixed error with AREPL.skipLandingPage setting</li>
+    <li>🐛 Fixed error when a exception was raised while using dump</li>
     <li>Help me make arepl better by filling out this short survey: <a href="https://forms.gle/m7xirfRnSRoPAe9e9">https://forms.gle/m7xirfRnSRoPAe9e9</a></li>
     </ul>
     <br>
