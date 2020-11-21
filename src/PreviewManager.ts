@@ -93,7 +93,12 @@ export default class PreviewManager {
 
             return panel;
         })
-        return Promise.all([pythonStartedPromise, handlersBoundPromise])
+        return Promise.all([pythonStartedPromise, handlersBoundPromise]).then((promiseResults)=>{
+            if(settings().get<boolean>("skipLandingPage")){
+                this.onAnyDocChange(this.pythonEditorDoc);
+            }
+            return promiseResults
+        })
     }
 
     runArepl(){
@@ -268,12 +273,6 @@ export default class PreviewManager {
      * binds various funcs to activate upon edit of document / switching of active doc / etc...
      */
     private subscribeHandlersToDoc(){
-
-        if(settings().get<boolean>("skipLandingPage")){
-            this.onAnyDocChange(this.pythonEditorDoc);
-        }
-
-        
         vscode.workspace.onDidSaveTextDocument((e) => {
             if(settings().get<string>("whenToExecute") == "onSave"){
                 this.onAnyDocChange(e)
