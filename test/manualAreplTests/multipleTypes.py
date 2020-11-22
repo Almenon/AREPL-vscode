@@ -22,6 +22,9 @@ m = l(5)
 n = False
 with open(__file__) as f:
   o = f
+from typing import List,Dict
+x: List[int] = [1,2,3]
+y: Dict[str, str] = {'a':'b'}
 
 ###########################################
 #                Expected Result
