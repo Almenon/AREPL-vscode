@@ -1,4 +1,4 @@
-## [v1.0.26](https://github.com/Almenon/AREPL-vscode/milestone/44?closed=1) (11/21/2020) 🐛🐛
+## [v1.0.26](https://github.com/Almenon/AREPL-vscode/milestone/44?closed=1) (11/22/2020) 🐛🐛
 
 🐛 Fixed error with AREPL.skipLandingPage setting
 🐛 Fixed error when a exception was raised while using dump
