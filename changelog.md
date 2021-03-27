@@ -1,3 +1,12 @@
+## v2.0.2 (03/37/2020) 🐛
+🐛 Fixed error with arepl on unix OS's
+
+## v2.0.1 (11/22/2020) 🐛
+🐛 Fixed https://github.com/Almenon/AREPL-vscode/issues/363
+
+## v2.0.0 (11/15/2020)
+????
+
 ## [v1.0.26](https://github.com/Almenon/AREPL-vscode/milestone/44?closed=1) (11/22/2020) 🐛🐛
 
 🐛 Fixed error with AREPL.skipLandingPage setting

@@ -1,16 +1,16 @@
 "use strict"
 import * as path from "path";
 import * as vscode from "vscode"
-import {Limit} from "./throttle"
+import { Limit } from "./throttle"
 import Utilities from "./utilities"
-import {settings} from "./settings"
+import { settings } from "./settings"
 
 /**
  * shows AREPL output (variables, errors, timing, and stdout/stderr)
  * https://code.visualstudio.com/docs/extensions/webview
  */
-export default class PythonPanelPreview{
-    
+export default class PythonPanelPreview {
+
     static readonly scheme = "pythonPanelPreview"
     static readonly PREVIEW_URI = PythonPanelPreview.scheme + "://authority/preview"
     public throttledUpdate: () => void
@@ -19,7 +19,7 @@ export default class PythonPanelPreview{
     private lastTime: number = 999999999;
 
     private html;
-    
+
     private readonly landingPage = `
     <br>
     <p style="font-size:14px">Start typing or make a change and your code will be evaluated.</p>
@@ -27,10 +27,9 @@ export default class PythonPanelPreview{
     <p style="font-size:14px">⚠ <b style="color:red">WARNING:</b> code is evaluated WHILE YOU TYPE - don't try deleting files/folders! ⚠</p>
     <p>evaluation while you type can be turned off or adjusted in the settings</p>
     <br>
-    <h3>AREPL v2.0.1 🐛🐛 - Kanuma</h3>
+    <h3>AREPL v2.0.2 🐛 - Koriko</h3>
     <ul>
-    <li>🐛 Fixed error with AREPL.skipLandingPage setting</li>
-    <li>🐛 Fixed error when a exception was raised while using dump</li>
+    <li>🐛 Fixed error with arepl on unix OS's</li>
     <li>Help me make arepl better by filling out this short survey: <a href="https://forms.gle/m7xirfRnSRoPAe9e9">https://forms.gle/m7xirfRnSRoPAe9e9</a></li>
     </ul>
     <br>
@@ -116,10 +115,10 @@ if r.status_code == 200:
     private panel: vscode.WebviewPanel
     private customCSS = ""
 
-    constructor(private context: vscode.ExtensionContext, htmlUpdateFrequency=50) {
+    constructor(private context: vscode.ExtensionContext, htmlUpdateFrequency = 50) {
         this._onDidChange = new vscode.EventEmitter<vscode.Uri>();
 
-        if(htmlUpdateFrequency != 0){
+        if (htmlUpdateFrequency != 0) {
             // refreshing html too much can freeze vscode... lets avoid that
             const l = new Limit()
             this.throttledUpdate = l.throttledUpdate(this.updateContent, htmlUpdateFrequency)
@@ -127,9 +126,9 @@ if r.status_code == 200:
         else this.throttledUpdate = this.updateContent
     }
 
-    start(linkedFileName: string){
-        this.panel = vscode.window.createWebviewPanel("arepl","AREPL - " + linkedFileName, vscode.ViewColumn.Two,{
-            enableScripts:true
+    start(linkedFileName: string) {
+        this.panel = vscode.window.createWebviewPanel("arepl", "AREPL - " + linkedFileName, vscode.ViewColumn.Two, {
+            enableScripts: true
         });
 
         this.css = `<link rel="stylesheet" type="text/css" href="${this.getMediaPath("pythonPanelPreview.css", this.panel.webview)}">`
@@ -139,7 +138,7 @@ if r.status_code == 200:
         return this.panel;
     }
 
-    public updateVars(vars: object){
+    public updateVars(vars: object) {
         let userVarsCode = `userVars = ${JSON.stringify(vars)};`
 
         // escape end script tag or else the content will escape its container and WREAK HAVOC
@@ -156,12 +155,12 @@ if r.status_code == 200:
             </script>`
     }
 
-    public updateTime(time: number){
-        let color: "green"|"red";
+    public updateTime(time: number) {
+        let color: "green" | "red";
 
         time = Math.floor(time) // we dont care about anything smaller than ms
-        
-        if(time > this.lastTime) color = "red"
+
+        if (time > this.lastTime) color = "red"
         else color = "green"
 
         this.lastTime = time;
@@ -172,7 +171,7 @@ if r.status_code == 200:
     /**
      * @param refresh if true updates page immediately.  otherwise error will show up whenever updateContent is called
      */
-    public updateError(err: string, refresh=false){
+    public updateError(err: string, refresh = false) {
         // escape the <module>
         err = Utilities.escapeHtml(err)
 
@@ -180,15 +179,15 @@ if r.status_code == 200:
 
         this.errorContainer = `<div id="error">${err}</div>`
 
-        if(refresh) this.throttledUpdate()
+        if (refresh) this.throttledUpdate()
     }
 
-    public injectCustomCSS(css: string, refresh=false){
+    public injectCustomCSS(css: string, refresh = false) {
         this.customCSS = css
-        if(refresh) this.throttledUpdate()
+        if (refresh) this.throttledUpdate()
     }
 
-    public handlePrint(printResults: string){
+    public handlePrint(printResults: string) {
         // escape any accidental html
         printResults = Utilities.escapeHtml(printResults);
 
@@ -196,13 +195,13 @@ if r.status_code == 200:
         this.throttledUpdate();
     }
 
-    clearPrint(){
+    clearPrint() {
         this.printContainer = this.emptyPrint
     }
 
-    public displayProcessError(err: string){
+    public displayProcessError(err: string) {
         let errMsg = `Error in the AREPL extension!\n${err}`
-        if(err.includes("ENOENT") || err.includes("9009")){ // NO SUCH FILE OR DIRECTORY
+        if (err.includes("ENOENT") || err.includes("9009")) { // NO SUCH FILE OR DIRECTORY
             // user probably just doesn't have python installed
             errMsg = errMsg + `\n\nAre you sure you have installed python 3 and it is in your PATH?
             You can download python here: https://www.python.org/downloads/`
@@ -211,19 +210,19 @@ if r.status_code == 200:
         this.updateError(errMsg, true)
     }
 
-    private makeErrorGoogleable(err: string){
-        if(err && err.trim().length > 0){
+    private makeErrorGoogleable(err: string) {
+        if (err && err.trim().length > 0) {
             let errLines = err.split("\n")
 
             // exception usually on last line so start from bottom
-            for(let i=errLines.length-1; i>=0; i--){
+            for (let i = errLines.length - 1; i >= 0; i--) {
 
                 // most exceptions follow format ERROR: explanation
                 // ex: json.decoder.JSONDecodeError: Expecting value: line 1 column 1 (char 0)
                 // so we can identify them by a single word at start followed by colon
                 const errRegex = /(^[\w\.]+): /
 
-                if(errLines[i].match(errRegex)){
+                if (errLines[i].match(errRegex)) {
                     const googleLink = "https://www.google.com/search?q=python "
                     errLines[i] = errLines[i].link(googleLink + errLines[i])
                 }
@@ -243,7 +242,7 @@ if r.status_code == 200:
         return webview.asWebviewUri(onDiskPath)
     }
 
-    private updateContent(){
+    private updateContent() {
 
         const printPlacement = settings().get<string>("printResultPlacement")
         const showFooter = settings().get<boolean>("showFooter")
@@ -261,8 +260,8 @@ if r.status_code == 200:
         </head>
         <body>
             ${this.errorContainer}
-            ${printPlacement == "bottom" ? 
-                variables + this.printContainer : 
+            ${printPlacement == "bottom" ?
+                variables + this.printContainer :
                 this.printContainer + variables}
             ${this.timeContainer}
             ${showFooter ? this.footer : ""}
@@ -275,7 +274,7 @@ if r.status_code == 200:
         try {
             this.panel.webview.html = this.html;
         } catch (error) {
-            if(error instanceof Error && error.message.includes("disposed")){
+            if (error instanceof Error && error.message.includes("disposed")) {
                 // swallow - user probably just got rid of webview inbetween throttled update call
                 console.warn(error)
             }
