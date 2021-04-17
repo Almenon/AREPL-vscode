@@ -238,7 +238,7 @@ export default class PreviewManager {
                 console.error(err)
             }
         }
-        this.PythonEvaluator.pyshell.childProcess.on("error", (err: NodeJS.ErrnoException) => {
+        this.PythonEvaluator.pyshell.on("error", (err: NodeJS.ErrnoException) => {
             /* The 'error' event is emitted whenever:
             The process could not be spawned, or
             The process could not be killed, or
