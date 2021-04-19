@@ -38,7 +38,7 @@
     width:100%;
     border-top: 2px solid grey;
     padding-top:2px;
-    background:var(--background-color);
+    background:var(--vscode-editor-background);
 }
 
 /*--------------------------------------------------------------------------------- */
