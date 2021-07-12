@@ -211,7 +211,7 @@ export default class PreviewManager {
      * starts AREPL python backend and binds print&result output to the handlers
      */
     private async startAndBindPython(){
-        const pythonPath = areplUtils.getPythonPath()
+        const pythonPath = await areplUtils.getPythonPath()
         const pythonOptions = settings().get<string[]>("pythonOptions")
 
         this.warnIfOutdatedPythonVersion(pythonPath)

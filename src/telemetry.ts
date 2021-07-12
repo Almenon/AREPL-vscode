@@ -78,12 +78,14 @@ export default class Reporter{
                 properties[key] = settingsDict[key]
             }
             
-            properties['pythonPath'] = this.anonymizePaths(areplUtils.getPythonPath())
-            properties['pythonVersion'] = this.pythonVersion
-
-            this.reporter.sendTelemetryEvent("closed", properties, measurements)
-
-            this.resetMeasurements()
+            areplUtils.getPythonPath().then((path)=>{
+                properties['pythonPath'] = this.anonymizePaths(path)
+                properties['pythonVersion'] = this.pythonVersion
+    
+                this.reporter.sendTelemetryEvent("closed", properties, measurements)
+    
+                this.resetMeasurements()
+            })
         }
     }
 
