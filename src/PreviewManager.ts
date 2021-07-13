@@ -174,8 +174,9 @@ export default class PreviewManager {
 
         this.runningStatus.dispose();
         
-        this.reporter.sendFinishedEvent(settings())
-        this.reporter.dispose();
+        this.reporter.sendFinishedEvent(settings()).finally(()=>{
+            this.reporter.dispose();
+        })
 
         if(vscode.window.activeTextEditor){
             vscode.window.activeTextEditor.setDecorations(this.previewContainer.errorDecorationType, [])
@@ -211,7 +212,7 @@ export default class PreviewManager {
      * starts AREPL python backend and binds print&result output to the handlers
      */
     private async startAndBindPython(){
-        const pythonPath = areplUtils.getPythonPath()
+        const pythonPath = await areplUtils.getPythonPath()
         const pythonOptions = settings().get<string[]>("pythonOptions")
 
         this.warnIfOutdatedPythonVersion(pythonPath)
