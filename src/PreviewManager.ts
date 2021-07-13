@@ -174,8 +174,9 @@ export default class PreviewManager {
 
         this.runningStatus.dispose();
         
-        this.reporter.sendFinishedEvent(settings())
-        this.reporter.dispose();
+        this.reporter.sendFinishedEvent(settings()).finally(()=>{
+            this.reporter.dispose();
+        })
 
         if(vscode.window.activeTextEditor){
             vscode.window.activeTextEditor.setDecorations(this.previewContainer.errorDecorationType, [])

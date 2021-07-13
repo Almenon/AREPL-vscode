@@ -2,8 +2,9 @@ import { Buffer } from "buffer";
 import { extensions, WorkspaceConfiguration } from "vscode";
 import TelemetryReporter from "vscode-extension-telemetry";
 import { userInfo } from "os";
-import { sep } from "path";
+import { join, sep } from "path";
 import areplUtils from "./areplUtilities";
+import { readFileSync } from "fs";
 
 export default class Reporter{
     private reporter: TelemetryReporter
@@ -21,12 +22,17 @@ export default class Reporter{
         const extension = extensions.getExtension(extensionId)!;
         const extensionVersion = extension.packageJSON.version;
 
-        // following key just allows you to send events to azure insights API
-        // so it does not need to be protected
-        // but obfuscating anyways - bots scan github for keys, but if you want my key you better work for it, damnit!
-        const innocentKitten = Buffer.from("NWYzMWNjNDgtNTA2OC00OGY4LWFjMWMtZDRkY2Y3ZWFhMTM1", "base64").toString()
+        let instrumentation_key = ''
+        try {
+            instrumentation_key = readFileSync(join(extension.extensionPath, "media", 'instrumentation_key.txt')).toString()
+        } catch (error) {
+            console.warn('no instrumentation key for AREPL found - disabling telemetry')
+            this.enabled = false;
+            // TelemetryReporter raises error if falsy key so we need to escape before we hit it
+            return
+        }
     
-        this.reporter = new TelemetryReporter(extensionId, extensionVersion, innocentKitten);
+        this.reporter = new TelemetryReporter(extensionId, extensionVersion, instrumentation_key);
         this.resetMeasurements()
     }
 
@@ -78,7 +84,7 @@ export default class Reporter{
                 properties[key] = settingsDict[key]
             }
             
-            areplUtils.getPythonPath().then((path)=>{
+            return areplUtils.getPythonPath().then((path)=>{
                 properties['pythonPath'] = this.anonymizePaths(path)
                 properties['pythonVersion'] = this.pythonVersion
     
@@ -87,6 +93,7 @@ export default class Reporter{
                 this.resetMeasurements()
             })
         }
+        return Promise.resolve()
     }
 
     private resetMeasurements(){
@@ -107,5 +114,8 @@ export default class Reporter{
         return input.replace(new RegExp('\\'+sep+userInfo().username, 'g'), sep+'anon')
     }
 
-    dispose(){this.reporter.dispose()}
+    dispose(){
+        // reporter may be undefined if telemetry is disabled
+        if(this.reporter !== undefined) this.reporter.dispose()
+    }
 }
