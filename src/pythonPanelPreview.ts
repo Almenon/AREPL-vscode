@@ -27,9 +27,9 @@ export default class PythonPanelPreview {
     <p style="font-size:14px">⚠ <b style="color:red">WARNING:</b> code is evaluated WHILE YOU TYPE - don't try deleting files/folders! ⚠</p>
     <p>evaluation while you type can be turned off or adjusted in the settings</p>
     <br>
-    <h3>AREPL v2.0.2 🐛 - Koriko</h3>
+    <h3>AREPL v2.0.3 🐛 - Flamingo</h3>
     <ul>
-    <li>🐛 Fixed error with arepl on unix OS's</li>
+    <li>🐛 Fixed python path from python extension no longer being automatically used by AREPL</li>
     <li>Help me make arepl better by filling out this short survey: <a href="https://forms.gle/m7xirfRnSRoPAe9e9">https://forms.gle/m7xirfRnSRoPAe9e9</a></li>
     </ul>
     <br>
