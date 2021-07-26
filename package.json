@@ -297,7 +297,8 @@
     "compileOnce": "tsc -p ./",
     "test": "tsc -p ./ && node ./out/test/runTest.js",
     "unitTests": "mocha -ui tdd -r ts-node/register test/*.spec.ts",
-    "visualize": "depcruise --exclude 'vscode|^[a-zA-Z0-9\\_]+$' --output-type dot src | dot -T svg > dependencygraph.svg"
+    "visualize": "depcruise --exclude 'vscode|^[a-zA-Z0-9\\_]+$' --output-type dot src | dot -T svg > dependencygraph.svg",
+    "vscode:uninstall": "node ./out/src/uninstallSurvey"
   },
   "devDependencies": {
     "@types/glob": "^7.1.1",
