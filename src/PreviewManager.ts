@@ -227,8 +227,10 @@ export default class PreviewManager {
         })
         
         try {
+            console.log('Starting python with path ' + pythonPath)
             this.PythonEvaluator.start()
         } catch (err) {
+            console.debug('caught error in python start: ' + err)
             if (err instanceof Error){
                 const error = `Error running python with command: ${pythonPath} ${pythonOptions.join(' ')}\n${err.stack}`
                 this.previewContainer.displayProcessError(error);
@@ -248,11 +250,13 @@ export default class PreviewManager {
 
             // @ts-ignore err is actually SystemError but node does not type it
             const error = `Error running python with command: ${err.path} ${err.spawnargs.join(' ')}\n${err.stack}`
+            console.debug('Error handler invoked. ' + error)
             this.previewContainer.displayProcessError(error);
             this.reporter.sendError(err, err.errno, 'spawn')
         })
         this.PythonEvaluator.pyshell.childProcess.on("exit", err => {
             if(!err) return // normal exit
+            console.debug('exit handler invoked w/ ' + err)
             this.previewContainer.displayProcessError(`err code: ${err}`);
             this.reporter.sendError(new Error('exit'), err, 'spawn')
         })
