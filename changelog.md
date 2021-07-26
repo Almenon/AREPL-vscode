@@ -1,5 +1,5 @@
 ## v2.0.3 (07/25/2021) 🐛
-🐛 Fixed python path from python extension no longer being picked up
+🐛 [Fixed python path from python extension no longer being picked up](https://github.com/Almenon/AREPL-vscode/issues/410)
 
 ## v2.0.2 (03/37/2021) 🐛
 🐛 Fixed error with arepl on unix OS's
