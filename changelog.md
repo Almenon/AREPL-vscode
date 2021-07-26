@@ -1,7 +1,7 @@
-## v2.0.3 (03/37/2020) 🐛
+## v2.0.3 (07/25/2021) 🐛
 🐛 Fixed python path from python extension no longer being picked up
 
-## v2.0.2 (03/37/2020) 🐛
+## v2.0.2 (03/37/2021) 🐛
 🐛 Fixed error with arepl on unix OS's
 
 ## v2.0.1 (11/22/2020) 🐛
