@@ -1,4 +1,4 @@
-## v2.0.3 (07/25/2021) 🐛
+## v2.0.3 (07/25/2021) 🐛🐛🐛🔧
 🐛 [Fixed python path from python extension no longer being picked up](https://github.com/Almenon/AREPL-vscode/issues/410)
 
 🐛 [Fixed error message not showing when python path is incorrect](https://github.com/Almenon/AREPL-vscode/issues/389)
