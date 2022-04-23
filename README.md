@@ -183,4 +183,4 @@ Check out the [wiki](https://github.com/Almenon/AREPL-vscode/wiki)!
 
 #### Contributing to the project
 
-See the [wiki page](https://github.com/Almenon/AREPL-vscode/wiki/Getting-Started-for-contributors-to-AREPL) on getting started. Contributions welcome!
+See the [wiki page](https://github.com/Almenon/AREPL-vscode/wiki/Getting-Started-for-contributors-to-AREPL) on getting started. Contributions welcome! Even though the project is not actively developed on I still review pull requests and issues.
