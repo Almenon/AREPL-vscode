@@ -25,12 +25,12 @@ export default class PythonPanelPreview {
     <p style="font-size:14px">Start typing or make a change and your code will be evaluated.</p>
     
     <p style="font-size:14px">⚠ <b style="color:red">WARNING:</b> code is evaluated WHILE YOU TYPE - don't try deleting files/folders! ⚠</p>
-    <p>evaluation while you type can be turned off or adjusted in the settings</p>
+    <p>Evaluation while you type can be turned off or adjusted in the settings</p>
     <br>
     <h3>AREPL v2.0.4 🐛 - Haru</h3>
     <ul>
-    <li>🐛 [Fixed 'typing is not a package' error](https://github.com/Almenon/AREPL-vscode/issues/416)</li>
-    <li>🚀 [AREPL preview window now respects editor font size and weight](https://github.com/Almenon/AREPL-vscode/issues/257)</li>
+    <li>🐛 <a href="https://github.com/Almenon/AREPL-vscode/issues/416">Fixed 'typing is not a package' error</a></li>
+    <li>🚀 <a href="https://github.com/Almenon/AREPL-vscode/issues/257">AREPL preview window now respects editor font size and weight</a></li>
     <li>Help me make arepl better by filling out this short survey: <a href="https://forms.gle/m7xirfRnSRoPAe9e9">https://forms.gle/m7xirfRnSRoPAe9e9</a></li>
     </ul>
     <br>
