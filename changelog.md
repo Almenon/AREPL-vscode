@@ -1,3 +1,8 @@
+## v2.0.4 (10/23/2022) 🐛🚀
+🐛 [Fixed 'typing is not a package' error](https://github.com/Almenon/AREPL-vscode/issues/416)
+
+🚀 [AREPL preview window now respects editor font size and weight](https://github.com/Almenon/AREPL-vscode/issues/257)
+
 ## v2.0.3 (07/25/2021) 🐛🐛🐛🔧
 🐛 [Fixed python path from python extension no longer being picked up](https://github.com/Almenon/AREPL-vscode/issues/410)
 
