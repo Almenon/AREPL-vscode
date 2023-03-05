@@ -171,6 +171,7 @@
         "AREPL.defaultFilterTypes": {
           "type": "array",
           "default": [
+            "<class 'typing._SpecialGenericAlias'>",
             "<class 'module'>",
             "<class 'function'>"
           ],
