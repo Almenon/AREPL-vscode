@@ -1,3 +1,9 @@
+## v2.0.5 (3/5/2023) 🐛🚀
+🐛 [Fixed inconsistent variable display in certain cases](https://github.com/Almenon/AREPL-vscode/issues/3716)
+
+🚀 Basic types no longer appear as variables. This was done by updating the `arepl.defaultfiltertypes` setting.
+
+
 ## v2.0.4 (10/23/2022) 🐛🚀
 🐛 [Fixed 'typing is not a package' error](https://github.com/Almenon/AREPL-vscode/issues/416)
 
@@ -24,6 +30,7 @@
 ## [v1.0.26](https://github.com/Almenon/AREPL-vscode/milestone/44?closed=1) (11/22/2020) 🐛🐛
 
 🐛 Fixed error with AREPL.skipLandingPage setting
+
 🐛 Fixed error when a exception was raised while using dump
 
 ## [v1.0.25](https://github.com/Almenon/AREPL-vscode/milestone/43?closed=1) (11/07/2020) 🔧🚀🐛
@@ -242,14 +249,20 @@ jsonPickle version upgrade w/ slightly better numpy and pandas support
 ## [v1.0.0](https://github.com/Almenon/AREPL-vscode/milestone/16?closed=1) 🐛
 
 Fixed: 🐛 
+
 🐛 #86 unittest causes arepl to fail silently bug
+
 🐛 #101 styling becomes wierd when in certain scenarios bug 
+
 🐛 #102  internal error does not show bug
+
 🐛 #94  arepl frequently has problems rendering when there is a lot of prints bug
 
-Updated:
+Updated: 🚀
+
 #56  use new webview enhancement
-#52 Update vscode-extension-telemetry to the latest version 🚀  greenkeeper
+
+#52 Update vscode-extension-telemetry to the latest version
 
 ## [v1.5](https://github.com/Almenon/AREPL-vscode/milestone/15?closed=1)
 
