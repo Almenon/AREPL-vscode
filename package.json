@@ -174,7 +174,8 @@
             "<class 'typing._SpecialForm'>",
             "<class 'typing._SpecialGenericAlias'>",
             "<class 'module'>",
-            "<class 'function'>"
+            "<class 'function'>",
+            "<class 'builtin_function_or_method'>"
           ],
           "description": "Any variables with these types are not shown in arepl variable view. You can use the arepl_filter_type variable in arepl to play around with this setting in real-time"
         },
