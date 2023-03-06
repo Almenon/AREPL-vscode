@@ -1,4 +1,4 @@
-## AREPL [![Build Status](https://github.com/Almenon/AREPL-vscode/workflows/.github/workflows/main.yml/badge.svg?branch=master)](https://github.com/Almenon/AREPL-vscode/actions?query=workflow%3A.github%2Fworkflows%2Fmain.yml) [![Downloads](https://vsmarketplacebadge.apphb.com/installs/almenon.arepl.svg)](https://marketplace.visualstudio.com/items?itemName=almenon.arepl) [![Downloads](https://vsmarketplacebadge.apphb.com/rating-star/almenon.arepl.svg)](https://marketplace.visualstudio.com/items?itemName=almenon.arepl) [![Gitter chat](https://badges.gitter.im/arepl/gitter.png)](https://gitter.im/arepl/lobby)
+## AREPL [![Build Status](https://github.com/Almenon/AREPL-vscode/workflows/.github/workflows/main.yml/badge.svg?branch=master)](https://github.com/Almenon/AREPL-vscode/actions?query=workflow%3A.github%2Fworkflows%2Fmain.yml) [![Gitter chat](https://badges.gitter.im/arepl/gitter.png)](https://gitter.im/arepl/lobby)
 
 AREPL automatically evaluates python code in real-time as you type.
 
