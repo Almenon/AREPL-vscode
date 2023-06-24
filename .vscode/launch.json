@@ -31,7 +31,6 @@
 			"args": [
 				"--extensionDevelopmentPath=${workspaceRoot}"
 			],
-			"stopOnEntry": false,
 			"sourceMaps": true,
 			"outFiles": [
 				"out/src"
@@ -47,7 +46,6 @@
 				"--extensionDevelopmentPath=${workspaceFolder}",
 				"--extensionTestsPath=${workspaceFolder}/out/test/suite/index"
 			],
-			"stopOnEntry": false,
 			"outFiles": ["${workspaceFolder}/out/test/**/*.js"],
 			"preLaunchTask": "npm"
 		}
