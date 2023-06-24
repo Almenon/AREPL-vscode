@@ -149,6 +149,7 @@ export default class PreviewManager {
             default_filter_types: settingsCached.get<string[]>('defaultFilterTypes')
         }
         this.previewContainer.clearStoredData()
+        // refactor this to use last ran evaluator
         this.PythonEvaluator.execCode(data)
         this.runningStatus.show()
 
@@ -220,12 +221,14 @@ export default class PreviewManager {
         // basically all this does is load a file.. why does it need to be async *sob*
         const env = await this.loadAndWatchEnvVars()
 
+        // start three evaluators and save them to dict by name
         this.PythonEvaluator = new PythonEvaluator({
             pythonOptions,
             pythonPath,
             env,
         })
         
+        // put below two in a loop for each evaluator
         try {
             console.log('Starting python with path ' + pythonPath)
             this.PythonEvaluator.start()
@@ -255,6 +258,7 @@ export default class PreviewManager {
             this.reporter.sendError(err, err.errno, 'spawn')
         })
         this.PythonEvaluator.pyshell.childProcess.on("exit", err => {
+            // might need to rethink this method now that i kill arepl on purpose...
             if(!err) return // normal exit
             console.debug('exit handler invoked w/ ' + err)
             this.previewContainer.displayProcessError(`err code: ${err}`);
@@ -288,8 +292,6 @@ export default class PreviewManager {
             const cachedSettings = settings()
             if(cachedSettings.get<string>("whenToExecute") == "afterDelay"){
                 let delay = cachedSettings.get<number>("delay");
-                const restartExtraDelay = cachedSettings.get<number>("restartDelay");
-                delay += this.toAREPLLogic.restartMode ? restartExtraDelay : 0
                 this.PythonEvaluator.debounce(this.onAnyDocChange.bind(this, e.document), delay)
             }
         }, this, this.subscriptions)

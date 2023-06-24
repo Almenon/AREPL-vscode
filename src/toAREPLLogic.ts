@@ -1,6 +1,5 @@
 import {PythonEvaluator, ExecArgs} from "arepl-backend"
 import {PreviewContainer} from "./previewContainer"
-import pyGuiLibraryIsPresent from "./pyGuiLibraryIsPresent"
 import {settings} from "./settings"
 
 /**
@@ -9,8 +8,6 @@ import {settings} from "./settings"
  */
 export class ToAREPLLogic{
 
-    restartMode: boolean
-    restartedLastTime = false
     lastSavedSection = ""
     lastCodeSection = ""
     lastEndSection = ""
@@ -80,36 +77,27 @@ export class ToAREPLLogic{
         this.lastCodeSection = data.evalCode
         this.lastSavedSection = data.savedCode
         this.lastEndSection = endSection
-    
-        this.restartMode = pyGuiLibraryIsPresent(text)
-        
-        if(this.restartMode) {
-            this.checkSyntaxAndRestart(data)
-        }
-        else if(this.restartedLastTime){ // if GUI code is gone need one last restart to get rid of GUI
-            this.restartPython(data)
-            this.restartedLastTime = false;
-        }
-        else{                
-            this.PythonEvaluator.execCode(data)
-        }
-
-        return true
-    }
-
-    /**
-     * checks syntax before restarting - if syntax error it doesnt bother restarting but instead just shows syntax error
-     * This is useful because we want to restart as little as possible
-     */
-    private checkSyntaxAndRestart(data: {evalCode: string, savedCode: string, filePath: string}){
         let syntaxPromise: Promise<{}>
-    
-        // #22 it might be faster to use checkSyntaxFile but this is simpler
+        
+        // only execute code if syntax is correct
+        // this is because it's annoying to have GUI apps restart constantly
+        // while typing
         syntaxPromise = this.PythonEvaluator.checkSyntax(data.savedCode + data.evalCode)
-
         syntaxPromise.then(() => {
-            this.restartPython(data)
-            this.restartedLastTime = true
+            // to check for free executor:
+            // freeEvaluator = evaluators.first(evaluator=>evaluator.free)
+
+            // cancel setinterval
+            // restart all Executing or DirtyFree processes
+            // if no freshfree executor:
+            setInterval(()=>{
+                // if free executor, send code
+            }, 60)
+            // else: send code to first free executor
+            // send code func:
+            //   foo.execCode(data)
+            //   set last ran executor
+            this.PythonEvaluator.execCode(data)
         })
         .catch((error: NodeJS.ErrnoException|string) => {
             
@@ -130,12 +118,8 @@ export class ToAREPLLogic{
                 }
             )
         })
+
+        return true
     }
-    
-    private restartPython(data: {evalCode: string, savedCode: string, filePath: string}){
-        this.previewContainer.clearStoredData()
-        this.PythonEvaluator.restart(
-            this.PythonEvaluator.execCode.bind(this.PythonEvaluator, data)
-        );     
-    }
+
 }
