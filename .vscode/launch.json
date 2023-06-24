@@ -32,9 +32,7 @@
 				"--extensionDevelopmentPath=${workspaceRoot}"
 			],
 			"sourceMaps": true,
-			"outFiles": [
-				"out/src"
-			],
+			"outFiles": ["${workspaceFolder}/out/**/*.js"],
 			"preLaunchTask": "npm"
 		},
 		{
