@@ -84,19 +84,6 @@ export class ToAREPLLogic{
         // while typing
         syntaxPromise = this.PythonEvaluator.checkSyntax(data.savedCode + data.evalCode)
         syntaxPromise.then(() => {
-            // to check for free executor:
-            // freeEvaluator = evaluators.first(evaluator=>evaluator.free)
-
-            // cancel setinterval
-            // restart all Executing or DirtyFree processes
-            // if no freshfree executor:
-            setInterval(()=>{
-                // if free executor, send code
-            }, 60)
-            // else: send code to first free executor
-            // send code func:
-            //   foo.execCode(data)
-            //   set last ran executor
             this.PythonEvaluator.execCode(data)
         })
         .catch((error: NodeJS.ErrnoException|string) => {

@@ -221,14 +221,12 @@ export default class PreviewManager {
         // basically all this does is load a file.. why does it need to be async *sob*
         const env = await this.loadAndWatchEnvVars()
 
-        // start three evaluators and save them to dict by name
         this.PythonEvaluator = new PythonEvaluator({
             pythonOptions,
             pythonPath,
             env,
         })
         
-        // put below two in a loop for each evaluator
         try {
             console.log('Starting python with path ' + pythonPath)
             this.PythonEvaluator.start()
@@ -259,7 +257,6 @@ export default class PreviewManager {
         })
         this.PythonEvaluator.pyshell.childProcess.on("exit", err => {
             // might need to rethink this method now that i kill arepl on purpose...
-            if(!err) return // normal exit
             console.debug('exit handler invoked w/ ' + err)
             this.previewContainer.displayProcessError(`err code: ${err}`);
             this.reporter.sendError(new Error('exit'), err, 'spawn')
