@@ -22,6 +22,6 @@ jobs:
     - run: npm run vscode:prepublish
     - run: npm run unitTests
     - name: Run tests
-      uses: coactions/setup-xvfb@v1.0.0
+      uses: coactions/setup-xvfb@main
       with:
         run: npm test
