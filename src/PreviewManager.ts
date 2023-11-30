@@ -149,6 +149,7 @@ export default class PreviewManager {
             default_filter_types: settingsCached.get<string[]>('defaultFilterTypes')
         }
         this.previewContainer.clearStoredData()
+        // refactor this to use last ran evaluator
         this.PythonEvaluator.execCode(data)
         this.runningStatus.show()
 
@@ -255,7 +256,7 @@ export default class PreviewManager {
             this.reporter.sendError(err, err.errno, 'spawn')
         })
         this.PythonEvaluator.pyshell.childProcess.on("exit", err => {
-            if(!err) return // normal exit
+            // might need to rethink this method now that i kill arepl on purpose...
             console.debug('exit handler invoked w/ ' + err)
             this.previewContainer.displayProcessError(`err code: ${err}`);
             this.reporter.sendError(new Error('exit'), err, 'spawn')
@@ -288,8 +289,6 @@ export default class PreviewManager {
             const cachedSettings = settings()
             if(cachedSettings.get<string>("whenToExecute") == "afterDelay"){
                 let delay = cachedSettings.get<number>("delay");
-                const restartExtraDelay = cachedSettings.get<number>("restartDelay");
-                delay += this.toAREPLLogic.restartMode ? restartExtraDelay : 0
                 this.PythonEvaluator.debounce(this.onAnyDocChange.bind(this, e.document), delay)
             }
         }, this, this.subscriptions)

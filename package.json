@@ -76,38 +76,13 @@
         },
         "AREPL.delay": {
           "type": "number",
-          "default": 300,
+          "default": 350,
           "description": "delay in milliseconds before executing code after typing"
-        },
-        "AREPL.restartDelay": {
-          "type": "number",
-          "default": 300,
-          "description": "when restart mode is active we add this to delay to delay longer"
         },
         "AREPL.inlineResults": {
           "type": "boolean",
           "default": true,
           "description": "whether to show errors / results / prints inline. (Currently just error icons)"
-        },
-        "AREPL.pyGuiLibraries": {
-          "type": "array",
-          "default": [
-            "matplotlib",
-            "tkinter",
-            "kivy",
-            "pyforms",
-            "PyQt4",
-            "PyQt5",
-            "wx",
-            "pyside",
-            "plotly",
-            "ggplot",
-            "bokeh",
-            "ppb",
-            "PySimpleGUI",
-            "pyglet"
-          ],
-          "description": "AREPL enters restart mode when one of these libraries are imported. Process is restarted at end of each run so GUI window is updated"
         },
         "AREPL.whenToExecute": {
           "type": "string",
