@@ -321,7 +321,7 @@
     "arepl-backend": "^2.1.0",
     "opn": "^5.3.0",
     "path": "^0.12.7",
-    "vscode-extension-telemetry": "0.1.2"
+    "vscode-extension-telemetry": "0.4.5"
   },
   "bugs": {
     "url": "https://github.com/almenon/arepl-vscode-wordcount/issues",
