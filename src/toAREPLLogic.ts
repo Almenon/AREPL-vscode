@@ -1,4 +1,4 @@
-import {PythonExecutor, ExecArgs} from "arepl-backend"
+import {PythonExecutors, ExecArgs} from "arepl-backend"
 import {PreviewContainer} from "./previewContainer"
 import {settings} from "./settings"
 
@@ -11,7 +11,7 @@ export class ToAREPLLogic{
     lastCodeSection = ""
     lastEndSection = ""
 
-    constructor(private PythonExecutor: PythonExecutor, private previewContainer: PreviewContainer){
+    constructor(private PythonExecutor: PythonExecutors, private previewContainer: PreviewContainer){
 
     }
 

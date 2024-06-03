@@ -24,7 +24,7 @@ export default class PreviewManager {
     reporter: Reporter;
     disposable: vscode.Disposable;
     pythonEditorDoc: vscode.TextDocument;
-    PythonExecutor: PythonExecutor;
+    PythonExecutor: PythonExecutors;
     runningStatus: vscode.StatusBarItem;
     toAREPLLogic: ToAREPLLogic
     previewContainer: PreviewContainer
