@@ -1,5 +1,5 @@
 "use strict"
-import {PythonEvaluator, ExecArgs} from "arepl-backend"
+import {PythonExecutors, ExecArgs} from "arepl-backend"
 import areplUtils from "./areplUtilities"
 import * as vscode from "vscode"
 import { EnvironmentVariablesProvider } from "./env/variables/environmentVariablesProvider"
@@ -221,7 +221,7 @@ export default class PreviewManager {
         // basically all this does is load a file.. why does it need to be async *sob*
         const env = await this.loadAndWatchEnvVars()
 
-        this.PythonEvaluator = new PythonEvaluator({
+        this.PythonEvaluator = new PythonExecutors({
             pythonOptions,
             pythonPath,
             env,
