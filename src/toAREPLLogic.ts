@@ -1,4 +1,4 @@
-import {PythonEvaluator, ExecArgs} from "arepl-backend"
+import {PythonExecutor, ExecArgs} from "arepl-backend"
 import {PreviewContainer} from "./previewContainer"
 import {settings} from "./settings"
 
@@ -11,7 +11,7 @@ export class ToAREPLLogic{
     lastCodeSection = ""
     lastEndSection = ""
 
-    constructor(private PythonEvaluator: PythonEvaluator, private previewContainer: PreviewContainer){
+    constructor(private PythonExecutor: PythonExecutor, private previewContainer: PreviewContainer){
 
     }
 
@@ -80,9 +80,9 @@ export class ToAREPLLogic{
         
         // only execute code if syntax is correct
         // this is because it's annoying to have GUI apps restart constantly while typing
-        syntaxPromise = this.PythonEvaluator.checkSyntax(data.savedCode + data.evalCode)
+        syntaxPromise = this.PythonExecutor.checkSyntax(data.savedCode + data.evalCode)
         syntaxPromise.then(() => {
-            this.PythonEvaluator.execCode(data)
+            this.PythonExecutor.execCode(data)
         })
         .catch((error: NodeJS.ErrnoException|string) => {
             

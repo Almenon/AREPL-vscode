@@ -3,7 +3,7 @@ import * as vscode from "vscode";
 import {PreviewContainer} from "../../src/previewContainer"
 import Reporter from "../../src/telemetry";
 import vscodeUtils from "../../src/vscodeUtilities";
-import {UserError, PythonEvaluator} from "arepl-backend"
+import {UserError, PythonExecutor} from "arepl-backend"
 
 /**
  * this suite tests both previewContainer and pythonPanelPreview
@@ -36,7 +36,7 @@ suite("PreviewContainer and pythonPanelPreview Tests", () => {
     }
 
     const previewContainer = new PreviewContainer(new Reporter(false), mockContext, 0);
-    const panel = previewContainer.start("", new PythonEvaluator())
+    const panel = previewContainer.start("", new PythonExecutor())
 
     suiteSetup(function(done){
         // needed for inline errors

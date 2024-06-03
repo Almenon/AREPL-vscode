@@ -1,4 +1,4 @@
-import {PythonResult, UserError, PythonEvaluator} from "arepl-backend"
+import {PythonResult, UserError, PythonExecutor} from "arepl-backend"
 import * as vscode from "vscode"
 import PythonInlinePreview from "./pythonInlinePreview"
 import PythonPanelPreview from "./pythonPanelPreview"
@@ -13,7 +13,7 @@ export class PreviewContainer{
     public printResults: string[];
     private vars: {}
     pythonInlinePreview: PythonInlinePreview
-    pythonEvaluator: PythonEvaluator
+    PythonExecutor: PythonExecutor
 
     constructor(private reporter: Reporter, context: vscode.ExtensionContext, htmlUpdateFrequency=50, private pythonPanelPreview?: PythonPanelPreview){
         if(!this.pythonPanelPreview) this.pythonPanelPreview = new PythonPanelPreview(context, htmlUpdateFrequency)
@@ -21,9 +21,9 @@ export class PreviewContainer{
         this.errorDecorationType = this.pythonInlinePreview.errorDecorationType
     }
 
-    public start(linkedFileName: string, pythonEvaluator: PythonEvaluator){
+    public start(linkedFileName: string, PythonExecutor: PythonExecutor){
         this.clearStoredData()
-        this.pythonEvaluator = pythonEvaluator;
+        this.PythonExecutor = PythonExecutor;
         return this.pythonPanelPreview.start(linkedFileName)
     }
 

@@ -24,7 +24,7 @@ export default class PreviewManager {
     reporter: Reporter;
     disposable: vscode.Disposable;
     pythonEditorDoc: vscode.TextDocument;
-    PythonEvaluator: PythonEvaluator;
+    PythonExecutor: PythonExecutor;
     runningStatus: vscode.StatusBarItem;
     toAREPLLogic: ToAREPLLogic
     previewContainer: PreviewContainer
@@ -87,7 +87,7 @@ export default class PreviewManager {
         }
         
         const pythonStartedPromise = this.startAndBindPython().then(()=>{
-            let panel = this.previewContainer.start(basename(this.pythonEditorDoc.fileName), this.PythonEvaluator);
+            let panel = this.previewContainer.start(basename(this.pythonEditorDoc.fileName), this.PythonExecutor);
             panel.onDidDispose(()=>this.dispose(), this, this.subscriptions)
             this.subscriptions.push(panel)
 
@@ -150,7 +150,7 @@ export default class PreviewManager {
         }
         this.previewContainer.clearStoredData()
         // refactor this to use last ran evaluator
-        this.PythonEvaluator.execCode(data)
+        this.PythonExecutor.execCode(data)
         this.runningStatus.show()
 
         if(editor){
@@ -166,8 +166,8 @@ export default class PreviewManager {
     dispose() {
         vscode.commands.executeCommand("setContext", "arepl", false)
 
-        if(this.PythonEvaluator.pyshell != null && this.PythonEvaluator.pyshell.childProcess != null){
-            this.PythonEvaluator.stop()
+        if(this.PythonExecutor.pyshell != null && this.PythonExecutor.pyshell.childProcess != null){
+            this.PythonExecutor.stop()
         }
 
         this.disposable = vscode.Disposable.from(...this.subscriptions);
@@ -221,7 +221,7 @@ export default class PreviewManager {
         // basically all this does is load a file.. why does it need to be async *sob*
         const env = await this.loadAndWatchEnvVars()
 
-        this.PythonEvaluator = new PythonExecutors({
+        this.PythonExecutor = new PythonExecutors({
             pythonOptions,
             pythonPath,
             env,
@@ -229,7 +229,7 @@ export default class PreviewManager {
         
         try {
             console.log('Starting python with path ' + pythonPath)
-            this.PythonEvaluator.start()
+            this.PythonExecutor.start()
         } catch (err) {
             console.debug('caught error in python start: ' + err)
             if (err instanceof Error){
@@ -242,7 +242,7 @@ export default class PreviewManager {
                 console.error(err)
             }
         }
-        this.PythonEvaluator.pyshell.on("error", (err: NodeJS.ErrnoException) => {
+        this.PythonExecutor.pyshell.on("error", (err: NodeJS.ErrnoException) => {
             /* The 'error' event is emitted whenever:
             The process could not be spawned, or
             The process could not be killed, or
@@ -256,14 +256,14 @@ export default class PreviewManager {
             this.reporter.sendError(err, err.errno, 'spawn')
         })
 
-        this.toAREPLLogic = new ToAREPLLogic(this.PythonEvaluator, this.previewContainer)
+        this.toAREPLLogic = new ToAREPLLogic(this.PythonExecutor, this.previewContainer)
 
-        // binding this to the class so it doesn't get overwritten by PythonEvaluator
-        this.PythonEvaluator.onPrint = this.previewContainer.handlePrint.bind(this.previewContainer)
+        // binding this to the class so it doesn't get overwritten by PythonExecutor
+        this.PythonExecutor.onPrint = this.previewContainer.handlePrint.bind(this.previewContainer)
         // this is bad - stderr should be handled seperately so user is aware its different
         // but better than not showing stderr at all, so for now printing it out and ill fix later
-        this.PythonEvaluator.onStderr = this.previewContainer.handlePrint.bind(this.previewContainer)
-        this.PythonEvaluator.onResult = result => {
+        this.PythonExecutor.onStderr = this.previewContainer.handlePrint.bind(this.previewContainer)
+        this.PythonExecutor.onResult = result => {
             this.runningStatus.hide()
             this.previewContainer.handleResult(result)
         }
@@ -283,7 +283,7 @@ export default class PreviewManager {
             const cachedSettings = settings()
             if(cachedSettings.get<string>("whenToExecute") == "afterDelay"){
                 let delay = cachedSettings.get<number>("delay");
-                this.PythonEvaluator.debounce(this.onAnyDocChange.bind(this, e.document), delay)
+                this.PythonExecutor.debounce(this.onAnyDocChange.bind(this, e.document), delay)
             }
         }, this, this.subscriptions)
         
@@ -297,7 +297,7 @@ export default class PreviewManager {
         if(event == this.pythonEditorDoc){
 
             this.reporter.numRuns += 1
-            if(this.PythonEvaluator.executing){
+            if(this.PythonExecutor.executing){
                 this.reporter.numInterruptedRuns += 1
             }
 

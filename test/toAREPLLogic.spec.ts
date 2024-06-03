@@ -20,11 +20,11 @@ import {ToAREPLLogic} from '../src/toAREPLLogic'
 
 suite("toAREPLLogic tests", ()=>{
 
-    const mockPythonEvaluator: any = {
+    const mockPythonExecutor: any = {
         execCode: ()=>{}
     }
 
-    const toAREPLLogic = new ToAREPLLogic(mockPythonEvaluator, null);
+    const toAREPLLogic = new ToAREPLLogic(mockPythonExecutor, null);
 
     test("arepl not ran when just end section is changed", function(){
         let returnVal = toAREPLLogic.onUserInput(`#$end${EOL}bla`, "", EOL)
