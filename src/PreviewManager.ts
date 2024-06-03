@@ -255,12 +255,6 @@ export default class PreviewManager {
             this.previewContainer.displayProcessError(error);
             this.reporter.sendError(err, err.errno, 'spawn')
         })
-        this.PythonEvaluator.pyshell.childProcess.on("exit", err => {
-            // might need to rethink this method now that i kill arepl on purpose...
-            console.debug('exit handler invoked w/ ' + err)
-            this.previewContainer.displayProcessError(`err code: ${err}`);
-            this.reporter.sendError(new Error('exit'), err, 'spawn')
-        })
 
         this.toAREPLLogic = new ToAREPLLogic(this.PythonEvaluator, this.previewContainer)
 
