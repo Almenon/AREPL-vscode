@@ -36,7 +36,7 @@ suite("PreviewContainer and pythonPanelPreview Tests", () => {
     }
 
     const previewContainer = new PreviewContainer(new Reporter(false), mockContext, 0);
-    const panel = previewContainer.start("", new PythonExecutor())
+    const panel = previewContainer.start("")
 
     suiteSetup(function(done){
         // needed for inline errors
