@@ -4,7 +4,6 @@ import {settings} from "./settings"
 
 /**
  * formats text for passing into AREPL backend
- * Along the way decides whether backend needs restarting
  */
 export class ToAREPLLogic{
 
@@ -80,8 +79,7 @@ export class ToAREPLLogic{
         let syntaxPromise: Promise<{}>
         
         // only execute code if syntax is correct
-        // this is because it's annoying to have GUI apps restart constantly
-        // while typing
+        // this is because it's annoying to have GUI apps restart constantly while typing
         syntaxPromise = this.PythonEvaluator.checkSyntax(data.savedCode + data.evalCode)
         syntaxPromise.then(() => {
             this.PythonEvaluator.execCode(data)
