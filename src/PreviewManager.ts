@@ -165,9 +165,7 @@ export default class PreviewManager {
     dispose() {
         vscode.commands.executeCommand("setContext", "arepl", false)
 
-        if(this.PythonExecutor.pyshell != null && this.PythonExecutor.pyshell.childProcess != null){
-            this.PythonExecutor.stop()
-        }
+        this.PythonExecutor.stop()
 
         this.disposable = vscode.Disposable.from(...this.subscriptions);
         this.disposable.dispose();
