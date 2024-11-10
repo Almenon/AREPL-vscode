@@ -149,8 +149,7 @@ export default class PreviewManager {
             default_filter_types: settingsCached.get<string[]>('defaultFilterTypes')
         }
         this.previewContainer.clearStoredData()
-        // refactor this to use last ran evaluator
-        this.PythonExecutor.execCode(data)
+        this.PythonExecutor.execCodeCurrent(data)
         this.runningStatus.show()
 
         if(editor){
