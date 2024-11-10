@@ -297,9 +297,6 @@ export default class PreviewManager {
         if(event == this.pythonEditorDoc){
 
             this.reporter.numRuns += 1
-            if(this.PythonExecutor.executing){
-                this.reporter.numInterruptedRuns += 1
-            }
 
             const text = event.getText()
 

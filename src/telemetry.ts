@@ -1,4 +1,3 @@
-import { Buffer } from "buffer";
 import { extensions, WorkspaceConfiguration } from "vscode";
 import TelemetryReporter from "vscode-extension-telemetry";
 import { userInfo } from "os";
@@ -11,7 +10,6 @@ export default class Reporter{
     private timeOpened: number
     private lastStackTrace: string
     numRuns: number
-    numInterruptedRuns: number
     execTime: number
     totalPyTime: number
     totalTime: number
@@ -62,7 +60,6 @@ export default class Reporter{
             const measurements: {[key: string]: number} = {}
             measurements['timeSpent'] = (Date.now() - this.timeOpened)/1000
             measurements['numRuns'] = this.numRuns
-            measurements['numInterruptedRuns'] = this.numInterruptedRuns
 
             if(this.numRuns != 0){
                 measurements['execTime'] = this.execTime / this.numRuns
@@ -100,7 +97,6 @@ export default class Reporter{
         this.timeOpened = Date.now()
 
         this.numRuns = 0
-        this.numInterruptedRuns = 0
         this.execTime = 0
         this.totalPyTime = 0
         this.totalTime = 0
