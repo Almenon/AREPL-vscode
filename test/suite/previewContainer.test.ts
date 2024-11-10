@@ -73,6 +73,8 @@ suite("PreviewContainer and pythonPanelPreview Tests", () => {
   line 1, in <module>
 NameError: name 'x' is not defined`,
                 userVariables: {},
+                startResult: false,
+                evaluatorName: ''
             }
         )
         assert.equal(panel.webview.html.includes("NameError"), true, panel.webview.html);
@@ -91,6 +93,8 @@ NameError: name 'x' is not defined`,
                 userError: mockUserError,
                 userErrorMsg: "json.decoder.JSONDecodeError: Expecting value: line 1 column 1 (char 0)",
                 userVariables: {},
+                startResult: false,
+                evaluatorName: ''
             }
         )
 
@@ -112,6 +116,8 @@ NameError: name 'x' is not defined`,
                 userError: mockUserError,
                 userErrorMsg: "",
                 userVariables: {},
+                startResult: false,
+                evaluatorName: ''
             }
         )
         assert.equal(panel.webview.html.includes("internal test error"), true, panel.webview.html);
@@ -130,6 +136,8 @@ NameError: name 'x' is not defined`,
                 userError: mockUserError,
                 userErrorMsg: "",
                 userVariables: {},
+                startResult: false,
+                evaluatorName: ''
             }
         )
         assert.equal(panel.webview.html.includes("5513"), true, panel.webview.html);
@@ -148,6 +156,8 @@ NameError: name 'x' is not defined`,
                 userError: mockUserError,
                 userErrorMsg: "",
                 userVariables: {x: 5},
+                startResult: false,
+                evaluatorName: ''
         }
         )
         assert.equal(panel.webview.html.includes('"x":5'), true, panel.webview.html);
@@ -166,6 +176,8 @@ NameError: name 'x' is not defined`,
                 userError: mockUserError,
                 userErrorMsg: "",
                 userVariables: {"dump output": {'x':5}},
+                startResult: false,
+                evaluatorName: ''
         }
         )
         assert.equal(panel.webview.html.includes('"x":5'), true, panel.webview.html);
@@ -184,6 +196,8 @@ NameError: name 'x' is not defined`,
                 userError: mockUserError,
                 userErrorMsg: "",
                 userVariables: {'x':5},
+                startResult: false,
+                evaluatorName: ''
         }
         )
         assert.equal(panel.webview.html.includes('"x":5'), true, panel.webview.html);

@@ -21,7 +21,8 @@ import {ToAREPLLogic} from '../src/toAREPLLogic'
 suite("toAREPLLogic tests", ()=>{
 
     const mockPythonExecutor: any = {
-        execCode: ()=>{}
+        execCode: ()=>{},
+        checkSyntax: () => new Promise(()=>{})
     }
 
     const toAREPLLogic = new ToAREPLLogic(mockPythonExecutor, null);
