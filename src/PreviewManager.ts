@@ -87,7 +87,7 @@ export default class PreviewManager {
         }
         
         const pythonStartedPromise = this.startAndBindPython().then(()=>{
-            let panel = this.previewContainer.start(basename(this.pythonEditorDoc.fileName), this.PythonExecutor);
+            let panel = this.previewContainer.start(basename(this.pythonEditorDoc.fileName));
             panel.onDidDispose(()=>this.dispose(), this, this.subscriptions)
             this.subscriptions.push(panel)
 
@@ -239,7 +239,7 @@ export default class PreviewManager {
                 console.error(err)
             }
         }
-        this.PythonExecutor.pyshell.on("error", (err: NodeJS.ErrnoException) => {
+        this.PythonExecutor.onError = (err: NodeJS.ErrnoException) => {
             /* The 'error' event is emitted whenever:
             The process could not be spawned, or
             The process could not be killed, or
@@ -251,7 +251,7 @@ export default class PreviewManager {
             console.debug('Error handler invoked. ' + error)
             this.previewContainer.displayProcessError(error);
             this.reporter.sendError(err, err.errno, 'spawn')
-        })
+        }
 
         this.toAREPLLogic = new ToAREPLLogic(this.PythonExecutor, this.previewContainer)
 
