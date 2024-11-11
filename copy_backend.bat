@@ -3,7 +3,7 @@ setlocal
 REM assumes "arepl-backend" is at ..\arepl-backend
 
 set "source_dir=..\arepl-backend"
-set "dest_dir=node_modules\arepl_backend"
+set "dest_dir=node_modules\arepl-backend"
 
 if not exist "%dest_dir%" (
     mkdir "%dest_dir%"
