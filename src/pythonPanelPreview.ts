@@ -27,11 +27,10 @@ export default class PythonPanelPreview {
     <p style="font-size:14px">⚠ <b style="color:red">WARNING:</b> code is evaluated WHILE YOU TYPE - don't try deleting files/folders! ⚠</p>
     <p>Evaluation while you type can be turned off or adjusted in the settings</p>
     <br>
-    <h3>AREPL v2.0.5 🐛 - Mushi-mezuru Himegimi</h3>
+    <h3>AREPL v3.0.0 🦋 - Monarch</h3>
     <ul>
-    <li>🐛 <a href="https://github.com/Almenon/AREPL-vscode/issues/371">Fixed inconsistent variable display in certain cases</a></li>
-    <li>🚀 Basic types no longer appear as variables</li>
-    <li>Help me make arepl better by filling out this short survey: <a href="https://forms.gle/m7xirfRnSRoPAe9e9">https://forms.gle/m7xirfRnSRoPAe9e9</a></li>
+    <li>🦋 <a href="https://github.com/Almenon/AREPL-vscode/issues/439">AREPL now restarts the python backend each run. This eliminates many bugs, although you may see more CPU utilization.</a></li>
+    <li>🐛 AREPL will no longer crash when there is a infinite loop</li>
     </ul>
     <br>
     
