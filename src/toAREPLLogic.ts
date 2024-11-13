@@ -76,33 +76,8 @@ export class ToAREPLLogic{
         this.lastCodeSection = data.evalCode
         this.lastSavedSection = data.savedCode
         this.lastEndSection = endSection
-        let syntaxPromise: Promise<{}>
         
-        // only execute code if syntax is correct
-        // this is because it's annoying to have GUI apps restart constantly while typing
-        syntaxPromise = this.PythonExecutor.checkSyntax(data.savedCode + data.evalCode)
-        syntaxPromise.then(() => {
-            this.PythonExecutor.execCode(data)
-        })
-        .catch((error: NodeJS.ErrnoException|string) => {
-            
-            // an ErrnoException is a bad internal error
-            let internalErr = ""
-            if(typeof(error) != "string"){
-                internalErr = error.message + '\n\n' + error.stack
-                error = ""
-            }
-
-            // todo: refactor above to call arepl to check syntax so we get a actual error object back instead of error text
-            // The error text has a bunch of useless info
-
-            this.previewContainer.handleResult(
-                {
-                    userVariables:{}, userError:null, userErrorMsg:<string>error, execTime: 0, totalPyTime: 0, totalTime: 0,
-                    internalError: internalErr, caller: "", lineno: -1, done: true, evaluatorName: "", startResult: false,
-                }
-            )
-        })
+        this.PythonExecutor.execCode(data)
 
         return true
     }
