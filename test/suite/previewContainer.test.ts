@@ -44,18 +44,18 @@ suite("PreviewContainer and pythonPanelPreview Tests", () => {
     })
 
     test("landing page displayed", function(){
-        assert.equal(panel.webview.html.includes("Start typing or make a change and your code will be evaluated."), 
+        assert.strictEqual(panel.webview.html.includes("Start typing or make a change and your code will be evaluated."), 
                     true, panel.webview.html);
     });
 
     test("print", function(){
         previewContainer.handlePrint("hello world");
-        assert.equal(panel.webview.html.includes("hello world"), true, panel.webview.html);
+        assert.strictEqual(panel.webview.html.includes("hello world"), true, panel.webview.html);
     });
 
     test("spawn error", function(){
         previewContainer.displayProcessError("python3 -u ENOENT")
-        assert.equal(panel.webview.html.includes("Error in the AREPL extension"), true, panel.webview.html);
+        assert.strictEqual(panel.webview.html.includes("Error in the AREPL extension"), true, panel.webview.html);
     });
 
     test("error name appears in preview", function(){
@@ -77,7 +77,7 @@ NameError: name 'x' is not defined`,
                 evaluatorName: ''
             }
         )
-        assert.equal(panel.webview.html.includes("NameError"), true, panel.webview.html);
+        assert.strictEqual(panel.webview.html.includes("NameError"), true, panel.webview.html);
     });
 
     test("error should be googleable", function(){
@@ -98,7 +98,7 @@ NameError: name 'x' is not defined`,
             }
         )
 
-        assert.equal(panel.webview.html.includes(
+        assert.strictEqual(panel.webview.html.includes(
             "https://www.google.com/search?q=python json.decoder.JSONDecodeError"),true, panel.webview.html,
         );
     });
@@ -120,7 +120,7 @@ NameError: name 'x' is not defined`,
                 evaluatorName: ''
             }
         )
-        assert.equal(panel.webview.html.includes("internal test error"), true, panel.webview.html);
+        assert.strictEqual(panel.webview.html.includes("internal test error"), true, panel.webview.html);
     });
 
     test("time", function(){
@@ -140,7 +140,7 @@ NameError: name 'x' is not defined`,
                 evaluatorName: ''
             }
         )
-        assert.equal(panel.webview.html.includes("5513"), true, panel.webview.html);
+        assert.strictEqual(panel.webview.html.includes("5513"), true, panel.webview.html);
     });
 
     test("userVariables", function(){
@@ -160,7 +160,7 @@ NameError: name 'x' is not defined`,
                 evaluatorName: ''
         }
         )
-        assert.equal(panel.webview.html.includes('"x":5'), true, panel.webview.html);
+        assert.strictEqual(panel.webview.html.includes('"x":5'), true, panel.webview.html);
     });
 
     test("dump userVariables", function(){
@@ -180,7 +180,7 @@ NameError: name 'x' is not defined`,
                 evaluatorName: ''
         }
         )
-        assert.equal(panel.webview.html.includes('"x":5'), true, panel.webview.html);
+        assert.strictEqual(panel.webview.html.includes('"x":5'), true, panel.webview.html);
     });
 
     test("function dump userVariables", function(){
@@ -200,12 +200,12 @@ NameError: name 'x' is not defined`,
                 evaluatorName: ''
         }
         )
-        assert.equal(panel.webview.html.includes('"x":5'), true, panel.webview.html);
+        assert.strictEqual(panel.webview.html.includes('"x":5'), true, panel.webview.html);
     });
 
     test("print escapes panel.webview.html", function(){
         previewContainer.handlePrint("<module>")
-        assert.equal(panel.webview.html.includes("&lt;module&gt;"), true, panel.webview.html);
+        assert.strictEqual(panel.webview.html.includes("&lt;module&gt;"), true, panel.webview.html);
     });
 
     suiteTeardown(function(done){

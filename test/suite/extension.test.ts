@@ -12,7 +12,7 @@ import * as vscode from "vscode";
 
 //             setTimeout(()=>{
 //                 // for some reason the editor opened is not active :(
-//                 // assert.equal(vscode.window.activeTextEditor, true, "command failed to create new file")
+//                 // assert.strictEqual(vscode.window.activeTextEditor, true, "command failed to create new file")
 //                 const default_import_insert = "from arepl_dump import dump"
 //                 // I'm assuming newest doc is last item in list
 //                 const newest_doc = vscode.window.visibleTextEditors.slice(-1)[0]

@@ -36,11 +36,11 @@ suite("PreviewManager and pythonPanelPreview Tests", () => {
     })
 
     test("default imports should be inserted", function(){
-        assert.equal(editor.document.getText(), "from arepl_dump import dump" + EOL)
+        assert.strictEqual(editor.document.getText(), "from arepl_dump import dump" + EOL)
     });
 
     test("webview should be displayed", function(){
-        assert.equal(panel.visible, true)
+        assert.strictEqual(panel.visible, true)
     });
 
     // todo: fix test (see https://github.com/Almenon/AREPL-vscode/issues/355)
@@ -49,7 +49,7 @@ suite("PreviewManager and pythonPanelPreview Tests", () => {
     //         editBuilder.insert(new vscode.Position(0,0), "x=3424523;")
     //     }).then(()=>{
     //         setTimeout(()=>{
-    //             assert.equal(panel.webview.html.includes(`"x":3424523`), true, panel.webview.html)
+    //             assert.strictEqual(panel.webview.html.includes(`"x":3424523`), true, panel.webview.html)
     //             done()
     //         },4000)
     //     }, done)
