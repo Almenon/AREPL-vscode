@@ -3,7 +3,7 @@ import * as vscode from "vscode";
 import {PreviewContainer} from "../../src/previewContainer"
 import Reporter from "../../src/telemetry";
 import vscodeUtils from "../../src/vscodeUtilities";
-import {UserError, PythonExecutor} from "arepl-backend"
+import {UserError} from "arepl-backend"
 
 /**
  * this suite tests both previewContainer and pythonPanelPreview
