@@ -36,7 +36,7 @@ y: Dict[str, str] = {'a':'b'}
     c: "NaN",
     d: "Infinity",
     e: "-Infinity",
-    f: "Ã©",
+	accent: 'é',
     g: {},
     h: [],
     i: -[
