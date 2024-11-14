@@ -287,7 +287,7 @@
     "@vscode/test-electron": "^2.4.1",
     "decache": "^4.4.0",
     "glob": "^7.1.4",
-    "mocha": "^9.2.2",
+    "mocha": "^10.8.2",
     "source-map-support": "^0.5.13",
     "ts-node": "^8.6.2",
     "typescript": "^3.9.6",
