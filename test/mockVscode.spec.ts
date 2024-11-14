@@ -155,7 +155,7 @@ export let vscodeMock = {
         },
         createStatusBarItem: function(alignment?: number, priority?: number):StatusBarItem{
             return {
-                alignment: 0,
+                alignment: 1,
                 priority: 0,
                 text: "",
                 tooltip: "",
