@@ -1,5 +1,5 @@
 import { extensions, WorkspaceConfiguration } from "vscode";
-import TelemetryReporter from "vscode-extension-telemetry";
+import TelemetryReporter from '@vscode/extension-telemetry';
 import { userInfo } from "os";
 import { join, sep } from "path";
 import areplUtils from "./areplUtilities";
@@ -20,17 +20,17 @@ export default class Reporter{
         const extension = extensions.getExtension(extensionId)!;
         const extensionVersion = extension.packageJSON.version;
 
-        let instrumentation_key = ''
+        let connection_string = ''
         try {
-            instrumentation_key = readFileSync(join(extension.extensionPath, "media", 'instrumentation_key.txt')).toString()
+            connection_string = readFileSync(join(extension.extensionPath, "media", 'connection_string.txt')).toString()
         } catch (error) {
-            console.warn('no instrumentation key for AREPL found - disabling telemetry')
+            console.warn('no connection string for AREPL found - disabling telemetry')
             this.enabled = false;
             // TelemetryReporter raises error if falsy key so we need to escape before we hit it
             return
         }
     
-        this.reporter = new TelemetryReporter(extensionId, extensionVersion, instrumentation_key);
+        this.reporter = new TelemetryReporter(connection_string);
         this.resetMeasurements()
     }
 
@@ -43,9 +43,10 @@ export default class Reporter{
             // no point in sending same error twice (and we want to stay under free API limit)
             if(error.stack == this.lastStackTrace) return
 
-            this.reporter.sendTelemetryException(error, {
+            this.reporter.sendTelemetryErrorEvent(error.name, {
                 code: code.toString(),
                 category,
+                stacktrace: error.stack
             })
 
             this.lastStackTrace = error.stack

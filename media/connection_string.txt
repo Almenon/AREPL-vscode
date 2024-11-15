@@ -1,0 +1,1 @@
+InstrumentationKey=84e1a8aa-bf7d-49d3-82ee-cec803dac0e7;IngestionEndpoint=https://westus2-2.in.applicationinsights.azure.com/;LiveEndpoint=https://westus2.livediagnostics.monitor.azure.com/;ApplicationId=66562322-f74e-478d-89ba-225591963aed
