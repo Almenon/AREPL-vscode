@@ -279,17 +279,14 @@
     "vscode:uninstall": "node ./out/src/uninstallSurvey"
   },
   "devDependencies": {
-    "@types/glob": "^7.1.1",
     "@types/mocha": "^10.0.9",
     "@types/node": "^20.17.6",
     "@types/vscode": "^1.36.0",
     "@vscode/test-cli": "^0.0.10",
     "@vscode/test-electron": "^2.4.1",
-    "decache": "^4.4.0",
-    "glob": "^7.1.4",
     "mocha": "^10.8.2",
     "source-map-support": "^0.5.13",
-    "ts-node": "^8.6.2",
+    "ts-node": "^10.9.2",
     "typescript": "^5.6.3",
     "vscode-uri": "^2.1.2"
   },
