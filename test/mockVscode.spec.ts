@@ -1,5 +1,4 @@
 import { EOL } from "os";
-import { ThemeColor } from "vscode"
 import type { TextDocument, WorkspaceFolder, TextLine, Position, Range, StatusBarItem, Extension, TreeDataProvider, Command, TreeItemCollapsibleState } from "vscode"
 import { URI } from 'vscode-uri'
 
@@ -160,7 +159,7 @@ export let vscodeMock = {
                 id: "",
                 name: "",
                 accessibilityInformation: null,
-                backgroundColor: new ThemeColor("#00AA00"),
+                backgroundColor: null,
                 alignment: 1,
                 priority: 0,
                 text: "",
