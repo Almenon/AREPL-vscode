@@ -18,7 +18,6 @@ export default class Reporter{
     constructor(private enabled: boolean){
         const extensionId = "almenon.arepl";
         const extension = extensions.getExtension(extensionId)!;
-        const extensionVersion = extension.packageJSON.version;
 
         let connection_string = ''
         try {
