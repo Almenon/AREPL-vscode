@@ -1,5 +1,5 @@
 import { EOL } from "os";
-import {} from "vscode"
+import { ThemeColor } from "vscode"
 import type { TextDocument, WorkspaceFolder, TextLine, Position, Range, StatusBarItem, Extension, TreeDataProvider, Command, TreeItemCollapsibleState } from "vscode"
 import { URI } from 'vscode-uri'
 
@@ -35,6 +35,8 @@ export let vscodeMock = {
                  * The absolute file path of the directory containing this extension.
                  */
                 extensionPath: "",
+
+                extensionUri: null,
         
                 /**
                  * `true` if the extension has been activated.
@@ -155,6 +157,10 @@ export let vscodeMock = {
         },
         createStatusBarItem: function(alignment?: number, priority?: number):StatusBarItem{
             return {
+                id: "",
+                name: "",
+                accessibilityInformation: null,
+                backgroundColor: new ThemeColor("#00AA00"),
                 alignment: 1,
                 priority: 0,
                 text: "",

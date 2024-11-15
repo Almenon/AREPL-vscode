@@ -5,7 +5,7 @@
   "version": "3.0.0",
   "publisher": "almenon",
   "engines": {
-    "vscode": "^1.36.0"
+    "vscode": "^1.40.0"
   },
   "categories": [
     "Other",
@@ -281,7 +281,7 @@
   "devDependencies": {
     "@types/mocha": "^10.0.9",
     "@types/node": "^20.17.6",
-    "@types/vscode": "^1.36.0",
+    "@types/vscode": "^1.40.0",
     "@vscode/test-cli": "^0.0.10",
     "@vscode/test-electron": "^2.4.1",
     "mocha": "^10.8.2",
