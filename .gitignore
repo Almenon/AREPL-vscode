@@ -12,7 +12,6 @@ myenv
 coverage
 .nyc_output
 .idea
-instrumentation_key.txt
 
 ################################
 ## Standard Python Gitignore
