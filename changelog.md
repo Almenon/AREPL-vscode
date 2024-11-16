@@ -1,3 +1,9 @@
+## v3.0.0 (11/12/2024) 🦋🐛
+🦋 [AREPL now restarts the python backend each run. This eliminates many bugs, although you may see more CPU utilization.](https://github.com/Almenon/AREPL-vscode/issues/439")
+🐛 As a consequence of above, AREPL will no longer crash when there is a infinite loop
+🐛 As a consequence of above, pandas now works better
+🐛 As a consequence of above, boto3 now works better
+
 ## v2.0.5 (3/5/2023) 🐛🚀
 🐛 [Fixed inconsistent variable display in certain cases](https://github.com/Almenon/AREPL-vscode/issues/3716)
 

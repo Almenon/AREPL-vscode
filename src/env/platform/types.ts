@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 
 import * as fs from 'fs';
-import { SemVer } from 'semver';
 import { Disposable } from 'vscode';
 import { Architecture, OSType } from '../utils/platform';
 
@@ -27,7 +26,6 @@ export interface IPlatformService {
     readonly isMac: boolean;
     readonly isLinux: boolean;
     readonly is64bit: boolean;
-    getVersion(): Promise<SemVer>;
 }
 
 export type TemporaryFile = { filePath: string } & Disposable;

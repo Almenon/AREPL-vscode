@@ -1,6 +1,5 @@
-import { Buffer } from "buffer";
 import { extensions, WorkspaceConfiguration } from "vscode";
-import TelemetryReporter from "vscode-extension-telemetry";
+import TelemetryReporter from '@vscode/extension-telemetry';
 import { userInfo } from "os";
 import { join, sep } from "path";
 import areplUtils from "./areplUtilities";
@@ -11,7 +10,6 @@ export default class Reporter{
     private timeOpened: number
     private lastStackTrace: string
     numRuns: number
-    numInterruptedRuns: number
     execTime: number
     totalPyTime: number
     totalTime: number
@@ -20,19 +18,18 @@ export default class Reporter{
     constructor(private enabled: boolean){
         const extensionId = "almenon.arepl";
         const extension = extensions.getExtension(extensionId)!;
-        const extensionVersion = extension.packageJSON.version;
 
-        let instrumentation_key = ''
+        let connection_string = ''
         try {
-            instrumentation_key = readFileSync(join(extension.extensionPath, "media", 'instrumentation_key.txt')).toString()
+            connection_string = readFileSync(join(extension.extensionPath, "media", 'connection_string.txt')).toString()
         } catch (error) {
-            console.warn('no instrumentation key for AREPL found - disabling telemetry')
+            console.warn('no connection string for AREPL found - disabling telemetry')
             this.enabled = false;
             // TelemetryReporter raises error if falsy key so we need to escape before we hit it
             return
         }
     
-        this.reporter = new TelemetryReporter(extensionId, extensionVersion, instrumentation_key);
+        this.reporter = new TelemetryReporter(connection_string);
         this.resetMeasurements()
     }
 
@@ -45,9 +42,10 @@ export default class Reporter{
             // no point in sending same error twice (and we want to stay under free API limit)
             if(error.stack == this.lastStackTrace) return
 
-            this.reporter.sendTelemetryException(error, {
+            this.reporter.sendTelemetryErrorEvent(error.name, {
                 code: code.toString(),
                 category,
+                stacktrace: error.stack
             })
 
             this.lastStackTrace = error.stack
@@ -62,7 +60,6 @@ export default class Reporter{
             const measurements: {[key: string]: number} = {}
             measurements['timeSpent'] = (Date.now() - this.timeOpened)/1000
             measurements['numRuns'] = this.numRuns
-            measurements['numInterruptedRuns'] = this.numInterruptedRuns
 
             if(this.numRuns != 0){
                 measurements['execTime'] = this.execTime / this.numRuns
@@ -100,7 +97,6 @@ export default class Reporter{
         this.timeOpened = Date.now()
 
         this.numRuns = 0
-        this.numInterruptedRuns = 0
         this.execTime = 0
         this.totalPyTime = 0
         this.totalTime = 0
