@@ -40,15 +40,13 @@ export default class PythonPanelPreview {
     <h3>Examples</h3>
     
 <h4>Simple List</h4>
-<code style="white-space:pre-wrap">
-x = [1,2,3]
+<code style="white-space:pre-wrap">x = [1,2,3]
 y = [num*2 for num in x]
 print(y)
 </code>
 
 <h4>Dumping</h4>
-<code style="white-space:pre-wrap">
-from arepl_dump import dump 
+<code style="white-space:pre-wrap">from arepl_dump import dump 
 
 def milesToKilometers(miles):
     kilometers = miles*1.60934
@@ -69,8 +67,7 @@ a=2
 </code>
 
 <h4>Turtle</h4>
-<code style="white-space:pre-wrap">
-import turtle
+<code style="white-space:pre-wrap">import turtle
 
 # window in right hand side of screen
 turtle.setup(500,500,-1,0)
@@ -83,8 +80,7 @@ turtle.left(90)
 </code>
 
 <h4>Web call</h4>
-<code style="white-space:pre-wrap">
-import requests
+<code style="white-space:pre-wrap">import requests
 import datetime as dt
 
 # We don't want to spam an API with calls every time we stop typing
