@@ -31,6 +31,9 @@ export default class PythonPanelPreview {
     <ul>
     <li>🦋 <a href="https://github.com/Almenon/AREPL-vscode/issues/439">AREPL now restarts the python backend each run. This eliminates many bugs, although you may see more CPU utilization.</a></li>
     <li>🐛 AREPL will no longer crash when there is a infinite loop</li>
+    <li>🔧 #$save feature has been removed</li>
+    <li>🔧 Removed keepPreviousVars setting</li>
+    <li>🔧 arepl_store variable has been removed. If you still use this please <a href="https://github.com/Almenon/AREPL-vscode/issues">file an issue</a> and I might be able to add it back in.</li>
     </ul>
     <br>
     
@@ -84,10 +87,11 @@ turtle.left(90)
 import requests
 import datetime as dt
 
+# We don't want to spam an API with calls every time we stop typing
+# so we use #$end to deactivate real-time mode for everything afterwords
+# then we can run blocks of code as desired with command-enter or control-enter
+#$end
 r = requests.get("https://api.github.com")
-
-#$save
-# #$save saves state so request is not re-executed when modifying below
 
 now = dt.datetime.now()
 if r.status_code == 200:
