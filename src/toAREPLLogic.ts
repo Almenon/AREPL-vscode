@@ -41,7 +41,6 @@ export class ToAREPLLogic{
                 return
             }
         });
-        const endSection = codeLines.slice(endLineNum).join(eol)
         codeLines = codeLines.slice(startLineNum, endLineNum)
     
         const unsafeKeywords = settingsCached.get<string[]>('unsafeKeywords')
@@ -59,14 +58,12 @@ export class ToAREPLLogic{
             default_filter_types: settingsCached.get<string[]>('defaultFilterTypes')
         }
 
-        // user should be able to rerun code without changing anything
-        // only scenario where we dont re-run is if just end section is changed
-        if(endSection != this.lastEndSection && data.evalCode == this.lastCodeSection){
+        if(data.evalCode == this.lastCodeSection){
+            // nothing changed, no point in rerunning
             return false
         }
 
         this.lastCodeSection = data.evalCode
-        this.lastEndSection = endSection
         
         this.PythonExecutor.execCode(data)
 
