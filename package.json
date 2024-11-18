@@ -287,7 +287,7 @@
   },
   "dependencies": {
     "@vscode/extension-telemetry": "^0.9.7",
-    "arepl-backend": "^3.0.4"
+    "arepl-backend": "^3.0.5"
   },
   "bugs": {
     "url": "https://github.com/almenon/arepl-vscode-wordcount/issues",
