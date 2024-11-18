@@ -145,38 +145,6 @@ I have [overridden the display](https://github.com/Almenon/AREPL-backend/blob/ma
 If you want a type to be displayed in a particular manner just [file an issue](https://github.com/Almenon/AREPL-vscode/issues)
 
 
-### #$save
-
-*This is buggy and I would suggest using the [arepl_store variable](https://github.com/Almenon/AREPL-vscode/wiki/Caching-data-between-runs) instead*
-
-If you want to avoid a section of code being executed in real-time (due to it being slow or calling external resources) you can use \#\$save.  For example:
-
-```python
-def largest_prime_factor(n):
-    i = 2
-    while i * i <= n:
-        if n % i:
-            i += 1
-        else:
-            n //= i
-    return n
-
-# this takes a looonnggg time to execute
-result = largest_prime_factor(8008514751439999)
-
-#$save
-print("but now that i saved i am back to real-time execution")
-```
-
-```python
-import random
-x = random.random()
-#$save
-print(x) # this number will not change when editing below the #$save line
-```
-
-Please note that \#\$save [does not work](https://github.com/Almenon/AREPL-vscode/issues/53) with certain types, like generators.  If #$save fails in pickling the code state [file an issue](https://github.com/Almenon/AREPL-vscode/issues) so I can look into it.
-
 ### More Stuff
 
 Check out the [wiki](https://github.com/Almenon/AREPL-vscode/wiki)!

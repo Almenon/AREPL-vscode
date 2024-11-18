@@ -142,7 +142,6 @@ export default class PreviewManager {
         const data: ExecArgs = {
             evalCode: codeLines,
             filePath,
-            savedCode: '',
             usePreviousVariables: true,
             show_global_vars: settingsCached.get<boolean>('showGlobalVars'),
             default_filter_vars: settingsCached.get<string[]>('defaultFilterVars'),

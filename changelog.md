@@ -3,6 +3,9 @@
 🐛 As a consequence of above, AREPL will no longer crash when there is a infinite loop
 🐛 As a consequence of above, pandas now works better
 🐛 As a consequence of above, boto3 now works better
+🔧 `#$save` feature has been removed
+🔧 Removed `keepPreviousVars` setting
+🔧 `arepl_store` variable has been removed.
 
 ## v2.0.5 (3/5/2023) 🐛🚀
 🐛 [Fixed inconsistent variable display in certain cases](https://github.com/Almenon/AREPL-vscode/issues/3716)

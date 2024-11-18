@@ -31,21 +31,22 @@ export default class PythonPanelPreview {
     <ul>
     <li>🦋 <a href="https://github.com/Almenon/AREPL-vscode/issues/439">AREPL now restarts the python backend each run. This eliminates many bugs, although you may see more CPU utilization.</a></li>
     <li>🐛 AREPL will no longer crash when there is a infinite loop</li>
+    <li>🔧 #$save feature has been removed</li>
+    <li>🔧 Removed keepPreviousVars setting</li>
+    <li>🔧 arepl_store variable has been removed. If you still use this please <a href="https://github.com/Almenon/AREPL-vscode/issues">file an issue</a> and I might be able to add it back in.</li>
     </ul>
     <br>
     
     <h3>Examples</h3>
     
 <h4>Simple List</h4>
-<code style="white-space:pre-wrap">
-x = [1,2,3]
+<code style="white-space:pre-wrap">x = [1,2,3]
 y = [num*2 for num in x]
 print(y)
 </code>
 
 <h4>Dumping</h4>
-<code style="white-space:pre-wrap">
-from arepl_dump import dump 
+<code style="white-space:pre-wrap">from arepl_dump import dump 
 
 def milesToKilometers(miles):
     kilometers = miles*1.60934
@@ -66,8 +67,7 @@ a=2
 </code>
 
 <h4>Turtle</h4>
-<code style="white-space:pre-wrap">
-import turtle
+<code style="white-space:pre-wrap">import turtle
 
 # window in right hand side of screen
 turtle.setup(500,500,-1,0)
@@ -80,14 +80,14 @@ turtle.left(90)
 </code>
 
 <h4>Web call</h4>
-<code style="white-space:pre-wrap">
-import requests
+<code style="white-space:pre-wrap">import requests
 import datetime as dt
 
+# We don't want to spam an API with calls every time we stop typing
+# so we use #$end to deactivate real-time mode for everything afterwords
+# then we can run blocks of code as desired with command-enter or control-enter
+#$end
 r = requests.get("https://api.github.com")
-
-#$save
-# #$save saves state so request is not re-executed when modifying below
 
 now = dt.datetime.now()
 if r.status_code == 200:

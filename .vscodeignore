@@ -13,6 +13,14 @@ tsconfig.json
 personal/**
 .travis.yml
 dependencygraph.svg
+.hypothesis
+.env
+.vscode-test.js
+areplDemoGif2.gif
+copy_backend.bat
+notes.txt
+*.code-workspace
+tslint.json
 #pycharm dir
 .idea/**
 # coverage output

@@ -7,7 +7,6 @@ import {settings} from "./settings"
  */
 export class ToAREPLLogic{
 
-    lastSavedSection = ""
     lastCodeSection = ""
     lastEndSection = ""
 
@@ -33,21 +32,15 @@ export class ToAREPLLogic{
 
         let codeLines = text.split(eol)
     
-        let savedLines: string[] = []
         let startLineNum = 0
         let endLineNum = codeLines.length
 
         codeLines.forEach((line, i) => {
-            if(line.trimRight().endsWith("#$save")){
-                savedLines = codeLines.slice(0, i + 1)
-                startLineNum = i+1
-            }
-            if(line.trimRight().endsWith("#$end")){
+            if(line.trimEnd().endsWith("#$end")){
                 endLineNum = i+1
                 return
             }
         });
-        const endSection = codeLines.slice(endLineNum).join(eol)
         codeLines = codeLines.slice(startLineNum, endLineNum)
     
         const unsafeKeywords = settingsCached.get<string[]>('unsafeKeywords')
@@ -60,22 +53,17 @@ export class ToAREPLLogic{
         const data: ExecArgs = {
             evalCode: codeLines.join(eol),
             filePath,
-            savedCode: savedLines.join(eol),
-            usePreviousVariables: settingsCached.get<boolean>('keepPreviousVars'),
             show_global_vars: showGlobalVars,
             default_filter_vars: settingsCached.get<string[]>('defaultFilterVars'),
             default_filter_types: settingsCached.get<string[]>('defaultFilterTypes')
         }
 
-        // user should be able to rerun code without changing anything
-        // only scenario where we dont re-run is if just end section is changed
-        if(endSection != this.lastEndSection && data.savedCode == this.lastSavedSection && data.evalCode == this.lastCodeSection){
+        if(data.evalCode == this.lastCodeSection){
+            // nothing changed, no point in rerunning
             return false
         }
 
         this.lastCodeSection = data.evalCode
-        this.lastSavedSection = data.savedCode
-        this.lastEndSection = endSection
         
         this.PythonExecutor.execCode(data)
 
