@@ -187,7 +187,7 @@ export default class PreviewManager {
     private warnIfOutdatedPythonVersion(pythonPath: string){
         PythonShell.getVersion(`"${pythonPath}"`).then((out)=>{
             let version = out.stdout ? out.stdout : out.stderr
-            if(version?.includes("Python 3.4") || version?.includes("Python 2")){
+            if(version?.includes("Python 2") || version?.includes("Python 3.4") || version?.includes("Python 3.5") || version?.includes("Python 3.6")){
                 vscode.window.showErrorMessage(`AREPL no longer supports ${version}.
                 Please upgrade or set AREPL.pythonPath to a diffent python.
                 AREPL needs python 3.7 or greater`)
@@ -199,9 +199,7 @@ export default class PreviewManager {
             // if we get spawn error here thats already reported by telemetry
             // so we skip telemetry reporting for this error
             console.error(err)
-            if(err.message.includes("Python was not found but can be installed from the Microsoft Store")){
-                vscode.window.showErrorMessage(err.message)
-            }
+            vscode.window.showErrorMessage(err.message)
         })
     }
 
