@@ -2,10 +2,10 @@
   "name": "arepl",
   "displayName": "AREPL for python",
   "description": "real-time python scratchpad",
-  "version": "1.0.21",
+  "version": "3.0.0",
   "publisher": "almenon",
   "engines": {
-    "vscode": "^1.31.0"
+    "vscode": "^1.40.0"
   },
   "categories": [
     "Other",
@@ -76,38 +76,13 @@
         },
         "AREPL.delay": {
           "type": "number",
-          "default": 300,
+          "default": 350,
           "description": "delay in milliseconds before executing code after typing"
-        },
-        "AREPL.restartDelay": {
-          "type": "number",
-          "default": 300,
-          "description": "when restart mode is active we add this to delay to delay longer"
         },
         "AREPL.inlineResults": {
           "type": "boolean",
           "default": true,
           "description": "whether to show errors / results / prints inline. (Currently just error icons)"
-        },
-        "AREPL.pyGuiLibraries": {
-          "type": "array",
-          "default": [
-            "matplotlib",
-            "tkinter",
-            "kivy",
-            "pyforms",
-            "PyQt4",
-            "PyQt5",
-            "wx",
-            "pyside",
-            "plotly",
-            "ggplot",
-            "bokeh",
-            "ppb",
-            "PySimpleGUI",
-            "pyglet"
-          ],
-          "description": "AREPL enters restart mode when one of these libraries are imported. Process is restarted at end of each run so GUI window is updated"
         },
         "AREPL.whenToExecute": {
           "type": "string",
@@ -166,12 +141,18 @@
         "AREPL.defaultFilterVars": {
           "type": "array",
           "default": [],
-          "description": "Not yet used. Any variables with these names are not shown in arepl variable view. You can use the arepl_filter variable in arepl to play around with this setting in real-time"
+          "description": "Any variables with these names are not shown in arepl variable view. You can use the arepl_filter variable in arepl to play around with this setting in real-time"
         },
         "AREPL.defaultFilterTypes": {
           "type": "array",
-          "default": [],
-          "description": "Not yet used. Any variables with these types are not shown in arepl variable view. You can use the arepl_filter_type variable in arepl to play around with this setting in real-time"
+          "default": [
+            "<class 'typing._SpecialForm'>",
+            "<class 'typing._SpecialGenericAlias'>",
+            "<class 'module'>",
+            "<class 'function'>",
+            "<class 'builtin_function_or_method'>"
+          ],
+          "description": "Any variables with these types are not shown in arepl variable view. You can use the arepl_filter_type variable in arepl to play around with this setting in real-time"
         },
         "AREPL.defaultImports": {
           "type": "array",
@@ -220,19 +201,19 @@
         "command": "extension.currentAREPLSession",
         "title": "eval python in real time (current doc)",
         "category": "AREPL",
-        "icon": "./media/crappy8BitCatTransparent.png"
+        "icon": "./media/happy_cat.svg"
       },
       {
         "command": "extension.newAREPLSession",
         "title": "eval python in real time (new doc)",
         "category": "AREPL",
-        "icon": "./media/crappy8BitCatTransparent.png"
+        "icon": "./media/happy_cat.svg"
       },
       {
         "command": "extension.closeAREPL",
         "title": "closes AREPL",
         "category": "AREPL",
-        "icon": "./media/crappy8BitCatTransparentFilled.png"
+        "icon": "./media/angry_cat_filled.svg"
       },
       {
         "command": "extension.newAREPLSessionOnHighlightedCode",
@@ -287,28 +268,26 @@
     "vscode:prepublish": "tsc -p ./",
     "compile": "tsc -watch -p ./",
     "compileOnce": "tsc -p ./",
-    "test": "tsc -p ./ && node ./out/test/runTest.js",
+    "test": "vscode-test",
     "unitTests": "mocha -ui tdd -r ts-node/register test/*.spec.ts",
-    "visualize": "depcruise --exclude 'vscode|^[a-zA-Z0-9\\_]+$' --output-type dot src | dot -T svg > dependencygraph.svg"
+    "visualize": "depcruise --exclude 'vscode|^[a-zA-Z0-9\\_]+$' --output-type dot src | dot -T svg > dependencygraph.svg",
+    "vscode:uninstall": "node ./out/src/uninstallSurvey"
   },
   "devDependencies": {
-    "@types/glob": "^7.1.1",
-    "@types/mocha": "^5.2.6",
-    "@types/node": "^10.5.2",
-    "@types/vscode": "^1.31.0",
-    "decache": "^4.4.0",
-    "glob": "^7.1.4",
-    "mocha": "^6.1.4",
+    "@types/mocha": "^10.0.9",
+    "@types/node": "^20.17.6",
+    "@types/vscode": "^1.40.0",
+    "@vscode/test-cli": "^0.0.10",
+    "@vscode/test-electron": "^2.4.1",
+    "mocha": "^10.8.2",
     "source-map-support": "^0.5.13",
-    "typescript": "^3.7.5",
-    "ts-node": "^8.6.2",
-    "vscode-test": "^1.2.0"
+    "ts-node": "^10.9.2",
+    "typescript": "^5.6.3",
+    "vscode-uri": "^2.1.2"
   },
   "dependencies": {
-    "arepl-backend": "^1.3.5",
-    "opn": "^5.3.0",
-    "path": "^0.12.7",
-    "vscode-extension-telemetry": "0.1.2"
+    "@vscode/extension-telemetry": "^0.9.7",
+    "arepl-backend": "^3.0.5"
   },
   "bugs": {
     "url": "https://github.com/almenon/arepl-vscode-wordcount/issues",
@@ -324,5 +303,5 @@
     "real-time",
     "scratchpad"
   ],
-  "icon": "media/crappy8BitCat.png"
+  "icon": "media/happy_cat_filled.png"
 }

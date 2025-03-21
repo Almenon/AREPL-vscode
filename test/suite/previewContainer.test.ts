@@ -39,26 +39,23 @@ suite("PreviewContainer and pythonPanelPreview Tests", () => {
     const panel = previewContainer.start("")
 
     suiteSetup(function(done){
-        // existing editor causes weird error for some reason
-        vscode.commands.executeCommand("workbench.action.closeActiveEditor").then(()=>{
-            // needed for inline errors
-            vscodeUtils.newUnsavedPythonDoc().then(()=>{done()})
-        })
+        // needed for inline errors
+        vscodeUtils.newUnsavedPythonDoc().then(()=>{done()})
     })
 
     test("landing page displayed", function(){
-        assert.equal(panel.webview.html.includes("Start typing or make a change and your code will be evaluated."), 
+        assert.strictEqual(panel.webview.html.includes("Start typing or make a change and your code will be evaluated."), 
                     true, panel.webview.html);
     });
 
     test("print", function(){
         previewContainer.handlePrint("hello world");
-        assert.equal(panel.webview.html.includes("hello world"), true, panel.webview.html);
+        assert.strictEqual(panel.webview.html.includes("hello world"), true, panel.webview.html);
     });
 
     test("spawn error", function(){
         previewContainer.displayProcessError("python3 -u ENOENT")
-        assert.equal(panel.webview.html.includes("Error in the AREPL extension"), true, panel.webview.html);
+        assert.strictEqual(panel.webview.html.includes("Error in the AREPL extension"), true, panel.webview.html);
     });
 
     test("error name appears in preview", function(){
@@ -76,9 +73,11 @@ suite("PreviewContainer and pythonPanelPreview Tests", () => {
   line 1, in <module>
 NameError: name 'x' is not defined`,
                 userVariables: {},
+                startResult: false,
+                evaluatorName: ''
             }
         )
-        assert.equal(panel.webview.html.includes("NameError"), true, panel.webview.html);
+        assert.strictEqual(panel.webview.html.includes("NameError"), true, panel.webview.html);
     });
 
     test("error should be googleable", function(){
@@ -94,10 +93,12 @@ NameError: name 'x' is not defined`,
                 userError: mockUserError,
                 userErrorMsg: "json.decoder.JSONDecodeError: Expecting value: line 1 column 1 (char 0)",
                 userVariables: {},
+                startResult: false,
+                evaluatorName: ''
             }
         )
 
-        assert.equal(panel.webview.html.includes(
+        assert.strictEqual(panel.webview.html.includes(
             "https://www.google.com/search?q=python json.decoder.JSONDecodeError"),true, panel.webview.html,
         );
     });
@@ -108,16 +109,18 @@ NameError: name 'x' is not defined`,
                 caller: "",
                 done: true,
                 execTime: 0,
-                internalError: "internal error!",
+                internalError: "intentional internal test error",
                 lineno: -1,
                 totalPyTime: 0,
                 totalTime: 0,
                 userError: mockUserError,
                 userErrorMsg: "",
                 userVariables: {},
+                startResult: false,
+                evaluatorName: ''
             }
         )
-        assert.equal(panel.webview.html.includes("internal error!"), true, panel.webview.html);
+        assert.strictEqual(panel.webview.html.includes("internal test error"), true, panel.webview.html);
     });
 
     test("time", function(){
@@ -133,9 +136,11 @@ NameError: name 'x' is not defined`,
                 userError: mockUserError,
                 userErrorMsg: "",
                 userVariables: {},
+                startResult: false,
+                evaluatorName: ''
             }
         )
-        assert.equal(panel.webview.html.includes("5513"), true, panel.webview.html);
+        assert.strictEqual(panel.webview.html.includes("5513"), true, panel.webview.html);
     });
 
     test("userVariables", function(){
@@ -151,9 +156,11 @@ NameError: name 'x' is not defined`,
                 userError: mockUserError,
                 userErrorMsg: "",
                 userVariables: {x: 5},
+                startResult: false,
+                evaluatorName: ''
         }
         )
-        assert.equal(panel.webview.html.includes('"x":5'), true, panel.webview.html);
+        assert.strictEqual(panel.webview.html.includes('"x":5'), true, panel.webview.html);
     });
 
     test("dump userVariables", function(){
@@ -169,9 +176,11 @@ NameError: name 'x' is not defined`,
                 userError: mockUserError,
                 userErrorMsg: "",
                 userVariables: {"dump output": {'x':5}},
+                startResult: false,
+                evaluatorName: ''
         }
         )
-        assert.equal(panel.webview.html.includes('"x":5'), true, panel.webview.html);
+        assert.strictEqual(panel.webview.html.includes('"x":5'), true, panel.webview.html);
     });
 
     test("function dump userVariables", function(){
@@ -187,18 +196,23 @@ NameError: name 'x' is not defined`,
                 userError: mockUserError,
                 userErrorMsg: "",
                 userVariables: {'x':5},
+                startResult: false,
+                evaluatorName: ''
         }
         )
-        assert.equal(panel.webview.html.includes('"x":5'), true, panel.webview.html);
+        assert.strictEqual(panel.webview.html.includes('"x":5'), true, panel.webview.html);
     });
 
     test("print escapes panel.webview.html", function(){
         previewContainer.handlePrint("<module>")
-        assert.equal(panel.webview.html.includes("&lt;module&gt;"), true, panel.webview.html);
+        assert.strictEqual(panel.webview.html.includes("&lt;module&gt;"), true, panel.webview.html);
     });
 
-    suiteTeardown(function(){
+    suiteTeardown(function(done){
         panel.dispose()
+        vscode.commands.executeCommand("workbench.action.closeActiveEditor").then(()=>{
+            done()
+        })
     })
 
 });

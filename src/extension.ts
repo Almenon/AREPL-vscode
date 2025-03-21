@@ -1,9 +1,7 @@
 'use strict';
 import * as vscode from "vscode";
 import PreviewManager from "./PreviewManager"
-import { registerAreplDump, unregisterAreplDump } from "./registerAreplDump";
 import vscodeUtils from "./vscodeUtilities";
-import areplUtils from "./areplUtilities";
 
 let previewManager: PreviewManager = null;
 
@@ -53,15 +51,4 @@ export function activate(context: vscode.ExtensionContext) {
         executeAREPLBlock,
         printDir
     ]);
-
-    // registering arepldump last in case it errors out
-    // (an error here will lead to the user not being to import arepldump)
-    // (but we can live with that, arepldump is just a optional extra feature)
-    registerAreplDump(areplUtils.getPythonPath(), context.extensionPath)
-}
-
-
-// This method is called when extension is deactivated
-export function deactivate() {
-    unregisterAreplDump(areplUtils.getPythonPath())
 }

@@ -3,44 +3,18 @@
 'use strict';
 
 import * as os from 'os';
-import { coerce, SemVer } from 'semver';
 import { getOSType, OSType } from '../utils/platform';
-import { parseVersion } from '../utils/version';
 import { NON_WINDOWS_PATH_VARIABLE_NAME, WINDOWS_PATH_VARIABLE_NAME } from './constants';
 import { IPlatformService } from './types';
 
 export class PlatformService implements IPlatformService {
     public readonly osType: OSType = getOSType();
-    public version?: SemVer;
     constructor() {}
     public get pathVariableName() {
         return this.isWindows ? WINDOWS_PATH_VARIABLE_NAME : NON_WINDOWS_PATH_VARIABLE_NAME;
     }
     public get virtualEnvBinName() {
         return this.isWindows ? 'Scripts' : 'bin';
-    }
-    public async getVersion(): Promise<SemVer> {
-        if (this.version) {
-            return this.version;
-        }
-        switch (this.osType) {
-            case OSType.Windows:
-            case OSType.OSX:
-                // Release section of https://en.wikipedia.org/wiki/MacOS_Sierra.
-                // Version 10.12 maps to Darwin 16.0.0.
-                // Using os.relase() we get the darwin release #.
-                try {
-                    const ver = coerce(os.release());
-                    if (ver) {
-                        return this.version = ver;
-                    }
-                    throw new Error('Unable to parse version');
-                } catch (ex) {
-                    return parseVersion(os.release());
-                }
-            default:
-                throw new Error('Not Supported');
-        }
     }
 
     public get isWindows(): boolean {

@@ -1,10 +1,100 @@
-## [v1.0.21](https://github.com/Almenon/AREPL-vscode/milestone/39?closed=1) (01/26/2020) 🚀🐛
+## v3.0.0 (11/12/2024) 🦋🐛
+🦋 [AREPL now restarts the python backend each run. This eliminates many bugs, although you may see more CPU utilization.](https://github.com/Almenon/AREPL-vscode/issues/439")
+🐛 As a consequence of above, AREPL will no longer crash when there is a infinite loop
+🐛 As a consequence of above, pandas now works better
+🐛 As a consequence of above, boto3 now works better
+🔧 `#$save` feature has been removed
+🔧 Removed `keepPreviousVars` setting
+🔧 `arepl_store` variable has been removed.
+
+## v2.0.5 (3/5/2023) 🐛🚀
+🐛 [Fixed inconsistent variable display in certain cases](https://github.com/Almenon/AREPL-vscode/issues/3716)
+
+🚀 Basic types no longer appear as variables. This was done by updating the `arepl.defaultfiltertypes` setting.
+
+
+## v2.0.4 (10/23/2022) 🐛🚀
+🐛 [Fixed 'typing is not a package' error](https://github.com/Almenon/AREPL-vscode/issues/416)
+
+🚀 [AREPL preview window now respects editor font size and weight](https://github.com/Almenon/AREPL-vscode/issues/257)
+
+## v2.0.3 (07/25/2021) 🐛🐛🐛🔧
+🐛 [Fixed python path from python extension no longer being picked up](https://github.com/Almenon/AREPL-vscode/issues/410)
+
+🐛 [Fixed error message not showing when python path is incorrect](https://github.com/Almenon/AREPL-vscode/issues/389)
+
+🐛 [Fixed bottom bar UI](https://github.com/Almenon/AREPL-vscode/issues/388)
+
+🔧 [Added uninstall survey](https://github.com/Almenon/AREPL-vscode/issues/322)
+
+## v2.0.2 (03/37/2021) 🐛
+🐛 Fixed error with arepl on unix OS's
+
+## v2.0.1 (11/22/2020) 🐛
+🐛 Fixed https://github.com/Almenon/AREPL-vscode/issues/363
+
+## v2.0.0 (11/15/2020)
+????
+
+## [v1.0.26](https://github.com/Almenon/AREPL-vscode/milestone/44?closed=1) (11/22/2020) 🐛🐛
+
+🐛 Fixed error with AREPL.skipLandingPage setting
+
+🐛 Fixed error when a exception was raised while using dump
+
+## [v1.0.25](https://github.com/Almenon/AREPL-vscode/milestone/43?closed=1) (11/07/2020) 🔧🚀🐛
+
+🔧 Python 3.7 or above is required for the below bugfix.
+
+🐛 [Fixed error with Decimal library, among others](https://github.com/Almenon/AREPL-vscode/issues/347)
+
+🚀 [Better icon thanks to @gllms](https://github.com/Almenon/AREPL-vscode/issues/115)
+
+
+## [v1.0.24](https://github.com/Almenon/AREPL-vscode/milestone/42?closed=1) (05/23/2020) 🚀🐛🐛🐛🐛
+
+🚀 [print results with many lines now come in much faster](https://github.com/Almenon/AREPL-vscode/pull/332)
+
+🐛 Fixed arepl breaking when unicode was used [#149](https://github.com/Almenon/AREPL-vscode/issues/149) [#334](https://github.com/Almenon/AREPL-vscode/issues/334)
+
+🐛 Fixed error when printing without a newline [#327](https://github.com/Almenon/AREPL-vscode/issues/327)
+
+🐛 Fixed running indicator not appearing after reopening arepl [#334](https://github.com/Almenon/AREPL-vscode/issues/334)
+
+🐛 Fixed rare bug where variables fail to show [#330](https://github.com/Almenon/AREPL-vscode/issues/330)
+
+
+## [v1.0.23](https://github.com/Almenon/AREPL-vscode/milestone/41?closed=1) (04/04/2020) 🚀🐛
+
+🚀 Improved how classes are dislayed in variable view [#320](https://github.com/Almenon/AREPL-vscode/issues/320)
+
+🐛 Fix inline error icons showing up on the wrong line #323
+
+🐛 Fixed arepl.pythonPath setting so it correctly uses python interpreter set by python extension
+
+## [v1.0.22](https://github.com/Almenon/AREPL-vscode/milestone/40?closed=1) (03/22/2020) 🚀🐛
+
+🚀 Added keepPreviousVars setting. If set to true AREPL will add onto the local state each run instead of clearing it and starting fresh.
+
+🚀 Added stdlib list for python 3.8
+
+🐛 Renamed arepl files to start with arepl_ to avoid conflicting with user files. See #314
+
+🐛 Improved error handling for bad python path. See #309
+
+🐛 Fixed \_\_loader\_\_ - meta variable - it should now be the same as \_\_loader\_\_ when running python normally
+
+## [v1.0.21](https://github.com/Almenon/AREPL-vscode/milestone/39?closed=1) (02/22/2020) 🚀🐛
 
 🚀 Sped up backend when pickling primitives
 
-🚀 You can now define a arepl_filter_type variable you can use to filter out types you don't want to see in the variable view
+🚀 defaultFilterVars setting added. You can use it to filter out vars of certain types from displaying in the variable view. You can also set a arepl_filter variable in arepl to play around with it in real-time. `arepl_filter=['foo']`
+
+🚀 defaultFilterTypes setting added. You can use it to filter out vars of certain types from displaying in the variable view. You can also set a arepl_filter_type variable in arepl to play around with it in real-time. `arepl_filter_type=["<class 'str'>"]`
 
 🚀 You can now define a arepl_filter_function variable you can use to totally customize the variables appearing in view
+
+🐛 Fixed arepl_store var not working
 
 🐛 [Fixed a TypeError with pandas thanks to David Aguilar](https://github.com/Almenon/AREPL-backend/issues/104)
 
@@ -168,14 +258,20 @@ jsonPickle version upgrade w/ slightly better numpy and pandas support
 ## [v1.0.0](https://github.com/Almenon/AREPL-vscode/milestone/16?closed=1) 🐛
 
 Fixed: 🐛 
+
 🐛 #86 unittest causes arepl to fail silently bug
+
 🐛 #101 styling becomes wierd when in certain scenarios bug 
+
 🐛 #102  internal error does not show bug
+
 🐛 #94  arepl frequently has problems rendering when there is a lot of prints bug
 
-Updated:
+Updated: 🚀
+
 #56  use new webview enhancement
-#52 Update vscode-extension-telemetry to the latest version 🚀  greenkeeper
+
+#52 Update vscode-extension-telemetry to the latest version
 
 ## [v1.5](https://github.com/Almenon/AREPL-vscode/milestone/15?closed=1)
 
@@ -277,3 +373,4 @@ see https://github.com/Almenon/AREPL-vscode/milestone/5
 
 ## Fixed:
 * timing is not sticky
+    

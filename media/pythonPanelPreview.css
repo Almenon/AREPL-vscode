@@ -2,15 +2,17 @@
 #results,#error{
     white-space: pre-wrap; /*https://stackoverflow.com/questions/11423300/new-lines-in-text-within-a-div*/
     font-family: var(--vscode-editor-font-family);
-    font-size:14px;
-    line-height:19px;
+    font-size: var(--vscode-editor-font-size);
+    font-weight: var(--vscode-editor-font-weight);
+    line-height: initial;
     letter-spacing:0px;
 }
 
 .print{
     white-space: pre-wrap; /*https://stackoverflow.com/questions/11423300/new-lines-in-text-within-a-div*/
     font-family: var(--vscode-editor-font-family);
-    font-size:14px;
+    font-size: var(--vscode-editor-font-size);
+    font-weight: var(--vscode-editor-font-weight);
 }
 
 /*below stderr css will be used in future when i have handle stderr properly*/
@@ -38,7 +40,7 @@
     width:100%;
     border-top: 2px solid grey;
     padding-top:2px;
-    background:var(--background-color);
+    background:var(--vscode-editor-background);
 }
 
 /*--------------------------------------------------------------------------------- */

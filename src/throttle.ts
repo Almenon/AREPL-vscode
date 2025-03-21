@@ -7,7 +7,7 @@
 export class Limit{
     public callQueue = []
     public lastCall
-    public interval: NodeJS.Timer
+    public interval: NodeJS.Timeout
 
     /**
      * Returns a version of your function that can be called at most every W milliseconds, where W is wait.

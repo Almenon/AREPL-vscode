@@ -1,7 +1,27 @@
 "use strict"
 
+// thanks to https://stackoverflow.com/questions/19127650/defaultdict-equivalent-in-javascript
+// no idea how to type this crap
+export class DefaultDict {
+    constructor(defaultInit) {
+      return new Proxy({}, {
+        get: (target, name) => name in target ?
+          target[name] :
+          (target[name] = typeof defaultInit === 'function' ?
+            new defaultInit().valueOf() :
+            defaultInit)
+      })
+    }
+}
+
 export default class Utilities {
+    
+    /**
+     * note that this returns true if obj evaluates to false. 
+     * (For example, of obj is null)
+     */
     static isEmpty(obj: {}) {
+        if(!obj) return true
         return Object.keys(obj).length === 0;
     }
 

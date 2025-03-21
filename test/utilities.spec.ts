@@ -1,5 +1,5 @@
 //
-// Note: This example test is leveraging the Mocha test framework.
+// Note: This test is leveraging the Mocha test framework.
 // Please refer to their documentation on https://mochajs.org/ for help.
 //
 import * as assert from "assert";
@@ -17,6 +17,10 @@ suite("Utility Tests", () => {
             assert.strictEqual(Utilities.isEmpty({a:null}), false)
             assert.strictEqual(Utilities.isEmpty([1]), false)
         }); 
+
+        test("returns true for null element", function(){
+            assert.strictEqual(Utilities.isEmpty(null), true)
+        });
     });
 
     suite('escape html', () => {

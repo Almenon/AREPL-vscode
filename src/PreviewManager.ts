@@ -1,5 +1,5 @@
 "use strict"
-import {PythonEvaluator} from "arepl-backend"
+import {PythonExecutors, ExecArgs} from "arepl-backend"
 import areplUtils from "./areplUtilities"
 import * as vscode from "vscode"
 import { EnvironmentVariablesProvider } from "./env/variables/environmentVariablesProvider"
@@ -24,7 +24,7 @@ export default class PreviewManager {
     reporter: Reporter;
     disposable: vscode.Disposable;
     pythonEditorDoc: vscode.TextDocument;
-    PythonEvaluator: PythonEvaluator;
+    PythonExecutor: PythonExecutors;
     runningStatus: vscode.StatusBarItem;
     toAREPLLogic: ToAREPLLogic
     previewContainer: PreviewContainer
@@ -36,11 +36,15 @@ export default class PreviewManager {
      * assumes a text editor is already open - if not will error out
      */
     constructor(context: vscode.ExtensionContext) {
+        this.startDisposables()
+        this.previewContainer = new PreviewContainer(this.reporter, context)
+    }
+
+    startDisposables(){
         this.runningStatus = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left, 100);
         this.runningStatus.text = "Running python..."
         this.runningStatus.tooltip = "AREPL is currently running your python file.  Close the AREPL preview to stop"
         this.reporter = new Reporter(settings().get<boolean>("telemetry"))
-        this.previewContainer = new PreviewContainer(this.reporter, context)
 
         this.highlightDecorationType = vscode.window.createTextEditorDecorationType(<vscode.ThemableDecorationRenderOptions>{
             backgroundColor: 'yellow'
@@ -59,35 +63,42 @@ export default class PreviewManager {
         return e.getEnvironmentVariables(areplUtils.getEnvFilePath(), vscodeUtils.getCurrentWorkspaceFolderUri())
     }
 
-    async startArepl(){
+    startArepl(mockEditor: vscode.TextEditor = null){
         // see https://github.com/Microsoft/vscode/issues/46445
         vscode.commands.executeCommand("setContext", "arepl", true)
 
-        // reload reporter (its disposed when arepl is closed)
-        this.reporter = new Reporter(settings().get<boolean>("telemetry"))
+        this.startDisposables()
 
         if(!vscode.window.activeTextEditor){
             vscode.window.showErrorMessage("no active text editor open")
             return
         }
-        this.pythonEditor = vscode.window.activeTextEditor
+        this.pythonEditor = mockEditor || vscode.window.activeTextEditor
         this.pythonEditorDoc = this.pythonEditor.document
-        
-        let panel = this.previewContainer.start(basename(this.pythonEditorDoc.fileName));
-        panel.onDidDispose(()=>this.dispose(), this, this.subscriptions)
-        this.subscriptions.push(panel)
 
-        this.startAndBindPython()
-
+        let handlersBoundPromise: Thenable<void> = Promise.resolve().then(()=>{})
         if(this.pythonEditorDoc.isUntitled && this.pythonEditorDoc.getText() == "") {
-            await areplUtils.insertDefaultImports(this.pythonEditor)
-            // waiting for this to complete so i dont accidentily trigger
-            // the edit doc handler when i insert imports
+            handlersBoundPromise = areplUtils.insertDefaultImports(this.pythonEditor).then(
+                this.subscribeHandlersToDoc.bind(this)
+            )
         }
+        else{
+            this.subscribeHandlersToDoc()
+        }
+        
+        const pythonStartedPromise = this.startAndBindPython().then(()=>{
+            let panel = this.previewContainer.start(basename(this.pythonEditorDoc.fileName));
+            panel.onDidDispose(()=>this.dispose(), this, this.subscriptions)
+            this.subscriptions.push(panel)
 
-        this.subscribeHandlersToDoc()
-
-        return panel
+            return panel;
+        })
+        return Promise.all([pythonStartedPromise, handlersBoundPromise]).then((promiseResults)=>{
+            if(settings().get<boolean>("skipLandingPage")){
+                this.onAnyDocChange(this.pythonEditorDoc);
+            }
+            return promiseResults
+        })
     }
 
     runArepl(){
@@ -127,14 +138,17 @@ export default class PreviewManager {
         // so we prepend lines to put codeLines in right spot
         codeLines = vscodeUtils.eol(editor.document).repeat(block.start.line) + codeLines
         const filePath = editor.document.isUntitled ? "" : editor.document.fileName
-        const data = {
+        const settingsCached = settings()
+        const data: ExecArgs = {
             evalCode: codeLines,
             filePath,
-            savedCode: '',
             usePreviousVariables: true,
-            showGlobalVars: settings().get<boolean>('showGlobalVars')
+            show_global_vars: settingsCached.get<boolean>('showGlobalVars'),
+            default_filter_vars: settingsCached.get<string[]>('defaultFilterVars'),
+            default_filter_types: settingsCached.get<string[]>('defaultFilterTypes')
         }
-        this.PythonEvaluator.execCode(data)
+        this.previewContainer.clearStoredData()
+        this.PythonExecutor.execCodeCurrent(data)
         this.runningStatus.show()
 
         if(editor){
@@ -150,21 +164,21 @@ export default class PreviewManager {
     dispose() {
         vscode.commands.executeCommand("setContext", "arepl", false)
 
-        if(this.PythonEvaluator.pyshell != null && this.PythonEvaluator.pyshell.childProcess != null){
-            this.PythonEvaluator.stop()
-        }
+        this.PythonExecutor.stop()
 
         this.disposable = vscode.Disposable.from(...this.subscriptions);
         this.disposable.dispose();
 
         this.runningStatus.dispose();
         
-        this.reporter.sendFinishedEvent(settings())
-        this.reporter.dispose();
+        this.reporter.sendFinishedEvent(settings()).finally(()=>{
+            this.reporter.dispose();
+        })
 
         if(vscode.window.activeTextEditor){
             vscode.window.activeTextEditor.setDecorations(this.previewContainer.errorDecorationType, [])
         }
+        this.highlightDecorationType.dispose()
     }
 
     /**
@@ -172,16 +186,20 @@ export default class PreviewManager {
      */
     private warnIfOutdatedPythonVersion(pythonPath: string){
         PythonShell.getVersion(`"${pythonPath}"`).then((out)=>{
-            if((out.stdout?.includes("Python 3.4")) || (out.stderr?.includes("Python 3.4"))){
-                vscode.window.showErrorMessage("AREPL does not support python 3.4. Please upgrade or set AREPL.pythonPath to a diffent python")
+            let version = out.stdout ? out.stdout : out.stderr
+            if(version?.includes("Python 2") || version?.includes("Python 3.4") || version?.includes("Python 3.5") || version?.includes("Python 3.6")){
+                vscode.window.showErrorMessage(`AREPL no longer supports ${version}.
+                Please upgrade or set AREPL.pythonPath to a diffent python.
+                AREPL needs python 3.7 or greater`)
             }
-            if((out.stdout?.includes("Python 2.")) || (out.stderr?.includes("Python 2."))){
-                vscode.window.showErrorMessage("AREPL does not support python 2. Please set AREPL to use python 3.")
+            if(version){
+                this.reporter.pythonVersion = version.trim()
             }
-        }).catch((s: Error)=>{
+        }).catch((err: NodeJS.ErrnoException)=>{
             // if we get spawn error here thats already reported by telemetry
             // so we skip telemetry reporting for this error
-            console.error(s)
+            console.error(err)
+            vscode.window.showErrorMessage(err.message)
         })
     }
 
@@ -189,7 +207,7 @@ export default class PreviewManager {
      * starts AREPL python backend and binds print&result output to the handlers
      */
     private async startAndBindPython(){
-        const pythonPath = areplUtils.getPythonPath()
+        const pythonPath = await areplUtils.getPythonPath()
         const pythonOptions = settings().get<string[]>("pythonOptions")
 
         this.warnIfOutdatedPythonVersion(pythonPath)
@@ -197,15 +215,17 @@ export default class PreviewManager {
         // basically all this does is load a file.. why does it need to be async *sob*
         const env = await this.loadAndWatchEnvVars()
 
-        this.PythonEvaluator = new PythonEvaluator({
+        this.PythonExecutor = new PythonExecutors({
             pythonOptions,
             pythonPath,
             env,
         })
         
         try {
-            this.PythonEvaluator.start()
+            console.log('Starting python with path ' + pythonPath)
+            this.PythonExecutor.start()
         } catch (err) {
+            console.debug('caught error in python start: ' + err)
             if (err instanceof Error){
                 const error = `Error running python with command: ${pythonPath} ${pythonOptions.join(' ')}\n${err.stack}`
                 this.previewContainer.displayProcessError(error);
@@ -216,7 +236,7 @@ export default class PreviewManager {
                 console.error(err)
             }
         }
-        this.PythonEvaluator.pyshell.childProcess.on("error", err => {
+        this.PythonExecutor.onError = (err: NodeJS.ErrnoException) => {
             /* The 'error' event is emitted whenever:
             The process could not be spawned, or
             The process could not be killed, or
@@ -225,29 +245,19 @@ export default class PreviewManager {
 
             // @ts-ignore err is actually SystemError but node does not type it
             const error = `Error running python with command: ${err.path} ${err.spawnargs.join(' ')}\n${err.stack}`
+            console.debug('Error handler invoked. ' + error)
             this.previewContainer.displayProcessError(error);
-            // @ts-ignore 
-            this.reporter.sendError(err, error.errno, 'spawn')
-        })
-        this.PythonEvaluator.pyshell.childProcess.on("exit", err => {
-            /* The 'exit' event is emitted after the child process ends */
-            // that's what node doc CLAIMS ..... 
-            // but when i debug this never gets called unless there's a unexpected error :/
-            
-            if(!err) return // normal exit
-            const error = `AREPL crashed unexpectedly! Are you using python 3? err: ${err}`
-            this.previewContainer.displayProcessError(error);
-            this.reporter.sendError(new Error('exit'), err, 'spawn')
-        })
+            this.reporter.sendError(err, err.errno, 'spawn')
+        }
 
-        this.toAREPLLogic = new ToAREPLLogic(this.PythonEvaluator, this.previewContainer)
+        this.toAREPLLogic = new ToAREPLLogic(this.PythonExecutor, this.previewContainer)
 
-        // binding this to the class so it doesn't get overwritten by PythonEvaluator
-        this.PythonEvaluator.onPrint = this.previewContainer.handlePrint.bind(this.previewContainer)
+        // binding this to the class so it doesn't get overwritten by PythonExecutor
+        this.PythonExecutor.onPrint = this.previewContainer.handlePrint.bind(this.previewContainer)
         // this is bad - stderr should be handled seperately so user is aware its different
         // but better than not showing stderr at all, so for now printing it out and ill fix later
-        this.PythonEvaluator.onStderr = this.previewContainer.handlePrint.bind(this.previewContainer)
-        this.PythonEvaluator.onResult = result => {
+        this.PythonExecutor.onStderr = this.previewContainer.handlePrint.bind(this.previewContainer)
+        this.PythonExecutor.onResult = result => {
             this.runningStatus.hide()
             this.previewContainer.handleResult(result)
         }
@@ -257,12 +267,6 @@ export default class PreviewManager {
      * binds various funcs to activate upon edit of document / switching of active doc / etc...
      */
     private subscribeHandlersToDoc(){
-
-        if(settings().get<boolean>("skipLandingPage")){
-            this.onAnyDocChange(this.pythonEditorDoc);
-        }
-
-        
         vscode.workspace.onDidSaveTextDocument((e) => {
             if(settings().get<string>("whenToExecute") == "onSave"){
                 this.onAnyDocChange(e)
@@ -273,9 +277,7 @@ export default class PreviewManager {
             const cachedSettings = settings()
             if(cachedSettings.get<string>("whenToExecute") == "afterDelay"){
                 let delay = cachedSettings.get<number>("delay");
-                const restartExtraDelay = cachedSettings.get<number>("restartDelay");
-                delay += this.toAREPLLogic.restartMode ? restartExtraDelay : 0
-                this.PythonEvaluator.debounce(this.onAnyDocChange.bind(this, e.document), delay)
+                this.PythonExecutor.debounce(this.onAnyDocChange.bind(this, e.document), delay)
             }
         }, this, this.subscriptions)
         
@@ -289,9 +291,6 @@ export default class PreviewManager {
         if(event == this.pythonEditorDoc){
 
             this.reporter.numRuns += 1
-            if(this.PythonEvaluator.executing){
-                this.reporter.numInterruptedRuns += 1
-            }
 
             const text = event.getText()
 
@@ -305,6 +304,7 @@ export default class PreviewManager {
             }
 
             try {
+                this.previewContainer.clearStoredData()
                 const codeRan = this.toAREPLLogic.onUserInput(text, filePath, vscodeUtils.eol(event), settings().get<boolean>('showGlobalVars'))
                 if(codeRan) this.runningStatus.show();
             } catch (error) {

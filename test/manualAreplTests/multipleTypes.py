@@ -8,7 +8,7 @@ b = 1.1
 c = float('nan')
 d = float('infinity')
 e = float('-infinity')
-f = 'é' #doesnt render properly :(
+accent = 'é'
 g = {}
 h = [] 
 i = [[[]]]
@@ -22,6 +22,9 @@ m = l(5)
 n = False
 with open(__file__) as f:
   o = f
+from typing import List,Dict
+x: List[int] = [1,2,3]
+y: Dict[str, str] = {'a':'b'}
 
 ###########################################
 #                Expected Result
@@ -33,7 +36,7 @@ with open(__file__) as f:
     c: "NaN",
     d: "Infinity",
     e: "-Infinity",
-    f: "Ã©",
+	accent: 'é',
     g: {},
     h: [],
     i: -[

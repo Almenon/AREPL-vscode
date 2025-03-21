@@ -40,11 +40,11 @@ suite('vscode utilities tests', ()=>{
         });
 
         test('should replace workspacefolder', () => {
-            assert.strictEqual(vscodeUtilities.expandPathSetting("${workspaceFolder}"), "root")
+            assert.strictEqual(vscodeUtilities.expandPathSetting("${workspaceFolder}"), sep)
         });
 
         test('should make relative paths absolute', () => {
-            assert.strictEqual(vscodeUtilities.expandPathSetting(`foo${sep}.env`), `root${sep}foo${sep}.env`)
+            assert.strictEqual(vscodeUtilities.expandPathSetting(`foo${sep}.env`), `${sep+sep}foo${sep}.env`)
         });
         
         test('should not change absolute paths', () => {

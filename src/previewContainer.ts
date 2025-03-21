@@ -9,10 +9,10 @@ import {settings} from "./settings"
  * logic wrapper around html preview doc
  */
 export class PreviewContainer{
-    public printResults: string[];
-    pythonInlinePreview: PythonInlinePreview
     public errorDecorationType: vscode.TextEditorDecorationType
+    public printResults: string[];
     private vars: {}
+    pythonInlinePreview: PythonInlinePreview
 
     constructor(private reporter: Reporter, context: vscode.ExtensionContext, htmlUpdateFrequency=50, private pythonPanelPreview?: PythonPanelPreview){
         if(!this.pythonPanelPreview) this.pythonPanelPreview = new PythonPanelPreview(context, htmlUpdateFrequency)
@@ -30,7 +30,7 @@ export class PreviewContainer{
      */
     public clearStoredData(){
         this.vars = {}
-        this.printResults = []
+    this.printResults = []
     }
 
     public handleResult(pythonResults: PythonResult){
@@ -88,18 +88,17 @@ export class PreviewContainer{
             // the user might be in the middle of typing something and it would be annoying
             // to have print results suddenly dissapear
             if(!syntaxError && this.printResults.length == 0) this.pythonPanelPreview.clearPrint()
-
+            
             this.updateError(pythonResults.userError, pythonResults.userErrorMsg, false)
 
             this.pythonPanelPreview.injectCustomCSS(settings().get('customCSS'))
             this.pythonPanelPreview.throttledUpdate()
 
-            if(pythonResults.done) this.clearStoredData()
         } catch (error) {
             if(error instanceof Error || error instanceof String){
                 vscode.window.showErrorMessage("Internal AREPL Error: " + error.toString(), "Report bug").then((action)=>{
                     if(action == "Report bug"){
-                        const bugReportLink = vscode.Uri.parse("https://github.com/Almenon/AREPL-vscode/issues/new")
+                        const bugReportLink = vscode.Uri.parse(`https://github.com/Almenon/AREPL-vscode/issues/new?template=bug_report.md&title=${error}`)
                         // enable below for vscode version 1.31.0 or higher
                         // vscode.env.openExternal(bugReportLink)
                         vscode.commands.executeCommand('vscode.open', bugReportLink)
@@ -119,9 +118,9 @@ export class PreviewContainer{
 
     }
 
-    public handlePrint(pythonResults: string){
-        this.printResults.push(pythonResults);
-        this.pythonPanelPreview.handlePrint(this.printResults.join('\n'))
+    public handlePrint(printResult: string){
+        this.printResults.push(printResult);
+        this.pythonPanelPreview.handlePrint(this.printResults.join(''))
     }
 
     public updateError(userError: UserError, userErrorMsg: string, refresh: boolean){

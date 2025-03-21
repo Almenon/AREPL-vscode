@@ -108,7 +108,7 @@ export default class vscodeUtils {
     static getSettingOrOtherExtSettingAsDefault<T>(primaryExt: string, otherExt: string, setting: string): T{
         let primarySetting = vscode.workspace.getConfiguration(primaryExt).get<T>(setting)
 
-        const otherExtensionSettings = vscode.workspace.getConfiguration(otherExt, null)
+        const otherExtensionSettings = vscode.workspace.getConfiguration(otherExt, this.getCurrentWorkspaceFolderUri())
         const otherSetting = otherExtensionSettings.get<T>(setting)
         if(otherSetting && !primarySetting) primarySetting = otherSetting       
         return primarySetting
