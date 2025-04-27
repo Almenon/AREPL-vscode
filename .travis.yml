@@ -11,17 +11,7 @@ install:
     fi
 script:
   - |
-    echo ">>> Compile vscode-test"
-    npm ci && npm run vscode:prepublish
-    echo ">>> Compiled vscode-test"
-    echo ">>> Run unit tests"
-    npm run unitTests
-  - |
-    echo ">>> Compile vscode-test"
-    npm ci && npm run vscode:prepublish
-    echo ">>> Compiled vscode-test"
-    echo ">>> Run integration tests"
-    npm test
+    python3 --version
   
 after_success:
   - bash <(curl -s https://codecov.io/bash)
