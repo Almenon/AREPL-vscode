@@ -17,11 +17,11 @@ jobs:
     - name: Install Node.js
       uses: actions/setup-node@v4.1.0
       with:
-        node-version: 20
+        node-version: 22
     - run: npm ci
     - run: npm run vscode:prepublish
     - run: npm run unitTests
     - name: Run tests
-      uses: coactions/setup-xvfb@main
+      uses: coactions/setup-xvfb@6b00cf1889f4e1d5a48635647013c0508128ee1a
       with:
         run: npm test
