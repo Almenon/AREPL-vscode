@@ -297,7 +297,7 @@
     "type": "git",
     "url": "https://github.com/almenon/arepl-vscode.git"
   },
-  "license": "SEE LICENSE IN <filename>",
+  "license": "MIT",
   "keywords": [
     "python",
     "real-time",
