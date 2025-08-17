@@ -26,6 +26,7 @@ from typing import List,Dict
 x: List[int] = [1,2,3]
 y: Dict[str, str] = {'a':'b'}
 
+
 ###########################################
 #                Expected Result
 ###########################################
@@ -37,6 +38,14 @@ y: Dict[str, str] = {'a':'b'}
     d: "Infinity",
     e: "-Infinity",
 	accent: 'é',
+    f: -{
+        py/object: "_io.TextIOWrapper",
+        write_through: false,
+        line_buffering: false,
+        errors: "strict",
+        encoding: "cp1252",
+        mode: "r"
+    },
     g: {},
     h: [],
     i: -[
@@ -51,7 +60,20 @@ y: Dict[str, str] = {'a':'b'}
     },
     n: false,
     o: -{
-        py/id: 0
+        py/object: "_io.TextIOWrapper",
+        write_through: false,
+        line_buffering: false,
+        errors: "strict",
+        encoding: "cp1252",
+        mode: "r"
+    },
+    x: -[
+        1,
+        2,
+        3
+    ],
+    y: -{
+        a: "b"
     }
 }
 
