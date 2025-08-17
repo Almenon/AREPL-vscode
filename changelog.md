@@ -1,3 +1,6 @@
+## v3.0.1 (??) 
+TBD
+
 ## v3.0.0 (11/12/2024) 🦋🐛
 🦋 [AREPL now restarts the python backend each run. This eliminates many bugs, although you may see more CPU utilization.](https://github.com/Almenon/AREPL-vscode/issues/439")
 🐛 As a consequence of above, AREPL will no longer crash when there is a infinite loop
