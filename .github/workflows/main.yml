@@ -17,7 +17,7 @@ jobs:
     - name: Install Node.js
       uses: actions/setup-node@v4.1.0
       with:
-        node-version: 20
+        node-version: 22
     - run: npm ci
     - run: npm run vscode:prepublish
     - run: npm run unitTests
