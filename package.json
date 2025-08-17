@@ -5,7 +5,7 @@
   "version": "3.0.0",
   "publisher": "almenon",
   "engines": {
-    "vscode": "^1.40.0"
+    "vscode": "^1.50.0"
   },
   "categories": [
     "Other",
@@ -274,20 +274,20 @@
     "vscode:uninstall": "node ./out/src/uninstallSurvey"
   },
   "devDependencies": {
-    "@types/mocha": "^10.0.9",
-    "@types/node": "^20.17.6",
-    "@types/vscode": "^1.40.0",
-    "@vscode/test-cli": "^0.0.10",
+    "@types/mocha": "^10.0.10",
+    "@types/node": "^22.13.14",
+    "@types/vscode": "^1.50.0",
+    "@vscode/test-cli": "^0.0.11",
     "@vscode/test-electron": "^2.4.1",
-    "mocha": "^10.8.2",
+    "mocha": "^11.7.1",
     "source-map-support": "^0.5.13",
     "ts-node": "^10.9.2",
-    "typescript": "^5.6.3",
+    "typescript": "^5.9.2",
     "vscode-uri": "^2.1.2"
   },
   "dependencies": {
     "@vscode/extension-telemetry": "^0.9.7",
-    "arepl-backend": "^3.0.5"
+    "arepl-backend": "^4.0.0"
   },
   "bugs": {
     "url": "https://github.com/almenon/arepl-vscode-wordcount/issues",
