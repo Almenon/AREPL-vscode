@@ -2,6 +2,22 @@
 {
 	"version": "0.1.0",
 	"configurations": [
+        A
+		{},
+		{
+			"name": "Attach to Chrome",
+			"port": 9222,
+			"request": "attach",
+			"type": "chrome",
+			"webRoot": "${workspaceFolder}"
+		},
+		{
+			"name": "Attach to Chrome",
+			"port": 9222,
+			"request": "attach",
+			"type": "chrome",
+			"webRoot": "${workspaceFolder}"
+		},
 		{
 			"name": "Python: Remote Attach",
 			"type": "python",
