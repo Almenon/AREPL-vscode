@@ -287,6 +287,7 @@
   },
   "dependencies": {
     "@vscode/extension-telemetry": "^0.9.7",
+    "@vscode/python-extension": "^1.0.6",
     "arepl-backend": "^4.0.0"
   },
   "bugs": {

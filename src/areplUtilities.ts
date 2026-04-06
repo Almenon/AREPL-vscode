@@ -5,6 +5,9 @@ import {settings} from "./settings"
 import { PythonShell } from "python-shell";
 import vscodeUtils from "./vscodeUtilities"
 
+import { PythonExtension } from '@vscode/python-extension';
+import { existsSync, lstatSync } from "fs";
+
 /**
  * utilities specific to AREPL
  */
@@ -18,30 +21,25 @@ export default class areplUtils {
         return vscodeUtils.expandPathSetting(envFilePath)
     }
 
-    public static async getPythonPath(resource: vscode.Uri = null): Promise<string> {
-        // see bottom of file for license
-        // adapted from vscode-restructuredtext/vscode-restructuredtext#224
-        const extension = vscode.extensions.getExtension('ms-python.python')
-        if (!extension) {
-            const pythonPath = settings().get<string>('pythonPath')
-            return pythonPath ? pythonPath : PythonShell.defaultPythonPath
-        }
-        const usingNewInterpreterStorage = extension.packageJSON?.featureFlags?.usingNewInterpreterStorage
-        if (usingNewInterpreterStorage) {
-            if (!extension.isActive) {
-                await extension.activate()
-            }
-            const pythonPath = extension.exports.settings.getExecutionDetails(resource).execCommand
-            if(!pythonPath){
-                const pythonPath = settings().get<string>('pythonPath')
-                return pythonPath ? pythonPath : PythonShell.defaultPythonPath
-            }
-            return pythonPath[0]; // might be more elements if conda, but we are not bothering to support that yet
+    public static async getPythonPath(): Promise<string> {
+        const pythonApi: PythonExtension = await PythonExtension.api();
+        const environments = pythonApi.environments;
+        const environmentPath = environments.getActiveEnvironmentPath();
+        console.log(`Python extension path: ${environmentPath?.path}`)
+
+        if (!environmentPath?.path) {
+            console.log("Path from python extension is falsey")
+        } else if (!existsSync(environmentPath.path)) {
+            console.log("Path from python extension does not exist")
+        } else if (!lstatSync(environmentPath.path).isFile()) {
+            console.log("Path from python extension is not a file")
         } else {
-            let pythonPath = vscodeUtils.getSettingOrOtherExtSettingAsDefault<string>("AREPL", "python", "pythonPath")
-            if(!pythonPath) pythonPath = PythonShell.defaultPythonPath
-            return vscodeUtils.expandPathSetting(pythonPath)
+            return environmentPath.path;
         }
+
+        console.log("Falling back to AREPL's pythonPath setting")
+        const pythonPath = settings().get<string>('pythonPath')
+        return pythonPath ? pythonPath : PythonShell.defaultPythonPath
     }
 
     static insertDefaultImports(editor: vscode.TextEditor){
@@ -68,19 +66,3 @@ export default class areplUtils {
     }
 
 }
-
-/**
- * getPythonPath falls under the below License:
-reStructuredText for Visual Studio Code
-Copyright (c) Lex Li
-
-All rights reserved. 
-
-MIT License
-
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the ""Software""), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED *AS IS*, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
- */
