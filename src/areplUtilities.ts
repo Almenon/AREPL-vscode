@@ -6,7 +6,7 @@ import { PythonShell } from "python-shell";
 import vscodeUtils from "./vscodeUtilities"
 
 import { PythonExtension } from '@vscode/python-extension';
-import { existsSync, lstatSync } from "fs";
+import { PythonEnvironments, PythonEnvironmentApi } from '@vscode/python-environments';
 
 /**
  * utilities specific to AREPL
@@ -21,30 +21,60 @@ export default class areplUtils {
         return vscodeUtils.expandPathSetting(envFilePath)
     }
 
-    public static async getPythonPath(): Promise<string> {
-        const pythonApi: PythonExtension = await PythonExtension.api();
-        const environments = pythonApi.environments;
-        const environmentPath = environments.getActiveEnvironmentPath();
-        console.log(`Python extension path: ${environmentPath?.path}`)
-
-        if (!environmentPath?.path) {
-            console.log("Path from python extension is falsey")
-        } else if (!existsSync(environmentPath.path)) {
-            console.log("Path from python extension does not exist")
-        } else if (!lstatSync(environmentPath.path).isFile()) {
-            console.log("Path from python extension is not a file")
-        } else {
-            return environmentPath.path;
+    private static async tryGetPythonPathFromEnvironmentsAPI(): Promise<string | undefined> {
+        let envsApi = null
+        try {
+            // error will be thrown if ext not installed
+            envsApi = await PythonEnvironments.api();
+        } catch {
+            return undefined;
         }
 
-        console.log("Falling back to AREPL's pythonPath setting")
-        const pythonPath = settings().get<string>('pythonPath')
-        return pythonPath ? pythonPath : PythonShell.defaultPythonPath
+        const environment = await envsApi.getEnvironment(undefined);
+        return environment ? environment.execInfo.run.executable : undefined;
+    }
+
+    private static async tryGetPythonPathFromPythonAPI(): Promise<string | undefined> {
+        let pythonApi = null
+        try {
+            // error will be thrown if ext not installed
+            pythonApi = await PythonExtension.api();
+        } catch {
+            return undefined;
+        }
+        const environments = pythonApi.environments;
+        const environmentPath = environments.getActiveEnvironmentPath();
+        return environmentPath?.path
+    }
+
+    public static async getPythonPath(): Promise<string> {
+        console.log("Trying to find python path")
+        console.log("Tier 1: Try Python Environments API (newer, preferred)")
+        let pythonPath = await this.tryGetPythonPathFromEnvironmentsAPI();
+        if (pythonPath) {
+            return pythonPath;
+        }
+
+        console.log("Tier 2: Try Python Extension API (legacy)")
+        pythonPath = await this.tryGetPythonPathFromPythonAPI();
+        if (pythonPath) {
+            return pythonPath;
+        }
+
+        console.log("Tier 3: AREPL's pythonPath setting")
+        pythonPath = settings().get<string>('pythonPath');
+        if (pythonPath) {
+            return pythonPath;
+        }
+
+        console.log("Tier 4: System default")
+        return PythonShell.defaultPythonPath;
     }
 
     static insertDefaultImports(editor: vscode.TextEditor){
         return editor.edit((editBuilder) => {
             let imports = settings().get<string[]>("defaultImports")
+            if (!imports) return
 
             imports = imports.filter(i => i.trim() != "")
             if(imports.length == 0) return
